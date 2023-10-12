@@ -27,7 +27,7 @@ fi
 
 read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? (y/n): $(tput sgr0)" proceed2
 
-if [ "$proceed2" != "n" ]; then
+if [ "$proceed2" != "y" ]; then
     echo "Installation aborted Kindly edit your sources.list first. Refer to readme."
     exit 1
 fi
