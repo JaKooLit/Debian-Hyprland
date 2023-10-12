@@ -25,6 +25,13 @@ if [ "$proceed" != "y" ]; then
     exit 1
 fi
 
+read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? (y/n): $(tput sgr0)" proceed2
+
+if [ "$proceed2" != "n" ]; then
+    echo "Installation aborted Kindly edit your sources.list first. Refer to readme."
+    exit 1
+fi
+
 # Set some colors for output messages
 OK="$(tput setaf 2)[OK]$(tput sgr0)"
 ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
@@ -131,16 +138,6 @@ ask_yes_no "Do you want to copy dotfiles?" dots
 printf "\n"
 # Ensuring all in the scripts folder are made executable
 chmod +x install-scripts/*
-
-# enabling deb-src in /etc/apt/sources.list
-# Path to the sources.list file
-sources_list="/etc/apt/sources.list"
-
-# Remove the '#' from lines starting with '#deb-src'
-sudo awk '/^#deb-src/ {sub(/^#/, "", $0)} {print}' "$sources_list" > "$sources_list.tmp" && sudo mv "$sources_list.tmp" "$sources_list"
-
-# Remove the '#' from lines starting with '#deb'
-sudo awk '/^#deb/ {sub(/^#/, "", $0)} {print}' "$sources_list" > "$sources_list.tmp" && sudo mv "$sources_list.tmp" "$sources_list"
 
 sudo apt update
 
