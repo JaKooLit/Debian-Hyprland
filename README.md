@@ -3,7 +3,7 @@
 
 ### ⚠️ Pre-requisites:
 - Needs a Debian 12 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build
-- edit your /etc/apt/sources.list and remove # and enable 'deb-src' else will not install properly.
+- edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
 ```bash
 sudo nano /etc/apt/sources.list
 ```
@@ -21,9 +21,10 @@ sudo nano /etc/apt/sources.list
 
 ### ✨ Youtube presentation [`Link`]() - to be added soon :)
 
-### ✨  Some notes on installation
+### ✨  Some notes on this installer
 - This script is meant to install in Debian Testing (Trixie). 
 - I However, if you decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
+- It should work on latest Ubuntu 23.10
 
 ### ⚠️ WARNING! nwg-look takes long time to install. 
 - nwg-look is a utility to costumize your GTK theme. It's a LXAppearance like. Its a good tool though but this package is entirely optional
@@ -60,7 +61,14 @@ source ~/.zshrc
 - go through the keybinds. There are alot of hidden features like dual panel, change waybar styles, change wallpaper, etc... its too long to put all in the readme!!!
 - super d for wofi (menu)
 - super t for thunar (file manager)
-- 
+
+### ✨ Packages that are manually downloaded and build. These packages will not be updated and have to be manually updated
+-Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
+-nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
+-Asus ROG asusctl [`LINK`](https://gitlab.com/asus-linux/asusctl) and superfxctl [`LINK`](https://gitlab.com/asus-linux/supergfxctl)
+-swww [`LINK`](https://github.com/Horus645/swww)
+-swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
+
 ### ✨ Roadmap:
 - [ ] Install zsh and oh-my-zsh without necessary steps above
 - [ ] possibly adding gruvbox themes, cursors, icons
@@ -81,5 +89,6 @@ log into your account
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
 
 - Does not work in Ubuntu 23.04
+
 ### 👍 CREDITS
 
