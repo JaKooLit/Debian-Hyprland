@@ -25,7 +25,7 @@ sudo nano /etc/apt/sources.list
 
 ### ✨  Some notes on this installer
 - This script is meant to install in Debian Testing (Trixie). 
-- I However, if you decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
+- If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - It should work on latest Ubuntu 23.10
 
 ### ⚠️ WARNING! nwg-look takes long time to install. 
@@ -64,12 +64,12 @@ source ~/.zshrc
 - super d for wofi (menu)
 - super t for thunar (file manager)
 
-### ✨ Packages that are manually downloaded and build. These packages will not be updated and have to be manually updated
--Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
--nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
--Asus ROG asusctl [`LINK`](https://gitlab.com/asus-linux/asusctl) and superfxctl [`LINK`](https://gitlab.com/asus-linux/supergfxctl)
--swww [`LINK`](https://github.com/Horus645/swww)
--swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
+### ✨ Packages that are manually downloaded and build. These packages will not be updated by apt and have to be manually updated
+- Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
+- nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
+- Asus ROG asusctl [`LINK`](https://gitlab.com/asus-linux/asusctl) and superfxctl [`LINK`](https://gitlab.com/asus-linux/supergfxctl)
+- swww [`LINK`](https://github.com/Horus645/swww)
+- swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
 
 ### ✨ Roadmap:
 - [ ] Install zsh and oh-my-zsh without necessary steps above
