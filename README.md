@@ -16,6 +16,8 @@ sudo nano /etc/apt/sources.list
 
 ![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/switching-dark-light.png)
 
+### 📷 Ubuntu 23.10 
+![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/ubuntu.png)
 
 ### 📷 you can find more screenshots in the screenshots directory
 
