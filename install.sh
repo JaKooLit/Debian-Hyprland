@@ -136,23 +136,17 @@ chmod +x install-scripts/*
 # Path to the sources.list file
 sources_list="/etc/apt/sources.list"
 
-# Check if any lines starting with "# deb-src" exist
-if grep -q "^# deb-src" "$sources_list"; then
-  echo "Found lines starting with '# deb-src' in $sources_list."
+# Check if any lines starting with "#deb-src" exist
+if grep -q "^#deb-src" "$sources_list"; then
+  echo "Found lines starting with '#deb-src' in $sources_list."
 else
   # Remove the '#' from the first line starting with '#deb-src'
-  echo "No lines starting with '# deb-src' found in $sources_list. Removing '#' from the first such line..."
-  sudo sed -i '0,/^#deb-src/ s/^# //' "$sources_list"
+  echo "No lines starting with '#deb-src' found in $sources_list. Removing '#' from the first such line..."
+  sudo sed -i '0,/^#deb-src/ s/^#//' "$sources_list"
 fi
 
-# Check if any lines starting with "deb" exist
-if grep -q "^deb" "$sources_list"; then
-  echo "Found lines starting with 'deb' in $sources_list."
-else
-  # Remove the '#' from lines starting with '# deb'
-  echo "No lines starting with 'deb' found in $sources_list. Removing '#' from lines starting with '# deb'..."
-  sudo sed -i '/^# deb/ s/^# //' "$sources_list"
-fi
+# Remove the '#' from lines starting with '#deb'
+sudo sed -i '/^#deb/ s/^# //' "$sources_list"
 
 sudo apt update
 
