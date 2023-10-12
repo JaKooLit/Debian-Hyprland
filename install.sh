@@ -137,10 +137,10 @@ chmod +x install-scripts/*
 sources_list="/etc/apt/sources.list"
 
 # Remove the '#' from lines starting with '#deb-src'
-sudo sed -i '/^#deb-src/ s/^# //' "$sources_list"
+sudo awk '/^#deb-src/ {$1 = "deb-src"} 1' "$sources_list" > "$sources_list.tmp" && sudo mv "$sources_list.tmp" "$sources_list"
 
 # Remove the '#' from lines starting with '#deb'
-sudo sed -i '/^#deb/ s/^# //' "$sources_list"
+sudo awk '/^#deb/ {$1 = "deb"} 1' "$sources_list" > "$sources_list.tmp" && sudo mv "$sources_list.tmp" "$sources_list"
 
 sudo apt update
 
