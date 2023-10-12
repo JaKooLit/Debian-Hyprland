@@ -16,7 +16,7 @@
 ### ✨ Youtube presentation [`Link`]() - to be added soon :)
 
 ### ✨  Some notes on installation
-- This script is meant to install in Debian Testing (Trixie). But it may work in newer Ubuntu and based
+- This script is meant to install in Debian Testing (Trixie). 
 - I However, if you decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 
 ### ⚠️ WARNING! nwg-look takes long time to install. 
@@ -32,8 +32,8 @@
 ### ✨ to run
 > clone this repo by using git. Change directory, make executable and run the script
 ```bash
-git clone https://github.com/JaKooLit/Debian-Ubuntu-Hyprland.git
-cd Debian-Ubuntu-Hyprland
+git clone https://github.com/JaKooLit/Debian-Hyprland.git
+cd Debian-Hyprland
 chmod +x install.sh
 ./install.sh
 ```
