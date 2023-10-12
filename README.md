@@ -3,11 +3,11 @@
 
 ### ⚠️ Pre-requisites:
 - Needs a Debian 12 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build
-- edit your /etc/apt/sources.list and remove # and enable atleast one 'deb-src' else will not install properly.
+- edit your /etc/apt/sources.list and remove # and enable 'deb-src' else will not install properly.
 ```bash
 sudo nano /etc/apt/sources.list
 ```
-- delete # on first line with 'deb-src' atleast
+- delete # on the lines with 'deb-src' 
 
 
 ### 📷 Screenshots
