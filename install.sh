@@ -132,20 +132,29 @@ printf "\n"
 # Ensuring all in the scripts folder are made executable
 chmod +x install-scripts/*
 
-
 # enabling deb-src in /etc/apt/sources.list
 # Path to the sources.list file
 sources_list="/etc/apt/sources.list"
 
-# Check if deb-src lines exist in the sources.list file
-if grep -q "^deb-src" "$sources_list"; then
-  echo "deb-src lines already exist in $sources_list."
+# Check if any lines starting with "# deb-src" exist
+if grep -q "^# deb-src" "$sources_list"; then
+  echo "Found lines starting with '# deb-src' in $sources_list."
 else
-  # Add deb-src lines if they don't exist
-  echo "deb-src lines not found in $sources_list. Adding one..."
-  sudo sed -i '/^deb /s/^/#/' "$sources_list"
-  sudo sed -i '/^# deb-src/ s/^# //' "$sources_list"
+  # Remove the '#' from the first line starting with '#deb-src'
+  echo "No lines starting with '# deb-src' found in $sources_list. Removing '#' from the first such line..."
+  sudo sed -i '0,/^#deb-src/ s/^# //' "$sources_list"
 fi
+
+# Check if any lines starting with "deb" exist
+if grep -q "^deb" "$sources_list"; then
+  echo "Found lines starting with 'deb' in $sources_list."
+else
+  # Remove the '#' from lines starting with '# deb'
+  echo "No lines starting with 'deb' found in $sources_list. Removing '#' from lines starting with '# deb'..."
+  sudo sed -i '/^# deb/ s/^# //' "$sources_list"
+fi
+
+sudo apt update
 
 # Install hyprland packages
 execute_script "00-dependencies.sh"
