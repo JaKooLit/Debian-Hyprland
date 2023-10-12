@@ -8,67 +8,76 @@
   padding: 0px;
   margin-top: 1px;
   margin-bottom: 1px;
+  
   }
   
   window#waybar {
-    background: rgba(0, 0, 0, 0)
+      background: rgba(0, 0, 0, 0);
+      /*border-bottom: 1px solid @unfocused_borders;*/
+      /*border-radius: 10px;*/
+      /*color: #cba6f7;*/
+      /*border: 1px solid #cba6f7;*/
   }
   
   window#waybar.hidden {
-    opacity: 0.5;
+      opacity: 0.5;
+  }
+     
+  tooltip {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      /*border: 1px solid #cba6f7;*/
   }
   
-  tooltip {
-    background: #373737;
-    border-radius: 10px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #373737;
+  tooltip label {
+      color: #cba6f7;
+      margin-right: 2px;
+      margin-left: 2px;
   }
   
   /*-----module groups----*/
   .modules-right {
-    background-color: #373737;
-    border: 0px solid #191919;
-    border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 0px solid #b4befe;
+      border-radius: 10px;
   }
   
   .modules-center {
-    background-color: #373737;
-    border: 0px solid #373737;
-    border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 0px solid #b4befe;
+      border-radius: 10px;
   }
   
   .modules-left {
-    background-color: #373737;
-    border: 0px solid #373737;
-    border-radius: 10px;
-  
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 0px solid #b4befe;
+      border-radius: 10px;
+     
   }
   
   #workspaces button {
-    padding: 2px;
-    color: #4f4f4f;
-    margin-right: 5px;
+      padding: 2px;
+      color: #6E6A86;
+      margin-right: 5px;
   }
-  
+     
   #workspaces button.active {
-    color: #7aa2f7;
-    border-radius: 15px 15px 15px 15px;
+      color: #cba6f7;
+      border-radius: 15px 15px 15px 15px;
   }
-  
+    
   #workspaces button.focused {
-    color: #d8dee9;
+      color: #d8dee9;
   }
-  
+     
   #workspaces button.urgent {
-    color: #11111b;
-    border-radius: 10px;
+      color: #11111b;
+      border-radius: 10px;
   }
-  
+         
   #workspaces button:hover {
-    color: #fff;
-    border-radius: 15px;
+      color: #9CCFD8;
+      border-radius: 15px;
   }
   
   #clock,
@@ -87,6 +96,8 @@
   #window,
   #idle_inhibitor,
   #keyboard-state,
+  #keyboard-state label,
+  #keyboard-state label.locked,
   #mpd,
   #bluetooth,
   #taskbar,
@@ -110,8 +121,9 @@
   #custom-weather.rainyNight,
   #custom-weather.showyIcyDay,
   #custom-weather.snowyIcyNight,
-  #custom-weather.default #idle_inhibitor {
-    color: #7aa2f7;
+  #custom-weather.default, 
+  #idle_inhibitor {
+    color: #cba7f7;
     padding: 0px 10px;
     border-radius: 10px;
   }

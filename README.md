@@ -6,9 +6,9 @@
 - if you have manually installed Debian, make sure that "deb-src's" are enabled in your /etc/apt/sources.list. By default, it will enable the first line with deb-src
 
 
-![alt text](https://github.com/JaKooLit/Fedora-Hyprland/blob/main/screenshots/dual_panel-light-dark-switch.png)
+![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/default-dark.png)
 
-![alt text](https://github.com/JaKooLit/Fedora-Hyprland/blob/main/screenshots/default-light-dark.png)
+![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/switching-dark-light.png)
 
 
 ### 📷 you can find more screenshots in the screenshots directory
