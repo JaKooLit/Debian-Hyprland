@@ -10,6 +10,8 @@ sudo nano /etc/apt/sources.list
 - delete # on first line with 'deb-src' atleast
 
 
+### 📷 Screenshots
+
 ![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/default-dark.png)
 
 ![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/switching-dark-light.png)
