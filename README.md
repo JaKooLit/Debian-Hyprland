@@ -1,7 +1,7 @@
 
-### Debian 13 Trixie- Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedora-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
+### Debian 13 Trixie and Ubuntu 23.10 Mantic Minotaur - Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedora-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
 
-### ⚠️ Pre-requisites:
+### ⚠️ Pre-requisites and VERY Important! ###
 - Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build
 - edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
 ```bash
@@ -11,8 +11,8 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
 ### 🔔 NOTICE TO UBUNTU USERS ### 
-- I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries
-- you can use this installer.
+- You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
+
 - For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 43 and 44  echo "## for nvidia... and echo "deb ...........
 
 ### 📷 Screenshots click to enlarge
@@ -90,6 +90,7 @@ sudo ninja -C build install
 - [ ] possibly adding gruvbox themes, cursors, icons
 - [ ] adding vertical waybar 
 - [X] ~~Use kitty in favor of foot~~ - Dropped the idea of kitty. Kitty is using twice memory compared to foot.
+- [ ] Create an automated uninstaller 
 
 ### ❗ some known issues
 
@@ -107,5 +108,6 @@ log into your account
 
 - Does not work in Ubuntu 23.04
 
-### 👍 CREDITS
-
+### 👍 Final Notes
+- join my discord channel [`Discord`](https://discord.gg/V2SJ92vbEN)
+- Feel free to copy, re-distribute, and use this script however you want. Would appreciate if you give me some loves by crediting my work :)
