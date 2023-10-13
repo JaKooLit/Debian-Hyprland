@@ -8,7 +8,7 @@
 sudo nano /etc/apt/sources.list
 ```
 - delete # on the lines with 'deb-src' 
-
+- ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
 ### 📷 Screenshots
 
