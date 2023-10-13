@@ -90,7 +90,6 @@ sudo ninja -C build install
 - [X] ~~Use kitty in favor of foot~~ - Dropped the idea of kitty. Kitty is using twice memory compared to foot.
 
 ### ❗ some known issues
-- Currently SDDM theme that I have set is broken... currently investigating
 
 - reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  

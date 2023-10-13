@@ -4,8 +4,16 @@
 # WARNING! If you remove packages here, dotfiles may not work properly.
 # and also, ensure that packages are present in debian repo
 
-login=(
+sddm1=(
   sddm
+)
+
+sddm2=(
+  qml-module-qtgraphicaleffects
+  qml-module-qtquick-controls 
+  qml-module-qtquick-controls2
+  qml-module-qtquick-extras 
+  qml-module-qtquick-layouts
 )
 
 # Determine the directory where the script is located
@@ -30,11 +38,42 @@ LOG="install-$(date +%d-%H%M%S)_sddm.log"
 
 set -e
 
+# Function for installing packages on Debian/Ubuntu
+install_package() {
+  # Checking if package is already installed
+  if dpkg -l | grep -q -w "$1"; then
+    echo -e "${OK} $1 is already installed. Skipping..."
+  else
+    # Package not installed
+    echo -e "${NOTE} Installing $1 ..."
+    sudo apt-get install -y "$1" >> "$LOG" 2>&1
+    # Check if the package was installed successfully
+    if dpkg -l | grep -q -w "$1"; then
+      echo -e "\e[1A\e[K${OK} $1 was installed."
+    else
+      # Something is missing, exiting to review the log
+      echo -e "\e[1A\e[K${ERROR} $1 failed to install :( , please check the install.log. You may need to install manually! Sorry, I have tried :("
+      exit 1
+    fi
+  fi
+}
+
 # Install SDDM and Tokyo-Night theme
-for PKG1 in "${login[@]}" ; do
+printf "\n%s - Installing sddm.... \n" "${NOTE}"
+for PKG1 in "${sddm1[@]}" ; do
   sudo apt-get install --no-install-recommends -y "$PKG1" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
     echo -e "\e[1A\e[K${ERROR} - $PKG1 install had failed, please check the install.log"
+    exit 1
+  fi
+done
+
+# Installation of additional sddm stuff
+printf "\n%s - Installing sddm additional stuff.... \n" "${NOTE}"
+for PKG2 in "${sddm2[@]}"; do
+  install_package "$PKG2" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG2 install had failed, please check the install.log"
     exit 1
   fi
 done
