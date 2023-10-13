@@ -10,16 +10,13 @@ sudo nano /etc/apt/sources.list
 - delete # on the lines with 'deb-src' 
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
-### 📷 Screenshots
+### 📷 Screenshots click to enlarge
 
-![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/default-dark.png)
+<p align="center">
+    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/default-dark.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/switching-dark-light.png" />   
+    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/Hyprland-Laptop-Nvidia.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/ubuntu.png" />   
+</p>
 
-![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/switching-dark-light.png)
-
-![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/Hyprland-Laptop-Nvidia.png)
-
-### 📷 Ubuntu 23.10 
-![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/ubuntu.png)
 
 ### 📷 you can find more screenshots in the screenshots directory
 
