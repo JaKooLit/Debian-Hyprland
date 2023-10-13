@@ -105,6 +105,6 @@ done
 
 # Install cliphist using go
 export PATH=$PATH:/usr/local/go/bin
-go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG"
+sudo go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG"
 
 clear
