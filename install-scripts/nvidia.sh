@@ -46,17 +46,17 @@ echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-fi
 # Update the package list
 sudo apt update
 
-# Function for installing packages on Debian/Ubuntu
+# Function for installing packages
 install_package() {
   # Checking if package is already installed
-  if dpkg -l | grep -q -w "$1"; then
+  if sudo dpkg -l | grep -q "^ii  $1 " ; then
     echo -e "${OK} $1 is already installed. Skipping..."
   else
     # Package not installed
     echo -e "${NOTE} Installing $1 ..."
-    sudo apt-get install -y "$1" >> "$LOG" 2>&1
-    # Check if the package was installed successfully
-    if dpkg -l | grep -q -w "$1"; then
+    sudo apt-get install -y "$1" 2>&1 | tee -a "$LOG"
+    # Making sure the package is installed
+    if sudo dpkg -l | grep -q "^ii  $1 " ; then
       echo -e "\e[1A\e[K${OK} $1 was installed."
     else
       # Something is missing, exiting to review the log
