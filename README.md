@@ -16,6 +16,8 @@ sudo nano /etc/apt/sources.list
 
 ![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/switching-dark-light.png)
 
+![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/Hyprland-Laptop-Nvidia.png)
+
 ### 📷 Ubuntu 23.10 
 ![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/screenshots/ubuntu.png)
 
