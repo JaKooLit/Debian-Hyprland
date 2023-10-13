@@ -39,7 +39,7 @@ install_and_log() {
       printf "${OK} $project_name installed successfully.\n"
       if [ "$project_name" == "supergfxctl" ]; then
         # Enable supergfxctl
-        sudo systemctl enable supergfxd.service --now
+        sudo systemctl enable --now supergfxd 2>&1 | tee -a "$LOG"
       fi
     else
       echo -e "${ERROR} Installation failed for $project_name."

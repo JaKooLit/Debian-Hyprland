@@ -48,17 +48,17 @@ printf "\n"
   # Clean out other portals
   printf "${NOTE} Clearing any other xdg-desktop-portal implementations...\n"
   # Check if packages are installed and uninstall if present
-  if sudo apt list installed xdg-desktop-portal-gnome &>> /dev/null; then
+  if sudo apt-get list installed xdg-desktop-portal-gnome &>> /dev/null; then
     echo "Removing xdg-desktop-portal-gnome..."
-    sudo apt remove -y xdg-desktop-portal-gnome 2>&1 | tee -a "$LOG"
+    sudo apt-get remove -y xdg-desktop-portal-gnome 2>&1 | tee -a "$LOG"
   fi
-  if sudo apt list installed xdg-desktop-portal-wlr &>> /dev/null; then
+  if sudo apt-get list installed xdg-desktop-portal-wlr &>> /dev/null; then
     echo "Removing xdg-desktop-portal-wlr..."
-    sudo apt remove -y xdg-desktop-portal-wlr 2>&1 | tee -a "$LOG"
+    sudo apt-get remove -y xdg-desktop-portal-wlr 2>&1 | tee -a "$LOG"
   fi
-  if sudo apt list installed xdg-desktop-portal-lxqt &>> /dev/null; then
+  if sudo apt-get list installed xdg-desktop-portal-lxqt &>> /dev/null; then
     echo "Removing xdg-desktop-portal-lxqt..."
-    sudo apt remove -y xdg-desktop-portal-lxqt 2>&1 | tee -a "$LOG"
+    sudo apt-get remove -y xdg-desktop-portal-lxqt 2>&1 | tee -a "$LOG"
   fi
 
 sed -i '17s/#//' config/hypr/configs/Execs.conf

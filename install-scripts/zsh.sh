@@ -32,7 +32,9 @@ install_package() {
   else
     # Package not installed
     echo -e "${NOTE} Installing $1 ..."
-    if sudo apt-get install -y "$1" 2>&1 | tee -a "$LOG"; then
+    sudo apt-get install -y "$1" >> "$LOG" 2>&1
+    # Check if the package was installed successfully
+    if dpkg -l | grep -q -w "$1"; then
       echo -e "\e[1A\e[K${OK} $1 was installed."
     else
       # Something is missing, exiting to review the log
