@@ -60,6 +60,7 @@ nvidia=""
 nwg=""
 rog=""
 sddm=""
+swaylock=""
 swww=""
 thunar=""
 xdph=""
@@ -130,6 +131,8 @@ ask_yes_no "Do you want to install xdg-desktop-portal-hyprland?" xdph
 printf "\n"
 ask_yes_no "Do you want to install zsh and oh-my-zsh?" zsh
 printf "\n"
+ask_yes_no "Do you want to install swaylock-effects?" swaylock
+printf "\n"
 ask_yes_no "Do you want to install swww?" swww
 printf "\n"
 ask_yes_no "Do you want to install nwg-look?" nwg
@@ -180,6 +183,10 @@ fi
 
 if [ "$zsh" == "Y" ]; then
     execute_script "zsh.sh"
+fi
+
+if [ "$swaylock" == "Y" ]; then
+    execute_script "swaylock-effects.sh"
 fi
 
 if [ "$swww" == "Y" ]; then
