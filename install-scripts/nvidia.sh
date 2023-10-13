@@ -9,6 +9,9 @@ nvidia_pkg=(
   nvidia-vaapi-driver
 )
 
+# for ubuntu-nvidia owners! just delete #
+# sudo ubuntu-drivers install
+
 ############## WARNING DO NOT EDIT BEYOND THIS LINE if you dont know what you are doing! ######################################
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
