@@ -1,8 +1,8 @@
 
-### Debian 12 Trixie- Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedor-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
+### Debian 13 Trixie- Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedor-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
 
 ### ⚠️ Pre-requisites:
-- Needs a Debian 12 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build
+- Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build
 - edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
 ```bash
 sudo nano /etc/apt/sources.list
