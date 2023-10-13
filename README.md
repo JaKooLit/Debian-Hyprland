@@ -72,8 +72,8 @@ source ~/.zshrc
 - swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
 
 - a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swww` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, and ran git pull
-- b.) for Hyprland, nwg-look, asusctl, supergfxtctl, to update ran sudo make install
-- c.) for swww, to update cargo build --release
+- b.) for Hyprland, nwg-look, asusctl, supergfxtctl, to update ran `sudo make install`
+- c.) for swww, to update `cargo build --release`
 - d.) for swaylock-effects 
 ``` bash
 meson build
