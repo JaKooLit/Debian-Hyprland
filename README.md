@@ -11,7 +11,7 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
 ### 🔔 NOTICE TO UBUNTU USERS ### 
-- you can use this installer. During installation, you will see alot of cannot install package. This is ok because of these dependencies is for Debian.
+- you can use this installer.
 - For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 43 and 44  echo "## for nvidia... and echo "deb ...........
 
 ### 📷 Screenshots click to enlarge
