@@ -61,6 +61,14 @@ else
 fi
 printf "\n"
 
+# Preparing neofetch file
+if [ -f /etc/lsb-release ]; then
+    if grep -qi "Ubuntu" /etc/lsb-release; then
+      mv "config/neofetch/config.conf" "config/neofetch/config.conf-debian"
+      mv "config/neofetch/config.conf-ubuntu" "config/neofetch/config.conf"
+    fi
+fi
+
 ### Copy Config Files ###
 set -e # Exit immediately if a command exits with a non-zero status.
 
