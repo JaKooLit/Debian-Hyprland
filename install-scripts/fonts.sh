@@ -65,12 +65,24 @@ for PKG1 in "${fonts[@]}"; do
 done
 
 # jetbrains nerd font. Necessary for waybar
-curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
+DOWNLOAD_URL="https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz"
+# Maximum number of download attempts
+MAX_ATTEMPTS=3
+for ((ATTEMPT = 1; ATTEMPT <= MAX_ATTEMPTS; ATTEMPT++)); do
+    curl -OL "$DOWNLOAD_URL" 2>&1 | tee -a "$LOG" && break
+    echo "Download attempt $ATTEMPT failed. Retrying in 2 seconds..." 2>&1 | tee -a "$LOG"
+    sleep 2
+done
 
-mkdir -p ~/.local/share/fonts/
-tar -xJkf JetBrainsMono.tar.xz -C ~/.local/share/fonts/ 2>&1 | tee -a "$LOG"
+# Check if the JetBrainsMono folder exists and delete it if it does
+if [ -d ~/.local/share/fonts/JetBrainsMonoNerd ]; then
+    rm -rf ~/.local/share/fonts/JetBrainsMonoNerd 2>&1 | tee -a "$LOG"
+fi
 
-# update font cache
-fc-cache -v
+# Extract the new files into the JetBrainsMono folder and log the output
+tar -xJkf JetBrainsMono.tar.xz -C ~/.local/share/fonts/JetBrainsMonoNerd 2>&1 | tee -a "$LOG"
+
+# Update font cache and log the output
+fc-cache -v 2>&1 | tee -a "$LOG"
 
 clear
