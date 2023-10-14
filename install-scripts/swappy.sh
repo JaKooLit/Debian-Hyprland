@@ -24,7 +24,7 @@ LOG="install-$(date +'%d-%H%M%S')_swappy.log"
 
 printf "${NOTE} Installing swappy..\n"
 
-if git https://github.com/jtheoof/swappy.git; then
+if git clone https://github.com/jtheoof/swappy.git; then
   cd swappy || exit 1
   meson build
   ninja -C build
