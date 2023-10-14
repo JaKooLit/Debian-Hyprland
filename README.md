@@ -2,6 +2,8 @@
 ### Debian 13 Trixie and Ubuntu 23.10 Mantic Minotaur - Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedora-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
 
 ### ⚠️ Pre-requisites and VERY Important! ###
+- Do not run this installer as sudo or as root
+- This Installer requires a user with a priviledge to install packages
 - Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build
 - edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
 ```bash
