@@ -148,6 +148,7 @@ sudo apt update
 execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
+execute_script "swappy.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
