@@ -19,7 +19,7 @@ sudo nano /etc/apt/sources.list
 
 <p align="center">
     <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/default-dark.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/switching-dark-light.png" />   
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/Hyprland-Laptop-Nvidia.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/Ubuntu-RTX.png" />   
+    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/Hyprland-Laptop-Nvidia.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/Ubuntu-default.png" />   
 </p>
 
 
