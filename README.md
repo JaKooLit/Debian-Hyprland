@@ -77,6 +77,7 @@ source ~/.zshrc
 - swww [`LINK`](https://github.com/Horus645/swww)
 - swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
 - swappy [`LINK`](https://github.com/jtheoof/swappy)
+- xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 
 - a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swappy` `swww` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, update/install
 
