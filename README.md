@@ -29,6 +29,11 @@ sudo nano /etc/apt/sources.list
 
 ### ✨ Youtube presentation [`Link`]() - to be added soon :)
 
+
+
+### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
+
+
 ### ✨  Some notes on this installer
 - This script is meant to install in Debian Testing (Trixie). 
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
