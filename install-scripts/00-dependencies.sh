@@ -17,6 +17,7 @@ dependencies=(
     gobject-introspection
     golang
     hwdata
+    jq
     libavcodec-dev
     libavformat-dev
     libavutil-dev

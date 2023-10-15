@@ -38,8 +38,7 @@
     "format-time": "{H}h {M}min",
     "tooltip": true,
     "tooltip-format": "{timeTo} {power}w",
-    "on-click-middle": "~/.config/hypr/scripts/ChangeBlur.sh",
-    "on-click-right": "sh -c '(sleep 0.5s; wlogout --protocol layer-shell)' & disown",
+    "on-click-right": "$HOME/.config/hypr/scripts/WofiPower.sh",
   },
     
   "bluetooth": {
@@ -325,6 +324,7 @@
   "custom/light_dark": {
     "format": "",
     "on-click": "~/.config/hypr/scripts/DarkLight.sh",
+    "on-click-middle": "~/.config/hypr/scripts/ChangeBlur.sh",
     "tooltip": false,
   },
     
