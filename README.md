@@ -70,6 +70,8 @@ source ~/.zshrc
 - super d for wofi (menu)
 - super t for thunar (file manager)
 
+- if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
+
 ### ✨ Packages that are manually downloaded and build. These packages will not be updated by apt and have to be manually updated
 - Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
 - nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
