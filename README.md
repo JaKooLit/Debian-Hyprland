@@ -128,6 +128,8 @@ log into your account
 
 - Does not work in Ubuntu 23.04
 
+- sddm blackscreen when log-out
+
 ### 👍 Final Notes
 - join my discord channel [`Discord`](https://discord.gg/V2SJ92vbEN)
 - Feel free to copy, re-distribute, and use this script however you want. Would appreciate if you give me some loves by crediting my work :)
