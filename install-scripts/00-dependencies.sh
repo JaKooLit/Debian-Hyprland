@@ -75,6 +75,7 @@ dependencies=(
     libxxhash-dev
     meson
     ninja-build
+    openssl
     psmisc
     python3-mako
     python3-markdown
