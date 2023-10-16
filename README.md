@@ -27,8 +27,7 @@ sudo nano /etc/apt/sources.list
 
 ### 📷 you can find more screenshots in the screenshots directory
 
-### ✨ Youtube presentation [`Link`]() - to be added soon :)
-
+### ✨ Youtube presentation [`Link`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
 
 
 ### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
