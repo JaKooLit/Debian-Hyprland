@@ -137,6 +137,10 @@ log into your account
 
 - sddm blackscreen when log-out
 
-### 👍 Final Notes
+### 📒 Final Notes
 - join my discord channel [`Discord`](https://discord.gg/V2SJ92vbEN)
 - Feel free to copy, re-distribute, and use this script however you want. Would appreciate if you give me some loves by crediting my work :)
+
+
+### 👍👍👍 Thanks and Credits!
+- shout out to CooSee from Gentoo forums for the nice rainbow borders
