@@ -17,6 +17,7 @@ LOG="install-$(date +%d-%H%M%S)_hyprland.log"
 printf "${NOTE} Cloning Hyprland...\n"
 if git clone --recursive https://github.com/hyprwm/Hyprland 2>&1 | tee -a "$LOG"; then
   cd Hyprland || exit 1
+  make all 2>&1 | tee -a "$LOG"
   if sudo make install 2>&1 | tee -a "$LOG"; then
     printf "${OK} Hyprland installed successfully.\n"
   else
