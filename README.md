@@ -91,7 +91,7 @@ source ~/.zshrc
 - b.) to update Hyprland
 ``` bash
 git pull
-sudo make clear
+make all
 sudo make install
 ```
 - c.) for nwg-look, asusctl, supergfxtctl, to update ran
