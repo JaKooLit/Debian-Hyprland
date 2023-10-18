@@ -144,3 +144,6 @@ log into your account
 
 ### 👍👍👍 Thanks and Credits!
 - shout out to CooSee from Gentoo forums for the nice rainbow borders
+
+### 💌 Some screenshots shared to me via discord
+![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/user-screenshots/@thunderlake.png "Discord-user")
