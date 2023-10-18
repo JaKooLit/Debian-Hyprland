@@ -147,4 +147,4 @@ log into your account
 
 ### 💌 Some screenshots shared to me via discord
 - Discord user : thunderlake.
-![alt text](https://github.com/JaKooLit/Debian-Hyprland/blob/main/user-screenshots/@thunderlake.png "Discord-user")
+![alt text](https://github.com/JaKooLit/Users-screenshots/blob/main/discord/%40thunderlake.png "Discord-user")
