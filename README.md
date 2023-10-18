@@ -88,7 +88,7 @@ source ~/.zshrc
 
 - a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swappy` `swww` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, update/install
 
-- b.) to update Hyprland
+- b.) to update Hyprland and xdg-desktop-portal-hyprland
 ``` bash
 git pull
 make all
