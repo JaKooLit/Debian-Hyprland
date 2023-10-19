@@ -121,7 +121,7 @@ sudo ninja -C build install
 
 ### ❗ some known issues
 
-- reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
+- [ ] reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  
  while in sddm press ctrl+alt+F2 or F3
 log into your account
@@ -129,13 +129,13 @@ log into your account
 `ls /dev/dri/by-path` find the matching id
 `ls -l /dev/dri/by-path` to check where the symlink points to 
 )
-7. add "env = WLR_DRM_DEVICES,/dev/dri/cardX" to the ENVvariables config (.config/hypr/configs/ENVariables.conf)  ; X being where the symlink of the gpu points to
+-  add "env = WLR_DRM_DEVICES,/dev/dri/cardX" to the ENVvariables config (.config/hypr/configs/ENVariables.conf)  ; X being where the symlink of the gpu points to
 ```
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
 
-- Does not work in Ubuntu 23.04
-
-- sddm blackscreen when log-out
+- [ ] Does not work in Ubuntu 23.04
+- [ ] sddm blackscreen when log-out
+- [ ] cava does not work
 
 ### 📒 Final Notes
 - join my discord channel [`Discord`](https://discord.gg/V2SJ92vbEN)
