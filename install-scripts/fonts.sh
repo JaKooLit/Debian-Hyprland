@@ -1,11 +1,11 @@
 #!/bin/bash
 
 fonts=(
-fonts-noto
-fonts-noto-color-emoji
+fonts-firacode
 fonts-font-awesome
+fonts-noto
 fonts-noto-cjk
-fonts-fantasque-sans
+fonts-noto-color-emoji
 )
 
 
