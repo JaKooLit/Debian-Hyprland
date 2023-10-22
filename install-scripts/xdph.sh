@@ -24,12 +24,8 @@ LOG="install-$(date +%d-%H%M%S)_xdph.log"
 
 # Clone and build xdg-desktop-portal-hyprland
 printf "${NOTE} Installing xdg-desktop-portal-hyprland...\n"
-if git clone https://github.com/hyprwm/xdg-desktop-portal-hyprland.git 2>&1 | tee -a "$LOG"; then
+if git clone --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland 2>&1 | tee -a "$LOG"; then
   cd xdg-desktop-portal-hyprland || exit 1
-  cd subprojects
-  git clone https://github.com/hyprwm/hyprland-protocols.git
-  git clone https://github.com/Kistler-Group/sdbus-cpp.git
-  cd ..
   make all
   if sudo make install 2>&1 | tee -a "$LOG"; then
     printf "${OK} xdg-desktop-portal-hyprland installed successfully.\n"
