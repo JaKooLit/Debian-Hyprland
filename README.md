@@ -1,3 +1,12 @@
+<div align="center">
+
+# 💌 ** JaKooLit's Debian/Ubuntu Hyprland Install Script ** 💌
+
+![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland=for-the-badge&color=cba6f7)
+
+<br/>
+</div>!
+
 
 ### Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur - Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedora-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
 
@@ -150,3 +159,12 @@ log into your account
 ### 💌 Some screenshots shared to me via discord
 - Discord user : thunderlake.
 ![alt text](https://github.com/JaKooLit/Users-screenshots/blob/main/discord/%40thunderlake.png "Discord-user")
+
+## 💖 Support
+- a Star on my Github repos would be nice 🌟
+
+- Subscribe to my Youtube Channel [YouTube](https://www.youtube.com/@Ja.KooLit) 
+
+- You can also buy me Coffee Through ko-fi.com 🤩
+
+<a href='https://ko-fi.com/jakoolit' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
