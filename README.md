@@ -31,17 +31,28 @@ sudo nano /etc/apt/sources.list
 ### 📷 Screenshots click to enlarge
 
 <p align="center">
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/default-dark.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/switching-dark-light.png" />   
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/Hyprland-Laptop-Nvidia.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/screenshots/ubuntu-default.png" />   
+    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian/default-dark.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian/switching-dark-light.png" />   
+   <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian/Hyprland-Laptop-Nvidia.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian/ubuntu-default.png" /> 
+ 
 </p>
 
 
-### 📷 you can find more screenshots in the screenshots directory
+
+### 📷 More Screenshots [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian)
 
 ### ✨ Youtube presentation [`Link`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
 
 
 ### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
+
+## 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
+- I have moved to a centralized Hyprland Dots.
+
+- after initial boot-up after install, you will experience a NO wallpaper. This is due to changes I made on the install scripts to correct that, you can press the light/dark button or choose wallpaper (SUPER CTRL W), and that wallpaper will be loaded after reboot or login.
+
+- more info on announcement [`Link`](https://youtu.be/upDl1ns05eg)
+
+If you want to use swaybg as wallpaper provider, you can edit ~/.config/hypr/configs/Execs.conf and uncomment the swaybg part
 
 
 ### ✨  Some notes on this installer
