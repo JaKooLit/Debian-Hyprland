@@ -87,6 +87,10 @@ source ~/.zshrc
 
 - if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
 
+### 😠😠😠 NO WALLPAPER!!
+- By default, swww is set for wallpaper. If you have not opt to install swww, you can edit ~/.config/hypr/configs/Execs.conf . Put # on swww and delete the # on the swaybg part
+- I still highly suggest to install swww though since most are connected to swww
+
 ### ✨ Packages that are manually downloaded and build. These packages will not be updated by apt and have to be manually updated
 - Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
 - nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)

@@ -58,7 +58,5 @@ install_and_log "asusctl" "https://gitlab.com/asus-linux/asusctl.git"
 # Download and build supergfxctl
 install_and_log "supergfxctl" "https://gitlab.com/asus-linux/supergfxctl.git"
 
-# Uncomment startup of ROG-Software
-sed -i '23s/#//' config/hypr/configs/Execs.conf
 
 clear

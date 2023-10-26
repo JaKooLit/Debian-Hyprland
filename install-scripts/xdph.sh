@@ -57,6 +57,5 @@ printf "\n"
     sudo apt-get remove -y xdg-desktop-portal-lxqt 2>&1 | tee -a "$LOG"
   fi
 
-sed -i '17s/#//' config/hypr/configs/Execs.conf
 
 clear

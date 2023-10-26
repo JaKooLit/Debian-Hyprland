@@ -46,7 +46,5 @@ else
   echo -e "${ERROR} Download failed for swww" 2>&1 | tee -a "$LOG"
 fi
 
-# Uncomment startup of swww
-sed -i -e '7s/^#//' -e '8s/^/#/' config/hypr/configs/Execs.conf
 
 clear
