@@ -29,6 +29,7 @@ hypr_package=(
   waybar
   wget
   wl-clipboard
+  wlogout
   wofi
 )
 
