@@ -15,22 +15,24 @@ Extra=(
 hypr_package=( 
   curl
   dunst
-  foot
   grim
   gvfs
   gvfs-backends
+  kitty
+  nano
   network-manager-gnome
   pavucontrol
   playerctl
   polkit-kde-agent-1
   python3-requests
+  python3-pip
   qt5ct
+  rofi
   slurp
   waybar
   wget
   wl-clipboard
   wlogout
-  wofi
 )
 
 # the following packages can be deleted. however, dotfiles may not work properly
@@ -43,7 +45,6 @@ hypr_package_2=(
   mpv
   nvtop
   pamixer
-  swaybg
   swayidle
   viewnior
   vim
@@ -111,4 +112,10 @@ go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG"
 
 # copy cliphist into /usr/local/bin for some reason it is installing in ~/go/bin
 sudo cp -r "$HOME/go/bin/cliphist" "/usr/local/bin/" 2>&1 | tee -a "$LOG"
+
+## Installing pywal colors
+printf "\n%s - Installing Pywal.... \n" "${NOTE}"
+
+sudo pip3 install pywal 2>&1 | tee -a "$LOG"
+
 clear

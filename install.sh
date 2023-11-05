@@ -61,7 +61,6 @@ nwg=""
 rog=""
 sddm=""
 swaylock=""
-swww=""
 thunar=""
 xdph=""
 zsh=""
@@ -133,8 +132,6 @@ ask_yes_no "Do you want to install zsh and oh-my-zsh?" zsh
 printf "\n"
 ask_yes_no "Do you want to install swaylock-effects?" swaylock
 printf "\n"
-ask_yes_no "Do you want to install swww?" swww
-printf "\n"
 ask_yes_no "Do you want to install nwg-look?" nwg
 printf "\n"
 ask_yes_no "Do you want to copy dotfiles?" dots
@@ -149,6 +146,7 @@ execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
 execute_script "swappy.sh"
+execute_script "swww.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
@@ -188,10 +186,6 @@ fi
 
 if [ "$swaylock" == "Y" ]; then
     execute_script "swaylock-effects.sh"
-fi
-
-if [ "$swww" == "Y" ]; then
-    execute_script "swww.sh"
 fi
 
 if [ "$nwg" == "Y" ]; then
