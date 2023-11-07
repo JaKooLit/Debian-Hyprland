@@ -46,13 +46,11 @@ sudo nano /etc/apt/sources.list
 ### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
 
 ## 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
-- I have moved to a centralized Hyprland Dots/Configuration. [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy dotfiles, it will be downloaded from that centralized repo.
+- This Repo does not contain Hyprland Dots or configs! Dotfiles can be checked here [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy installation, it will be downloaded from that centralized repo.
 
-- after initial boot-up after install, you will experience a NO wallpaper. This is due to changes I made on the install scripts to correct that, you can press the light/dark button or choose wallpaper (SUPER CTRL W), and that wallpaper will be loaded after reboot or login.
-
-- more info on announcement [`Link`](https://youtu.be/upDl1ns05eg)
-
-If you want to use swaybg as wallpaper provider, you can edit ~/.config/hypr/configs/Execs.conf and uncomment the swaybg part
+### 🆕  What's new with v2?
+- Rofi, Pywal Colors and Moved to Kitty. (Previous config was foot as tty and wofi as app launcher)
+- Check out changelogs here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/blob/main/CHANGELOG.md) 
 
 
 ### ✨  Some notes on this installer
@@ -63,8 +61,8 @@ If you want to use swaybg as wallpaper provider, you can edit ~/.config/hypr/con
 ### ⚠️ WARNING! nwg-look takes long time to install. 
 - nwg-look is a utility to costumize your GTK theme. It's a LXAppearance like. Its a good tool though but this package is entirely optional
 
-### ✨ Costumize the packages 
-- inside the install-scripts folder, you can edit 00-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing
+### ✨ Costumize the packages to be installed
+- inside the install-scripts folder, you can edit 00-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
 - default GTK theme if agreed to be installed is Tokyo night GTK themes (dark and light) + Tokyo night SE icons
 
 ### 🔔 NOTICE TO NVIDIA OWNERS ### 
@@ -89,18 +87,11 @@ source ~/.zshrc
 - by default mikeh theme is installed. You can find more themes from this [`OH-MY-ZSH-THEMES`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
 - to change the theme, edit ~/.zshrc ZSH_THEME="desired theme"
 
-### ✨ Hyprland Dot Notes
-- super h for launching a small help file
-- super e to view / edit settings, monitor, keybinds, Environment Variables, etc
-- go through the keybinds. There are alot of hidden features like dual panel, change waybar styles, change wallpaper, etc... its too long to put all in the readme!!!
-- super d for wofi (menu)
-- super t for thunar (file manager)
+### 📒 Hyprland Dot Notes
+- SUPER H for HINT or click on the waybar HINT! Button!
+- SUPER SHIFT H to launch the Some quick tips and tricks!
 
 - if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
-
-### 😠😠😠 NO WALLPAPER!!
-- By default, swww is set for wallpaper. If you have not opt to install swww, you can edit ~/.config/hypr/configs/Execs.conf . Put # on swww and delete the # on the swaybg part
-- I still highly suggest to install swww though since most are connected to swww
 
 ### ✨ Packages that are manually downloaded and build. These packages will not be updated by apt and have to be manually updated
 - Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
@@ -137,15 +128,11 @@ ninja -C build
 sudo ninja -C build install
 ```
 
-### ✨ Roadmap:
+### 🛣️ Roadmap:
 - [ ] Install zsh and oh-my-zsh without necessary steps above
 - [ ] possibly adding gruvbox themes, cursors, icons
-- [ ] adding vertical waybar 
-- [X] ~~Use kitty in favor of foot~~ - Dropped the idea of kitty. Kitty is using twice memory compared to foot.
-- [ ] Create an automated uninstaller 
 
 ### ❗ some known issues
-
 - [ ] reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  
  while in sddm press ctrl+alt+F2 or F3
@@ -169,6 +156,7 @@ log into your account
 
 
 ### 👍👍👍 Thanks and Credits!
+- [`Hyprland`](https://hyprland.org/) Of course to Hyprland and @vaxerski for this awesome Dynamic Tiling Manager.
 - shout out to CooSee from Gentoo forums for the nice rainbow borders
 
 ### 💌 Some screenshots shared to me via discord

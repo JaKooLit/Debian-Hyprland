@@ -61,7 +61,6 @@ nwg=""
 rog=""
 sddm=""
 swaylock=""
-swww=""
 thunar=""
 xdph=""
 zsh=""
@@ -123,21 +122,19 @@ ask_yes_no "Do you want to configure Bluetooth?" bluetooth
 printf "\n"
 ask_yes_no "Do you want to install Thunar file manager?" thunar
 printf "\n"
-ask_yes_no "Installing in Asus ROG Laptops?" rog
+ask_yes_no "Installing on Asus ROG Laptops?" rog
 printf "\n"
-ask_yes_no "Do you want to install and configure SDDM?" sddm
+ask_yes_no "install and configure SDDM log-in Manager?" sddm
 printf "\n"
-ask_yes_no "Do you want to install xdg-desktop-portal-hyprland?" xdph
+ask_yes_no "Install XDG-DESKTOP-PORTAL-HYPRLAND? (recommended for proper Screen Share ie OBS)" xdph
 printf "\n"
 ask_yes_no "Do you want to install zsh and oh-my-zsh?" zsh
 printf "\n"
-ask_yes_no "Do you want to install swaylock-effects?" swaylock
+ask_yes_no "install swaylock-effects? (recommended - for screen locks)" swaylock
 printf "\n"
-ask_yes_no "Do you want to install swww?" swww
+ask_yes_no "Do you want to install nwg-look? (GTK Theming app - lxappearance-like)" nwg
 printf "\n"
-ask_yes_no "Do you want to install nwg-look?" nwg
-printf "\n"
-ask_yes_no "Do you want to copy dotfiles?" dots
+ask_yes_no "Do you want to copy Hyprland dotfiles?" dots
 printf "\n"
 # Ensuring all in the scripts folder are made executable
 chmod +x install-scripts/*
@@ -149,6 +146,7 @@ execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
 execute_script "swappy.sh"
+execute_script "swww.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
@@ -188,10 +186,6 @@ fi
 
 if [ "$swaylock" == "Y" ]; then
     execute_script "swaylock-effects.sh"
-fi
-
-if [ "$swww" == "Y" ]; then
-    execute_script "swww.sh"
 fi
 
 if [ "$nwg" == "Y" ]; then
