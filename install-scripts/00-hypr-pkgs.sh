@@ -117,6 +117,6 @@ sudo cp -r "$HOME/go/bin/cliphist" "/usr/local/bin/" 2>&1 | tee -a "$LOG"
 ## Installing pywal colors
 printf "\n%s - Installing Pywal.... \n" "${NOTE}"
 
-sudo pip3 install pywal 2>&1 | tee -a "$LOG"
+sudo pip3 install pywal --break-system-packages 2>&1 | tee -a "$LOG"
 
 clear
