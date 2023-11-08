@@ -37,6 +37,8 @@ sudo nano /etc/apt/sources.list
 </p>
 ### 📷 More Screenshots [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian)
 
+
+
 Hyprland-Dots-v2 Featuring Rofi 
 <p align="center">
     <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian-v2/Debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian-v2/Rofi-Light.png" />   
@@ -44,6 +46,8 @@ Hyprland-Dots-v2 Featuring Rofi
  
 </p>
 ### 📷 More Screenshots [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian-v2)
+
+
 
 
 ### ✨ Youtube presentation [`Link`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
