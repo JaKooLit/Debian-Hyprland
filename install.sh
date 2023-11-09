@@ -126,7 +126,7 @@ ask_yes_no "-Installing on Asus ROG Laptops?" rog
 printf "\n"
 ask_yes_no "-Install and configure SDDM log-in Manager?" sddm
 printf "\n"
-ask_yes_no "-Install XDG-DESKTOP-PORTAL-HYPRLAND? (recommended for proper Screen Share ie OBS)" xdph
+ask_yes_no "-Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
 printf "\n"
 ask_yes_no "-Do you want to install zsh and oh-my-zsh?" zsh
 printf "\n"
