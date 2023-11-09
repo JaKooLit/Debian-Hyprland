@@ -18,6 +18,7 @@ hypr_package=(
   grim
   gvfs
   gvfs-backends
+  imagemagick
   kitty
   nano
   network-manager-gnome
