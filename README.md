@@ -51,11 +51,11 @@ sudo nano /etc/apt/sources.list
 ### 📷 More Screenshots on v2 [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian-v2)
 
 
-### ✨ Youtube presentation [`Link`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
-
+### ✨ Youtube presentation [`V1`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
+### ✨ Youtube presentation [`V2`](https://youtu.be/Qc4VP9JFh2Y)
 
 ### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
-### ✨ A video walk on My Hyprland-Dots v2[`Link`](https://youtu.be/yaVurRoXc-s?si=iDnBC5S3thPBX3ZE)
+### ✨ A video walk through on My Hyprland-Dots v2[`Link`](https://youtu.be/yaVurRoXc-s?si=iDnBC5S3thPBX3ZE)
 
 ## 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
 - This Repo does not contain Hyprland Dots or configs! Dotfiles can be checked here [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy installation, it will be downloaded from that centralized repo.
