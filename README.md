@@ -47,6 +47,9 @@ sudo nano /etc/apt/sources.list
  
 </p>
 
+### ❕ Installed on Kali Linux 😈
+
+![alt text](https://github.com/JaKooLit/screenshots/blob/main/Hyprland-ScreenShots/Debian/Kali-Linux.png)
 
 ### 📷 More Screenshots on v2 [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian-v2)
 
