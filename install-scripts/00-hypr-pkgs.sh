@@ -14,7 +14,6 @@ Extra=(
 # packages neeeded
 hypr_package=( 
   cliphist
-  curl
   dunst
   grim
   gvfs
