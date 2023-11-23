@@ -162,7 +162,6 @@ log into your account
 
 - [ ] Does not work in Ubuntu 23.04
 - [ ] sddm blackscreen when log-out
-- [ ] cava does not work
 - [ ] Installing SDDM if or any other Login Manager installed. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 - [ ] network is down or become unmanaged [`This`](https://askubuntu.com/questions/71159/network-manager-says-device-not-managed) might help
 
