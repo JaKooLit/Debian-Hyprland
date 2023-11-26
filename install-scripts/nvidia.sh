@@ -83,8 +83,6 @@ add_to_file() {
 printf "${NOTE} Installing nvidia-Hyprland...\n"
 if git clone --recursive https://github.com/hyprwm/Hyprland 2>&1 | tee -a "$LOG"; then
   cd Hyprland || exit 1
-  # additional for hyprland-nvidia
-  sed 's/glFlush();/glFinish();/g' -i subprojects/wlroots/render/gles2/renderer.c
   make all
   if sudo make install 2>&1 | tee -a "$LOG"; then
     printf "${OK} Nvidia-Hyprland installed successfully.\n"
