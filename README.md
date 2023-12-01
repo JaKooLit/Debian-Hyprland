@@ -62,11 +62,7 @@ sudo nano /etc/apt/sources.list
 
 ## 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
 - This Repo does not contain Hyprland Dots or configs! Dotfiles can be checked here [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy installation, it will be downloaded from that centralized repo.
-
-### 🆕  What's new with v2?
-- Rofi, Pywal Colors and Moved to Kitty. (Previous config was foot as tty and wofi as app launcher)
-Check out changelogs here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/CHANGELOGS) 
-
+- Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/7.-CHANGELOGS)
 
 ### ✨  Some notes on this installer
 - This script is meant to install in Debian Testing (Trixie). 
@@ -105,7 +101,7 @@ source ~/.zshrc
 ### ✨ TO DO once installation done and dotfiles copied
 - if you opted to install gtk themes, to apply the theme and icon, press the dark/light button (beside the padlock). To apply Bibata modern ice cursor, launch nwg-look (GTK Settings) through rofi.
 - SUPER H for HINT or click on the waybar HINT! Button 
-- Head over to [FAQ](https://github.com/JaKooLit/Hyprland-Dots/wiki/FAQ) and [TIPS](https://github.com/JaKooLit/Hyprland-Dots/wiki/TIPS)
+- Head over to [FAQ](https://github.com/JaKooLit/Hyprland-Dots/wiki/4.-FAQ) and [TIPS](https://github.com/JaKooLit/Hyprland-Dots/wiki/5.-TIPS)
 
 
 - if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
