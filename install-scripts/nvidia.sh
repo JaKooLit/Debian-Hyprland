@@ -81,7 +81,7 @@ add_to_file() {
 
 # Clone, build, and install nvidia-Hyprland using Cmake
 printf "${NOTE} Installing nvidia-Hyprland...\n"
-if git clone --recursive https://github.com/hyprwm/Hyprland 2>&1 | tee -a "$LOG"; then
+if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland" 2>&1 | tee -a "$LOG"; then
   cd Hyprland || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$LOG"; then

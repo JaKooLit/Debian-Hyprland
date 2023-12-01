@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 1 Dec 2023
+- replace the Hyprland to specific branch/version as newest needed some new libraries and debian dont have those yet
+
 ## 26 Nov 2023
 - nvidia - Move to normal hyprland package as nvidia patches are doing nothing see [`commit`](https://github.com/hyprwm/Hyprland/commit/cd96ceecc551c25631783499bd92c6662c5d3616)
 
