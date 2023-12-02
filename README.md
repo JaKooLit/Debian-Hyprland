@@ -8,7 +8,7 @@
 </div>!
 
 
-### Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur - Hyprland install script based from my Fedora-Hyprland [`Link`](https://github.com/JaKooLit/Fedora-Hyprland) and Arch-Hyprland-v4 [`Link`](https://github.com/JaKooLit/Hyprland-v4)
+## Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur Hyprland Install Script
 
 ### ⚠️ Pre-requisites and VERY Important! ###
 - Do not run this installer as sudo or as root
