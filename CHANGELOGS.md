@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 03 Dec 2023
+- Added kvantum for qt apps theming
+
 ## 1 Dec 2023
 - replace the Hyprland to specific branch/version as newest needed some new libraries and debian dont have those yet
 
