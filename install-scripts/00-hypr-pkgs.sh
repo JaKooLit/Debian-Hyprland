@@ -28,6 +28,8 @@ hypr_package=(
   python3-requests
   python3-pip
   qt5ct
+  qt5-style-kvantum
+  qt5-style-kvantum-themes
   rofi
   slurp
   waybar
