@@ -74,8 +74,8 @@ printf "\n\n\n"
 printf "${NOTE} Installing rofi-wayland...\n"
 if git clone https://github.com/lbonn/rofi.git 2>&1 | tee -a "$LOG"; then
   cd rofi || exit 1
-  meson setup build &
-  ninja -C build &
+  meson setup build
+  ninja -C build
   if sudo ninja -C build install 2>&1 | tee -a "$LOG"; then
     printf "${OK} rofi-wayland installed successfully.\n"
     # Return to the previous directory
