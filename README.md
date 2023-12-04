@@ -111,8 +111,9 @@ source ~/.zshrc
 - swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
 - swappy [`LINK`](https://github.com/jtheoof/swappy)
 - xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
+- rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
 
-- a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swappy` `swww` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, update/install
+- a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swappy` `swww` `rofi` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, update/install
 
 - b.) to update Hyprland and xdg-desktop-portal-hyprland
 ``` bash
@@ -134,6 +135,13 @@ cargo build --release
 ``` bash
 git pull
 meson build
+ninja -C build
+sudo ninja -C build install
+```
+- e.) for rofi
+``` bash
+git pull
+meson setup build
 ninja -C build
 sudo ninja -C build install
 ```
