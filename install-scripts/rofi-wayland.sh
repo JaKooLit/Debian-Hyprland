@@ -70,23 +70,30 @@ done
 
 printf "\n\n\n"
 
-# Clone and build xdg-desktop-portal-hyprland
+# Clone and build rofi - wayland
 printf "${NOTE} Installing rofi-wayland...\n"
+
+# Check if rofi folder exists and remove it
+if [ -d "rofi" ]; then
+  printf "${NOTE} Removing existing rofi folder...\n"
+  rm -rf "rofi" 2>&1 | tee -a "$LOG"
+fi
+
 if git clone https://github.com/lbonn/rofi.git 2>&1 | tee -a "$LOG"; then
-  cd rofi || exit 1
-  meson setup build
-  ninja -C build
-  if sudo ninja -C build install 2>&1 | tee -a "$LOG"; then
-    printf "${OK} rofi-wayland installed successfully.\n"
-    # Return to the previous directory
-    cd ..
+  cd "rofi" || exit 1
+  if meson setup build && ninja -C build; then
+    if sudo ninja -C build install 2>&1 | tee -a "$LOG"; then
+      printf "${OK} rofi-wayland installed successfully.\n"
+      # Return to the previous directory
+      cd ..
+    else
+      echo -e "${ERROR} Installation failed for rofi-wayland."
+    fi
   else
-    echo -e "${ERROR} Installation failed for rofi-wayland."
+    echo -e "${ERROR} Meson setup or ninja build failed for rofi-wayland."
   fi
 else
   echo -e "${ERROR} Download failed for rofi-wayland."
 fi
-
-
 
 clear

@@ -146,6 +146,10 @@ ninja -C build
 sudo ninja -C build install
 ```
 
+### 🤬 FAQ
+#### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
+- Well, most of the core packages are downloaded and Build and compiled from SOURCE. There are no pre-built binary (yet) for Debian and Ubuntu. Unlike Other distros, they already have prepacked binary that can just download and install.
+
 ### 🛣️ Roadmap:
 - [ ] Install zsh and oh-my-zsh without necessary steps above
 - [ ] possibly adding gruvbox themes, cursors, icons

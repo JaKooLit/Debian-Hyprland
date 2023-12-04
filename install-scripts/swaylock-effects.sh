@@ -24,6 +24,12 @@ LOG="install-$(date +'%d-%H%M%S')_swaylock-effects.log"
 
 printf "${NOTE} Installing swaylock-effects\n"
 
+# Check if swaylock-effects folder exists and remove it
+if [ -d "swaylock-effects" ]; then
+  printf "${NOTE} Removing existing swaylock-effects folder...\n"
+  rm -rf "swaylock-effects" 2>&1 | tee -a "$LOG"
+fi
+
 if git clone https://github.com/mortie/swaylock-effects.git; then
   cd swaylock-effects || exit 1
   meson build

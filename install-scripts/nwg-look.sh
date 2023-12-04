@@ -53,6 +53,13 @@ for package in "${nwg_look[@]}"; do
   install_package "$package" || exit 1
 done
 
+
+# Check if nwg-look folder exists and remove it
+if [ -d "nwg-look" ]; then
+  printf "${NOTE} Removing existing nwg-look folder...\n"
+  rm -rf "nwg-look" 2>&1 | tee -a "$LOG"
+fi
+
 printf "${NOTE} Installing nwg-look\n"
 if git clone https://github.com/nwg-piotr/nwg-look.git; then
   cd nwg-look || exit 1

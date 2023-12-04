@@ -24,6 +24,12 @@ LOG="install-$(date +'%d-%H%M%S')_swww.log"
 
 printf "${NOTE} Installing swww\n"
 
+# Check if swww folder exists and remove it
+if [ -d "swww" ]; then
+  printf "${NOTE} Removing existing swww folder...\n"
+  rm -rf "swww" 2>&1 | tee -a "$LOG"
+fi
+
 if git clone https://github.com/Horus645/swww.git 2>&1 | tee -a "$LOG"; then
   cd swww || exit 1
   source "$HOME/.cargo/env"

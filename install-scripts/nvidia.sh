@@ -82,6 +82,13 @@ add_to_file() {
 
 # Clone, build, and install nvidia-Hyprland using Cmake
 printf "${NOTE} Installing nvidia-Hyprland...\n"
+
+# Check if Hyprland folder exists and remove it
+if [ -d "Hyprland" ]; then
+  printf "${NOTE} Removing existing Hyprland folder...\n"
+  rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
+fi
+
 if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland" 2>&1 | tee -a "$LOG"; then
   cd Hyprland || exit 1
   make all
