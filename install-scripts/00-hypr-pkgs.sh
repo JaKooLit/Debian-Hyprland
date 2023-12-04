@@ -111,6 +111,10 @@ for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
   fi
 done
 
+## making brightnessctl work
+sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
+
+
 ## Installing pywal colors
 printf "\n%s - Installing Pywal.... \n" "${NOTE}"
 
