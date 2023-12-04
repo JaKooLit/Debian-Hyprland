@@ -30,6 +30,7 @@ hypr_package=(
   qt5ct
   qt5-style-kvantum
   qt5-style-kvantum-themes
+  qt6-svg
   rofi
   slurp
   waybar
