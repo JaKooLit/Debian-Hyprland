@@ -38,9 +38,8 @@ else
   echo -e "${ERROR} Download failed for xdg-desktop-portal-hyprland."
 fi
 
-printf "\n"
-printf "\n"
-printf "\n"
+printf "\n\n\n"
+
   # Clean out other portals
   printf "${NOTE} Clearing any other xdg-desktop-portal implementations...\n"
   # Check if packages are installed and uninstall if present
