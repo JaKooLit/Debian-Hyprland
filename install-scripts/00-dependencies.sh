@@ -48,6 +48,7 @@ dependencies=(
     libpam0g-dev
     libpango1.0-dev
     libpipewire-0.3-dev
+    libqt6svg6
     libseat-dev
     libstartup-notification0-dev
     libswresample-dev
