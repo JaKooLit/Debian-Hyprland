@@ -39,6 +39,7 @@ set -e
 # Create a backup of the sources.list file
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup 2>&1 | tee -a "$LOG"
 
+## UBUNTU - NVIDIA (comment this two by adding # you dont need this!)
 # Add the comment and repository entry to sources.list
 echo "## for nvidia" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
 echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"

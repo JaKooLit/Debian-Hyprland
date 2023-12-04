@@ -26,9 +26,10 @@ sudo nano /etc/apt/sources.list
 ### 🔔 NOTICE TO UBUNTU USERS ### 
 - You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
 - If you are using Gnome already, DO NOT install the SDDM. The GDM works file as well. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
-- For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 43 and 44  echo "## for nvidia... and echo "deb ...........
+- For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 44 and 45  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
 
-
+### ⚠️ WARNING! If you have GDM already as log-in manager, DO NOT install SDDM
+- You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
 
 #### 📷 Hyprland-Dots-v2 Featuring Rofi 
