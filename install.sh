@@ -159,6 +159,8 @@ execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
 execute_script "swappy.sh"
 execute_script "swww.sh"
+execute_script "rofi-wayland.sh"
+
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
