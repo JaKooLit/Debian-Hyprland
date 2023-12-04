@@ -3,6 +3,10 @@
 rofi=(
   bison
   flex
+  libxcb-util-dev
+  libxcb-cursor-dev
+  libxcb-xinerama0-dev
+  libstartup-notification0-dev
 )
 
 ############## WARNING DO NOT EDIT BEYOND THIS LINE if you dont know what you are doing! ######################################
@@ -74,7 +78,7 @@ printf "\n\n\n"
 printf "${NOTE} Installing rofi-wayland...\n"
 if git clone https://github.com/lbonn/rofi.git 2>&1 | tee -a "$LOG"; then
   cd rofi || exit 1
-  meson build -Dxcb=disabled &
+  meson setup build &
   ninja -C build &
   if sudo ninja -C build install 2>&1 | tee -a "$LOG"; then
     printf "${OK} rofi-wayland installed successfully.\n"
