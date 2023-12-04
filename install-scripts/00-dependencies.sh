@@ -49,6 +49,7 @@ dependencies=(
     libpango1.0-dev
     libpipewire-0.3-dev
     libseat-dev
+    libstartup-notification0-dev
     libswresample-dev
     libsystemd-dev
     libtiff-dev
@@ -60,12 +61,15 @@ dependencies=(
     libwayland-dev
     libwebp-dev
     libxcb-composite0-dev
+    libxcb-cursor-dev
     libxcb-dri3-dev
     libxcb-ewmh-dev
     libxcb-icccm4-dev
     libxcb-present-dev
     libxcb-render-util0-dev
     libxcb-res0-dev
+    libxcb-util-dev
+    libxcb-xinerama0-dev
     libxcb-xinput-dev
     libxcb-xkb-dev
     libxkbcommon-dev

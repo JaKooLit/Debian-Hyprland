@@ -3,10 +3,6 @@
 rofi=(
   bison
   flex
-  libxcb-util-dev
-  libxcb-cursor-dev
-  libxcb-xinerama0-dev
-  libstartup-notification0-dev
 )
 
 ############## WARNING DO NOT EDIT BEYOND THIS LINE if you dont know what you are doing! ######################################
