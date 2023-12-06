@@ -1,6 +1,7 @@
 #!/bin/bash
 
 pywal=(
+  imagemagick
   python3-pip
 )
 
