@@ -10,6 +10,12 @@
 
 ## Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur Hyprland Install Script
 
+
+# ♨️♨️♨️ ATTENTION ♨️♨️♨️ 06 Dec 2023
+- Recent hyprland release v0.33.0, needed a newer libdrm and Debian dont have newer libdrm yet on their repo. That is why for now, the hyprland version to be installed with this script is v0.32.3 
+
+
+
 ### ⚠️ Pre-requisites and VERY Important! ###
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
@@ -119,12 +125,12 @@ source ~/.zshrc
 
 - a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swappy` `swww` `rofi` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, update/install
 
-- b.) to update Hyprland and xdg-desktop-portal-hyprland
-``` bash
-git pull
-make all
-sudo make install
-```
+~~- b.) to update Hyprland and xdg-desktop-portal-hyprland~~
+~~``` bash~~
+~~git pull~~
+~~make all~~
+~~sudo make install~~
+~~```~~
 - c.) for nwg-look, asusctl, supergfxtctl, to update ran
 ``` bash
 git pull
