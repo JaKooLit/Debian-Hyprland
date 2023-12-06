@@ -28,7 +28,14 @@ echo
 echo "$(tput setaf 166)ATTENTION: Run a full system update and Reboot first!! (Highly Recommended) $(tput sgr0)"
 echo
 echo "$(tput setaf 3)NOTE: You will be required to answer some questions during the installation! $(tput sgr0)"
-echo
+
+printf "\n%.0s" {1..5}
+echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
+echo "$(tput bold)$(tput setaf 7)Recent Hyprland release v0.33.0 needed a newer libdrm $(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)Debian doesn't have the newer libdrm yet on their repo. $(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.32.3$(tput sgr0)"
+printf "\n%.0s" {1..3}
+
 
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
 
