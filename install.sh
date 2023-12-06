@@ -160,6 +160,7 @@ execute_script "fonts.sh"
 execute_script "swappy.sh"
 execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
+execute_script "pywal.sh"
 
 
 if [ "$nvidia" == "Y" ]; then
