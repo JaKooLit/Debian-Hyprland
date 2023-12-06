@@ -8,11 +8,11 @@
 </div>!
 
 
-## Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur Hyprland Install Script
-
-
 # ♨️♨️♨️ ATTENTION ♨️♨️♨️ 06 Dec 2023
 - Recent hyprland release v0.33.0, needed a newer libdrm and Debian dont have newer libdrm yet on their repo. That is why for now, the hyprland version to be installed with this script is v0.32.3 
+
+
+## Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur Hyprland Install Script
 
 
 
