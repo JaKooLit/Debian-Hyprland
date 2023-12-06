@@ -28,6 +28,9 @@ echo
 echo "$(tput setaf 166)ATTENTION: Run a full system update and Reboot first!! (Highly Recommended) $(tput sgr0)"
 echo
 echo "$(tput setaf 3)NOTE: You will be required to answer some questions during the installation! $(tput sgr0)"
+echo
+echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start! $(tput sgr0)"
+echo
 
 printf "\n%.0s" {1..5}
 echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
