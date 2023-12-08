@@ -74,7 +74,8 @@ sudo nano /etc/apt/sources.list
 - Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/7.-CHANGELOGS)
 - Since the Hyprland-Dots are evolving, some of the screenshots maybe old
 
-### ✨  Some notes on this installer
+### ✨  Some notes on this installer / Prerequisites
+- install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script DOES not include uninstallation of packages as it may break your system due to shared packages / libraries.
 - This script is meant to install in Debian Testing (Trixie). 
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - It should work on latest Ubuntu 23.10
