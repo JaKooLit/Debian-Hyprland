@@ -21,7 +21,6 @@ hypr_package=(
   imagemagick
   kitty
   nano
-  network-manager-gnome
   pavucontrol
   playerctl
   polkit-kde-agent-1
