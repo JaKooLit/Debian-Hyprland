@@ -48,6 +48,7 @@ hypr_package_2=(
   gnome-system-monitor
   mousepad
   mpv
+  mpv-mpris
   nvtop
   pamixer
   swayidle
