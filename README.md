@@ -66,7 +66,7 @@ sudo nano /etc/apt/sources.list
 ### 💯💯 Check out Installation Video coverage by KSK royal (Ubuntu 23.10 + nvidia)
 - [`Link`](https://youtu.be/PMQf9gAt8FE?si=eCBqwXaej-1XXIh_)
 
-### 💯💯 Check out Installation Video coverage by KSK royal (Kali Linux xfce + nvidia). He have details regarding installing timeshift and switching to sddm from lightdm
+### 💯💯 Check out Installation Video coverage by KSK royal (Kali Linux xfce + nvidia). He have details regarding installing timeshift and switching to sddm from lightdm. He also covers removal of nouveau in favor of proprietary nvidia drivers
 - [`Link`](https://youtu.be/NtpRtSBjz3I?si=YGkS75u_7cW5D_zu)
 
 ## 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
@@ -79,6 +79,7 @@ sudo nano /etc/apt/sources.list
 - This script is meant to install in Debian Testing (Trixie). 
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - 🕯️ network-manager-gnome (nm-applet) has been removed from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
+- If you have nvidia, and wanted to use proprietary drivers, uninstall nouveau first (if installed). This script will be installing proprietary nvidia drivers and will not deal with removal of nouveau.
 
 
 ### ⚠️ WARNING! nwg-look takes long time to install. 
