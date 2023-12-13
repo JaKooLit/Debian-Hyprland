@@ -75,7 +75,7 @@ sudo nano /etc/apt/sources.list
 - Since the Hyprland-Dots are evolving, some of the screenshots maybe old
 
 ### ✨  Some notes on this installer / Prerequisites
-- install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script DOES not include uninstallation of packages as it may break your system due to shared packages / libraries.
+#### 💬 install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages as it may break your system due to shared packages / libraries.
 - This script is meant to install in Debian Testing (Trixie). 
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - 🕯️ network-manager-gnome (nm-applet) has been removed from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
