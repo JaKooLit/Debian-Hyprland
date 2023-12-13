@@ -167,6 +167,10 @@ sudo ninja -C build install
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
 - Well, most of the core packages are downloaded and Build and compiled from SOURCE. There are no pre-built binary (yet) for Debian and Ubuntu. Unlike Other distros, they already have prepacked binary that can just download and install.
 
+### ❗ some known issues on this Installer
+- some users reported that they have to install some packages. It is in the install-scripts/force-install.sh
+- At this time the packages force to install are the following `imagemagick`
+
 ### 🏴‍☠️🏴‍☠️🏴‍☠️ Got a questions regarding the Hyprland Dots?
 - Head over to wiki Link [`WIKI`](🏴https://github.com/JaKooLit/Hyprland-Dots/wiki)
 

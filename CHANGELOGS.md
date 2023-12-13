@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 13 Dec 2023
+- Added a script / function to force install packages. Some users reported that it is not installed.
+
 ## 11 Dec 2023
 - Changing over to zsh automatically if user opted
 - If chose to install zsh and have no login manager, zsh auto login will auto start Hyprland
