@@ -1,5 +1,9 @@
 ## Changelogs
 
+## 16 Dec 2023
+- zsh theme switched to `agnoster` theme by default
+- pywal tty color change disabled by default
+
 ## 13 Dec 2023
 - Added a script / function to force install packages. Some users reported that it is not installed.
 
