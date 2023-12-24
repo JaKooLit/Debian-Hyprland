@@ -6,7 +6,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7)
 
 <br/>
-</div>!
+</div>
 
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 06 Dec 2023
 - Recent hyprland release v0.33.0, needed a newer libdrm and Debian dont have newer libdrm yet on their repo. That is why for now, the hyprland version to be installed with this script is v0.32.3 
