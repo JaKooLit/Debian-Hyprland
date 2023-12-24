@@ -1,5 +1,9 @@
 #!/bin/bash
 
+force=(
+  imagemagick
+)
+
 ############## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU'RE DOING! ##############
 
 # Determine the directory where the script is located
@@ -20,25 +24,14 @@ YELLOW=$(tput setaf 3)
 RESET=$(tput sgr0)
 
 # Set the name of the log file to include the current date and time
-LOG="install-$(date +'%d-%H%M%S')_swaylock-effects.log"
+LOG="install-$(date +'%d-%H%M%S')_force.log"
 
-printf "${NOTE} Installing swaylock-effects\n"
 
-# Check if swaylock-effects folder exists and remove it
-if [ -d "swaylock-effects" ]; then
-  printf "${NOTE} Removing existing swaylock-effects folder...\n"
-  rm -rf "swaylock-effects" 2>&1 | tee -a "$LOG"
-fi
+printf "${NOTE} Force installing packages...\n"
+ for FORCE in "${force[@]}"; do
+   sudo apt-get --reinstall install -y "$FORCE" 2>&1 | tee -a "$LOG"
+   [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $CLIP install had failed, please check the install.log"; exit 1; }
+  done
 
-if git clone https://github.com/mortie/swaylock-effects.git; then
-  cd swaylock-effects || exit 1
-  meson build
-  ninja -C build
-  sudo ninja -C build install 2>&1 | tee -a "$LOG"
-  # Return to the previous directory
-  cd - || exit 1
-else
-  echo -e "${ERROR} Download failed for swaylock-effects" 2>&1 | tee -a "$LOG"
-fi
 
 clear

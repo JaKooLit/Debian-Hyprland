@@ -1,10 +1,8 @@
 #!/bin/bash
 
-nwg_look=(
-  golang
-  libgtk-3-dev
-  libcairo2-dev
-  libglib2.0-bin
+pywal=(
+  imagemagick
+  python3-pip
 )
 
 ############## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU'RE DOING! ##############
@@ -27,7 +25,7 @@ YELLOW=$(tput setaf 3)
 RESET=$(tput sgr0)
 
 # Set the name of the log file to include the current date and time
-LOG="install-$(date +'%d-%H%M%S')_nwg-look.log"
+LOG="install-$(date +'%d-%H%M%S')_pywal.log"
 
 # Function for installing packages
 install_package() {
@@ -49,26 +47,13 @@ install_package() {
   fi
 }
 
-for package in "${nwg_look[@]}"; do
+for package in "${pywal[@]}"; do
   install_package "$package" || exit 1
 done
 
+## Installing pywal colors
+printf "\n%s - Installing Pywal.... \n" "${NOTE}"
 
-# Check if nwg-look folder exists and remove it
-if [ -d "nwg-look" ]; then
-  printf "${NOTE} Removing existing nwg-look folder...\n"
-  rm -rf "nwg-look" 2>&1 | tee -a "$LOG"
-fi
-
-printf "${NOTE} Installing nwg-look\n"
-if git clone https://github.com/nwg-piotr/nwg-look.git; then
-  cd nwg-look || exit 1
-  make build
-  sudo make install
-  cd ..
-else
-  echo -e "${ERROR} Download failed for nwg-look."
-  exit 1
-fi
+sudo pip3 install pywal --break-system-packages 2>&1 | tee -a "$LOG"
 
 clear

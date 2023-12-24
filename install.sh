@@ -10,17 +10,10 @@ fi
 
 clear
 
-echo " 
-
-     ██╗ █████╗    ██╗  ██╗ ██████╗  ██████╗ ██╗     ██╗████████╗
-     ██║██╔══██╗   ██║ ██╔╝██╔═══██╗██╔═══██╗██║     ██║╚══██╔══╝
-     ██║███████║   █████╔╝ ██║   ██║██║   ██║██║     ██║   ██║   
-██   ██║██╔══██║   ██╔═██╗ ██║   ██║██║   ██║██║     ██║   ██║   
-╚█████╔╝██║  ██║██╗██║  ██╗╚██████╔╝╚██████╔╝███████╗██║   ██║   
- ╚════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝   ╚═╝   
-                                                                 
-
-"
+printf "\n%.0s" {1..3}                            
+echo "   |  _.   |/  _   _  |  o _|_ "
+echo " \_| (_| o |\ (_) (_) |_ |  |_ "
+printf "\n%.0s" {1..2}  
 
 # Welcome message
 echo "$(tput setaf 6)Welcome to JaKooLit's Debian / Ubuntu Hyprland Install Script!$(tput sgr0)"
@@ -29,6 +22,16 @@ echo "$(tput setaf 166)ATTENTION: Run a full system update and Reboot first!! (H
 echo
 echo "$(tput setaf 3)NOTE: You will be required to answer some questions during the installation! $(tput sgr0)"
 echo
+echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start! $(tput sgr0)"
+echo
+
+printf "\n%.0s" {1..5}
+echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
+echo "$(tput bold)$(tput setaf 7)Recent Hyprland release v0.33.0 needed a newer libdrm $(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)Debian doesn't have the newer libdrm yet on their repo. $(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.32.3$(tput sgr0)"
+printf "\n%.0s" {1..3}
+
 
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
 
@@ -140,7 +143,7 @@ ask_yes_no "-Install and configure SDDM log-in Manager?" sddm
 printf "\n"
 ask_yes_no "-Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OBS)" xdph
 printf "\n"
-ask_yes_no "-Do you want to install zsh and oh-my-zsh?" zsh
+ask_yes_no "-Install zsh, oh-my-zsh & pokemon-colorscripts?" zsh
 printf "\n"
 ask_yes_no "-Install swaylock-effects? (recommended - for screen locks)" swaylock
 printf "\n"
@@ -159,6 +162,10 @@ execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
 execute_script "swappy.sh"
 execute_script "swww.sh"
+execute_script "rofi-wayland.sh"
+execute_script "pywal.sh"
+execute_script "force-install.sh"
+
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
@@ -204,6 +211,8 @@ if [ "$nwg" == "Y" ]; then
     execute_script "nwg-look.sh"
 fi
 
+execute_script "InputGroup.sh"
+
 if [ "$dots" == "Y" ]; then
     execute_script "dotfiles.sh"
 
@@ -213,20 +222,18 @@ clear
 
 printf "\n${OK} Yey! Installation Completed.\n"
 printf "\n"
-printf "\n${NOTE} NOTICE TO NVIDIA OWNERS! IT's a MUST for your to reboot your system\n"
 sleep 2
 printf "\n${NOTE} You can start Hyprland by typing Hyprland (IF SDDM is not installed) (note the capital H!).\n"
 printf "\n"
 printf "\n${NOTE} It is highly recommended to reboot your system.\n\n"
-read -n1 -rep "${CAT} Would you like to reboot now? (y,n)" HYP
 
-if [[ $HYP =~ ^[Yy]$ ]]; then
+read -rp "${CAT} Would you like to reboot now? (y/n): " HYP
+
+if [[ "$HYP" =~ ^[Yy]$ ]]; then
     if [[ "$nvidia" == "Y" ]]; then
         echo "${NOTE} NVIDIA GPU detected. Rebooting the system..."
         systemctl reboot
     else
         systemctl reboot
-    
     fi    
 fi
-

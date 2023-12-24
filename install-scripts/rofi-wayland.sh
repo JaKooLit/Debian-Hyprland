@@ -1,61 +1,9 @@
 #!/bin/bash
 
-# https://github.com/JaKooLit
-
-# edit your packages desired here. 
-# WARNING! If you remove packages here, dotfiles may not work properly.
-# and also, ensure that packages are present in debian repo
-
-# add packages wanted here
-Extra=(
-
+rofi=(
+  bison
+  flex
 )
-
-# packages neeeded
-hypr_package=( 
-  cliphist
-  dunst
-  grim
-  gvfs
-  gvfs-backends
-  imagemagick
-  kitty
-  nano
-  pavucontrol
-  playerctl
-  polkit-kde-agent-1
-  python3-requests
-  python3-pip
-  qt5ct
-  qt5-style-kvantum
-  qt5-style-kvantum-themes
-  qt6ct
-  slurp
-  waybar
-  wget
-  wl-clipboard
-  wlogout
-  xdg-user-dirs
-  yad
-)
-
-# the following packages can be deleted. however, dotfiles may not work properly
-hypr_package_2=(
-  brightnessctl
-  btop
-  cava
-  eog
-  gnome-system-monitor
-  mousepad
-  mpv
-  mpv-mpris
-  nvtop
-  pamixer
-  swayidle
-  vim
-  wlsunset
-)
-
 
 ############## WARNING DO NOT EDIT BEYOND THIS LINE if you dont know what you are doing! ######################################
 # Determine the directory where the script is located
@@ -76,7 +24,16 @@ YELLOW=$(tput setaf 3)
 RESET=$(tput sgr0)
 
 # Set the name of the log file to include the current date and time
-LOG="install-$(date +%d-%H%M%S)_hypr-pkgs.log"
+LOG="install-$(date +%d-%H%M%S)_rofi_wayland.log"
+
+# uninstall other rofi
+printf "${YELLOW} Checking for other rofi packages and remove if any..${RESET}\n"
+if sudo dpkg -l | grep -q -w "rofi"; then
+  printf "${YELLOW} rofi detected.. uninstalling...${RESET}\n"
+    for rofi in rofi; do
+    sudo apt-get autoremove -y "rofi" 2>/dev/null | tee -a "$LOG" || true
+    done
+fi
 
 set -e
 
@@ -101,9 +58,9 @@ install_package() {
 }
 
 # Installation of main components
-printf "\n%s - Installing hyprland packages.... \n" "${NOTE}"
+printf "\n%s - Installing rofi-wayland dependencies.... \n" "${NOTE}"
 
-for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
+for PKG1 in "${rofi[@]}"; do
   install_package "$PKG1" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
     echo -e "\e[1A\e[K${ERROR} - $PKG1 install had failed, please check the install.log"
@@ -111,22 +68,32 @@ for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
   fi
 done
 
+printf "\n\n\n"
 
-# Install cliphist using go
-printf "\n%s - Installing cliphist using go.... \n" "${NOTE}"
-export PATH=$PATH:/usr/local/bin
-go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG" 
+# Clone and build rofi - wayland
+printf "${NOTE} Installing rofi-wayland...\n"
 
-# copy cliphist into /usr/local/bin for some reason it is installing in ~/go/bin
-sudo cp -r "$HOME/go/bin/cliphist" "/usr/local/bin/" 2>&1 | tee -a "$LOG" 
+# Check if rofi folder exists and remove it
+if [ -d "rofi" ]; then
+  printf "${NOTE} Removing existing rofi folder...\n"
+  rm -rf "rofi" 2>&1 | tee -a "$LOG"
+fi
 
-## making brightnessctl work
-sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
-
-
-## Installing pywal colors
-printf "\n%s - Installing Pywal.... \n" "${NOTE}"
-
-sudo pip3 install pywal --break-system-packages 2>&1 | tee -a "$LOG"
+if git clone https://github.com/lbonn/rofi.git 2>&1 | tee -a "$LOG"; then
+  cd "rofi" || exit 1
+  if meson setup build && ninja -C build; then
+    if sudo ninja -C build install 2>&1 | tee -a "$LOG"; then
+      printf "${OK} rofi-wayland installed successfully.\n"
+      # Return to the previous directory
+      cd ..
+    else
+      echo -e "${ERROR} Installation failed for rofi-wayland."
+    fi
+  else
+    echo -e "${ERROR} Meson setup or ninja build failed for rofi-wayland."
+  fi
+else
+  echo -e "${ERROR} Download failed for rofi-wayland."
+fi
 
 clear

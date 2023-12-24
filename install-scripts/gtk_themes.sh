@@ -1,5 +1,9 @@
 #!/bin/bash
 
+engine=(
+    gtk2-engines-murrine
+)
+
 ############## WARNING DO NOT EDIT BEYOND THIS LINE if you dont know what you are doing! ######################################
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -43,26 +47,33 @@ install_package() {
   fi
 }
 
-# installing unzip package to unzip theme packages
-for PKG1 in unzip; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\033[1A\033[K${ERROR} - $PKG1 install had failed, please check the install.log"
-    exit 1
-  fi
+# installing engine needed for gtk themes
+for PKG1 in "${engine[@]}"; do
+    install_package "$PKG1" 2>&1 | tee -a "$LOG"
+    if [ $? -ne 0 ]; then
+        echo -e "\033[1A\033[K${ERROR} - $PKG1 install had failed, please check the install.log"
+        exit 1
+    fi
 done
 
-printf "${NOTE} Installing Tokyo Theme GTK packages...\n"
-if wget https://github.com/ljmill/tokyo-night-icons/releases/download/v0.2.0/TokyoNight-SE.tar.bz2; then
-  mkdir -p ~/.icons
-  tar -xvjf TokyoNight-SE.tar.bz2 -C ~/.icons
-  mkdir -p ~/.themes
-  unzip -q "assets/tokyo-themes/Tokyonight-Dark-B.zip" -d ~/.themes || true
-  unzip -q "assets/tokyo-themes/Tokyonight-Light-B.zip" -d ~/.themes || true
+# Check if the directory exists and delete it if present
+if [ -d "GTK-themes-icons" ]; then
+    echo "$NOTE Tokyo Theme GTK themes and Icons folder exist..deleting..." 2>&1 | tee -a "$LOG"
+    rm -rf "GTK-themes-icons" 2>&1 | tee -a "$LOG"
+fi
+
+echo "$NOTE Cloning Tokyo Theme GTK themes and Icons repository..." 2>&1 | tee -a "$LOG"
+if git clone https://github.com/JaKooLit/GTK-themes-icons.git 2>&1 | tee -a "$LOG"; then
+    cd GTK-themes-icons
+    chmod +x auto-extract.sh
+    ./auto-extract.sh 2>&1 | tee -a "$LOG"
+    cd ..
+    echo "$OK Extracted GTK Themes & Icons to ~/.icons & ~/.themes folders" 2>&1 | tee -a "$LOG"
 else
-  echo -e "${ERROR} Download failed for Tokyo Theme GTK packages."
+    echo "$ERROR Download failed for Tokyo Theme GTK themes and Icons.." 2>&1 | tee -a "$LOG"
 fi
 
 tar -xf "assets/Bibata-Modern-Ice.tar.xz" -C ~/.icons 2>&1 | tee -a "$LOG"
+echo "$OK Extracted Bibata-Modern-Ice.tar.xz to ~/.icons folder." 2>&1 | tee -a "$LOG"
 
 clear

@@ -15,18 +15,25 @@ LOG="install-$(date +%d-%H%M%S)_hyprland.log"
 
 # Clone, build, and install Hyprland using Cmake
 printf "${NOTE} Cloning Hyprland...\n"
-if git clone --recursive https://github.com/hyprwm/Hyprland 2>&1 | tee -a "$LOG"; then
-  cd Hyprland || exit 1
+
+# Check if Hyprland folder exists and remove it
+if [ -d "Hyprland" ]; then
+  printf "${NOTE} Removing existing Hyprland folder...\n"
+  rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
+fi
+
+if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland" 2>&1 | tee -a "$LOG"; then
+  cd "Hyprland" || exit 1
   make all 2>&1 | tee -a "$LOG"
   if sudo make install 2>&1 | tee -a "$LOG"; then
     printf "${OK} Hyprland installed successfully.\n"
   else
     echo -e "${ERROR} Installation failed for Hyprland."
   fi  
-  # Return to the previous directory
   cd ..
 else
   echo -e "${ERROR} Download failed for Hyprland."
 fi
 
 clear
+

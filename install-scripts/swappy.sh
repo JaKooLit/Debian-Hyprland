@@ -24,6 +24,12 @@ LOG="install-$(date +'%d-%H%M%S')_swappy.log"
 
 printf "${NOTE} Installing swappy..\n"
 
+# Check if Hyprland folder exists and remove it
+if [ -d "swappy" ]; then
+  printf "${NOTE} Removing existing swappy folder...\n"
+  rm -rf "swappy" 2>&1 | tee -a "$LOG"
+fi
+
 if git clone https://github.com/jtheoof/swappy.git; then
   cd swappy || exit 1
   meson build

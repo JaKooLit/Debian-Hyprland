@@ -39,6 +39,7 @@ set -e
 # Create a backup of the sources.list file
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup 2>&1 | tee -a "$LOG"
 
+## UBUNTU - NVIDIA (comment this two by adding # you dont need this!)
 # Add the comment and repository entry to sources.list
 echo "## for nvidia" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
 echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
@@ -81,10 +82,15 @@ add_to_file() {
 
 # Clone, build, and install nvidia-Hyprland using Cmake
 printf "${NOTE} Installing nvidia-Hyprland...\n"
-if git clone --recursive https://github.com/hyprwm/Hyprland 2>&1 | tee -a "$LOG"; then
+
+# Check if Hyprland folder exists and remove it
+if [ -d "Hyprland" ]; then
+  printf "${NOTE} Removing existing Hyprland folder...\n"
+  rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
+fi
+
+if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland" 2>&1 | tee -a "$LOG"; then
   cd Hyprland || exit 1
-  # additional for hyprland-nvidia
-  sed 's/glFlush();/glFinish();/g' -i subprojects/wlroots/render/gles2/renderer.c
   make all
   if sudo make install 2>&1 | tee -a "$LOG"; then
     printf "${OK} Nvidia-Hyprland installed successfully.\n"

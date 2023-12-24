@@ -22,6 +22,13 @@ RESET=$(tput sgr0)
 # Set the name of the log file to include the current date and time
 LOG="install-$(date +%d-%H%M%S)_xdph.log"
 
+
+# Check if xdg-desktop-portal-hyprland folder exists and remove it
+if [ -d "xdg-desktop-portal-hyprland" ]; then
+  printf "${NOTE} Removing existing xdg-desktop-portal-hyprland folder...\n"
+  rm -rf "xdg-desktop-portal-hyprland" 2>&1 | tee -a "$LOG"
+fi
+
 # Clone and build xdg-desktop-portal-hyprland
 printf "${NOTE} Installing xdg-desktop-portal-hyprland...\n"
 if git clone --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland 2>&1 | tee -a "$LOG"; then
@@ -38,9 +45,8 @@ else
   echo -e "${ERROR} Download failed for xdg-desktop-portal-hyprland."
 fi
 
-printf "\n"
-printf "\n"
-printf "\n"
+printf "\n\n\n"
+
   # Clean out other portals
   printf "${NOTE} Clearing any other xdg-desktop-portal implementations...\n"
   # Check if packages are installed and uninstall if present
