@@ -1,5 +1,9 @@
 ## Changelogs
 
+## 30 December 2023
+- Code Cleaned up.
+- Pokemon Color Scripts now offered as optional
+
 ## 29 December 2023
 - Remove dunst in favor of swaync. NOTE: Part of the script is to also uninstall mako and dunst (if installed) as on my experience, dunst is sometimes taking over the notification even if it is not set to start
 

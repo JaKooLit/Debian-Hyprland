@@ -1,4 +1,7 @@
 #!/bin/bash
+# 💫 https://github.com/JaKooLit 💫 #
+# Nvidia - Check Readme for more details for the drivers #
+# UBUNTU USERS, FOLLOW README!
 
 nvidia_pkg=(
   nvidia-driver
@@ -12,7 +15,7 @@ nvidia_pkg=(
 # for ubuntu-nvidia owners! just delete #
 # sudo ubuntu-drivers install
 
-############## WARNING DO NOT EDIT BEYOND THIS LINE if you dont know what you are doing! ######################################
+## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -20,20 +23,11 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PARENT_DIR="$SCRIPT_DIR/.."
 cd "$PARENT_DIR" || exit 1
 
-# Set some colors for output messages
-OK="$(tput setaf 2)[OK]$(tput sgr0)"
-ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
-NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
-WARN="$(tput setaf 166)[WARN]$(tput sgr0)"
-CAT="$(tput setaf 6)[ACTION]$(tput sgr0)"
-ORANGE=$(tput setaf 166)
-YELLOW=$(tput setaf 3)
-RESET=$(tput sgr0)
+source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
-LOG="install-$(date +%d-%H%M%S)_nvidia.log"
-
-set -e
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_nvidia.log"
+MLOG="install-$(date +%d-%H%M%S)_nvidia2.log"
 
 ## adding the deb source for nvidia driver
 # Create a backup of the sources.list file
@@ -46,26 +40,6 @@ echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-fi
 
 # Update the package list
 sudo apt update
-
-# Function for installing packages
-install_package() {
-  # Checking if package is already installed
-  if sudo dpkg -l | grep -q -w "$1" ; then
-    echo -e "${OK} $1 is already installed. Skipping..."
-  else
-    # Package not installed
-    echo -e "${NOTE} Installing $1 ..."
-    sudo apt-get install -y "$1" 2>&1 | tee -a "$LOG"
-    # Making sure the package is installed
-    if sudo dpkg -l | grep -q -w "$1" ; then
-      echo -e "\e[1A\e[K${OK} $1 was installed."
-    else
-      # Something is missing, exiting to review the log
-      echo -e "\e[1A\e[K${ERROR} $1 failed to install :( , please check the install.log. You may need to install manually! Sorry, I have tried :("
-      exit 1
-    fi
-  fi
-}
 
 # Function to add a value to a configuration file if not present
 add_to_file() {
@@ -80,8 +54,8 @@ add_to_file() {
     fi
 }
 
-# Clone, build, and install nvidia-Hyprland using Cmake
-printf "${NOTE} Installing nvidia-Hyprland...\n"
+# Clone, build, and install Hyprland using Cmake
+printf "${NOTE} Cloning Hyprland...\n"
 
 # Check if Hyprland folder exists and remove it
 if [ -d "Hyprland" ]; then
@@ -89,19 +63,20 @@ if [ -d "Hyprland" ]; then
   rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland" 2>&1 | tee -a "$LOG"; then
-  cd Hyprland || exit 1
+if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland"; then
+  cd "Hyprland" || exit 1
   make all
-  if sudo make install 2>&1 | tee -a "$LOG"; then
-    printf "${OK} Nvidia-Hyprland installed successfully.\n"
-    # Return to the previous directory
-    cd ..
+  if sudo make install 2>&1 | tee -a "$MLOG"; then
+    printf "${OK} Hyprland installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
-    echo -e "${ERROR} Installation failed for Nvidia-Hyprland." 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Installation failed for Hyprland." 2>&1 | tee -a "$MLOG"
   fi
+  mv $MLOG ../Install-Logs/ || true   
+  cd ..
 else
-  echo -e "${ERROR} Download failed for Nvidia-Hyprland." 2>&1 | tee -a "$LOG"
+  echo -e "${ERROR} Download failed for Hyprland." 2>&1 | tee -a "$LOG"
 fi
+
 
 # Install additional Nvidia packages
 printf "${YELLOW} Installing Nvidia packages...\n"

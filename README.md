@@ -27,13 +27,17 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
-#### 🔔 NOTICE TO UBUNTU USERS ### 
-- You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
-- If you are using Gnome already, DO NOT install the SDDM. The GDM works file as well. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
-- For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 44 and 45  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
+> [!IMPORTANT]
+> UBUNTU USERS: You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
+> If you are using Gnome already, DO NOT install the SDDM. The GDM works file as well. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
 
-#### ⚠️ WARNING! If you have GDM already as log-in manager, DO NOT install SDDM
-- You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
+> [!CAUTION] 
+> For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 37 and 38  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
+
+
+> [!WARNING] 
+> If you have GDM already as log-in manager, DO NOT install SDDM
+> You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
 #### 📷 Hyprland-Dots-v2 Featuring Rofi 
 <p align="center">
@@ -135,39 +139,8 @@ source ~/.zshrc
 - swappy [`LINK`](https://github.com/jtheoof/swappy)
 - xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 - rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
-
-- a.) to update these package, in your installation folder, you can move these folders, `Hyprland` `nwg-look` `swaylock-effects` `swappy` `swww` `rofi` `asusctl` `supergfxctl`, as appropriate or download manually, cd into it, update/install
-
-~~- b.) to update Hyprland and xdg-desktop-portal-hyprland~~
-~~``` bash~~
-~~git pull~~
-~~make all~~
-~~sudo make install~~
-~~```~~
-- c.) for nwg-look, asusctl, supergfxtctl, to update ran
-``` bash
-git pull
-sudo make install
-```
-- c.) for swww, to update 
-``` bash
-git pull
-cargo build --release
-```
-- d.) for swaylock-effects and swappy
-``` bash
-git pull
-meson build
-ninja -C build
-sudo ninja -C build install
-```
-- e.) for rofi-wayland
-``` bash
-git pull
-meson setup build
-ninja -C build
-sudo ninja -C build install
-```
+> [!TIP]
+> To update to latest packages, re-running this script will auto update all. Script is configured to pull latest packages build for you.
 
 #### 🤬 FAQ
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
@@ -183,6 +156,10 @@ sudo ninja -C build install
 #### 🙋 👋 Having issues or questions? 
 - for the install part, kindly open issue on this repo
 - for the Pre-configured Hyprland dots / configuration, submit issue [`here`](https://github.com/JaKooLit/Hyprland-Dots/issues)
+
+#### 🔧 Proper way to re-installing a particular script from install-scripts folder
+- CD into Fedora-Hyprland Folder and then ran the below command. 
+- i.e. `./install-scripts/gtk-themes` - For reinstall GTK Themes. 
 
 #### 🛣️ Roadmap:
 - ~~[ ] Install zsh and oh-my-zsh without necessary steps above~~ DONE 

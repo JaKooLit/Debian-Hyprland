@@ -1,44 +1,44 @@
 #!/bin/bash
+# 💫 https://github.com/JaKooLit 💫 #
+# Swaylock Effects #
 
-############## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU'RE DOING! ##############
-
+## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Change the working directory to the parent directory of the script
 PARENT_DIR="$SCRIPT_DIR/.."
 cd "$PARENT_DIR" || exit 1
 
-# Set some colors for output messages
-OK="$(tput setaf 2)[OK]$(tput sgr0)"
-ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
-NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
-WARN="$(tput setaf 166)[WARN]$(tput sgr0)"
-CAT="$(tput setaf 6)[ACTION]$(tput sgr0)"
-ORANGE=$(tput setaf 166)
-YELLOW=$(tput setaf 3)
-RESET=$(tput sgr0)
+source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
-LOG="install-$(date +'%d-%H%M%S')_swaylock-effects.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_swaylock-effects2.log"
+MLOG="install-$(date +%d-%H%M%S)_swaylock-effects.log"
 
 printf "${NOTE} Installing swaylock-effects\n"
-
-# Check if swaylock-effects folder exists and remove it
+# Check if swaylock-effects folder exists
 if [ -d "swaylock-effects" ]; then
-  printf "${NOTE} Removing existing swaylock-effects folder...\n"
-  rm -rf "swaylock-effects" 2>&1 | tee -a "$LOG"
+  printf "${NOTE} swaylock-effects folder exists. Pulling latest changes...\n"
+  cd swaylock-effects || exit 1
+  git pull origin master 2>&1 | tee -a "$MLOG"
+else
+  printf "${NOTE} Cloning swaylock-effects repository...\n"
+  if git clone https://github.com/jirutka/swaylock-effects.git; then
+    cd swaylock-effects || exit 1
+  else
+    echo -e "${ERROR} Download failed for swaylock-effects" 2>&1 | tee -a "$LOG"
+    exit 1
+  fi
 fi
 
-if git clone https://github.com/mortie/swaylock-effects.git; then
-  cd swaylock-effects || exit 1
-  meson build
-  ninja -C build
-  sudo ninja -C build install 2>&1 | tee -a "$LOG"
-  # Return to the previous directory
-  cd - || exit 1
-else
-  echo -e "${ERROR} Download failed for swaylock-effects" 2>&1 | tee -a "$LOG"
-fi
+# Proceed with the installation steps
+meson build
+ninja -C build
+sudo ninja -C build install 2>&1 | tee -a "$MLOG"
+
+# Moving logs into main Install-Logs
+mv "$MLOG" ../Install-Logs/ || true 
+cd - || exit 1
 
 clear

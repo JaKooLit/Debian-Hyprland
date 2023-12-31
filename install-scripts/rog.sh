@@ -1,26 +1,19 @@
 #!/bin/bash
+# 💫 https://github.com/JaKooLit 💫 #
+# ASUS ROG ) #
 
-############## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU'RE DOING! ##############
-
+## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Change the working directory to the parent directory of the script
 PARENT_DIR="$SCRIPT_DIR/.."
 cd "$PARENT_DIR" || exit 1
 
-# Set some colors for output messages
-OK="$(tput setaf 2)[OK]$(tput sgr0)"
-ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
-NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
-WARN="$(tput setaf 166)[WARN]$(tput sgr0)"
-CAT="$(tput setaf 6)[ACTION]$(tput sgr0)"
-ORANGE=$(tput setaf 166)
-YELLOW=$(tput setaf 3)
-RESET=$(tput sgr0)
+source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
-LOG="install-$(date +'%d-%H%M%S')_rog.log"
+LOG="install-$(date +%d-%H%M%S)_rog.log"
 
 # Function to handle the installation and log messages
 install_and_log() {
@@ -45,7 +38,8 @@ install_and_log() {
       echo -e "${ERROR} Installation failed for $project_name."
     fi
 
-    # Return to the previous directory
+	#moving logs into main install-logs
+    mv $LOG ../Install-Logs/ || true 
     cd - || exit 1
   else
     echo -e "${ERROR} Cloning $project_name from $git_url failed."
@@ -57,6 +51,5 @@ install_and_log "asusctl" "https://gitlab.com/asus-linux/asusctl.git"
 
 # Download and build supergfxctl
 install_and_log "supergfxctl" "https://gitlab.com/asus-linux/supergfxctl.git"
-
 
 clear
