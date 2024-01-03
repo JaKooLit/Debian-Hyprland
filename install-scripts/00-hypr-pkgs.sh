@@ -96,17 +96,8 @@ for PKG in "${uninstall[@]}"; do
   fi
 done
 
-# Install cliphist using go
-printf "\n%s - Installing cliphist using go.... \n" "${NOTE}"
-export PATH=$PATH:/usr/local/bin
-go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG" 
-
-# copy cliphist into /usr/local/bin for some reason it is installing in ~/go/bin
-sudo cp -r "$HOME/go/bin/cliphist" "/usr/local/bin/" 2>&1 | tee -a "$LOG" 
-
 ## making brightnessctl work
 sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
-
 
 ## Installing pywal colors
 printf "\n%s - Installing Pywal.... \n" "${NOTE}"

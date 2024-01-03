@@ -172,6 +172,7 @@ execute_script "rofi-wayland.sh"
 execute_script "pywal.sh"
 execute_script "force-install.sh"
 
+#execute_script "cliphist.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"

@@ -1,5 +1,9 @@
 ## Changelogs
 
+## 02 Jan 2024
+- Readme updated for cliphist instruction for ubuntu 23.10 users
+- Created cliphist.sh for ubuntu 23.10 users (disabled by default and needs to be enabled on install.sh if desired)
+
 ## 30 December 2023
 - Code Cleaned up.
 - Pokemon Color Scripts now offered as optional
