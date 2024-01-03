@@ -29,7 +29,9 @@ sudo nano /etc/apt/sources.list
 
 > [!IMPORTANT]
 > UBUNTU USERS: You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
+
 > If you are using Gnome already, DO NOT install the SDDM. The GDM works file as well. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
+
 > Ubuntu 23.10 dont have cliphist (used as clipboard manager) in their repo yet! And it is not set to build by default. If you want script to install for you, edit `install-scripts/00-hypr-pks.sh` line 15 remove the cliphist under hypr_package . then edit `install.sh` line 175 remove # in `#execute_script "cliphist.sh"`
 
 > [!CAUTION] 
