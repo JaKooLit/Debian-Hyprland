@@ -14,6 +14,9 @@
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
 
+> [!NOTICE]
+> Main reason why I have not included an uninstallation script is simple. Some packages maybe already installed on your system by default. If I create an uninstall script with packages that I have set to install, you may end up a unrecoverable system. 
+
 #### ⚠️ Pre-requisites and VERY Important! ###
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
