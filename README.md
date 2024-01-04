@@ -170,8 +170,8 @@ source ~/.zshrc
 - ~~[ ] Install zsh and oh-my-zsh without necessary steps above~~ DONE 
 - [ ] possibly adding gruvbox themes, cursors, icons
 
-#### ❗ some known issues
-- [ ] reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
+#### ❗ some known issues for nvidia
+- reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  
  while in sddm press ctrl+alt+F2 or F3
 log into your account
@@ -179,9 +179,11 @@ log into your account
 `ls /dev/dri/by-path` find the matching id
 `ls -l /dev/dri/by-path` to check where the symlink points to 
 )
--  add "env = WLR_DRM_DEVICES,/dev/dri/cardX" to the ENVvariables config (.config/hypr/configs/ENVariables.conf)  ; X being where the symlink of the gpu points to
 ```
+- add "env = WLR_DRM_DEVICES,/dev/dri/cardX" to the ENVvariables config (.config/hypr/UserConfigs/ENVariables.conf)  ; X being where the symlink of the gpu points to
+
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
+
 
 - [ ] Does not work in Ubuntu 23.04
 - [ ] sddm blackscreen when log-out
