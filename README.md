@@ -155,6 +155,9 @@ source ~/.zshrc
 - some users reported that they have to install some packages. It is in the install-scripts/force-install.sh
 - At this time the packages force to install are the following `imagemagick`
 
+#### 🫥 Improving performance for Older Nvidia Cards using driver 470
+  - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
+  
 #### 🙋  Got a questions regarding the Hyprland Dots configurations? 🙋
 - Head over to wiki Link [`WIKI`](https://github.com/JaKooLit/Hyprland-Dots/wiki)
 
