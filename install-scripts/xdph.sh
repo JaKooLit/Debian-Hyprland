@@ -47,8 +47,7 @@ if git clone --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland; 
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for xdg-desktop-portal-hyprland." 2>&1 | tee -a "$MLOG"
-    mv $MLOG Install-Logs/ || true
+    echo -e "${ERROR} Download failed for xdg-desktop-portal-hyprland." 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n\n"

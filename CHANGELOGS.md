@@ -2,6 +2,7 @@
 
 ## 11 Jan 2024
 - dropped wlsunset
+- added hyprlang build and install
 
 ## 02 Jan 2024
 - Readme updated for cliphist instruction for ubuntu 23.10 users
