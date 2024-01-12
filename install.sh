@@ -171,6 +171,7 @@ execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
 execute_script "pywal.sh"
 execute_script "force-install.sh"
+execute_script "hyprlang.sh"
 
 #execute_script "cliphist.sh"
 
