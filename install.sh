@@ -85,6 +85,9 @@ thunar=""
 xdph=""
 zsh=""
 
+# export PKK_CONFIG PATH for libinput
+export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/libinput.pc
+
 # Define the directory where your scripts are located
 script_directory=install-scripts
 
