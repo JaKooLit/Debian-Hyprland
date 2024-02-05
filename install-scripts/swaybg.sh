@@ -30,15 +30,4 @@ printf "${NOTE} Installing swaybg\n"
     [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $SWAYBG install had failed, please check the install.log"; exit 1; }
   done
 
- # Check for existing configs and copy if does not exist
-for DIR1 in swaybg; do
-  DIRPATH=~/.config/$DIR1
-  if [ -d "$DIRPATH" ]; then
-    echo -e "${NOTE} Config for $DIR1 found, no need to copy." 2>&1 | tee -a "$LOG"
-  else
-    echo -e "${NOTE} Config for $DIR1 not found, copying from assets." 2>&1 | tee -a "$LOG"
-    cp -r assets/$DIR1 ~/.config/ && echo "Copy $DIR1 completed!" || echo "Error: Failed to copy $DIR1 config files." 2>&1 | tee -a "$LOG"
-  fi
-done
-
 clear
