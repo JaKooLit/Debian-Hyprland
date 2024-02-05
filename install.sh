@@ -151,7 +151,7 @@ ask_yes_no "-Install zsh & oh-my-zsh plus (OPTIONAL) pokemon-colorscripts for tt
 printf "\n"
 ask_yes_no "-Install swaylock-effects? (recommended - for screen locks)" swaylock
 printf "\n"
-ask_custom_option "-Do you want swaybg (1) for static wallpapers, or swww (2) for animated wallpapers?" wallpaper
+ask_custom_option "-Do you want swaybg (1) for static wallpapers, or swww (2) for animated wallpapers?" "1 2" wallpaper
 printf "\n"
 ask_yes_no "-Install nwg-look? (a GTK Theming app - lxappearance-like) WARN! This Package Takes long time to build!" nwg
 printf "\n"
