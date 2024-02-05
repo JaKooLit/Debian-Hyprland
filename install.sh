@@ -215,7 +215,9 @@ fi
 
 if [ "$wallpaper" == "1" ]; then
     execute_script "swaybg.sh"
-    elif [ "$wallpaper" == "2" ]; then
+fi
+
+if [ "$wallpaper" == "2" ]; then
     execute_script "swww.sh"
 fi
 
