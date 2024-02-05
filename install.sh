@@ -82,6 +82,7 @@ rog=""
 sddm=""
 swaylock=""
 thunar=""
+wallpaper=""
 xdph=""
 zsh=""
 
@@ -150,6 +151,8 @@ ask_yes_no "-Install zsh & oh-my-zsh plus (OPTIONAL) pokemon-colorscripts for tt
 printf "\n"
 ask_yes_no "-Install swaylock-effects? (recommended - for screen locks)" swaylock
 printf "\n"
+ask_custom_option "-Do you want swaybg (1) for static wallpapers, or swww (2) for animated wallpapers?" wallpaper
+printf "\n"
 ask_yes_no "-Install nwg-look? (a GTK Theming app - lxappearance-like) WARN! This Package Takes long time to build!" nwg
 printf "\n"
 ask_yes_no "-Installing on Asus ROG Laptops?" rog
@@ -167,7 +170,6 @@ execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
 execute_script "swappy.sh"
-execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
 execute_script "pywal.sh"
 execute_script "force-install.sh"
@@ -209,6 +211,12 @@ fi
 
 if [ "$swaylock" == "Y" ]; then
     execute_script "swaylock-effects.sh"
+fi
+
+if [ "$wallpaper" == "1" ]; then
+    execute_script "swaybg.sh"
+    elif [ "$wallpaper" == "2" ]
+    execute_script "swww.sh"
 fi
 
 if [ "$nwg" == "Y" ]; then
