@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 22 Apr 2024
+- Change dotfiles to specific version only as Debian and Ubuntu cant keep up with Hyprland development
+
 ## 20 Apr 2024
 - Change default Oh-my-zsh theme to xiong-chiamiov-plus
 
