@@ -32,6 +32,11 @@ echo "$(tput bold)$(tput setaf 7)Debian doesn't have the newer libdrm yet on the
 echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.32.3$(tput sgr0)"
 printf "\n%.0s" {1..3}
 
+printf "\n%.0s" {1..5}
+echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! One MORE IMPORTANT NOTICE!!!! $(tput sgr0)" 
+echo "$(tput bold)$(tput setaf 7)Dotfiles version to be downloaded here will be specific to v2.2.6 only $(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)Debian and Ubuntu Cant keep up with Hyprland development. $(tput sgr0)"
+printf "\n%.0s" {1..3}
 
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
 
@@ -154,7 +159,7 @@ ask_yes_no "-Install nwg-look? (a GTK Theming app - lxappearance-like) WARN! Thi
 printf "\n"
 ask_yes_no "-Installing on Asus ROG Laptops?" rog
 printf "\n"
-ask_yes_no "-Do you want to download and install pre-configured Hyprland-dotfiles?" dots
+ask_yes_no "-Do you want to download and install pre-configured Hyprland-dotfiles v2.2.6?" dots
 printf "\n"
 
 # Ensuring all in the scripts folder are made executable

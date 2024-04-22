@@ -11,6 +11,11 @@
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 06 Dec 2023
 - Recent hyprland release v0.33.0, needed a newer libdrm and Debian dont have newer libdrm yet on their repo. That is why for now, the hyprland version to be installed with this script is v0.32.3 
 
+### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 22 Apr 2024
+- Pre-configured dotfiles to be downloaded here will be v2.2.6 only
+- [`Hyprland-Dots v2.2.6`](https://github.com/JaKooLit/Hyprland-Dots/releases/tag/v2.2.6)
+- This is because Debian/Ubuntu are very slow with Hyprland Development
+
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
 
