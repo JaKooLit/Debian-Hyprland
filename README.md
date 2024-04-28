@@ -22,6 +22,9 @@
 > [!NOTE]
 > Main reason why I have not included an uninstallation script is simple. Some packages maybe already installed on your system by default. If I create an uninstall script with packages that I have set to install, you may end up a unrecoverable system. 
 
+> [!WARNING] 
+> Download this script on a directory where you have write permissions. ie. HOME. Or any directory within your home directory. Else script will fail
+
 #### ⚠️ Pre-requisites and VERY Important! ###
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
@@ -49,6 +52,7 @@ sudo nano /etc/apt/sources.list
 > [!WARNING] 
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
+
 
 #### 📷 Hyprland-Dots-v2 Featuring Rofi 
 <p align="center">
@@ -112,8 +116,8 @@ sudo nano /etc/apt/sources.list
 #### ✨ to run
 > clone this repo (latest commit only) by using git. Change directory, make executable and run the script
 ```bash
-git clone --depth=1 https://github.com/JaKooLit/Debian-Hyprland.git
-cd Debian-Hyprland
+git clone --depth=1 https://github.com/JaKooLit/Debian-Hyprland.git ~/Debian-Hyprland
+cd ~/Debian-Hyprland
 chmod +x install.sh
 ./install.sh
 ```
