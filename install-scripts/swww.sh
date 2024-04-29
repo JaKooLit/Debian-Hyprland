@@ -2,6 +2,11 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # SWWW - Wallpaper Utility #
 
+swww=(
+cargo
+liblz4-dev
+)
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -15,6 +20,17 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_swww2.log"
 MLOG="install-$(date +%d-%H%M%S)_swww.log"
+
+# Installation of swww compilation needed
+printf "\n%s - Installing swww dependencies.... \n" "${NOTE}"
+
+for PKG1 in "${swww[@]}"; do
+  install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 install had failed, please check the install.log"
+    exit 1
+  fi
+done
 
 printf "${NOTE} Installing swww\n"
 
@@ -34,7 +50,8 @@ else
 fi
 
 # Proceed with the rest of the installation steps
-source "$HOME/.cargo/env"
+source "$HOME/.cargo/env" || true
+
 cargo build --release 2>&1 | tee -a "$MLOG"
 # Copy binaries to /usr/bin/
 sudo cp target/release/swww /usr/bin/ 2>&1 | tee -a "$MLOG"
