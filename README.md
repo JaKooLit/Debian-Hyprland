@@ -25,7 +25,7 @@
 > [!WARNING] 
 > Download this script on a directory where you have write permissions. ie. HOME. Or any directory within your home directory. Else script will fail
 
-#### ⚠️ Pre-requisites and VERY Important! ###
+#### ⚠️ Pre-requisites and VERY Important! ### 
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
 - Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build.
@@ -37,6 +37,9 @@ sudo nano /etc/apt/sources.list
 - delete # on the lines with 'deb-src' 
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
+
+> [!NOTE]
+> For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
 
 > [!IMPORTANT]
 > UBUNTU USERS: You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
@@ -54,7 +57,7 @@ sudo nano /etc/apt/sources.list
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
 
-#### 📷 Hyprland-Dots-v2 Featuring Rofi 
+#### 📷 Gallery 
 <p align="center">
     <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian-v2/Debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian-v2/Waybar-Layouts.png" />       
 </p>
@@ -68,6 +71,10 @@ sudo nano /etc/apt/sources.list
 #### ❕ Installed on Kali Linux 😈
 
 ![alt text](https://github.com/JaKooLit/screenshots/blob/main/Hyprland-ScreenShots/Debian/Kali-Linux1.png)
+
+#### ❕ Installed on Ubuntu 24.04 😷
+![alt text](https://github.com/JaKooLit/screenshots/blob/main/Distro-Hyprland/Ubuntu/Ubuntu-24-04.png)
+
 
 #### 📷 More updated Screenshots Here [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-Dots-Showcase)
 
