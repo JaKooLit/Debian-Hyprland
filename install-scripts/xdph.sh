@@ -35,7 +35,7 @@ fi
 
 # Clone and build xdg-desktop-portal-hyprland
 printf "${NOTE} Installing xdg-desktop-portal-hyprland...\n"
-if git clone --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland; then
+if git clone --branch v1.3.0 --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland; then
     cd xdg-desktop-portal-hyprland || exit 1
     make all
     if sudo make install 2>&1 | tee -a "$MLOG" ; then
