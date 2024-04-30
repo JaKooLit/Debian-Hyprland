@@ -11,11 +11,6 @@
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 30 Apr 2024
 - Due to fast development of Hyprland and most up to date requirement of hyprland, Hyprland version to be installed by this script will be older version. For now, the hyprland version to be installed with this script is v0.34.0
 
-### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 22 Apr 2024
-- Pre-configured dotfiles to be downloaded here will be v2.2.6 only
-- [`Hyprland-Dots v2.2.6`](https://github.com/JaKooLit/Hyprland-Dots/releases/tag/v2.2.6)
-- This is because Debian/Ubuntu are very slow with Hyprland Development
-
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
 

@@ -84,7 +84,6 @@ nvidia=""
 nwg=""
 rog=""
 sddm=""
-swaylock=""
 thunar=""
 xdph=""
 zsh=""
@@ -155,8 +154,6 @@ ask_yes_no "-Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OB
 printf "\n"
 ask_yes_no "-Install zsh & oh-my-zsh plus (OPTIONAL) pokemon-colorscripts for tty?" zsh
 printf "\n"
-ask_yes_no "-Install swaylock-effects? (recommended - for screen locks)" swaylock
-printf "\n"
 ask_yes_no "-Install nwg-look? (a GTK Theming app - lxappearance-like) WARN! This Package Takes long time to build!" nwg
 printf "\n"
 ask_yes_no "-Installing on Asus ROG Laptops?" rog
@@ -179,6 +176,8 @@ execute_script "rofi-wayland.sh"
 execute_script "pywal.sh"
 execute_script "force-install.sh"
 execute_script "hyprlang.sh"
+execute_script "hyprlock.sh"
+execute_script "hyprlidle.sh"
 
 #execute_script "cliphist.sh"
 
@@ -212,10 +211,6 @@ fi
 
 if [ "$zsh" == "Y" ]; then
     execute_script "zsh.sh"
-fi
-
-if [ "$swaylock" == "Y" ]; then
-    execute_script "swaylock-effects.sh"
 fi
 
 if [ "$nwg" == "Y" ]; then
