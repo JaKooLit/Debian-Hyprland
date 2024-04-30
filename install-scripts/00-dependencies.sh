@@ -53,6 +53,7 @@ dependencies=(
     libsystemd-dev
     libtiff-dev
     libtiffxx6
+    libtomlplusplus-dev
     libudev-dev
     libvkfft-dev
     libvulkan-dev
