@@ -49,6 +49,14 @@ else
   fi
 fi
 
+# install new rust
+# Define environment variables for non-interactive installation
+export RUSTUP_INIT_SKIP_PATH_CHECK=yes
+export RUSTUP_INIT_SKIP_CONFIRMATION=yes
+
+# Download and execute the Rust installer script, automatically answering "yes" to all prompts
+curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path 2>&1 | tee -a "$LOG" || true
+
 # Proceed with the rest of the installation steps
 source "$HOME/.cargo/env" || true
 
