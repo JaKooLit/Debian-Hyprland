@@ -9,7 +9,7 @@
 </div>
 
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 30 Apr 2024
-- Due to fast development of Hyprland and most up to date requirement of hyprland, Hyprland version to be installed by this script will be older version. For now, the hyprland version to be installed with this script is v0.34.0
+- Due to fast development of Hyprland and most up to date requirement of hyprland, Hyprland version to be installed by this script will be older version. For now, the hyprland version to be installed with this script is v0.36.0
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages

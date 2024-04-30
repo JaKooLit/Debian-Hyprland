@@ -1,7 +1,7 @@
 ## Changelogs
 
 ## 30 Apr 2024
-- Updated hyprland.sh to install v0.34.0 Hyprland
+- Updated hyprland.sh to install v0.36.0 Hyprland
 - adding hypridle and hyprlock
 - dropping swaylock-effects and swayidle
 - adjusted to work with current Hyprland-Dots

@@ -28,7 +28,7 @@ echo
 printf "\n%.0s" {1..3}
 echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
 echo "$(tput bold)$(tput setaf 7)Due to fast development of Hyprland, Hyprland to be install here would be old version $(tput sgr0)"
-echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.34.0$(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.36.0$(tput sgr0)"
 printf "\n%.0s" {1..3}
 
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
