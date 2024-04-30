@@ -158,7 +158,7 @@ ask_yes_no "-Install nwg-look? (a GTK Theming app - lxappearance-like) WARN! Thi
 printf "\n"
 ask_yes_no "-Installing on Asus ROG Laptops?" rog
 printf "\n"
-ask_yes_no "-Do you want to download and install pre-configured Hyprland-dotfiles v2.2.6?" dots
+ask_yes_no "-Do you want to download and install pre-configured Hyprland-dotfiles?" dots
 printf "\n"
 
 # Ensuring all in the scripts folder are made executable
