@@ -25,7 +25,7 @@ echo
 echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start! $(tput sgr0)"
 echo
 
-printf "\n%.0s" {1..5}
+printf "\n%.0s" {1..3}
 echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
 echo "$(tput bold)$(tput setaf 7)Due to fast development of Hyprland, Hyprland to be install here would be old version $(tput sgr0)"
 echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.34.0$(tput sgr0)"
