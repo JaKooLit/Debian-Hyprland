@@ -1,7 +1,7 @@
 <div align="center">
 
 ## 💌 JaKooLit's Debian/Ubuntu Hyprland Install Script 💌
-#### For Debian 13 Trixie and SID and Ubuntu 23.10 Mantic Minotaur or newer
+#### For Debian 13 Trixie and SID and Ubuntu 24.04 Noble Numbat
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7)
 
@@ -9,7 +9,7 @@
 </div>
 
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 30 Apr 2024
-- Due to fast development of Hyprland and most up to date requirement of hyprland, Hyprland version to be installed by this script will be older version. For now, the hyprland version to be installed with this script is v0.36.0
+- This script will not work on older build of Ubuntu like Ubuntu 23.10 and older. Due to depencies. If you want to install on Ubuntu 23.10, you can download the version v2.2.3 from the releases
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
@@ -37,11 +37,10 @@ sudo nano /etc/apt/sources.list
 > For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
 
 > [!IMPORTANT]
-> UBUNTU USERS: You can use this installer. However, I have only tested on Ubuntu 23.10. Not sure if it works on older ubuntu as Hyprland needs an updated wayland libraries. For sure wont work in any Ubuntu LTS.
+> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
 
 > If you are using Gnome already, DO NOT install the SDDM. The GDM works file as well. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
 
-> Ubuntu 23.10 dont have cliphist (used as clipboard manager) in their repo yet! And it is not set to build by default. If you want script to install for you, edit `install-scripts/00-hypr-pks.sh` line 15 remove the cliphist under hypr_package . then edit `install.sh` line 175 remove # in `#execute_script "cliphist.sh"`
 
 > [!CAUTION] 
 > For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 37 and 38  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
@@ -134,12 +133,10 @@ zsh
 source ~/.zshrc
 ```
 - reboot or logout
-- by default agnoster theme is installed. You can find more themes from this [`OH-MY-ZSH-THEMES`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
+- by default `xiong-chiamiov-plus` theme is installed. You can find more themes from this [`OH-MY-ZSH-THEMES`](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
 - to change the theme, edit ~/.zshrc ZSH_THEME="desired theme"
 
 #### ✨ TO DO once installation done and dotfiles copied
-- ~~if you opted to install gtk themes, to apply the theme and icon, press the dark/light button (beside the padlock). To apply Bibata modern ice cursor, launch nwg-look (GTK Settings) through rofi.~~ Hyprland-Dots v2.1.18, initial boot file will attempt to apply GTK themes,cursor, and icons. You can tweak more using nwg-look (GTK-Settings) utility
-
 - SUPER H for HINT or click on the waybar HINT! Button 
 - Head over to [FAQ](https://github.com/JaKooLit/Hyprland-Dots/wiki/FAQ) and [TIPS](https://github.com/JaKooLit/Hyprland-Dots/wiki/TIPS)
 
@@ -151,7 +148,10 @@ source ~/.zshrc
 - nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
 - Asus ROG asusctl [`LINK`](https://gitlab.com/asus-linux/asusctl) and superfxctl [`LINK`](https://gitlab.com/asus-linux/supergfxctl)
 - swww [`LINK`](https://github.com/Horus645/swww)
-- swaylock-effects [`LINK`](https://github.com/mortie/swaylock-effects)
+- hyprlock [`LINK`](https://github.com/hyprwm/hyprlock)
+- hypridle [`LINK`](https://github.com/hyprwm/hypridle)
+- hyprlang [`LINK`](https://github.com/hyprwm/hyprlang)
+- hyprcursor [`LINK`](https://github.com/hyprwm/hyprcursor)
 - swappy [`LINK`](https://github.com/jtheoof/swappy)
 - xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 - rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
@@ -177,11 +177,10 @@ source ~/.zshrc
 - for the Pre-configured Hyprland dots / configuration, submit issue [`here`](https://github.com/JaKooLit/Hyprland-Dots/issues)
 
 #### 🔧 Proper way to re-installing a particular script from install-scripts folder
-- CD into Fedora-Hyprland Folder and then ran the below command. 
+- CD into Debian-Hyprland Folder and then ran the below command. 
 - i.e. `./install-scripts/gtk-themes` - For reinstall GTK Themes. 
 
 #### 🛣️ Roadmap:
-- ~~[ ] Install zsh and oh-my-zsh without necessary steps above~~ DONE 
 - [ ] possibly adding gruvbox themes, cursors, icons
 
 #### ❗ some known issues for nvidia
@@ -199,7 +198,7 @@ log into your account
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
 
 
-- [ ] Does not work in Ubuntu 23.04
+- [ ] Does not work in Ubuntu 23.10 and older
 - [ ] sddm blackscreen when log-out
 - [ ] Installing SDDM if or any other Login Manager installed. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 - [ ] network is down or become unmanaged [`This`](https://askubuntu.com/questions/71159/network-manager-says-device-not-managed) might help
