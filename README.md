@@ -8,8 +8,8 @@
 <br/>
 </div>
 
-### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 06 Dec 2023
-- Recent hyprland release v0.33.0, needed a newer libdrm and Debian dont have newer libdrm yet on their repo. That is why for now, the hyprland version to be installed with this script is v0.32.3 
+### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 30 Apr 2024
+- Due to fast development of Hyprland and most up to date requirement of hyprland, Hyprland version to be installed by this script will be older version. For now, the hyprland version to be installed with this script is v0.34.0
 
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 22 Apr 2024
 - Pre-configured dotfiles to be downloaded here will be v2.2.6 only
