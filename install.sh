@@ -31,12 +31,6 @@ echo "$(tput bold)$(tput setaf 7)Due to fast development of Hyprland, Hyprland t
 echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.34.0$(tput sgr0)"
 printf "\n%.0s" {1..3}
 
-printf "\n%.0s" {1..5}
-echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! One MORE IMPORTANT NOTICE!!!! $(tput sgr0)" 
-echo "$(tput bold)$(tput setaf 7)Dotfiles version to be downloaded here will be specific to v2.2.6 only $(tput sgr0)"
-echo "$(tput bold)$(tput setaf 7)Debian and Ubuntu Cant keep up with Hyprland development. $(tput sgr0)"
-printf "\n%.0s" {1..3}
-
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
 
 if [ "$proceed" != "y" ]; then
