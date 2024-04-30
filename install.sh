@@ -32,7 +32,7 @@ if [ "$proceed" != "y" ]; then
     exit 1
 fi
 
-read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? (y/n): $(tput sgr0)" proceed2
+read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? [Debian only] (y/n): $(tput sgr0)" proceed2
 
 if [ "$proceed2" != "y" ]; then
     echo "Installation aborted Kindly edit your sources.list first. Refer to readme."
