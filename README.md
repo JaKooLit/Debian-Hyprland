@@ -62,7 +62,7 @@ sudo nano /etc/apt/sources.list
 
 ![alt text](https://github.com/JaKooLit/screenshots/blob/main/Hyprland-ScreenShots/Debian/Kali-Linux1.png)
 
-#### ❕ Installed on Ubuntu 24.04 😷
+#### ❕ Installed on Ubuntu 24.04 LTS with Nvidia Laptop 😷 
 ![alt text](https://github.com/JaKooLit/screenshots/blob/main/Distro-Hyprland/Ubuntu/Ubuntu-24.04-nvidia.png)
 
 
