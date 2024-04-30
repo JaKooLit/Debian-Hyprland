@@ -50,15 +50,14 @@ sudo nano /etc/apt/sources.list
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
-
 #### 📷 Gallery 
 <p align="center">
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian-v2/Debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-ScreenShots/Debian-v2/Waybar-Layouts.png" />       
+    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian2.png" />       
 </p>
 
 <p align="center">
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/default-waybar.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/rofi.png" />   
-   <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/wlogout-dark.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/showcase2.png"" /> 
+    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/default-waybar.png" /> <img align="center" width="49%" src="hhttps://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian4.png" />   
+   <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/wlogout-dark.png" /> <img align="center" width="49%" src="hhttps://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/hyprlock.png"" /> 
    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/waybar-layout.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/waybar-style.png"" /> 
 </p>
 
@@ -161,6 +160,9 @@ source ~/.zshrc
 #### 🤬 FAQ
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
 - Well, most of the core packages are downloaded and Build and compiled from SOURCE. There are no pre-built binary (yet) for Debian and Ubuntu. Unlike Other distros, they already have prepacked binary that can just download and install.
+
+> [!NOTE] 
+> Kindly set up audio. This script does not setup. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
 
 #### ❗ some known issues on this Installer
 - some users reported that they have to install some packages. It is in the install-scripts/force-install.sh
