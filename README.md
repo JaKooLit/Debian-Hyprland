@@ -162,7 +162,7 @@ source ~/.zshrc
 - Well, most of the core packages are downloaded and Build and compiled from SOURCE. There are no pre-built binary (yet) for Debian and Ubuntu. Unlike Other distros, they already have prepacked binary that can just download and install.
 
 > [!NOTE] 
-> Kindly set up audio. This script does not setup. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
+> This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
 
 #### ❗ some known issues on this Installer
 - some users reported that they have to install some packages. It is in the install-scripts/force-install.sh
