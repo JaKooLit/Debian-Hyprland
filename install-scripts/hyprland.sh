@@ -25,7 +25,7 @@ if [ -d "Hyprland" ]; then
   rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b v0.36.0 "https://github.com/hyprwm/Hyprland"; then
+if git clone --recursive -b v0.39.1 "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then
