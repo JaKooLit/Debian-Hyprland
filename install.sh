@@ -177,7 +177,7 @@ execute_script "pywal.sh"
 execute_script "force-install.sh"
 execute_script "hyprlang.sh"
 execute_script "hyprlock.sh"
-execute_script "hyprlidle.sh"
+execute_script "hypridle.sh"
 
 #execute_script "cliphist.sh"
 
