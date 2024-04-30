@@ -25,18 +25,6 @@ echo
 echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start! $(tput sgr0)"
 echo
 
-printf "\n%.0s" {1..5}
-echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
-echo "$(tput bold)$(tput setaf 7)Due to fast development of Hyprland, Hyprland to be install here would be old version $(tput sgr0)"
-echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.34.0$(tput sgr0)"
-printf "\n%.0s" {1..3}
-
-printf "\n%.0s" {1..5}
-echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! One MORE IMPORTANT NOTICE!!!! $(tput sgr0)" 
-echo "$(tput bold)$(tput setaf 7)Dotfiles version to be downloaded here will be specific to v2.2.6 only $(tput sgr0)"
-echo "$(tput bold)$(tput setaf 7)Debian and Ubuntu Cant keep up with Hyprland development. $(tput sgr0)"
-printf "\n%.0s" {1..3}
-
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
 
 if [ "$proceed" != "y" ]; then
@@ -84,7 +72,6 @@ nvidia=""
 nwg=""
 rog=""
 sddm=""
-swaylock=""
 thunar=""
 xdph=""
 zsh=""
@@ -155,13 +142,11 @@ ask_yes_no "-Install XDG-DESKTOP-PORTAL-HYPRLAND? (For proper Screen Share ie OB
 printf "\n"
 ask_yes_no "-Install zsh & oh-my-zsh plus (OPTIONAL) pokemon-colorscripts for tty?" zsh
 printf "\n"
-ask_yes_no "-Install swaylock-effects? (recommended - for screen locks)" swaylock
-printf "\n"
 ask_yes_no "-Install nwg-look? (a GTK Theming app - lxappearance-like) WARN! This Package Takes long time to build!" nwg
 printf "\n"
 ask_yes_no "-Installing on Asus ROG Laptops?" rog
 printf "\n"
-ask_yes_no "-Do you want to download and install pre-configured Hyprland-dotfiles v2.2.6?" dots
+ask_yes_no "-Do you want to download and install pre-configured Hyprland-dotfiles?" dots
 printf "\n"
 
 # Ensuring all in the scripts folder are made executable
@@ -179,6 +164,9 @@ execute_script "rofi-wayland.sh"
 execute_script "pywal.sh"
 execute_script "force-install.sh"
 execute_script "hyprlang.sh"
+execute_script "hyprlock.sh"
+execute_script "hyprcursor.sh"
+execute_script "hypridle.sh"
 
 #execute_script "cliphist.sh"
 
@@ -212,10 +200,6 @@ fi
 
 if [ "$zsh" == "Y" ]; then
     execute_script "zsh.sh"
-fi
-
-if [ "$swaylock" == "Y" ]; then
-    execute_script "swaylock-effects.sh"
 fi
 
 if [ "$nwg" == "Y" ]; then
