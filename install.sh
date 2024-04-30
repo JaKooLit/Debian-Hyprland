@@ -167,15 +167,12 @@ execute_script "hyprlang.sh"
 execute_script "hyprlock.sh"
 execute_script "hyprcursor.sh"
 execute_script "hypridle.sh"
+execute_script "hyprland.sh"
 
 #execute_script "cliphist.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
-fi
-
-if [ "$nvidia" == "N" ]; then
-    execute_script "hyprland.sh"
 fi
 
 if [ "$gtk_themes" == "Y" ]; then

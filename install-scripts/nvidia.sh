@@ -54,30 +54,6 @@ add_to_file() {
     fi
 }
 
-# Clone, build, and install Hyprland using Cmake
-printf "${NOTE} Cloning Hyprland...\n"
-
-# Check if Hyprland folder exists and remove it
-if [ -d "Hyprland" ]; then
-  printf "${NOTE} Removing existing Hyprland folder...\n"
-  rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
-fi
-
-if git clone --recursive -b v0.32.3 "https://github.com/hyprwm/Hyprland"; then
-  cd "Hyprland" || exit 1
-  make all
-  if sudo make install 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} Hyprland installed successfully.\n" 2>&1 | tee -a "$MLOG"
-  else
-    echo -e "${ERROR} Installation failed for Hyprland." 2>&1 | tee -a "$MLOG"
-  fi
-  mv $MLOG ../Install-Logs/ || true   
-  cd ..
-else
-  echo -e "${ERROR} Download failed for Hyprland." 2>&1 | tee -a "$LOG"
-fi
-
-
 # Install additional Nvidia packages
 printf "${YELLOW} Installing Nvidia packages...\n"
   for NVIDIA in "${nvidia_pkg[@]}"; do
