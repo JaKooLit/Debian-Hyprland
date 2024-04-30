@@ -32,7 +32,7 @@ if [ "$proceed" != "y" ]; then
     exit 1
 fi
 
-read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? (y/n): $(tput sgr0)" proceed2
+read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? [Debian only] (y/n): $(tput sgr0)" proceed2
 
 if [ "$proceed2" != "y" ]; then
     echo "Installation aborted Kindly edit your sources.list first. Refer to readme."
@@ -167,15 +167,12 @@ execute_script "hyprlang.sh"
 execute_script "hyprlock.sh"
 execute_script "hyprcursor.sh"
 execute_script "hypridle.sh"
+execute_script "hyprland.sh"
 
 #execute_script "cliphist.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
-fi
-
-if [ "$nvidia" == "N" ]; then
-    execute_script "hyprland.sh"
 fi
 
 if [ "$gtk_themes" == "Y" ]; then
