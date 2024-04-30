@@ -34,17 +34,14 @@ sudo nano /etc/apt/sources.list
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
 > [!NOTE]
+> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
 > For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
 
 > [!IMPORTANT]
-> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
-
 > If you are using Gnome already, DO NOT install the SDDM. The GDM works file as well. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
-
 
 > [!CAUTION] 
 > For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 37 and 38  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
-
 
 > [!WARNING] 
 > If you have GDM already as log-in manager, DO NOT install SDDM
