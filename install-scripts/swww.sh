@@ -53,17 +53,32 @@ fi
 source "$HOME/.cargo/env" || true
 
 cargo build --release 2>&1 | tee -a "$MLOG"
+
+# Checking if swww is previously installed and delete before copying
+file1="/usr/bin/swww"
+file2="/usr/bin/swww-daemon"
+
+# Check if file1 exists and delete if so
+if [ -f "$file1" ]; then
+    sudo rm -r "$file1"
+fi
+
+# Check if file2 exists and delete if so
+if [ -f "$file2" ]; then
+    sudo rm -r "$file2"
+fi
+
 # Copy binaries to /usr/bin/
-sudo cp target/release/swww /usr/bin/ 2>&1 | tee -a "$MLOG"
-sudo cp target/release/swww-daemon /usr/bin/ 2>&1 | tee -a "$MLOG"
+sudo cp -r target/release/swww /usr/bin/ 2>&1 | tee -a "$MLOG" 
+sudo cp -r target/release/swww-daemon /usr/bin/ 2>&1 | tee -a "$MLOG" 
 
 # Copy bash completions
-sudo mkdir -p /usr/share/bash-completion/completions 2>&1 | tee -a "$MLOG"
-sudo cp completions/swww.bash /usr/share/bash-completion/completions/swww 2>&1 | tee -a "$MLOG"
+sudo mkdir -p /usr/share/bash-completion/completions 2>&1 | tee -a "$MLOG" 
+sudo cp -r completions/swww.bash /usr/share/bash-completion/completions/swww 2>&1 | tee -a "$MLOG" 
 
 # Copy zsh completions
-sudo mkdir -p /usr/share/zsh/site-functions 2>&1 | tee -a "$MLOG"
-sudo cp completions/_swww /usr/share/zsh/site-functions/_swww 2>&1 | tee -a "$MLOG"
+sudo mkdir -p /usr/share/zsh/site-functions 2>&1 | tee -a "$MLOG" 
+sudo cp -r completions/_swww /usr/share/zsh/site-functions/_swww 2>&1 | tee -a "$MLOG" 
 
 # Moving logs into main Install-Logs
 mv "$MLOG" ../Install-Logs/ || true 
