@@ -27,9 +27,8 @@ echo
 
 printf "\n%.0s" {1..5}
 echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
-echo "$(tput bold)$(tput setaf 7)Recent Hyprland release v0.33.0 needed a newer libdrm $(tput sgr0)"
-echo "$(tput bold)$(tput setaf 7)Debian doesn't have the newer libdrm yet on their repo. $(tput sgr0)"
-echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.32.3$(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)Due to fast development of Hyprland, Hyprland to be install here would be old version $(tput sgr0)"
+echo "$(tput bold)$(tput setaf 7)For now, the Hyprland version to be installed with this script will be v0.34.0$(tput sgr0)"
 printf "\n%.0s" {1..3}
 
 printf "\n%.0s" {1..5}

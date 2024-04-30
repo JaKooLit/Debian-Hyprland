@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 30 Apr 2024
+- Updated hyprland.sh to install v0.34.0 Hyprland
+
 ## 22 Apr 2024
 - Change dotfiles to specific version only as Debian and Ubuntu cant keep up with Hyprland development
 
