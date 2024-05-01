@@ -2,6 +2,10 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # Main Hyprland Package#
 
+
+#specific branch or release
+hyprland_tag="v0.39.1"
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -25,7 +29,7 @@ if [ -d "Hyprland" ]; then
   rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b v0.39.1 "https://github.com/hyprwm/Hyprland"; then
+if git clone --recursive -b $hyprland_tag "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then

@@ -2,6 +2,9 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # hyprlang - hyprland and xdg-desktop-portal- dependencies #
 
+#specific branch or release
+lang_tag="v0.5.1"
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -27,7 +30,7 @@ fi
 
 # Clone and build hyprlang
 printf "${NOTE} Installing hyprlang...\n"
-if git clone --recursive -b v0.5.1 https://github.com/hyprwm/hyprlang.git; then
+if git clone --recursive -b $lang_tag https://github.com/hyprwm/hyprlang.git; then
     cd hyprlang || exit 1
     cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
     cmake --build ./build --config Release --target hyprlang -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`

@@ -6,6 +6,9 @@ lock=(
 libmagic-dev
 )
 
+#specific branch or release
+lock_tag="v0.3.0"
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -39,7 +42,7 @@ fi
 
 # Clone and build hyprlock
 printf "${NOTE} Installing hyprlock...\n"
-if git clone --recursive -b v0.3.0 https://github.com/hyprwm/hyprlock.git; then
+if git clone --recursive -b $lock_tag https://github.com/hyprwm/hyprlock.git; then
     cd hyprlock || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
 	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`

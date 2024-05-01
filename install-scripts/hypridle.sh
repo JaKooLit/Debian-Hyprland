@@ -6,6 +6,9 @@ idle=(
 libsdbus-c++-dev
 )
 
+#specific branch or release
+idle_tag="v0.1.2"
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -39,7 +42,7 @@ fi
 
 # Clone and build 
 printf "${NOTE} Installing hypridle...\n"
-if git clone --recursive -b v0.1.2 https://github.com/hyprwm/hypridle.git; then
+if git clone --recursive -b $idle_tag https://github.com/hyprwm/hypridle.git; then
     cd hypridle || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
 	cmake --build ./build --config Release --target hypridle -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
