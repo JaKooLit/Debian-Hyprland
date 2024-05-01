@@ -23,7 +23,7 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_force.log"
 printf "${NOTE} Force installing packages...\n"
  for FORCE in "${force[@]}"; do
    sudo apt-get --reinstall install -y "$FORCE" 2>&1 | tee -a "$LOG"
-   [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $FORCE install had failed, please check the install.log"; exit 1; }
+   [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $FORCE Package installation failed, Please check the installation logs"; exit 1; }
   done
 
 clear
