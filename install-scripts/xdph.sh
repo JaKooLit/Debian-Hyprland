@@ -24,7 +24,7 @@ MLOG="install-$(date +%d-%H%M%S)_xdph2.log"
 printf "${NOTE} Installing xdg-desktop-portal-gtk...\n"  
 for portal in "${xdg[@]}"; do
     install_package "$portal" 2>&1 | tee -a "$LOG"
-    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $portal install had failed, please check the install.log"; exit 1; }
+    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $portal Package installation failed, Please check the installation logs"; exit 1; }
 done
 
 # Check if xdg-desktop-portal-hyprland folder exists and remove it
