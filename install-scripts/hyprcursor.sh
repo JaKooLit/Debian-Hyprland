@@ -40,7 +40,7 @@ fi
 
 # Clone and build 
 printf "${NOTE} Installing hyprcursor...\n"
-if git clone https://github.com/hyprwm/hyprcursor.git; then
+if git clone --recursive -b v0.1.8 https://github.com/hyprwm/hyprcursor.git; then
     cd hyprcursor || exit 1
 		cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 		cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`

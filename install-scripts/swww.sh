@@ -7,6 +7,9 @@ cargo
 liblz4-dev
 )
 
+#specific branch or release
+swww_tag="v0.9.4"
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -41,7 +44,7 @@ if [ -d "swww" ]; then
   git pull origin main 2>&1 | tee -a "$MLOG"
 else
   printf "${NOTE} Cloning swww repository...\n"
-  if git clone https://github.com/Horus645/swww.git; then
+  if git clone --recursive -b $swww_tag https://github.com/Horus645/swww.git; then
     cd swww || exit 1
   else
     echo -e "${ERROR} Download failed for swww" 2>&1 | tee -a "$LOG"
