@@ -39,7 +39,7 @@ fi
 
 # Clone and build 
 printf "${NOTE} Installing hypridle...\n"
-if git clone https://github.com/hyprwm/hypridle.git; then
+if git clone --recursive -b v0.1.2 https://github.com/hyprwm/hypridle.git; then
     cd hypridle || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
 	cmake --build ./build --config Release --target hypridle -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`

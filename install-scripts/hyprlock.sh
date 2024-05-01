@@ -39,7 +39,7 @@ fi
 
 # Clone and build hyprlock
 printf "${NOTE} Installing hyprlock...\n"
-if git clone https://github.com/hyprwm/hyprlock.git; then
+if git clone --recursive -b v0.1.8 https://github.com/hyprwm/hyprlock.git; then
     cd hyprlock || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
 	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
