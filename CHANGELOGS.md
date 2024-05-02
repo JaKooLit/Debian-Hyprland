@@ -1,7 +1,7 @@
 ## Changelogs
 
 ## 02 May 2024
-- Added pyprland (hyprland plugin)
+- Added pyprland (hyprland plugin) - warning, I cant make it to properly run. Drop Down terminal not working, zoom is hit and miss
 
 ## 30 Apr 2024
 - Updated hyprland.sh to install v0.39.1 Hyprland
