@@ -17,7 +17,10 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_hypr_eco.log"
 
 # Hyprland Plugins
 # pyprland https://github.com/hyprland-community/pyprland installing using python
+printf "${NOTE} Installing pyprland\n"
+
 pip install pyprland 2>&1 | tee -a "$LOG" || True
+curl https://raw.githubusercontent.com/hyprland-community/pyprland/main/scripts/get-pypr | sh  2>&1 | tee -a "$LOG"
 
 clear
 
