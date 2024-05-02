@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 02 May 2024
+- Added pyprland (hyprland plugin)
+
 ## 30 Apr 2024
 - Updated hyprland.sh to install v0.39.1 Hyprland
 - adding hypridle and hyprlock
