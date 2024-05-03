@@ -85,6 +85,7 @@ dependencies=(
     python3-markdown
     python3-markupsafe
     python3-yaml
+    python3-pyquery
     qt6-base-dev
     scdoc
     seatd
