@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 03 May 2024
+- Bump swww to v0.9.5
+
 ## 02 May 2024
 - Added pyprland (hyprland plugin) - warning, I cant make it to properly run. Drop Down terminal not working, zoom is hit and miss
 

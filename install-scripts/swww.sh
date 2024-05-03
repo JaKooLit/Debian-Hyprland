@@ -8,7 +8,7 @@ liblz4-dev
 )
 
 #specific branch or release
-swww_tag="v0.9.4"
+swww_tag="v0.9.5"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
