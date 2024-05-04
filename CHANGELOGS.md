@@ -1,5 +1,12 @@
 ## Changelogs
 
+## 03 May 2024
+- Bump swww to v0.9.5
+- added python3-pyquery for new weather-waybar python based on Hyprland-Dots
+
+## 02 May 2024
+- Added pyprland (hyprland plugin) - warning, I cant make it to properly run. Drop Down terminal not working, zoom is hit and miss
+
 ## 30 Apr 2024
 - Updated hyprland.sh to install v0.39.1 Hyprland
 - adding hypridle and hyprlock
