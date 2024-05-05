@@ -4,16 +4,12 @@
 # UBUNTU USERS, FOLLOW README!
 
 nvidia_pkg=(
-  nvidia-driver
-  firmware-misc-nonfree
-  nvidia-kernel-dkms
-  linux-headers-$(uname -r)
   libva-wayland2
   nvidia-vaapi-driver
 )
 
 # for ubuntu-nvidia owners! just delete #
-# sudo ubuntu-drivers install
+sudo ubuntu-drivers install
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -35,8 +31,8 @@ sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup 2>&1 | tee -a "$LOG"
 
 ## UBUNTU - NVIDIA (comment this two by adding # you dont need this!)
 # Add the comment and repository entry to sources.list
-echo "## for nvidia" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
-echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
+#echo "## for nvidia" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
+#echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list 2>&1 | tee -a "$LOG"
 
 # Update the package list
 sudo apt update
