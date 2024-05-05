@@ -8,8 +8,9 @@
 <br/>
 </div>
 
-### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 30 Apr 2024
+### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 05 May 2024
 - This script will not work on older build of Ubuntu like Ubuntu 23.10 and older. Due to depencies. If you want to install on Ubuntu 23.10, you can download the version v2.2.3 from the releases
+- Ubuntu 24.04 Users, Please see below for instruction on how to use this script
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
@@ -64,7 +65,6 @@ sudo nano /etc/apt/sources.list
 
 #### ❕ Installed on Ubuntu 24.04 LTS with Nvidia Laptop 😷 
 ![alt text](https://github.com/JaKooLit/screenshots/blob/main/Distro-Hyprland/Ubuntu/Ubuntu-24.04-nvidia.png)
-
 
 #### 📷 More updated Screenshots Here [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-Dots-Showcase)
 
@@ -121,6 +121,18 @@ chmod +x install.sh
 ```
 <p align="center">
     <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Installer.png" />
+
+
+> [!NOTE]
+> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
+> For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
+> A separate branch have been created for Ubuntu 24.04 ONLY
+```bash
+git clone --depth=1 -b Ubuntu-24.04-LTS https://github.com/JaKooLit/Debian-Hyprland.git ~/Ubuntu-Hyprland
+cd ~/Ubuntu-Hyprland
+chmod +x install.sh
+./install.sh
+```
 
 #### ✨ for ZSH and OH-MY-ZSH installation
 > installer should auto change your default shell to zsh. However, if it does not, do this
