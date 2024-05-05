@@ -114,8 +114,8 @@
 # ✨ to run or Use this script
 > clone this repo (latest commit only) by using git. Change directory, make executable and run the script
 ```bash
-git clone --depth=1 https://github.com/JaKooLit/Debian-Hyprland.git ~/Debian-Hyprland
-cd ~/Debian-Hyprland
+git clone --depth=1 -b Ubuntu-24.04-LTS https://github.com/JaKooLit/Debian-Hyprland.git ~/Ubuntu-Hyprland
+cd ~/Ubuntu-Hyprland
 chmod +x install.sh
 ./install.sh
 ```
