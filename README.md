@@ -8,6 +8,9 @@
 <br/>
 </div>
 
+<h4 align="center">
+  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">For Ubuntu 24.04 LTS Click Here</a><br><br>
+
 ### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 05 May 2024
 - This script will not work on older build of Ubuntu like Ubuntu 23.10 and older. Due to depencies. If you want to install on Ubuntu 23.10, you can download the version v2.2.3 from the releases
 - Ubuntu 24.04 Users, Please see below for instruction on how to use this script
