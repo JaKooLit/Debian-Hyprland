@@ -8,6 +8,11 @@
 <br/>
 </div>
 
+### 🛋️ Why I created a separate branch for Ubuntu 24.04 LTS
+- With latest Hyprland v0.40.0 released, it wont build on Ubuntu 24.04 LTS. Reason is that Ubuntu did not update their wayland-protocol. Its the reason why it wont build. 
+- This is the reason why I have to set a specific release version on Hyprland packages including its eco-system as it is most likely wayland protocol wont be updated since its an LTS version.
+
+
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
 
@@ -20,14 +25,11 @@
 #### ⚠️ Pre-requisites and VERY Important! ### 
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
-- This is only tested on 24.04 LTS. Older Ubuntu wont work
+- This is only tested on 24.04 LTS. Older Ubuntu versions wont work
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
 > [!IMPORTANT]
 > If you are using Gnome already, DO NOT install the SDDM. The GDM Login Manager works well with Hyprland. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
-
-> [!CAUTION] 
-> For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 37 and 38  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
 
 > [!WARNING] 
 > If you have GDM already as log-in manager, DO NOT install SDDM
@@ -87,10 +89,11 @@
 - Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Changelogs)
 - Since the Hyprland-Dots are evolving, some of the screenshots maybe old
 - the wallpaper offered to be downloaded towards the end is from this [`REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
+- The dotfiles that will be pulled by this installer is only specific. Since newer dotfiles might not work properly
 
 #### ✨  Some notes on this installer / Prerequisites
-- This script is meant to install in Debian Testing (Trixie). 
-- If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
+- This script is meant to install in Ubuntu 24.04 LTS
+- If you are using gnome already, DO NOT install SDDM. GDM will work. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - 🕯️ network-manager-gnome (nm-applet) has been removed from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
 - If you have nvidia, and wanted to use proprietary drivers, uninstall nouveau first (if installed). This script will be installing proprietary nvidia drivers and will not deal with removal of nouveau.
 - NVIDIA users / owners, after installation, check [`THIS`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Notes_to_remember#--for-nvidia-gpu-users)
@@ -107,7 +110,6 @@
 - If you opted to install GTK Themes, Icons and Cursor offered are Tokyo Nights. [`LINK`](https://github.com/JaKooLit/GTK-themes-icons) & Bibata Cursor Modern Ice 
 
 #### 🔔 NOTICE TO NVIDIA OWNERS ### 
-- by default it is installing the latest and newest nvidia drivers. If you have an older nvidia-gpu (GTX 800 series and older), check out nvidia-debian website [`LINK`](https://wiki.debian.org/NvidiaGraphicsDrivers) and edit nvidia.sh in install-scripts folder to install proper gpu driver
 > [!IMPORTANT]
 > If you want to use nouveau driver, choose N when asked if you have nvidia gpu. This is because the nvidia installer part, it will blacklist nouveau. Hyprland will still be installed but it will skip blacklisting nouveau.
 
@@ -177,7 +179,7 @@ source ~/.zshrc
 - for the Pre-configured Hyprland dots / configuration, submit issue [`here`](https://github.com/JaKooLit/Hyprland-Dots/issues)
 
 #### 🔧 Proper way to re-installing a particular script from install-scripts folder
-- CD into Debian-Hyprland Folder and then ran the below command. 
+- CD into Ubuntu-Hyprland Folder and then ran the below command. 
 - i.e. `./install-scripts/gtk-themes` - For reinstall GTK Themes. 
 
 #### 🛣️ Roadmap:
