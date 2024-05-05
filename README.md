@@ -1,15 +1,12 @@
 <div align="center">
 
-## 💌 JaKooLit's Debian/Ubuntu Hyprland Install Script 💌
-#### For Debian 13 Trixie and SID and Ubuntu 24.04 Noble Numbat
+## 💌 JaKooLit's Ubuntu Hyprland Install Script 💌
+#### For Ubuntu 24.04 Noble Numbat
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7)
 
 <br/>
 </div>
-
-### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 30 Apr 2024
-- This script will not work on older build of Ubuntu like Ubuntu 23.10 and older. Due to depencies. If you want to install on Ubuntu 23.10, you can download the version v2.2.3 from the releases
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
@@ -23,19 +20,8 @@
 #### ⚠️ Pre-requisites and VERY Important! ### 
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
-- Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build.
-- In theory, it should also work on Debian SID (unstable) but I have not tested yet.
-- edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
-```bash
-sudo nano /etc/apt/sources.list
-```
-- delete # on the lines with 'deb-src' 
-- ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
+- This is only tested on 24.04 LTS. Older Ubuntu wont work
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
-
-> [!NOTE]
-> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
-> For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
 
 > [!IMPORTANT]
 > If you are using Gnome already, DO NOT install the SDDM. The GDM Login Manager works well with Hyprland. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
@@ -47,7 +33,13 @@ sudo nano /etc/apt/sources.list
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
-#### 📷 Gallery 
+# Screenshots
+<details>
+<summary>
+#### 📷 Gallery
+</summary>
+
+
 <p align="center">
     <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian2.png" />       
 </p>
@@ -69,6 +61,10 @@ sudo nano /etc/apt/sources.list
 #### 📷 More updated Screenshots Here [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-Dots-Showcase)
 
 #### 📷 Older Screenshots: v1[`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian) & v2[`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian-v2)
+
+</details>
+
+ 
 
 #### ✨ Youtube presentation [`V1`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
 #### ✨ Youtube presentation [`V2`](https://youtu.be/Qc4VP9JFh2Y)
