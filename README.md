@@ -9,9 +9,11 @@
 </div>
 
 ### ♨️♨️♨️ FOR UBUNTU 24.04 LTS
-<h4 align="center">
+<h4 align="left">
   <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">CLICK HERE for Noble Numbat </a><br><br>
+
 - It will take you to specific branch of this repo
+
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
