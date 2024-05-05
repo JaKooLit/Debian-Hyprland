@@ -11,7 +11,7 @@
 ### ♨️♨️♨️ FOR UBUNTU 24.04 LTS
 <h4 align="left">
   <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">CLICK HERE for Noble Numbat </a><br><br>
-
+</h4>
 - It will take you to specific branch of this repo
 
 
