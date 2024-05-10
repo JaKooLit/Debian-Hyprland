@@ -34,7 +34,7 @@ for PKG1 in "${lock[@]}"; do
   fi
 done
 
-# Check if hyprlidle folder exists and remove it
+# Check if hyprlock folder exists and remove it
 if [ -d "hyprlock" ]; then
     printf "${NOTE} Removing existing hyprlock folder...\n"
     rm -rf "hyprlock"
