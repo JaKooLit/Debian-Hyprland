@@ -3,8 +3,9 @@
 # wallust - pywal colors replacment #
 
 depend=(
-cargo
+librust-jpeg-decoder-dev
 imagemagick
+rustup
 )
 
 #specific branch or release
