@@ -41,6 +41,11 @@ for PKG1 in "${ags[@]}"; do
   fi
 done
 
+#install typescript by npm
+sudo npm install --global typescript 2>&1 | tee -a "$LOG"
+
+# ags
+
 printf "${NOTE} Install and Compiling Aylurs GTK shell\n"
 
 # Check if folder exists and remove it
