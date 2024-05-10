@@ -1,4 +1,4 @@
-#!/bin/bash
+7#!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # Aylur's GTK Shell #
 
@@ -61,7 +61,7 @@ if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.gi
 	npm install
 	meson setup build
     if sudo meson install -C build 2>&1 | tee -a "$MLOG"; then
-        printf "${OK} ags successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ags installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for ags" 2>&1 | tee -a "$MLOG"
     fi
