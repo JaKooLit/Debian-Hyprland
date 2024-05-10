@@ -1,5 +1,12 @@
 ## Changelogs
 
+## 10 May 2024
+- added wallust-git and remove python-pywal for migration to wallust on Hyprland-Dots v2.2.11
+
+## 07 May 2024
+- added ags.sh for upcoming ags overview for next Hyprland-Dots release. Will be installed form source
+- added manual installation of waybar since Debian is very slow in updating their packages
+
 ## 03 May 2024
 - Bump swww to v0.9.5
 - added python3-pyquery for new weather-waybar python based on Hyprland-Dots
