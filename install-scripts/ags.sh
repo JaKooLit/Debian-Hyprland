@@ -11,8 +11,6 @@ gjs
 libgtk-layer-shell-dev 
 libgtk-3-dev 
 libpulse-dev 
-network-manager-dev 
-libgnome-bluetooth-3.0-dev 
 libdbusmenu-gtk3-dev 
 libsoup-3.0-dev
 )
