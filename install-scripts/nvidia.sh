@@ -9,6 +9,7 @@ nvidia_pkg=(
   nvidia-kernel-dkms
   linux-headers-$(uname -r)
   libva-wayland2
+  libnvidia-egl-wayland1
   nvidia-vaapi-driver
 )
 
