@@ -8,6 +8,7 @@ nvidia_pkg=(
   firmware-misc-nonfree
   nvidia-kernel-dkms
   linux-headers-$(uname -r)
+  libnvidia-egl-wayland1
   libva-wayland2
   nvidia-vaapi-driver
 )
