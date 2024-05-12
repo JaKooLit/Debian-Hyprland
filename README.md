@@ -8,12 +8,16 @@
 <br/>
 </div>
 
-<h4 align="center">
-  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">For Ubuntu 24.04 LTS Click Here</a><br><br>
+## SHOW OFF
+https://github.com/JaKooLit/Debian-Hyprland/assets/85185940/66ccc81c-5e8e-4f6e-921d-68f063b2a3f4
 
-### ♨️♨️♨️ ATTENTION ♨️♨️♨️ 05 May 2024
-- This script will not work on older build of Ubuntu like Ubuntu 23.10 and older. Due to depencies. If you want to install on Ubuntu 23.10, you can download the version v2.2.3 from the releases
-- Ubuntu 24.04 Users, Please see below for instruction on how to use this script
+
+### ♨️♨️♨️ FOR UBUNTU 24.04 LTS
+<h4 align="left">
+  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">CLICK HERE for Noble Numbat </a><br><br>
+</h4>
+- It will take you to specific branch of this repo
+
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
@@ -37,21 +41,19 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
-> [!NOTE]
-> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
-> For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
-
 > [!IMPORTANT]
 > If you are using Gnome already, DO NOT install the SDDM. The GDM Login Manager works well with Hyprland. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
-
-> [!CAUTION] 
-> For Ubuntu with NVIDIA GPU's, make sure to edit the install-scripts/nvidia.sh . Delete all packages in nvidia_pkg except libva-wayland2 and nvidia-vaapi-driver and uncomment/remove # before sudo ubuntu-drivers install. You also need to delete or simply just add # in the lines 37 and 38  echo "echo "## for nvidia" | sudo tee -a... and echo "deb http://deb.debian.org/debian........
 
 > [!WARNING] 
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
-#### 📷 Gallery 
+### Gallery and Videos
+<details>
+<summary>
+📷 Screenshots
+</summary>
+
 <p align="center">
     <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian2.png" />       
 </p>
@@ -69,9 +71,17 @@ sudo nano /etc/apt/sources.list
 #### ❕ Installed on Ubuntu 24.04 LTS with Nvidia Laptop 😷 
 ![alt text](https://github.com/JaKooLit/screenshots/blob/main/Distro-Hyprland/Ubuntu/Ubuntu-24.04-nvidia.png)
 
+
 #### 📷 More updated Screenshots Here [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-Dots-Showcase)
 
 #### 📷 Older Screenshots: v1[`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian) & v2[`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian-v2)
+
+</details>
+
+<details>
+<summary>
+📽️ Youtube Videos
+</summary>
 
 #### ✨ Youtube presentation [`V1`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
 #### ✨ Youtube presentation [`V2`](https://youtu.be/Qc4VP9JFh2Y)
@@ -85,6 +95,8 @@ sudo nano /etc/apt/sources.list
 #### 💯💯 Check out Installation Video coverage by KSK royal (Kali Linux xfce + nvidia). He have details regarding installing timeshift and switching to sddm from lightdm. He also covers removal of nouveau in favor of proprietary nvidia drivers
 - [`Link`](https://youtu.be/NtpRtSBjz3I?si=YGkS75u_7cW5D_zu)
 
+</details>
+
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
 - This Repo does not contain Hyprland Dots or configs! Dotfiles can be checked here [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy installation, it will be downloaded from that centralized repo.
 - Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Changelogs)
@@ -92,7 +104,7 @@ sudo nano /etc/apt/sources.list
 - the wallpaper offered to be downloaded towards the end is from this [`REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
 
 #### ✨  Some notes on this installer / Prerequisites
-- This script is meant to install in Debian Testing (Trixie). 
+- This script is meant to install in Debian Testing (Trixie). May work with SID. Will not work with Bookworm
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - 🕯️ network-manager-gnome (nm-applet) has been removed from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
 - If you have nvidia, and wanted to use proprietary drivers, uninstall nouveau first (if installed). This script will be installing proprietary nvidia drivers and will not deal with removal of nouveau.
@@ -213,7 +225,7 @@ log into your account
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
 
 
-- [ ] Does not work in Ubuntu 23.10 and older
+- [ ] Does not work in Debian Bookworm
 - [ ] sddm blackscreen when log-out
 - [ ] Installing SDDM if or any other Login Manager installed. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 - [ ] network is down or become unmanaged [`This`](https://askubuntu.com/questions/71159/network-manager-says-device-not-managed) might help
