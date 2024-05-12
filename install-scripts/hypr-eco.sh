@@ -43,4 +43,4 @@ curl https://raw.githubusercontent.com/hyprland-community/pyprland/main/scripts/
 
 pip install pyprland 2>&1 | tee -a "$LOG" 
 
-cleaer
+clear
