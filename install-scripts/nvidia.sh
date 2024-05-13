@@ -5,6 +5,7 @@
 
 nvidia_pkg=(
   libva-wayland2
+  libnvidia-egl-wayland1
   nvidia-vaapi-driver
 )
 
