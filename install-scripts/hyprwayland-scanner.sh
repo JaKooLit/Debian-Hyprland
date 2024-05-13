@@ -6,7 +6,7 @@ scan_depend=(
 libpugixml-dev
 )
 #specific branch or release
-scan_tag="v0.3.6"
+scan_tag="v0.3.7"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
