@@ -4,7 +4,7 @@
 
 
 #specific branch or release
-hyprland_tag="v0.39.1"
+hyprland_tag="v0.40.0"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
