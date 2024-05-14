@@ -179,6 +179,9 @@ source ~/.zshrc
 - swappy [`LINK`](https://github.com/jtheoof/swappy)
 - xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 - rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
+- wallust [`LINK`](https://codeberg.org/explosion-mental/wallust)
+- waybar [`LINK`](https://github.com/Alexays/Waybar) - as of 13 May 2024. This was because Hyprland v0.40.0 requires Waybar v0.10.3 and Trixie still has waybar v0.10.3
+
 > [!TIP]
 > To update to latest packages, re-running this script will auto update all. Script is configured to pull latest packages build for you.
 
