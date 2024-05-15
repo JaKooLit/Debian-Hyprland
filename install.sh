@@ -171,10 +171,8 @@ execute_script "hypridle.sh"
 execute_script "hyprwayland-scanner.sh"
 execute_script "hyprland.sh"
 execute_script "hypr-eco.sh"
-execute_script "waybar-git.sh"
+# execute_script "waybar-git.sh" only if waybar on repo is old
 
-
-#execute_script "cliphist.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"

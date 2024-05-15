@@ -33,7 +33,7 @@ dependencies=(
     libgraphene-1.0-0
     libgraphene-1.0-dev
     libgtk-3-dev
-    libgulkan-0.15-0
+    libgulkan-0.15-0t64
     libgulkan-dev
     libinih-dev
     libinput-dev
@@ -92,7 +92,7 @@ dependencies=(
     seatd
     spirv-tools
     vulkan-validationlayers
-    vulkan-validationlayers-dev
+    vulkan-utility-libraries-dev
     wayland-protocols
     xdg-desktop-portal
     xwayland

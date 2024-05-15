@@ -1,5 +1,11 @@
 ## Changelogs
 
+## 15 May 2025
+- Backed down hyprland version to install as v0.40.0 is failing to install
+- removed from waybar-git to install. Instead to install from official repo
+- cliphist install script is removed as it is now on Debian repo
+- dependencies cleaned up and added
+
 ## 10 May 2024
 - added wallust-git and remove python-pywal for migration to wallust on Hyprland-Dots v2.2.11
 
