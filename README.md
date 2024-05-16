@@ -1,7 +1,7 @@
 <div align="center">
 
 ## 💌 JaKooLit's Debian/Ubuntu Hyprland Install Script 💌
-#### For Debian 13 Trixie and SID and Ubuntu 24.04 Noble Numbat
+#### For Debian 13 Trixie (Testing) and SID (unstable) and Ubuntu 24.04 Noble Numbat
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7)
 
@@ -32,7 +32,6 @@ https://github.com/JaKooLit/Debian-Hyprland/assets/85185940/66ccc81c-5e8e-4f6e-9
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
 - Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build.
-- In theory, it should also work on Debian SID (unstable) but I have not tested yet.
 - edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
 ```bash
 sudo nano /etc/apt/sources.list
@@ -104,7 +103,7 @@ sudo nano /etc/apt/sources.list
 - the wallpaper offered to be downloaded towards the end is from this [`REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
 
 #### ✨  Some notes on this installer / Prerequisites
-- This script is meant to install in Debian Testing (Trixie). May work with SID. Will not work with Bookworm
+- This script is meant to install in Debian Testing (Trixie) and Debian Unstable (SID). This script Will NOT work with Bookworm
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - 🕯️ network-manager-gnome (nm-applet) has been removed from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
 - If you have nvidia, and wanted to use proprietary drivers, uninstall nouveau first (if installed). This script will be installing proprietary nvidia drivers and will not deal with removal of nouveau.
