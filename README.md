@@ -214,6 +214,12 @@ log into your account
 - Feel free to copy, re-distribute, and use this script however you want. Would appreciate if you give me some loves by crediting my work :)
 
 
+#### ⏩ Contributing
+- As stated above, these script does not contain actual config files. These are only the installer of packages
+- The development branch of this script is pulling the latest "stable" releases of the Hyprland-Dotfiles.
+- If you want to contribute and/or test the Hyprland-Dotfiles (development branch), [`Hyprland-Dots-Development`](https://github.com/JaKooLit/Hyprland-Dots/tree/development) 
+
+
 #### 👍👍👍 Thanks and Credits!
 - [`Hyprland`](https://hyprland.org/) Of course to Hyprland and @vaxerski for this awesome Dynamic Tiling Manager.
 
