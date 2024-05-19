@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 19 May 2024
+- Disabled the auto-login in .zprofile as it causes auto-login to Hyprland if any wayland was chosen. Can enabled if only using hyprland
+
 ## 15 May 2025
 - Backed down hyprland version to install as v0.40.0 is failing to install
 - removed from waybar-git to install. Instead to install from official repo
