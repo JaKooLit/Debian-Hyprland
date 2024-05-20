@@ -16,7 +16,7 @@ echo " \_| (_| o |\ (_) (_) |_ |  |_ "
 printf "\n%.0s" {1..2}  
 
 # Welcome message
-echo "$(tput setaf 6)Welcome to JaKooLit's Debian / Ubuntu Hyprland Install Script!$(tput sgr0)"
+echo "$(tput setaf 6)Welcome to JaKooLit's Debian Trixie/SID Hyprland Install Script!$(tput sgr0)"
 echo
 echo "$(tput setaf 166)ATTENTION: Run a full system update and Reboot first!! (Highly Recommended) $(tput sgr0)"
 echo
@@ -32,7 +32,7 @@ if [ "$proceed" != "y" ]; then
     exit 1
 fi
 
-read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? [Debian only] (y/n): $(tput sgr0)" proceed2
+read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? [Very Important] (y/n): $(tput sgr0)" proceed2
 
 if [ "$proceed2" != "y" ]; then
     echo "Installation aborted Kindly edit your sources.list first. Refer to readme."

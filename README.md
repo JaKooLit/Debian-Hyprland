@@ -142,7 +142,7 @@ chmod +x install.sh
 ./install.sh
 ```
 <p align="center">
-    <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Installer.png" />
+    <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Install.png" />
 
 
 > [!NOTE]
