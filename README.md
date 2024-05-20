@@ -10,10 +10,10 @@
 
 <img src="https://raw.githubusercontent.com/JaKooLit/Telegram-Animated-Emojis/main/Symbols/Double%20Exclamation%20Mark.webp" alt="Double Exclamation Mark" width="40" height="40" />  For Ubuntu 24.04 Noble Numbat users, click the link below. This will take you to specific branch of this repo
 <h4 align="left">
-  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">Ubuntu 24.04 Noble Numbat Install script banch </a><br><br>
+  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">Ubuntu 24.04 LTS Noble Numbat Hyprland install script branch </a><br><br>
 </h4>
 
-
+### Kool Hyprland-Dots Showcase
 https://github.com/JaKooLit/Debian-Hyprland/assets/85185940/66ccc81c-5e8e-4f6e-921d-68f063b2a3f4
 
 
