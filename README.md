@@ -11,12 +11,14 @@
 ## SHOW OFF
 https://github.com/JaKooLit/Debian-Hyprland/assets/85185940/66ccc81c-5e8e-4f6e-921d-68f063b2a3f4
 
-> [!NOTE]
-> For Ubuntu 24.04 Noble Numbat users, click the link below
+
+<img src="https://raw.githubusercontent.com/JaKooLit/Telegram-Animated-Emojis/main/Symbols/Double%20Exclamation%20Mark.webp" alt="Double Exclamation Mark" width="32" height="32" />  For Ubuntu 24.04 Noble Numbat users, click the link below
 <h4 align="left">
   <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">CLICK HERE for Ubuntu 24.04 Noble Numbat </a><br><br>
 </h4>
-- It will take you to specific branch of this repo
+
+> [!NOTE]
+> It will take you to specific branch of this repo
 
 
 > [!IMPORTANT]
