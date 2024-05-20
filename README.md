@@ -12,8 +12,17 @@
 - With latest Hyprland v0.40.0 released, it wont build on Ubuntu 24.04 LTS. Reason is that Ubuntu did not update their wayland-protocol. Its the reason why it wont build. 
 - This is the reason why I have to set a specific release version on Hyprland packages including its eco-system as it is most likely wayland protocol wont be updated since its an LTS version.
 
-### Kool Hyprland-Dots Showcase
-https://github.com/JaKooLit/Debian-Hyprland/assets/85185940/66ccc81c-5e8e-4f6e-921d-68f063b2a3f4
+<h3 align="center">
+	<img src="https://github.com/JaKooLit/Telegram-Animated-Emojis/blob/main/Activity/Sparkles.webp" alt="Sparkles" width="38" height="38" />
+	KooL Hyprland-Dotfiles Showcase 
+	<img src="https://github.com/JaKooLit/Telegram-Animated-Emojis/blob/main/Activity/Sparkles.webp" alt="Sparkles" width="38" height="38" />
+</h3>
+
+<div align="center">
+
+https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-9913-76039e84a2cd
+
+</div>
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
