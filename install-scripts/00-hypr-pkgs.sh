@@ -51,6 +51,7 @@ hypr_package_2=(
   mpv-mpris
   nvtop
   pamixer
+  qalculate-gtk
   vim
 )
 
