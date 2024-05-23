@@ -2,6 +2,10 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # ASUS ROG ) #
 
+asus=(
+  power-profiles-daemon
+)
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -14,6 +18,18 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
 LOG="install-$(date +%d-%H%M%S)_rog.log"
+
+# Installing enhancemet
+for PKG1 in "${asus[@]}"; do
+  install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\033[1A\033[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+    exit 1
+  fi
+done
+
+printf " enabling power-profiles-daemon...\n"
+sudo systemctl enable power-profiles-daemon 2>&1 | tee -a "$LOG"
 
 # Function to handle the installation and log messages
 install_and_log() {
