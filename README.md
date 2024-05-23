@@ -8,15 +8,23 @@
 <br/>
 </div>
 
-## SHOW OFF
-https://github.com/JaKooLit/Debian-Hyprland/assets/85185940/66ccc81c-5e8e-4f6e-921d-68f063b2a3f4
-
-> [!NOTE]
-> For Ubuntu 24.04 Noble Numbat users, click the link below
+<img src="https://raw.githubusercontent.com/JaKooLit/Telegram-Animated-Emojis/main/Symbols/Double%20Exclamation%20Mark.webp" alt="Double Exclamation Mark" width="40" height="40" />  For Ubuntu 24.04 Noble Numbat users, click the link below. This will take you to specific branch of this repo
 <h4 align="left">
-  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">CLICK HERE for Ubuntu 24.04 Noble Numbat </a><br><br>
+  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">Ubuntu 24.04 LTS Noble Numbat Hyprland install script branch </a><br><br>
 </h4>
-- It will take you to specific branch of this repo
+
+<h3 align="center">
+	<img src="https://github.com/JaKooLit/Telegram-Animated-Emojis/blob/main/Activity/Sparkles.webp" alt="Sparkles" width="38" height="38" />
+	KooL Hyprland-Dotfiles Showcase 
+	<img src="https://github.com/JaKooLit/Telegram-Animated-Emojis/blob/main/Activity/Sparkles.webp" alt="Sparkles" width="38" height="38" />
+</h3>
+
+<div align="center">
+
+https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-9913-76039e84a2cd
+
+</div>
+
 
 
 > [!IMPORTANT]
@@ -134,7 +142,7 @@ chmod +x install.sh
 ./install.sh
 ```
 <p align="center">
-    <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Installer.png" />
+    <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Install.png" />
 
 
 > [!NOTE]
@@ -226,6 +234,11 @@ log into your account
 
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
 
+
+> [!NOTE]
+> Auto start of Hyprland after login (no SDDM or GDM or any login managers)
+- This was disabled a few days ago. (19 May 2024). This was because some users, after they used the Distro-Hyprland scripts with other DE (gnome-wayland or plasma-wayland), if they choose to login into gnome-wayland for example, Hyprland is starting. 
+- to avoid this, I disabled it. You can re-enable again by editing `~/.zprofile` . Remove all the # on the first lines
 
 - [ ] Does not work in Debian Bookworm
 - [ ] sddm blackscreen when log-out
