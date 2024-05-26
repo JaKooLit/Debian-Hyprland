@@ -4,7 +4,8 @@
 
 zsh=(
 zsh
-zplug 
+zplug
+fzf 
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
