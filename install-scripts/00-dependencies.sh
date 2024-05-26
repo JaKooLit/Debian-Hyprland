@@ -33,13 +33,12 @@ dependencies=(
     libgraphene-1.0-0
     libgraphene-1.0-dev
     libgtk-3-dev
-    libgulkan-0.15-0
     libgulkan-dev
     libinih-dev
     libinput-dev
     libjbig-dev
     libjpeg-dev
-    libjpeg62-turbo-dev
+    libjpeg62-dev
     liblerc-dev
     libliftoff-dev
     liblzma-dev
@@ -92,7 +91,6 @@ dependencies=(
     seatd
     spirv-tools
     vulkan-validationlayers
-    vulkan-validationlayers-dev
     wayland-protocols
     xdg-desktop-portal
     xwayland
