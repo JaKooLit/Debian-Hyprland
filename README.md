@@ -196,7 +196,7 @@ source ~/.zshrc
 #### 🛣️ Roadmap:
 - [ ] possibly adding gruvbox themes, cursors, icons
 
-#### ❗ some known issues for nvidia
+#### ❗ some known issues
 - reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  
  while in sddm press ctrl+alt+F2 or F3
