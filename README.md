@@ -102,6 +102,9 @@ https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-991
 - the wallpaper offered to be downloaded towards the end is from this [`REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
 - The dotfiles that will be pulled by this installer is only specific. Since newer dotfiles might not work properly
 
+> [!NOTE]
+> There is a lot of changes on Hyprland v0.40.0. And because of this, the latest Hyprland-Dots compatible for this script will be Hyprland-Dots v2.2.12 [`LINK`](https://github.com/JaKooLit/Hyprland-Dots/releases/tag/v2.2.12)
+
 #### ✨  Some notes on this installer / Prerequisites
 - This script is meant to install in Ubuntu 24.04 LTS
 - If you are using gnome already, DO NOT install SDDM. GDM will work. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
@@ -219,6 +222,7 @@ log into your account
 - [ ] Installing SDDM if or any other Login Manager installed. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 - [ ] network is down or become unmanaged [`This`](https://askubuntu.com/questions/71159/network-manager-says-device-not-managed) might help
 - [ ] pyprland is a hit and miss. Drop down not working, zooming is hit and miss
+- [ ] See note above about Hyprland-Dots newer version incompatibility
 
 
 #### 📒 Final Notes
