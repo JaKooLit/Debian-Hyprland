@@ -5,7 +5,6 @@
 zsh=(
 zsh
 zplug
-fzf 
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -36,6 +35,23 @@ for ZSHP in "${zsh[@]}"; do
      echo -e "\e[1A\e[K${ERROR} - $ZSHP Package installation failed, Please check the installation logs"
   fi
 done
+
+printf "\n"
+
+printf "${NOTE} Installing fzf from source...${RESET}\n"
+if git clone --depth 1 https://github.com/junegunn/fzf.git; then
+    cd fzf || exit 1    
+    if ./install 2>&1 | tee -a "$MLOG" ; then
+        printf "${OK} fzf installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    else
+        echo -e "${ERROR} Installation failed for fzf." 2>&1 | tee -a "$MLOG"
+    fi
+    #moving the addional logs to Install-Logs directory
+    mv $MLOG ../Install-Logs/ || true 
+    cd ..
+else
+    echo -e "${ERROR} Download failed for fzf." 2>&1 | tee -a "$LOG"
+fi
 
 printf "\n"
 
