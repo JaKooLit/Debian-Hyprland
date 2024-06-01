@@ -41,7 +41,7 @@ printf "\n"
 printf "${NOTE} Installing fzf from source...${RESET}\n"
 if git clone --depth 1 https://github.com/junegunn/fzf.git; then
     cd fzf || exit 1    
-    if ./install 2>&1 | tee -a "$MLOG" ; then
+    if ./install --bin 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} fzf installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for fzf." 2>&1 | tee -a "$MLOG"
