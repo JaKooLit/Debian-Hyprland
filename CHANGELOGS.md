@@ -1,5 +1,9 @@
 ## Changelogs
 
+## 04 June 2024
+- switched over to source install for imagemagick
+- removal of fzf for Debian and Ubuntu (headache)
+
 ## 26 May 2024
 - Added fzf for zsh (CTRL R to invoke FZF history)
 

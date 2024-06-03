@@ -160,12 +160,12 @@ sudo apt update
 # Install hyprland packages
 execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
+execute_script "imagemagick.sh"
 execute_script "fonts.sh"
 execute_script "swappy.sh"
 execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
 execute_script "wallust.sh"
-execute_script "force-install.sh"
 execute_script "ags.sh"
 execute_script "hyprlang.sh"
 execute_script "hyprlock.sh"

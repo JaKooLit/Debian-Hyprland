@@ -1,14 +1,11 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
-# wallust - pywal colors replacment #
+# imagemagick from source #
 
 depend=(
-librust-jpeg-decoder-dev
-rustup
+build-essential
 )
 
-#specific branch or release
-wal_tag="dev"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -21,8 +18,8 @@ cd "$PARENT_DIR" || exit 1
 source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_wallust.log"
-MLOG="install-$(date +%d-%H%M%S)_wallust.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_image.log"
+MLOG="install-$(date +%d-%H%M%S)_image.log"
 
 # Installing depencies
 for PKG1 in "${depend[@]}"; do
@@ -34,30 +31,31 @@ for PKG1 in "${depend[@]}"; do
 done
 
 ##
-printf "${NOTE} Installing wallust from dev branch...\n"  
+printf "${NOTE} Installing ImageMagick from source...\n"  
 
 # Check if folder exists and remove it
-if [ -d "wallust" ]; then
-    printf "${NOTE} Removing existing wallust folder...\n"
-    rm -rf "wallust"
+if [ -d "ImageMagick" ]; then
+    printf "${NOTE} Removing existing ImageMagick folder...\n"
+    rm -rf "ImageMagick"
 fi
 
-# Clone and build wallust
-printf "${NOTE} Installing wallust...\n"
-if git clone --depth 1 -b $wal_tag https://codeberg.org/explosion-mental/wallust.git; then
-    cd wallust || exit 1
+# Clone and build ImageMagick
+printf "${NOTE} Installing ImageMagick...\n"
+if git clone --depth 1 https://github.com/ImageMagick/ImageMagick.git; then
+    cd ImageMagick || exit 1
+	./configure
 	make
     if sudo make install 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} wallust installed successfully.\n" 2>&1 | tee -a "$MLOG"
+		sudo ldconfig /usr/local/lib
+        printf "${OK} ImageMagick installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for wallust." 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ImageMagick." 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for wallust." 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ImageMagick." 2>&1 | tee -a "$LOG"
 fi
 
 clear
-
