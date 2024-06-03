@@ -16,7 +16,6 @@ hypr_package=(
   grim
   gvfs
   gvfs-backends
-  imagemagick
   kitty
   nano
   pavucontrol
