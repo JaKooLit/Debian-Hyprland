@@ -4,7 +4,7 @@
 
 depend=(
 librust-jpeg-decoder-dev
-cargo
+rustup
 )
 
 #specific branch or release
