@@ -5,6 +5,7 @@
 swappy=(
 liblocale-msgfmt-perl
 gettext
+libgtk-3-dev
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
