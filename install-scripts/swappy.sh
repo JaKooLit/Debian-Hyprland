@@ -34,9 +34,9 @@ done
 
 # Force reinstall above as seems its giving issue as swappy cant be build
 for PKG1 in "${swappy[@]}"; do
-  sudo apt --reinstall install "$PKG1" 2>&1 | tee -a "$LOG"
+  sudo apt-get --reinstall install "$PKG1" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package re-installation failed, Please check the installation logs"
     exit 1
   fi
 done
