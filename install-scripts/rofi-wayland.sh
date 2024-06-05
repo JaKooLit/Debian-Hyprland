@@ -9,6 +9,9 @@ rofi=(
   doxygen
   cppcheck
   ohcount
+  libmpdclient-dev
+  libnl-3-dev
+  libasound2-dev
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -50,8 +53,6 @@ printf "\n\n"
 # Clone and build rofi - wayland
 printf "${NOTE} Installing rofi-wayland...\n"
 
-printf "${NOTE} Installing rofi-wayland\n"
-
 # Check if rofi folder exists
 if [ -d "rofi" ]; then
   printf "${NOTE} rofi folder exists. Pulling latest changes...\n"
@@ -68,7 +69,7 @@ else
 fi
 
 # Proceed with the installation steps
-if meson setup build && ninja -C build; then
+if meson setup build && ninja -C build ; then
   if sudo ninja -C build install 2>&1 | tee -a "$MLOG"; then
     printf "${OK} rofi-wayland installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
@@ -83,4 +84,3 @@ mv "$MLOG" ../Install-Logs/ || true
 cd .. || exit 1
 
 clear
-
