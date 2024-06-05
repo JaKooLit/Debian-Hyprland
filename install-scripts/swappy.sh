@@ -32,7 +32,15 @@ for PKG1 in "${swappy[@]}"; do
   fi
 done
 
-##
+# Force reinstall above as seems its giving issue as swappy cant be build
+for PKG1 in "${swappy[@]}"; do
+  sudo apt --reinstall install "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+    exit 1
+  fi
+done
+
 printf "${NOTE} Installing swappy from source...\n"  
 
 # Check if folder exists and remove it
