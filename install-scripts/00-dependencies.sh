@@ -77,6 +77,7 @@ dependencies=(
     libxkbregistry-dev
     libxml2-dev
     libxxhash-dev
+    make
     meson
     ninja-build
     openssl
