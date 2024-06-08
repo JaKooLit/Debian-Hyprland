@@ -140,7 +140,7 @@ https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-991
 > [!IMPORTANT]
 > If you want to use nouveau driver, choose N when asked if you have nvidia gpu. This is because the nvidia installer part, it will blacklist nouveau. Hyprland will still be installed but it will skip blacklisting nouveau.
 
-# ✨ to run or Use this script
+## ✨ to use this script
 > clone this repo (latest commit only) by using git. Change directory, make executable and run the script
 ```bash
 git clone --depth=1 -b Ubuntu-24.04-LTS https://github.com/JaKooLit/Debian-Hyprland.git ~/Ubuntu-Hyprland
