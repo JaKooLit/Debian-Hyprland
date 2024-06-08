@@ -5,6 +5,13 @@
 rofi=(
   bison
   flex
+  pandoc
+  doxygen
+  cppcheck
+  libmpdclient-dev
+  libnl-3-dev
+  libasound2-dev
+)
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
