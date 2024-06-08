@@ -1,5 +1,7 @@
 <div align="center">
 <br>
+
+<a href="#--ubuntu-2404-lts-noble-numbat-hyprland-install-script-branch-"><kbd> <br> Ubuntu 24.04 LTS <br> </kbd></a>&ensp;&ensp;  
   <a href="#-announcement-"><kbd> <br> Read this First <br> </kbd></a>&ensp;&ensp;
   <a href="#-to-use-this-script"><kbd> <br> How to use this script <br> </kbd></a>&ensp;&ensp;
   <a href="#gallery-and-videos"><kbd> <br> Gallery <br> </kbd></a>&ensp;&ensp;
@@ -153,7 +155,7 @@ sudo nano /etc/apt/sources.list
 > [!IMPORTANT]
 > If you want to use nouveau driver, choose N when asked if you have nvidia gpu. This is because the nvidia installer part, it will blacklist nouveau. Hyprland will still be installed but it will skip blacklisting nouveau.
 
-# ✨ to run or Use this script
+## ✨ to use this script
 > clone this repo (latest commit only) by using git. Change directory, make executable and run the script
 ```bash
 git clone --depth=1 https://github.com/JaKooLit/Debian-Hyprland.git ~/Debian-Hyprland
