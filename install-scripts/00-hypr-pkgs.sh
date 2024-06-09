@@ -16,6 +16,7 @@ hypr_package=(
   grim
   gvfs
   gvfs-backends
+  inxi
   kitty
   nano
   pavucontrol
