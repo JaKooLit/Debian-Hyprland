@@ -212,7 +212,8 @@ fi
 if [ "$rog" == "Y" ]; then
     execute_script "rog.sh"
 fi
-
+# re-install rofi-wayland
+execute_script "rofi-wayland.sh"
 execute_script "InputGroup.sh"
 
 if [ "$dots" == "Y" ]; then

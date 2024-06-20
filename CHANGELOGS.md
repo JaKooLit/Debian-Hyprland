@@ -1,5 +1,11 @@
 ## Changelogs
 
+## 11 June 2024
+- adjusted script to install only Hyprland-Dots v2.2.14
+
+## 10 June 2024
+- changed behaviour of rofi-wayland.sh. To redownload a new rofi-wayland from repo instead of pulling changes. (It proves giving issue)
+
 ## 04 June 2024
 - switched over to source install for imagemagick
 - removal of fzf for Debian and Ubuntu (headache)
