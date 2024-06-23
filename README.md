@@ -13,7 +13,7 @@
 - This is the reason why I have to set a specific release version on Hyprland packages including its eco-system as it is most likely wayland protocol wont be updated since its an LTS version.
 
 <div align="center">
-#### 👇 KOOL's Hyprland-Dots related Links 👇
+👇 KOOL's Hyprland-Dots related Links 👇
 <br/>
 </div>
 <div align="center">
