@@ -5,7 +5,14 @@
 rofi=(
   bison
   flex
+  pandoc
+  doxygen
+  cppcheck
+  libmpdclient-dev
+  libnl-3-dev
+  libasound2-dev
 )
+
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -46,21 +53,19 @@ printf "\n\n"
 # Clone and build rofi - wayland
 printf "${NOTE} Installing rofi-wayland...\n"
 
-printf "${NOTE} Installing rofi-wayland\n"
-
 # Check if rofi folder exists
 if [ -d "rofi" ]; then
-  printf "${NOTE} rofi folder exists. Pulling latest changes...\n"
+  printf "${NOTE} rofi folder exists. Removing existing directory...\n"
+  rm -rf rofi
+fi
+
+# cloning rofi-wayland
+printf "${NOTE} Cloning rofi-wayland repository...\n"
+if git clone https://github.com/lbonn/rofi.git; then
   cd rofi || exit 1
-  git pull origin master 2>&1 | tee -a "$MLOG"
 else
-  printf "${NOTE} Cloning rofi repository...\n"
-  if git clone https://github.com/lbonn/rofi.git; then
-    cd rofi || exit 1
-  else
-    echo -e "${ERROR} Download failed for rofi-wayland." 2>&1 | tee -a "$LOG"
-    exit 1
-  fi
+  echo -e "${ERROR} Download failed for rofi-wayland." 2>&1 | tee -a "$LOG"
+  exit 1
 fi
 
 # Proceed with the installation steps

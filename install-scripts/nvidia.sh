@@ -83,7 +83,7 @@ printf "${YELLOW} nvidia-stuff to /etc/default/grub..."
   # Define the configuration file and the line to add
     config_file="/etc/modprobe.d/nvidia.conf"
     line_to_add="""
-    options nvidia-drm modeset=1
+    options nvidia-drm modeset=1 fbdev=1
     options nvidia NVreg_PreserveVideoMemoryAllocations=1
     """
 
