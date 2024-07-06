@@ -1,5 +1,9 @@
 ## Changelogs
 
+
+## 06 July 2024
+- Version bumps for Debian (Hyprland v0.41.2)
+
 ## 11 June 2024
 - adjusted script to install only Hyprland-Dots v2.2.14
 

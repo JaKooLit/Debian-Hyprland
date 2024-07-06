@@ -2,9 +2,12 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # Main Hyprland Package#
 
-
 #specific branch or release
-hyprland_tag="v0.39.1"
+hyprland_tag="v0.41.2"
+
+hyprland=(
+	libxcb-errors-dev
+)
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -20,6 +23,17 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprland.log"
 MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
 
+# Installation of dependencies
+printf "\n%s - Installing hyprland additional dependencies.... \n" "${NOTE}"
+
+for PKG1 in "${hyprland[@]}"; do
+  install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+    exit 1
+  fi
+done
+
 # Clone, build, and install Hyprland using Cmake
 printf "${NOTE} Cloning Hyprland...\n"
 
@@ -29,7 +43,7 @@ if [ -d "Hyprland" ]; then
   rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $hyprland_tag "https://github.com/hyprwm/Hyprland"; then
+if git clone --recursive "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then

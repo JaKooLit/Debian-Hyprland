@@ -7,7 +7,7 @@ libmagic-dev
 )
 
 #specific branch or release
-lock_tag="v0.3.0"
+lock_tag="v0.4.0"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -58,5 +58,5 @@ else
     echo -e "${ERROR} Download failed for hyprlock." 2>&1 | tee -a "$LOG"
 fi
 
-clear
+
 

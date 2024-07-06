@@ -8,7 +8,7 @@ librsvg2-dev
 )
 
 #specific branch or release
-cursor_tag="v0.1.8"
+cursor_tag="v0.1.9"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -45,8 +45,8 @@ fi
 printf "${NOTE} Installing hyprcursor...\n"
 if git clone --recursive -b $cursor_tag https://github.com/hyprwm/hyprcursor.git; then
     cd hyprcursor || exit 1
-		cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-		cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} hyprcursor installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
