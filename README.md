@@ -124,7 +124,7 @@ https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-991
 - The dotfiles that will be pulled by this installer is only specific. Since newer dotfiles might not work properly
 
 > [!NOTE]
-> There is a lot of changes on Hyprland v0.40.0. And because of this, the latest Hyprland-Dots compatible for this script will be Hyprland-Dots v2.2.12 [`LINK`](https://github.com/JaKooLit/Hyprland-Dots/releases/tag/v2.2.12)
+> There is a lot of changes on Hyprland v0.40.0. And because of this, the latest Hyprland-Dots compatible for this script will be Hyprland-Dots v2.2.14 [`LINK`](https://github.com/JaKooLit/Hyprland-Dots/releases/tag/v2.2.14)
 
 #### ✨  Some notes on this installer / Prerequisites
 - This script is meant to install in Ubuntu 24.04 LTS
