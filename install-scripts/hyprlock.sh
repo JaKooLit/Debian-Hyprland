@@ -7,7 +7,7 @@ libmagic-dev
 )
 
 #specific branch or release
-lock_tag="v0.3.0"
+lock_tag="v0.4.0"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -45,8 +45,8 @@ printf "${NOTE} Installing hyprlock...\n"
 if git clone --recursive -b $lock_tag https://github.com/hyprwm/hyprlock.git; then
     cd hyprlock || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
-	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
-    if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
+	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+    if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} hyprlock installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for hyprlock." 2>&1 | tee -a "$MLOG"
@@ -58,5 +58,5 @@ else
     echo -e "${ERROR} Download failed for hyprlock." 2>&1 | tee -a "$LOG"
 fi
 
-clear
+
 

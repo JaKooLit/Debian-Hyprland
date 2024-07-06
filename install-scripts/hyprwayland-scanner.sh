@@ -3,10 +3,10 @@
 # hyprwayland-scanner - One depency from Hyprland v0.40.0#
 
 scan_depend=(
-libpugixml-dev
+    libpugixml-dev
 )
 #specific branch or release
-scan_tag="v0.3.9"
+scan_tag="v0.4.0"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -19,8 +19,8 @@ cd "$PARENT_DIR" || exit 1
 source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprlang.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprwayland-scanner.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprwayland-scanner.log"
+MLOG="install-$(date +%d-%H%M%S)_hyprwayland-scanner2.log"
 
 ##
 # Installation of dependencies
@@ -59,7 +59,6 @@ if git clone --recursive -b $scan_tag https://github.com/hyprwm/hyprwayland-scan
 else
     echo -e "${ERROR} Download failed for hyprwayland-scanner. Please check log." 2>&1 | tee -a "$LOG"
 fi
-
 
 clear
 

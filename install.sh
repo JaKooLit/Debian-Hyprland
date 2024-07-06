@@ -169,6 +169,7 @@ execute_script "hyprlock.sh"
 execute_script "hyprcursor.sh"
 execute_script "hypridle.sh"
 execute_script "hyprwayland-scanner.sh"
+execute_script "hyprutils.sh"
 execute_script "hyprland.sh"
 execute_script "hypr-eco.sh"
 # execute_script "waybar-git.sh" only if waybar on repo is old

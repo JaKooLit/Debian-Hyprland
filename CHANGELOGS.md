@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 06 July 2024
+- Version bumps for Debian (Hyprland v0.41.2)
+
 ## 04 June 2024
 - switched over to source install for imagemagick
 - removal of fzf for Debian and Ubuntu (headache)

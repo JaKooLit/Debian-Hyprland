@@ -1,10 +1,13 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
-# XDG-Desktop-Portals #
+# XDG-Desktop-Portals for hyprland #
 
 xdg=(
-xdg-desktop-portal-gtk
+    xdg-desktop-portal-gtk
 )
+
+#specific branch or release
+xdph_tag="v1.3.2"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -35,10 +38,11 @@ fi
 
 # Clone and build xdg-desktop-portal-hyprland
 printf "${NOTE} Installing xdg-desktop-portal-hyprland...\n"
-if git clone --branch v1.3.0 --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland; then
+if git clone -b $xdph_tag --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland; then
     cd xdg-desktop-portal-hyprland || exit 1
-    make all
-    if sudo make install 2>&1 | tee -a "$MLOG" ; then
+	cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B build
+	cmake --build build
+	if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} xdg-desktop-portal-hyprland installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for xdg-desktop-portal-hyprland." 2>&1 | tee -a "$MLOG"
