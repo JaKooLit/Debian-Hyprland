@@ -19,3 +19,8 @@ source $ZSH/oh-my-zsh.sh
 #pokemon-colorscripts --no-title -s -r
 
 
+# Set-up icons for files/folders in terminal using eza
+alias ls='eza -a --icons'
+alias ll='eza -al --icons'
+alias lt='eza -a --tree --level=1 --icons'
+

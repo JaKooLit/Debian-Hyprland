@@ -1,5 +1,7 @@
 ## Changelogs
 
+## 07 Jul 2024
+- added eza (ls replacement for tty). Note only on .zshrc
 
 ## 06 July 2024
 - Version bumps for Debian (Hyprland v0.41.2)
