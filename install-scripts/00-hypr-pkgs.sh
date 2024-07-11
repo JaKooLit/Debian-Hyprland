@@ -30,6 +30,7 @@ hypr_package=(
   qt6ct
   slurp
   sway-notification-center
+  swappy
   waybar
   wget
   wl-clipboard
