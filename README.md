@@ -273,6 +273,13 @@ env = WLR_RENDERER_ALLOW_SOFTWARE,1
 > Auto start of Hyprland after login (no SDDM or GDM or any login managers)
 - This was disabled a few days ago. (19 May 2024). This was because some users, after they used the Distro-Hyprland scripts with other DE (gnome-wayland or plasma-wayland), if they choose to login into gnome-wayland for example, Hyprland is starting. 
 - to avoid this, I disabled it. You can re-enable again by editing `~/.zprofile` . Remove all the # on the first lines
+- [ ] ROFI issues (scaling, unexplained scaling etc). This is most likely to experience if you are installing on a system where rofi is currently installed. To fix it uninstall rofi and install rofi-wayland . `sudo apt autoremove rofi` . 
+- Install rofi-wayland with 
+```bash
+cd ~/Debian-Hyprland
+./install-scripts/rofi-wayland.sh
+```
+- [ ] Rofi-wayland is compatible with x11 so no need to worry.
 
 - [ ] Does not work in Debian Bookworm
 - [ ] sddm blackscreen when log-out
