@@ -7,7 +7,7 @@ xdg=(
 )
 
 #specific branch or release
-xdph_tag="v1.3.2"
+xdph_tag="v1.3.3"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
