@@ -78,7 +78,7 @@ sudo nano /etc/apt/sources.list
 > [!WARNING] 
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
-> If you have nvidia, by default debian is installing nouveau or open-source nvidia driver. If you want to keep the default nvidia driver installed by Debian, choose N on the if you have nvidia question. Or else you will encounter same issue as SDDM above.
+
 
 ### Gallery and Videos
 <details>
@@ -156,6 +156,10 @@ sudo nano /etc/apt/sources.list
 - by default it is installing the latest and newest nvidia drivers. If you have an older nvidia-gpu (GTX 800 series and older), check out nvidia-debian website [`LINK`](https://wiki.debian.org/NvidiaGraphicsDrivers) and edit nvidia.sh in install-scripts directory to install proper gpu driver
 > [!IMPORTANT]
 > If you want to use nouveau driver, choose N when asked if you have nvidia gpu. This is because the nvidia installer part, it will blacklist nouveau. Hyprland will still be installed but it will skip blacklisting nouveau.
+
+> [!IMPORTANT]
+> Another important note for nvidia owners
+> If you have nvidia, by default debian is installing nouveau or open-source nvidia driver. If you want to keep the default nvidia driver installed by Debian, choose N on the if you have nvidia question. Or else you will encounter same issue as SDDM above.
 
 ## ✨ to use this script
 > clone this repo (latest commit only) by using git. Change directory, make executable and run the script
