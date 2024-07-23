@@ -67,7 +67,10 @@ sudo nano /etc/apt/sources.list
 ```
 - delete # on the lines with 'deb-src' 
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
+
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
+
+
 
 > [!IMPORTANT]
 > If you are using Gnome already, DO NOT install the SDDM. The GDM Login Manager works well with Hyprland. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
@@ -75,6 +78,7 @@ sudo nano /etc/apt/sources.list
 > [!WARNING] 
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
+> If you have nvidia, by default debian is installing nouveau or open-source nvidia driver. If you want to keep the default nvidia driver installed by Debian, choose N on the if you have nvidia question. Or else you will encounter same issue as SDDM above.
 
 ### Gallery and Videos
 <details>
