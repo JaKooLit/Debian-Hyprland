@@ -181,6 +181,7 @@ sudo apt update
 # Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source $HOME/.cargo/env
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Ensure the Rust environment source line is in .bashrc
 if ! grep -q 'source $HOME/.cargo/env' ~/.bashrc; then
