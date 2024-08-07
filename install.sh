@@ -35,7 +35,7 @@ echo "$(tput bold)$(tput setaf 7)This would also mean that support for this proj
 echo "$(tput bold)$(tput setaf 7)Please be guided$(tput sgr0)"
 printf "\n%.0s" {1..3}
 
-read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
+read -p "$(tput setaf 6)Would you like to proceed? (y/n) : $(tput sgr0)" proceed
 
 if [ "$proceed" != "y" ]; then
     echo "Installation aborted."
@@ -238,7 +238,7 @@ printf "\n${NOTE} You can start Hyprland by typing Hyprland (IF SDDM is not inst
 printf "\n"
 printf "\n${NOTE} It is highly recommended to reboot your system.\n\n"
 
-read -rp "${CAT} Would you like to reboot now? (y/n): " HYP
+read -p "${CAT} Would you like to reboot now? (y/n): " HYP
 
 if [[ "$HYP" =~ ^[Yy]$ ]]; then
     if [[ "$nvidia" == "Y" ]]; then
