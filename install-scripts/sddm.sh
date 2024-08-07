@@ -32,7 +32,7 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_sddm.log"
 # Install SDDM (no-recommends)
 printf "\n%s - Installing sddm.... \n" "${NOTE}"
 for PKG1 in "${sddm1[@]}" ; do
-  sudo apt-get install --no-install-recommends -y "$PKG1" 2>&1 | tee -a "$LOG"
+  sudo apt-get install --no-install-recommends -y "$PKG1" 2>&1
   if [ $? -ne 0 ]; then
     echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
     exit 1
