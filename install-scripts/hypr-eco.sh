@@ -1,11 +1,11 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
-# This is to be use for installing hyprland plugins
+# This is to be used for installing hyprland plugins
 # Hyprland plugins: pyprland 
 
 pypr_depend=( 
-python3-aiofiles
-python-is-python3
+    python3-aiofiles
+    python-is-python3
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -23,12 +23,14 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_hypr_eco.log"
 
 # Pyprland
 printf "${NOTE} Installing Pyprland Dependencies...\n"
- for PYPR in "${pypr_depend[@]}"; do
-   install_package "$PYPR" 2>&1 | tee -a "$LOG"
-   [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $PYPR Package installation failed, Please check the installation logs"; exit 1; }
-  done
+for PYPR in "${pypr_depend[@]}"; do
+    install_package "$PYPR" 2>&1 | tee -a "$LOG"
+    if [ $? -ne 0 ]; then
+        echo -e "\e[1A\e[K${ERROR} - $PYPR Package installation failed, Please check the installation logs"
+        exit 1
+    fi
+done
 
-  
 # Check if the file exists and delete it
 pypr="/usr/local/bin/pypr"
 if [ -f "$pypr" ]; then
@@ -39,8 +41,8 @@ fi
 # pyprland https://github.com/hyprland-community/pyprland installing using python
 printf "${NOTE} Installing pyprland\n"
 
-curl https://raw.githubusercontent.com/hyprland-community/pyprland/main/scripts/get-pypr | sh  2>&1 | tee -a "$LOG"
+curl https://raw.githubusercontent.com/hyprland-community/pyprland/main/scripts/get-pypr | sh 2>&1 | tee -a "$LOG"
 
-pip install pyprland --break-system-packages 2>&1 | tee -a "$LOG" 
+pip install pyprland --break-system-packages 2>&1 | tee -a "$LOG"
 
 clear

@@ -2,7 +2,7 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # main dependencies #
 
-# packages neeeded
+# packages needed
 dependencies=(
     build-essential
     cmake
@@ -114,11 +114,11 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 printf "\n%s - Installing main dependencies.... \n" "${NOTE}"
 
 for PKG1 in "${dependencies[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
+    install_package "$PKG1" 2>&1 | tee -a "$LOG"
+    if [ $? -ne 0 ]; then
+        echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+        exit 1
+    fi
 done
 
 # Remove Ubuntu default Rust Install

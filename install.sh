@@ -10,10 +10,10 @@ fi
 
 clear
 
-printf "\n%.0s" {1..3}                            
+printf "\n%.0s" {1..3}
 echo "   |  _.   |/  _   _  |  o _|_ "
 echo " \_| (_| o |\ (_) (_) |_ |  |_ "
-printf "\n%.0s" {1..2}  
+printf "\n%.0s" {1..2}
 
 # Welcome message
 echo "$(tput setaf 6)Welcome to JaKooLit's Ubuntu 24.04 Hyprland Install Script!$(tput sgr0)"
@@ -26,7 +26,7 @@ echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D ac
 echo
 
 printf "\n%.0s" {1..4}
-echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)" 
+echo "$(tput bold)$(tput setaf 3)ATTENTION!!!! VERY IMPORTANT NOTICE!!!! $(tput sgr0)"
 echo "$(tput bold)$(tput setaf 7)Latest Hyprland compatible with Ubuntu 24.04 is only up to v0.39.1 $(tput sgr0)"
 echo "$(tput bold)$(tput setaf 7)This was due to old version is wayland-protocols available in Ubuntu Repo $(tput sgr0)"
 echo "$(tput bold)$(tput setaf 7)Because of the above, the latest Hyprland-Dots compatible will only be v2.2.13 $(tput sgr0)"
@@ -113,6 +113,7 @@ ask_custom_option() {
         fi
     done
 }
+
 # Function to execute a script if it exists and make it executable
 execute_script() {
     local script="$1"
@@ -174,8 +175,7 @@ execute_script "hypridle.sh"
 execute_script "hyprland.sh"
 execute_script "hypr-eco.sh"
 
-
-#execute_script "cliphist.sh"
+# execute_script "cliphist.sh"
 
 if [ "$nvidia" == "Y" ]; then
     execute_script "nvidia.sh"
@@ -212,6 +212,7 @@ fi
 if [ "$rog" == "Y" ]; then
     execute_script "rog.sh"
 fi
+
 # re-install rofi-wayland
 execute_script "rofi-wayland.sh"
 execute_script "InputGroup.sh"
@@ -245,5 +246,5 @@ if [[ "$HYP" =~ ^[Yy]$ ]]; then
         systemctl reboot
     else
         systemctl reboot
-    fi    
+    fi
 fi
