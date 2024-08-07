@@ -16,6 +16,9 @@ cd "$PARENT_DIR" || exit 1
 
 source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
+# Sourcing Rust
+source $HOME/.cargo/env
+
 # Set the name of the log file to include the current date and time
 LOG="install-$(date +%d-%H%M%S)_rog.log"
 
@@ -40,8 +43,7 @@ install_and_log() {
 
   if git clone "$git_url" "$project_name"; then
     cd "$project_name" || exit 1
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh 2>&1 | tee -a "$LOG"
-    source "$HOME/.cargo/env"
+
     make
 
     if sudo make install 2>&1 | tee -a "$LOG"; then
