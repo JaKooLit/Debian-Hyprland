@@ -2,7 +2,7 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # Cliphist install using go #
 
-## This is to be be use for Ubuntu 23.10 only
+## This is to be be used for Ubuntu 23.10 only
 # it is disabled by default. Enable it on install.sh #execute_script "cliphist.sh"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -21,9 +21,9 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_cliphist.log"
 # Install cliphist using go (for UBUNTU 23.10 users)
 printf "\n%s - Installing cliphist using go.... \n" "${NOTE}"
 export PATH=$PATH:/usr/local/bin
-go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG" 
+go install go.senan.xyz/cliphist@latest 2>&1 | tee -a "$LOG"
 
-# copy cliphist into /usr/local/bin for some reason it is installing in ~/go/bin
-sudo cp -r "$HOME/go/bin/cliphist" "/usr/local/bin/" 2>&1 | tee -a "$LOG" 
+# Copy cliphist into /usr/local/bin for some reason it is installing in ~/go/bin
+sudo cp -r "$HOME/go/bin/cliphist" "/usr/local/bin/" 2>&1 | tee -a "$LOG"
 
 clear

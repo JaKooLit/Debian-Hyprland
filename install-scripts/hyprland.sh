@@ -2,8 +2,7 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # Main Hyprland Package#
 
-
-#specific branch or release
+# specific branch or release
 hyprland_tag="v0.39.1"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -25,22 +24,22 @@ printf "${NOTE} Cloning Hyprland...\n"
 
 # Check if Hyprland folder exists and remove it
 if [ -d "Hyprland" ]; then
-  printf "${NOTE} Removing existing Hyprland folder...\n"
-  rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
+    printf "${NOTE} Removing existing Hyprland folder...\n"
+    rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $hyprland_tag "https://github.com/hyprwm/Hyprland"; then
-  cd "Hyprland" || exit 1
-  make all
-  if sudo make install 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} Hyprland installed successfully.\n" 2>&1 | tee -a "$MLOG"
-  else
-    echo -e "${ERROR} Installation failed for Hyprland." 2>&1 | tee -a "$MLOG"
-  fi
-  mv $MLOG ../Install-Logs/ || true   
-  cd ..
+if git clone --recursive -b "$hyprland_tag" "https://github.com/hyprwm/Hyprland"; then
+    cd "Hyprland" || exit 1
+    make all
+    if sudo make install 2>&1 | tee -a "$MLOG"; then
+        printf "${OK} Hyprland installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    else
+        echo -e "${ERROR} Installation failed for Hyprland." 2>&1 | tee -a "$MLOG"
+    fi
+    mv "$MLOG" ../Install-Logs/ || true   
+    cd ..
 else
-  echo -e "${ERROR} Download failed for Hyprland." 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for Hyprland." 2>&1 | tee -a "$LOG"
 fi
 
 wayland_sessions_dir=/usr/share/wayland-sessions
@@ -48,4 +47,3 @@ wayland_sessions_dir=/usr/share/wayland-sessions
 sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
 
 clear
-

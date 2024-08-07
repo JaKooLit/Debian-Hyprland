@@ -2,7 +2,7 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # main dependencies #
 
-# packages neeeded
+# packages needed
 dependencies=(
     build-essential
     cmake
@@ -114,19 +114,86 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 printf "\n%s - Installing main dependencies.... \n" "${NOTE}"
 
 for PKG1 in "${dependencies[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
+    install_package "$PKG1" 2>&1 | tee -a "$LOG"
+    if [ $? -ne 0 ]; then
+        echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+        exit 1
+    fi
 done
 
-# Install dependencies for wlroots
-sudo apt build-dep wlroots
-export PATH=$PATH:/usr/local/go/bin
+# Remove Ubuntu default Rust Install
+# Get the list of installed Rust packages
+rust_packages=$(apt list --installed 2>/dev/null | grep rust | awk -F/ '{print $1}')
+
+# Check if there are any Rust packages to remove
+if [ -z "$rust_packages" ]; then
+    echo "No Rust packages found."
+else
+    # Display the packages to be removed
+    echo "Removing the following Rust packages:"
+    echo "$rust_packages"
+
+    # Remove the Rust packages
+    sudo apt remove --purge -y $rust_packages
+    if [ $? -ne 0 ]; then
+        echo "Error removing Rust packages."
+        exit 1
+    fi
+
+    # Clean up unused dependencies
+    sudo apt autoremove -y
+    if [ $? -ne 0 ]; then
+        echo "Error during autoremove."
+        exit 1
+    fi
+
+    # Remove Rust-related configuration files if needed
+    echo "Removing Rust environment configurations..."
+    if [ -f "$HOME/.cargo/env" ]; then
+        echo "Removing $HOME/.cargo/env..."
+        rm -f "$HOME/.cargo/env"
+    fi
+
+    if [ -d "$HOME/.cargo" ]; then
+        echo "Removing $HOME/.cargo..."
+        rm -rf "$HOME/.cargo"
+    fi
+
+    if [ -d "$HOME/.rustup" ]; then
+        echo "Removing $HOME/.rustup..."
+        rm -rf "$HOME/.rustup"
+    fi
+fi
+
+# Install Rust 
+# Enable ubuntu source repositories
+FILE="/etc/apt/sources.list.d/ubuntu.sources"
+if [ -f "$FILE" ]; then
+    sudo sed -i 's/Types: deb/Types: deb deb-src/' "$FILE"
+else
+    echo "File /etc/apt/sources.list.d/ubuntu.sources doesn't exist."
+    exit 1
+fi
+
+# Update package lists
+sudo apt update
 
 # Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source $HOME/.cargo/env
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Ensure the Rust environment source line is in .bashrc
+if ! grep -q 'source $HOME/.cargo/env' ~/.bashrc; then
+    {
+        echo
+        echo "# Sourcing Rust"
+        echo 'source $HOME/.cargo/env'
+    } >> ~/.bashrc
+fi
+
+# Install dependencies for wlroots
+sudo apt build-dep -y wlroots
+export PATH=$PATH:/usr/local/go/bin
 
 clear
