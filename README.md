@@ -1,4 +1,3 @@
-# ⚠️ NOTE: 08-08-2024 - Hyprland is on Debian Trixie and SID official repo. Including Ubuntu universe repo. However, because I am busy with work and travelling, I cannot adjust the script. Estimated by the End of Aug 2024 that I can adjust Debian and Ubuntu Install-Scripts. I'm updating
 <div align="center">
 <br>
 <a href="#--ubuntu-2404-lts-noble-numbat-hyprland-install-script-branch-"><kbd> <br> Ubuntu 24.04 LTS <br> </kbd></a>&ensp;&ensp;  

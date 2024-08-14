@@ -1,0 +1,57 @@
+[33m[NOTE](B[m Installing libxcb-errors-dev ...
+Reading package lists...Reading package lists...
+
+Building dependency tree...Building dependency tree...
+Reading state information...
+Reading state information...
+
+The following NEW packages will be installed:
+The following NEW packages will be installed:
+  libxcb-errors-dev
+  libxcb-errors-dev
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 18.1 kB of archives.
+After this operation, 72.7 kB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian trixie/main amd64 libxcb-errors-dev amd64 1.0.1-2 [18.1 kB]
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 18.1 kB of archives.
+After this operation, 72.7 kB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian trixie/main amd64 libxcb-errors-dev amd64 1.0.1-2 [18.1 kB]
+apt-listchanges: Can't set locale; make sure $LC_* and $LANG are correct!
+apt-listchanges: Can't set locale; make sure $LC_* and $LANG are correct!
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+Fetched 18.1 kB in 0s (101 kB/s)
+Fetched 18.1 kB in 0s (101 kB/s)
+Selecting previously unselected package libxcb-errors-dev.
+(Reading database ... Selecting previously unselected package libxcb-errors-dev.
+(Reading database ... (Reading database ... 5%(Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 65%(Reading database ... 70%(Reading database ... 70%(Reading database ... 75%(Reading database ... 75%(Reading database ... 80%(Reading database ... 80%(Reading database ... 85%(Reading database ... 85%(Reading database ... 90%(Reading database ... 90%(Reading database ... 95%(Reading database ... 95%(Reading database ... 100%(Reading database ... 132086 files and directories currently installed.)
+(Reading database ... 100%(Reading database ... 132086 files and directories currently installed.)
+Preparing to unpack .../libxcb-errors-dev_1.0.1-2_amd64.deb ...
+Preparing to unpack .../libxcb-errors-dev_1.0.1-2_amd64.deb ...
+Unpacking libxcb-errors-dev (1.0.1-2) ...
+Unpacking libxcb-errors-dev (1.0.1-2) ...
+Setting up libxcb-errors-dev (1.0.1-2) ...
+Setting up libxcb-errors-dev (1.0.1-2) ...
+[1A[K[32m[OK](B[m libxcb-errors-dev was installed.
+[32m[OK](B[m hyprland is already installed. Skipping...
+[32m[OK](B[m libxcb-errors-dev is already installed. Skipping...
+[32m[OK](B[m hyprland is already installed. Skipping...
