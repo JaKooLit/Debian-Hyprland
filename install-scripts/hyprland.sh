@@ -43,7 +43,7 @@ if [ -d "Hyprland" ]; then
   rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive "https://github.com/hyprwm/Hyprland"; then
+if git clone --recursive -b $hyprland_tag "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then
@@ -56,6 +56,10 @@ if git clone --recursive "https://github.com/hyprwm/Hyprland"; then
 else
   echo -e "${ERROR} Download failed for Hyprland." 2>&1 | tee -a "$LOG"
 fi
+
+wayland_sessions_dir=/usr/share/wayland-sessions
+[ ! -d "$wayland_sessions_dir" ] && { printf "$CAT - $wayland_sessions_dir not found, creating...\n"; sudo mkdir -p "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"; }
+sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
 
 clear
 
