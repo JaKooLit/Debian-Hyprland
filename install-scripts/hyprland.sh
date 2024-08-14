@@ -40,10 +40,10 @@ printf "${NOTE} Installing Hyprland"
 #!/bin/bash
 
 # Get the OS name from the release file
-os_name=$(grep '^NAME=' /etc/os-release | tr -d '"' | cut -d= -f2)
-
+os_name=$(grep '^ID=' /etc/os-release | tr -d '"' | cut -d= -f2)
+ID_LIKE=$(grep '^ID_LIKE=' /etc/os-release | cut -d= -f2 | tr -d '"')
 # Check if the OS is Debian or Ubuntu
-if [[ "$os_name" == "Debian GNU/Linux" ]]; then
+if [[ "$ID" == "debian" || ("$ID_LIKE" == *"debian"* && "$ID_LIKE" != *"ubuntu"*) ]]; then
     for PKG1 in "${hyprland[@]}"; do
         install_package "$PKG1" 2>&1 | tee -a "$LOG"
         if [ $? -ne 0 ]; then
@@ -52,11 +52,11 @@ if [[ "$os_name" == "Debian GNU/Linux" ]]; then
         fi
     done
 
-elif [[ "$os_name" == "Ubuntu" ]]; then
-   printf "${NOTE} Adding Universe repo"
-   sudo add-apt-repository universe
-   sudo apt update
-   for PKG1 in "${hyprland[@]}"; do
+elif [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"debian ubuntu"* ]]; then
+    printf "${NOTE} Adding Universe repo"
+    sudo add-apt-repository universe
+    sudo apt update
+    for PKG1 in "${hyprland[@]}"; do
         install_package "$PKG1" 2>&1 | tee -a "$LOG"
         if [ $? -ne 0 ]; then
             echo -e "\e[1A\e[K${ERROR} - $PKG1 Hyprland installation failed, Please check the installation logs"
@@ -64,4 +64,4 @@ elif [[ "$os_name" == "Ubuntu" ]]; then
         fi
     done
 fi
-clear
+# clear
