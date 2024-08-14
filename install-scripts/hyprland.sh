@@ -64,4 +64,4 @@ elif [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"debian ubuntu"* ]]; then
         fi
     done
 fi
-# clear
+clear
