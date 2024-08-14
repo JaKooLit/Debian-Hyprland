@@ -33,8 +33,8 @@ for PKG1 in "${hyprland[@]}"; do
     fi
 done
 
-# Clone, build, and install Hyprland using Cmake
-printf "${NOTE} Installing Hyprland"
+# Install Hyprland 
+printf "${NOTE} Installing Hyprland...\n"
 
 # Check if Hyprland folder exists and remove it
 #!/bin/bash
