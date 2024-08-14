@@ -47,7 +47,7 @@ if [[ "$ID" == "debian" || ("$ID_LIKE" == *"debian"* && "$ID_LIKE" != *"ubuntu"*
     for PKG1 in "${hyprland[@]}"; do
         install_package "$PKG1" 2>&1 | tee -a "$LOG"
         if [ $? -ne 0 ]; then
-            echo -e "\e[1A\e[K${ERROR} - $PKG1 Hyprland installation failed, Please check the installation logs"
+            echo -e "\e[1A\e[K${ERROR} - $PKG1  installation failed, Please check the installation logs"
             exit 1
         fi
     done
@@ -59,7 +59,7 @@ elif [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"debian ubuntu"* ]]; then
     for PKG1 in "${hyprland[@]}"; do
         install_package "$PKG1" 2>&1 | tee -a "$LOG"
         if [ $? -ne 0 ]; then
-            echo -e "\e[1A\e[K${ERROR} - $PKG1 Hyprland installation failed, Please check the installation logs"
+            echo -e "\e[1A\e[K${ERROR} - $PKG1  installation failed, Please check the installation logs"
             exit 1
         fi
     done
