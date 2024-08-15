@@ -37,13 +37,13 @@ done
 printf "${NOTE} Installing Hyprland...\n"
 
 # Check if Hyprland folder exists and remove it
-#!/bin/bash
+
 
 # Get the OS name from the release file
 os_name=$(grep '^ID=' /etc/os-release | tr -d '"' | cut -d= -f2)
 ID_LIKE=$(grep '^ID_LIKE=' /etc/os-release | cut -d= -f2 | tr -d '"')
 # Check if the OS is Debian or Ubuntu
-if [[ "$ID" == "debian" || ("$ID_LIKE" == *"debian"* && "$ID_LIKE" != *"ubuntu"*) ]]; then
+if [[ "$ID" == "debian" || ( "$ID_LIKE" == *"debian"* && "$ID" != "ubuntu" ) ]]; then
     for PKG1 in "${hyprland[@]}"; do
         install_package "$PKG1" 2>&1 | tee -a "$LOG"
         if [ $? -ne 0 ]; then
