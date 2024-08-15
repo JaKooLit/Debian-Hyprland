@@ -2,7 +2,6 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # Main Hyprland Package#
 
-#specific branch or release
 
 hyprland=(
     libxcb-errors-dev
