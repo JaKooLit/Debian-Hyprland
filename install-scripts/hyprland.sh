@@ -23,11 +23,10 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprland.log"
 MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
 
-# Installation of dependencies
 
 # Install Hyprland 
 printf "${NOTE} Installing Hyprland ...\n"
-# Get the OS name from the release file
+# Get the OS ID from the release file
 os_name=$(grep '^ID=' /etc/os-release | tr -d '"' | cut -d= -f2)
 ID_LIKE=$(grep '^ID_LIKE=' /etc/os-release | cut -d= -f2 | tr -d '"')
 # Check if the OS is Debian or Ubuntu
