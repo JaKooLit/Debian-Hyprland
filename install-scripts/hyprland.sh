@@ -27,7 +27,7 @@ MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
 # Install Hyprland 
 printf "${NOTE} Installing Hyprland ...\n"
 # Get the OS ID from the release file
-os_name=$(grep '^ID=' /etc/os-release | tr -d '"' | cut -d= -f2)
+ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
 ID_LIKE=$(grep '^ID_LIKE=' /etc/os-release | cut -d= -f2 | tr -d '"')
 # Check if the OS is Debian or Ubuntu
 if [[ "$ID" == "debian" || ( "$ID_LIKE" == *"debian"* && "$ID" != "ubuntu" ) ]]; then
