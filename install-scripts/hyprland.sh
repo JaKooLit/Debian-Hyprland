@@ -25,20 +25,8 @@ MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
 
 # Installation of dependencies
 
-for PKG1 in "${hyprland[@]}"; do
-    install_package "$PKG1" 2>&1 | tee -a "$LOG"
-    if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-        exit 1
-    fi
-done
-
 # Install Hyprland 
-printf "${NOTE} Installing Hyprland...\n"
-
-# Check if Hyprland folder exists and remove it
-
-
+printf "${NOTE} Installing Hyprland ...\n"
 # Get the OS name from the release file
 os_name=$(grep '^ID=' /etc/os-release | tr -d '"' | cut -d= -f2)
 ID_LIKE=$(grep '^ID_LIKE=' /etc/os-release | cut -d= -f2 | tr -d '"')
