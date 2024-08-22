@@ -38,7 +38,7 @@ for PKG_NAME in "${PACKAGES[@]}"; do
   # Check if the file exists
   if [[ -f "$FILE_PATH" ]]; then
     # Delete the file
-    rm "$FILE_PATH"
+    sudo rm "$FILE_PATH"
     echo "Deleted: $FILE_PATH" 2>&1 | tee -a "$LOG"
   else
     echo "File not found: $FILE_PATH" 2>&1 | tee -a "$LOG"
