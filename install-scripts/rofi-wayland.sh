@@ -11,6 +11,17 @@ rofi=(
   libmpdclient-dev
   libnl-3-dev
   libasound2-dev
+  libstartup-notification0-dev
+  libxcb-ewmh-dev
+  libxcb-cursor-dev
+  libxcb-icccm4-dev
+  libxcb-randr0-dev
+  libxcb-render-util0-dev
+  libxcb-util-dev
+  libxcb-xkb-dev
+  libxcb-xinerama0-dev
+  libxkbcommon-dev
+  libxkbcommon-x11-dev
 )
 
 
