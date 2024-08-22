@@ -154,6 +154,9 @@ chmod +x install-scripts/*
 
 sudo apt update
 
+# execute pre clean up
+execute_script "01-pre-cleanup.sh"
+
 # Install hyprland packages
 execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
