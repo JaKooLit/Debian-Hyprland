@@ -3,7 +3,7 @@
 # hyprlock #
 
 lock=(
-libmagic-dev
+    libmagic-dev
 )
 
 #specific branch or release

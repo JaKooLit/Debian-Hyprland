@@ -3,16 +3,16 @@
 # Aylur's GTK Shell #
 
 ags=(
-node-typescript 
-npm 
-meson 
-libgjs-dev 
-gjs 
-libgtk-layer-shell-dev 
-libgtk-3-dev 
-libpulse-dev 
-libdbusmenu-gtk3-dev 
-libsoup-3.0-dev
+    node-typescript 
+    npm 
+    meson 
+    libgjs-dev 
+    gjs 
+    libgtk-layer-shell-dev 
+    libgtk-3-dev 
+    libpulse-dev 
+    libdbusmenu-gtk3-dev 
+    libsoup-3.0-dev
 )
 
 # specific tags to download

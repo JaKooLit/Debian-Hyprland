@@ -3,7 +3,7 @@
 # hypidle #
 
 idle=(
-libsdbus-c++-dev
+    libsdbus-c++-dev
 )
 
 #specific branch or release

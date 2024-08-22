@@ -204,19 +204,14 @@ source ~/.zshrc
 - if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
 
 #### ✨ Packages that are manually downloaded and build. These packages will not be updated by apt and have to be manually updated
-- Hyprland [`LINK`](https://github.com/hyprwm/Hyprland)
 - nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
 - Asus ROG asusctl [`LINK`](https://gitlab.com/asus-linux/asusctl) and superfxctl [`LINK`](https://gitlab.com/asus-linux/supergfxctl)
 - swww [`LINK`](https://github.com/Horus645/swww)
-- hyprlock [`LINK`](https://github.com/hyprwm/hyprlock)
-- hypridle [`LINK`](https://github.com/hyprwm/hypridle)
-- hyprlang [`LINK`](https://github.com/hyprwm/hyprlang)
-- hyprcursor [`LINK`](https://github.com/hyprwm/hyprcursor)
-- swappy [`LINK`](https://github.com/jtheoof/swappy)
+- hyprlock [`LINK`](https://github.com/hyprwm/hyprlock) #22 Aug 2024 - still not on repo
+- hypridle [`LINK`](https://github.com/hyprwm/hypridle) #22 Aug 2024 - still not on repo
 - xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 - rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
 - wallust [`LINK`](https://codeberg.org/explosion-mental/wallust)
-- waybar [`LINK`](https://github.com/Alexays/Waybar) - as of 13 May 2024. This was because Hyprland v0.40.0 requires Waybar v0.10.3 and Trixie still has waybar v0.10.3
 
 > [!TIP]
 > To update to latest packages, re-running this script will auto update all. Script is configured to pull latest packages build for you.

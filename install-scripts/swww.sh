@@ -3,8 +3,8 @@
 # SWWW - Wallpaper Utility #
 
 swww=(
-cargo
-liblz4-dev
+  cargo
+  liblz4-dev
 )
 
 #specific branch or release
