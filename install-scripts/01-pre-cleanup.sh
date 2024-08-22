@@ -9,9 +9,11 @@ TARGET_DIR="/usr/local/bin"
 
 # Define packages to manually remove (was manually installed previously)
 PACKAGES=(
+  hyprctl
   hyprpm
   hyprland
   Hyprland
+  cliphist
   pypr
   swappy
   waybar
