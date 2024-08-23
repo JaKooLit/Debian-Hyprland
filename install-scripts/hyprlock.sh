@@ -3,7 +3,9 @@
 # hyprlock #
 
 lock=(
-libmagic-dev
+    libmagic-dev
+    libhyprlang-dev
+    libhyprutils-dev
 )
 
 #specific branch or release
@@ -21,7 +23,7 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprlock.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprlock.log"
+MLOG="install-$(date +%d-%H%M%S)_hyprlock2.log"
 
 # Installation of dependencies
 printf "\n%s - Installing hyprlock dependencies.... \n" "${NOTE}"

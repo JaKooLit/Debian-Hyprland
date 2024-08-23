@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 22 Aug 2024
+- refactor Debian-Hyprland script. As Hyprland is now in official repo
+ 
 ## 07 Jul 2024
 - added eza (ls replacement for tty). Note only on .zshrc
 

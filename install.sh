@@ -154,6 +154,9 @@ chmod +x install-scripts/*
 
 sudo apt update
 
+# execute pre clean up
+execute_script "01-pre-cleanup.sh"
+
 # Install hyprland packages
 execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
@@ -163,14 +166,9 @@ execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
 execute_script "wallust.sh"
 execute_script "ags.sh"
-execute_script "hyprutils.sh"
-execute_script "hyprlang.sh"
-execute_script "hyprlock.sh"
-execute_script "hyprcursor.sh"
-execute_script "hypridle.sh"
-execute_script "hyprwayland-scanner.sh"
 execute_script "hyprland.sh"
-execute_script "hypr-eco.sh"
+execute_script "hyprlock.sh"
+execute_script "hypridle.sh"
 # execute_script "waybar-git.sh" only if waybar on repo is old
 
 
