@@ -4,6 +4,8 @@
 
 lock=(
     libmagic-dev
+    libhyprlang-dev
+    libhyprutils-dev
 )
 
 #specific branch or release

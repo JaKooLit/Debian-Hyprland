@@ -3,7 +3,11 @@
 # Main Hyprland Package #
 
 hypr=(
+  libhyprutils0
+  libhyprlang-dev
   hyprwayland-scanner
+  hyprland-protocols
+  hyprland-dev
   hyprland
 )
 

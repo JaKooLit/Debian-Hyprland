@@ -129,10 +129,11 @@ sudo nano /etc/apt/sources.list
 </details>
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
-- This Repo does not contain Hyprland Dots or configs! Dotfiles can be checked here [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
+- This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
+
 - Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Changelogs)
 - Since the Hyprland-Dots are evolving, some of the screenshots maybe old
-- the wallpaper offered to be downloaded towards the end is from this [`REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
+- the wallpaper offered to be downloaded towards the end is from this [`WALLPAPER-REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
 
 #### ✨  Some notes on this installer / Prerequisites
 - This script is meant to install in Debian Testing (Trixie) and Debian Unstable (SID). This script Will NOT work with Bookworm
@@ -153,6 +154,7 @@ sudo nano /etc/apt/sources.list
 
 #### 🔔 NOTICE TO NVIDIA OWNERS ### 
 - by default it is installing the latest and newest nvidia drivers. If you have an older nvidia-gpu (GTX 800 series and older), check out nvidia-debian website [`LINK`](https://wiki.debian.org/NvidiaGraphicsDrivers) and edit nvidia.sh in install-scripts directory to install proper gpu driver
+
 > [!IMPORTANT]
 > If you want to use nouveau driver, choose N when asked if you have nvidia gpu. This is because the nvidia installer part, it will blacklist nouveau. Hyprland will still be installed but it will skip blacklisting nouveau.
 
@@ -196,7 +198,7 @@ source ~/.zshrc
 
 #### ✨ TO DO once installation done and dotfiles copied
 - SUPER H for HINT or click on the waybar HINT! Button 
-- Head over to [FAQ](https://github.com/JaKooLit/Hyprland-Dots/wiki/FAQ) and [TIPS](https://github.com/JaKooLit/Hyprland-Dots/wiki/TIPS)
+- Head over to [`FAQ`](https://github.com/JaKooLit/Hyprland-Dots/wiki/FAQ) and [`TIPS`](https://github.com/JaKooLit/Hyprland-Dots/wiki/TIPS)
 
 
 - if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
@@ -210,6 +212,7 @@ source ~/.zshrc
 - xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 - rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
 - wallust [`LINK`](https://codeberg.org/explosion-mental/wallust)
+- Imagemagick [`LINK`](https://github.com/ImageMagick/ImageMagick) - as of 23 AUG 2024, version 7 still not on official repo, hence needed to build from source
 
 > [!TIP]
 > To update to latest packages, re-running this script will auto update all. Script is configured to pull latest packages build for you.
@@ -229,7 +232,7 @@ source ~/.zshrc
   - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
   
 #### 🙋  Got a questions regarding the Hyprland Dots configurations? 🙋
-- Head over to wiki Link [`WIKI`](https://github.com/JaKooLit/Hyprland-Dots/wiki)
+- Head over to Hyprland-Dots wiki Link [`KooL's DOTS WIKI`](https://github.com/JaKooLit/Hyprland-Dots/wiki)
 
 #### ⌨ Keybinds
 - Keybinds [`CLICK`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds)
@@ -239,11 +242,11 @@ source ~/.zshrc
 - for the Pre-configured Hyprland dots / configuration, submit issue [`here`](https://github.com/JaKooLit/Hyprland-Dots/issues)
 
 #### 🔧 Proper way to re-installing a particular script from install-scripts directory
-- CD into Debian-Hyprland Folder and then ran the below command. 
-- i.e. `./install-scripts/gtk-themes.sh` - For reinstall GTK Themes or
-- `./install-scripts/sddm.sh` - For reinstall sddm
+- CD into Debian-Hyprland DIrectory and then ran the below command. 
+- i.e. `./install-scripts/gtk-themes.sh` - to reinstall GTK Themes or
+- `./install-scripts/sddm.sh` - to reinstall sddm
 > [!IMPORTANT]
-> DO NOT cd into install-scripts directory as script will most likely to fail
+> DO NOT CD into install-scripts directory as script as it will fail. Scripts are designed to ran outside install-scripts directory for installation logging purposes.
 
 #### 🛣️ Roadmap:
 - [ ] possibly adding gruvbox themes, cursors, icons
