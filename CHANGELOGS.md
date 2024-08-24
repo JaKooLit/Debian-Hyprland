@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 24 Aug 2024
+- Created a newer and compatible Hyprland-Dots repo
+- 
 ## 23 Aug 2024
 - Moved Ubuntu-Hyprland on a separate Github Repo
 
