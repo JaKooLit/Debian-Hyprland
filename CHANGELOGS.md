@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 23 Aug 2024
+- Moved Ubuntu-Hyprland on a separate Github Repo
+
 ## 22 Aug 2024
 - refactor Debian-Hyprland script. As Hyprland is now in official repo
  

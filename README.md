@@ -1,24 +1,18 @@
 <div align="center">
-<br>
-<a href="#--ubuntu-2404-lts-noble-numbat-hyprland-install-script-branch-"><kbd> <br> Ubuntu 24.04 LTS <br> </kbd></a>&ensp;&ensp;  
+<br> 
   <a href="#-announcement-"><kbd> <br> Read this First <br> </kbd></a>&ensp;&ensp;
   <a href="#-to-use-this-script"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
   <a href="#gallery-and-videos"><kbd> <br> Gallery <br> </kbd></a>&ensp;&ensp;
  </div><br>
 <div align="center">
 
-## 💌 JaKooLit's Debian/Ubuntu Hyprland Install Script 💌
-#### For Debian 13 Trixie (Testing) and SID (unstable) and Ubuntu 24.04 Noble Numbat
+## 💌 JaKooLit's Debian-Hyprland Install Script 💌
+#### For Debian 13 Trixie (Testing) and SID (unstable)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) <a href="https://discord.gg/9JEgZsfhex"> <img src="https://img.shields.io/discord/1151869464405606400?style=for-the-badge&logo=discord&color=cba6f7&link=https%3A%2F%2Fdiscord.gg%9JEgZsfhex"> </a>
 
 <br/>
 </div>
-
-<img src="https://raw.githubusercontent.com/JaKooLit/Telegram-Animated-Emojis/main/Symbols/Double%20Exclamation%20Mark.webp" alt="Double Exclamation Mark" width="40" height="40" />  For Ubuntu 24.04 Noble Numbat users, click the link below. This will take you to specific branch of this repo
-<h4 align="left">
-  <a href="https://github.com/JaKooLit/Debian-Hyprland/tree/Ubuntu-24.04-LTS">Ubuntu 24.04 LTS Noble Numbat Hyprland install script branch </a><br><br>
-</h4>
 
 <div align="center">
 👇 KOOL's Hyprland-Dots related Links 👇
@@ -99,9 +93,6 @@ sudo nano /etc/apt/sources.list
 
 ![alt text](https://github.com/JaKooLit/screenshots/blob/main/Hyprland-ScreenShots/Debian/Kali-Linux1.png)
 
-#### ❕ Installed on Ubuntu 24.04 LTS with Nvidia Laptop 😷 
-![alt text](https://github.com/JaKooLit/screenshots/blob/main/Distro-Hyprland/Ubuntu/Ubuntu-24.04-nvidia.png)
-
 
 #### 📷 More updated Screenshots Here [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-Dots-Showcase)
 
@@ -119,9 +110,6 @@ sudo nano /etc/apt/sources.list
 
 #### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
 #### ✨ A video walk through of My Hyprland-Dots v2[`Link`](https://youtu.be/yaVurRoXc-s?si=iDnBC5S3thPBX3ZE)
-
-#### 💯💯 Check out Installation Video coverage by KSK royal (Ubuntu 23.10 + nvidia)
-- [`Link`](https://youtu.be/PMQf9gAt8FE?si=eCBqwXaej-1XXIh_)
 
 #### 💯💯 Check out Installation Video coverage by KSK royal (Kali Linux xfce + nvidia). He have details regarding installing timeshift and switching to sddm from lightdm. He also covers removal of nouveau in favor of proprietary nvidia drivers
 - [`Link`](https://youtu.be/NtpRtSBjz3I?si=YGkS75u_7cW5D_zu)
@@ -173,18 +161,6 @@ chmod +x install.sh
 <p align="center">
     <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Install.png" />
 
-
-> [!NOTE]
-> UBUNTU USERS: Will only work on Ubuntu 24.04. See above!
-> For Ubuntu 24.04 LTS, no need to edit the /etc/apt/sources.list
-> A separate branch have been created for Ubuntu 24.04 ONLY
-```bash
-git clone --depth=1 -b Ubuntu-24.04-LTS https://github.com/JaKooLit/Debian-Hyprland.git ~/Ubuntu-Hyprland
-cd ~/Ubuntu-Hyprland
-chmod +x install.sh
-./install.sh
-```
-
 #### ✨ for ZSH and OH-MY-ZSH installation
 > installer should auto change your default shell to zsh. However, if it does not, do this
 ```bash
@@ -219,7 +195,7 @@ source ~/.zshrc
 
 #### 🤬 FAQ
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
-- Well, most of the core packages are downloaded and Build and compiled from SOURCE. There are no pre-built binary (yet) for Debian and Ubuntu. Unlike Other distros, they already have prepacked binary that can just download and install.
+- Well, most of the core packages are downloaded and Build and compiled from SOURCE. Unlike Other distros, they already have prepacked binary that can just download and install.
 
 > [!NOTE] 
 > This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
