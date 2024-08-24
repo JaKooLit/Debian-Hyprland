@@ -38,7 +38,7 @@ fi
 
 # Clone and build xdg-desktop-portal-hyprland
 printf "${NOTE} Installing xdg-desktop-portal-hyprland...\n"
-if git clone --recursive https://github.com/hyprwm/xdg-desktop-portal-hyprland; then
+if git clone --recursive -b $xdph_tag https://github.com/hyprwm/xdg-desktop-portal-hyprland; then
     cd xdg-desktop-portal-hyprland || exit 1
 	cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B build
 	cmake --build build
