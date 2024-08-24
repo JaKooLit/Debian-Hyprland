@@ -1,3 +1,7 @@
+## NOTE: Ubuntu-Hyprland install script are moved to a different Repo
+- [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
+- Ubuntu-Hyprland install script on this repo/branch will be deleted by the End Aug 2024
+
 <div align="center">
 <br> 
   <a href="#-announcement-"><kbd> <br> Read this First <br> </kbd></a>&ensp;&ensp;
