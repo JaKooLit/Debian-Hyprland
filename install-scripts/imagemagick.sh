@@ -30,7 +30,12 @@ for PKG1 in "${depend[@]}"; do
   fi
 done
 
-##
+# check if Imagemagick is already installed manually 
+if [ -f "/usr/local/bin/magick" ]; then
+    echo "${NOTE} /usr/local/bin/magick already exists. skipping installation of Imagemagick." 2>&1 | tee -a "$LOG"
+    exit 0
+fi
+
 printf "${NOTE} Installing ImageMagick from source...\n"  
 
 # Check if folder exists and remove it
