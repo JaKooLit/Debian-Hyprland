@@ -10,6 +10,45 @@ fi
 
 clear
 
+# Function to display ASCII art
+display_hello() {
+    cat << "EOF"
+  _   _      _ _         __        __         _     _ _ 
+ | | | | ___| | | ___    \ \      / /__  _ __| | __| | |
+ | |_| |/ _ \ | |/ _ \    \ \ /\ / / _ \| '__| |/ _` | |
+ |  _  |  __/ | | (_) |    \ V  V / (_) | |  | | (_| |_|
+ |_| |_|\___|_|_|\___( )    \_/\_/ \___/|_|  |_|\__,_(_)
+                     |/                                 
+EOF
+}
+
+# Display ASCII art
+display_hello
+
+# Loop until valid input is provided
+while true; do
+    printf "${WARN} - Attention! Ubuntu-Hyprland have been moved into new repo!\n\n"
+    read -p "${NOTE} - Please note that I have now moved to a newer install script. Would you like to exit and download the new script? (y/n): " initial_choice
+
+    # Check user input
+    if [[ $initial_choice == "y" || $initial_choice == "Y" ]]; then
+        echo "Exiting and downloading the new script..."
+        cd
+        git clone --depth 1 -b 24.04 https://github.com/JaKooLit/Ubuntu-Hyprland ~/Ubuntu-Hyprland-24.04
+        cd Ubuntu-Hyprland-24.04
+        chmod +x install.sh
+        ./install.sh
+        exit 0
+        break
+    elif [[ $initial_choice == "n" || $initial_choice == "N" ]]; then
+        echo "Continuing to install Ubuntu Hyprland using this script..."
+        break
+    else
+        echo "Invalid choice. Please enter 'y' or 'n'."
+    fi
+done
+
+
 printf "\n%.0s" {1..3}                            
 echo "   |  _.   |/  _   _  |  o _|_ "
 echo " \_| (_| o |\ (_) (_) |_ |  |_ "
