@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 28 Aug 2024
+- Added final check if hyprland is installed and will give an error to user
+
 ## 24 Aug 2024
 - Created a newer and compatible Hyprland-Dots repo
 - 
