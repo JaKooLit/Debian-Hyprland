@@ -1,4 +1,4 @@
-# NOTE: Ubuntu-Hyprland install script are moved to a different Repo
+## NOTE: Ubuntu-Hyprland install script has its own repo now
 - [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
 
 
