@@ -10,27 +10,47 @@ fi
 
 clear
 
-printf "\n%.0s" {1..3}                            
+# Function to check if the system is Ubuntu
+is_ubuntu() {
+    # Check for 'Ubuntu' in /etc/os-release
+    if grep -q 'Ubuntu' /etc/os-release; then
+        return 0
+    fi
+    return 1
+}
+
+# Check if the system is Ubuntu
+if is_ubuntu; then
+    echo "This script is NOT intended for Ubuntu / Ubuntu Based. Please read the README for the correct link."
+    exit 1
+fi
+
+clear
+
+# ASCII art
+printf "\n%.0s" {1..3}
 echo "   |  _.   |/  _   _  |  o _|_ "
 echo " \_| (_| o |\ (_) (_) |_ |  |_ "
-printf "\n%.0s" {1..2}  
+printf "\n%.0s" {1..2}
 
 # Welcome message
 echo "$(tput setaf 6)Welcome to JaKooLit's Debian Trixie/SID Hyprland Install Script!$(tput sgr0)"
 echo
-echo "$(tput setaf 166)ATTENTION: Run a full system update and Reboot first!! (Highly Recommended) $(tput sgr0)"
+echo "$(tput setaf 166)ATTENTION: Run a full system update and reboot first!! (Highly Recommended)$(tput sgr0)"
 echo
-echo "$(tput setaf 3)NOTE: You will be required to answer some questions during the installation! $(tput sgr0)"
+echo "$(tput setaf 3)NOTE: You will be required to answer some questions during the installation!$(tput sgr0)"
 echo
-echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprland wont start! $(tput sgr0)"
+echo "$(tput setaf 3)NOTE: If you are installing on a VM, ensure to enable 3D acceleration; otherwise, Hyprland won't start!$(tput sgr0)"
 echo
 
+# Prompt user to proceed
 read -p "$(tput setaf 6)Would you like to proceed? (y/n): $(tput sgr0)" proceed
 
-if [ "$proceed" != "y" ]; then
+if [[ "$proceed" != "y" ]]; then
     echo "Installation aborted."
     exit 1
 fi
+
 
 read -p "$(tput setaf 6)Have you edited your /etc/apt/sources.list? [Very Important] (y/n): $(tput sgr0)" proceed2
 
@@ -161,10 +181,10 @@ execute_script "01-pre-cleanup.sh"
 execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
+execute_script "wallust.sh"
 execute_script "imagemagick.sh"
 execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
-execute_script "wallust.sh"
 execute_script "ags.sh"
 execute_script "hyprland.sh"
 execute_script "hyprlock.sh"
@@ -245,7 +265,7 @@ if dpkg -l | grep -qw hyprland || dpkg -l | grep -qw hyprland-git; then
     fi
 else
     # Print error message if neither package is installed
-    printf "\n${NOTE} Hyprland failed to install. Please check Install-Logs...\n\n"
+    printf "\n${WARN} Hyprland failed to install. Please check Install-Logs...\n\n"
     exit 1
 fi
 

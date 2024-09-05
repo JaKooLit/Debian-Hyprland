@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 04 Sep 2024
+- added a function to check if it is Ubuntu or Based on Ubuntu and script will exit
+
 ## 28 Aug 2024
 - Added final check if hyprland is installed and will give an error to user
 
