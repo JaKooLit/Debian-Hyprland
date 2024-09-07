@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 07 Sep 2024
+- Fix installation issue on hyprlock and xdph
+
 ## 04 Sep 2024
 - added a function to check if it is Ubuntu or Based on Ubuntu and script will exit
 
