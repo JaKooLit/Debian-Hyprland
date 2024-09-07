@@ -2,6 +2,8 @@
 
 ## 07 Sep 2024
 - Fix installation issue on hyprlock and xdph
+- disabled imagemagick compilation from source
+- dotfiles adjusted so it will be compatible for imagemagick v6
 
 ## 04 Sep 2024
 - added a function to check if it is Ubuntu or Based on Ubuntu and script will exit

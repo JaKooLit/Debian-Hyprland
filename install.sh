@@ -182,7 +182,9 @@ execute_script "00-dependencies.sh"
 execute_script "00-hypr-pkgs.sh"
 execute_script "fonts.sh"
 execute_script "wallust.sh"
-execute_script "imagemagick.sh"
+
+#execute_script "imagemagick.sh" #this is for compiling from source. 07 Sep 2024
+
 execute_script "swww.sh"
 execute_script "rofi-wayland.sh"
 execute_script "ags.sh"
