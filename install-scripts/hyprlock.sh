@@ -3,6 +3,9 @@
 # hyprlock #
 
 lock=(
+	libpam0g-dev
+	libgbm-dev
+	libdrm-dev
     libmagic-dev
     libhyprlang-dev
     libhyprutils-dev
