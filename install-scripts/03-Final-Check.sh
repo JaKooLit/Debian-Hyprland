@@ -11,8 +11,6 @@ packages=(
   cliphist
   wlogout
   kitty
-  hypridle
-  hyprlock
   hyprland
 )
 
