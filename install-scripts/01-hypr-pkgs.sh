@@ -20,6 +20,7 @@ hypr_package=(
   imagemagick
   kitty
   nano
+  nwg-look
   pavucontrol
   playerctl
   polkit-kde-agent-1
