@@ -2,6 +2,7 @@
 
 ## 19 Sep 2024
 - updated xdph installation since it is now in Debian Repo
+- Added fastfetch on tty. However, will be disabled if user decided to install pokemon colorscripts
 
 ## 14 Sep 2024
 - Added Essential Packages final check in lieu of errors from Install log files in Install-Logs directory
