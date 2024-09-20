@@ -9,7 +9,8 @@ ags=(
     libgjs-dev 
     gjs 
     libgtk-layer-shell-dev 
-    libgtk-3-dev 
+    libgtk-3-dev
+    libpam0g-dev 
     libpulse-dev 
     libdbusmenu-gtk3-dev 
     libsoup-3.0-dev

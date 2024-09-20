@@ -34,13 +34,7 @@ for PKG1 in "${swww[@]}"; do
     fi
 done
 
-printf "${NOTE} Force installing packages...\n"
-for FORCE in "${swww[@]}"; do
-    sudo apt-get --reinstall install -y "$FORCE" 2>&1 | tee -a "$LOG"
-    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $FORCE Package installation failed, Please check the installation logs"; exit 1; }
-done
-
-printf "\n\n"
+printf "\n%.0s" {1..2}
 
 printf "${NOTE} Installing swww\n"
 
