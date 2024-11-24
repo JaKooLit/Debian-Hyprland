@@ -66,22 +66,23 @@ printf "\n\n"
 printf "${NOTE} Installing rofi-wayland...\n"
 
 # Check if rofi folder exists
-if [ -d "rofi" ]; then
-  printf "${NOTE} rofi folder exists. Removing existing directory...\n"
-  rm -rf rofi
+if [ -d "rofi-1.7.5+wayland3" ]; then
+  rm -rf "rofi-1.7.5+wayland3"
 fi
 
 # cloning rofi-wayland
-printf "${NOTE} Cloning rofi-wayland repository...\n"
-if git clone https://github.com/lbonn/rofi.git; then
-  cd rofi || exit 1
-else
-  echo -e "${ERROR} Download failed for rofi-wayland." 2>&1 | tee -a "$LOG"
-  exit 1
+printf "${NOTE} Downloading rofi-wayland v1.7.5+wayland3 from releases...\n"
+wget https://github.com/lbonn/rofi/releases/download/1.7.5%2Bwayland3/rofi-1.7.5+wayland3.tar.gz
+
+if [ -f "rofi-1.7.5+wayland3.tar.gz" ]; then
+  printf "rofi-wayland downloaded successfully.\n" 2>&1 | tee -a "$LOG"
+  tar xf rofi-1.7.5+wayland3.tar.gz
 fi
 
+cd rofi-1.7.5+wayland3 || exit 1
+
 # Proceed with the installation steps
-if meson setup build && ninja -C build; then
+if meson setup build && ninja -C build ; then
   if sudo ninja -C build install 2>&1 | tee -a "$MLOG"; then
     printf "${OK} rofi-wayland installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
@@ -95,5 +96,7 @@ fi
 mv "$MLOG" ../Install-Logs/ || true
 cd .. || exit 1
 
-clear
+# clean up
+rm -rf rofi-1.7.5+wayland3.tar.gz
 
+clear
