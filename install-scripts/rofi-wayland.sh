@@ -23,6 +23,7 @@ rofi=(
   libxkbcommon-dev
   libxkbcommon-x11-dev
   imagemagick
+  wget
 )
 
 
