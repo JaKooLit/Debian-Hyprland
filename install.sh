@@ -21,7 +21,7 @@ is_ubuntu() {
 
 # Check if the system is Ubuntu
 if is_ubuntu; then
-    echo "This script is NOT intended for Ubuntu / Ubuntu Based. Please read the README for the correct link."
+    echo "This script is NOT intended for Ubuntu / Ubuntu Based. Refer to README for the correct link for Ubuntu-Hyprland project."
     exit 1
 fi
 
