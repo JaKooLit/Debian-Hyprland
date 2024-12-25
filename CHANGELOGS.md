@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 26 Dec 2024
+- Removal of Bibata Ice cursor on assets since its integrated in the GTK Themes and Icons extract from a separate repo
+
 ## 10 Dec 2024
 - updated swww.sh to download from version v0.9.5
 
