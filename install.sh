@@ -258,7 +258,7 @@ fi
 execute_script "InputGroup.sh"
 
 if [ "$dots" == "Y" ]; then
-    execute_script "dotfiles.sh"
+    execute_script "dotfiles-branch.sh"
 fi
 
 # Clean up
