@@ -34,13 +34,7 @@ for PKG1 in "${swww[@]}"; do
     fi
 done
 
-printf "${NOTE} Force installing packages...\n"
-for FORCE in "${swww[@]}"; do
-    sudo apt-get --reinstall install -y "$FORCE" 2>&1 | tee -a "$LOG"
-    [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $FORCE Package installation failed, Please check the installation logs"; exit 1; }
-done
-
-printf "\n\n"
+printf "\n%.0s" {1..2}
 
 printf "${NOTE} Installing swww\n"
 
@@ -51,7 +45,7 @@ if [ -d "swww" ]; then
     git pull origin main 2>&1 | tee -a "$MLOG"
 else
     printf "${NOTE} Cloning swww repository...\n"
-    if git clone --recursive https://github.com/Horus645/swww.git; then
+    if git clone --recursive -b $swww_tag https://github.com/LGFae/swww.git; then
         cd swww || exit 1
     else
         echo -e "${ERROR} Download failed for swww" 2>&1 | tee -a "$LOG"

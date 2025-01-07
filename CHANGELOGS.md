@@ -1,5 +1,31 @@
 ## Changelogs
 
+## 01 Jan 2025
+- Switched to download dots from KooL's Hyprland dots specific branch
+
+## 26 Dec 2024
+- Removal of Bibata Ice cursor on assets since its integrated in the GTK Themes and Icons extract from a separate repo
+
+## 10 Dec 2024
+- updated swww.sh to download from version v0.9.5
+
+## 24 Nov 2024
+- switched to download rofi-wayland from releases instead from upstream
+
+## 20 Sep 2024
+- User will be ask if they want to set Thunar as default file manager if they decided to install it
+
+## 19 Sep 2024
+- updated xdph installation since it is now in Debian Repo
+- Added fastfetch on tty. However, will be disabled if user decided to install pokemon colorscripts
+
+## 14 Sep 2024
+- Added Essential Packages final check in lieu of errors from Install log files in Install-Logs directory
+- nwg-look is now in Debian Repo
+
+## 10 Sep 2024
+- added background check of known login managers if they are active if user chose to install sddm
+
 ## 08 Sep 2024
 - Added final error checks on install-logs
 

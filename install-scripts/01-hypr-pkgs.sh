@@ -20,6 +20,7 @@ hypr_package=(
   imagemagick
   kitty
   nano
+  nwg-look
   pavucontrol
   playerctl
   polkit-kde-agent-1
@@ -62,6 +63,13 @@ hypr_package_2=(
 uninstall=(
   dunst
   mako
+  rofi
+  cargo
+)
+
+# List packages to force reinstall
+force=(
+  yad
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -88,8 +96,7 @@ for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
   fi
 done
 
-printf "\n%s - Checking if mako or dunst are installed and removing for swaync to work properly \n" "${NOTE}"
-
+printf "\n%s - Uninstalling some packages inorder for dots to work properly \n" "${NOTE}"
 for PKG in "${uninstall[@]}"; do
   uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
@@ -97,6 +104,19 @@ for PKG in "${uninstall[@]}"; do
     exit 1
   fi
 done
+
+for PKG2 in "${force[@]}"; do
+  re_install_package "$PKG2" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - Force reinstall of $PKG2 failed"
+    exit 1
+  fi
+done
+
+# Install up-to-date Rust
+echo "Installing most up to date Rust compiler..."
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | tee -a "$LOG"
+source "$HOME/.cargo/env"
 
 ## making brightnessctl work
 sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true

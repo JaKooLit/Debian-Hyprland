@@ -1,6 +1,16 @@
-## NOTE: Ubuntu-Hyprland install script has its own repo now
-- [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
+<div align="center">
 
+# 💌 KooL's Debian-Hyprland Install Script 💌
+#### For Debian 13 Trixie (Testing) and SID (unstable)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/JaKooLit/Hyprland-Dots/main/assets/latte.png" width="400" />
+</p>
+
+![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) <a href="https://discord.gg/9JEgZsfhex"> <img src="https://img.shields.io/discord/1151869464405606400?style=for-the-badge&logo=discord&color=cba6f7&link=https%3A%2F%2Fdiscord.gg%9JEgZsfhex"> </a>
+
+<br/>
+</div>
 
 <div align="center">
 <br> 
@@ -8,15 +18,7 @@
   <a href="#-to-use-this-script"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
   <a href="#gallery-and-videos"><kbd> <br> Gallery <br> </kbd></a>&ensp;&ensp;
  </div><br>
-<div align="center">
 
-## 💌 JaKooLit's Debian-Hyprland Install Script 💌
-#### For Debian 13 Trixie (Testing) and SID (unstable)
-
-![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) <a href="https://discord.gg/9JEgZsfhex"> <img src="https://img.shields.io/discord/1151869464405606400?style=for-the-badge&logo=discord&color=cba6f7&link=https%3A%2F%2Fdiscord.gg%9JEgZsfhex"> </a>
-
-<br/>
-</div>
 
 <div align="center">
 👇 KOOL's Hyprland-Dots related Links 👇
@@ -44,6 +46,8 @@ https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-991
 
 </div>
 
+### NOTE: Ubuntu-Hyprland install script has its own repo now
+- [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
 
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
@@ -51,7 +55,7 @@ https://github.com/JaKooLit/Hyprland-Dots/assets/85185940/50d53755-0f11-45d6-991
 > [!NOTE]
 > Main reason why I have not included an uninstallation script is simple. Some packages maybe already installed on your system by default. If I create an uninstall script with packages that I have set to install, you may end up a unrecoverable system. 
 
-> [!WARNING] 
+> [!CAUTION] 
 > Download this script on a directory where you have write permissions. ie. HOME. Or any directory within your home directory. Else script will fail
 
 #### ⚠️ Pre-requisites and VERY Important! ### 
@@ -134,11 +138,8 @@ sudo nano /etc/apt/sources.list
 - If you have nvidia, and wanted to use proprietary drivers, uninstall nouveau first (if installed). This script will be installing proprietary nvidia drivers and will not deal with removal of nouveau.
 - NVIDIA users / owners, after installation, check [`THIS`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Notes_to_remember#--for-nvidia-gpu-users)
  
-#### ⚠️ WARNING! nwg-look takes long time to install. 
-- nwg-look is a utility to costumize your GTK theme. It's a LXAppearance like. Its a good tool though but this package is entirely optional
-
 #### ✨ Costumize the packages to be installed
-- inside the install-scripts directory, you can edit 00-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
+- inside the install-scripts directory, you can edit 01-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
 
 #### 💫 SDDM and GTK Themes offered
 - If you opted to install SDDM theme, here's the [`LINK`](https://github.com/JaKooLit/simple-sddm)
@@ -184,15 +185,12 @@ source ~/.zshrc
 - if you installed in your laptop and Brightness and Keyboard brightness does not work you can execute this command `sudo chmod +s $(which brightnessctl)`
 
 #### ✨ Packages that are manually downloaded and build. These packages will not be updated by apt and have to be manually updated
-- nwg-look [`LINK`](https://github.com/nwg-piotr/nwg-look)
 - Asus ROG asusctl [`LINK`](https://gitlab.com/asus-linux/asusctl) and superfxctl [`LINK`](https://gitlab.com/asus-linux/supergfxctl)
 - swww [`LINK`](https://github.com/Horus645/swww)
 - hyprlock [`LINK`](https://github.com/hyprwm/hyprlock) #22 Aug 2024 - still not on repo
 - hypridle [`LINK`](https://github.com/hyprwm/hypridle) #22 Aug 2024 - still not on repo
-- xdg-desktop-portal-hyprland [`LINK`](https://github.com/hyprwm/xdg-desktop-portal-hyprland)
 - rofi-wayland [`LINK`](https://github.com/lbonn/rofi)
 - wallust [`LINK`](https://codeberg.org/explosion-mental/wallust)
-- Imagemagick [`LINK`](https://github.com/ImageMagick/ImageMagick) - as of 23 AUG 2024, version 7 still not on official repo, hence needed to build from source
 
 > [!TIP]
 > To update to latest packages, re-running this script will auto update all. Script is configured to pull latest packages build for you.
@@ -201,12 +199,21 @@ source ~/.zshrc
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
 - Well, most of the core packages are downloaded and Build and compiled from SOURCE. Unlike Other distros, they already have prepacked binary that can just download and install.
 
-> [!NOTE] 
-> This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
+### 🛎 *** DEBIAN and UBUNTU Hyprland Dots UPDATING NOTES ***
+> [!IMPORTANT]
+> This is very Important for Debian and Ubuntu Dots
+- Some parts of KooL's Hyprland Dots [`LINK`](https://github.com/JaKooLit/Hyprland-Dots) are not compatible on Debian and Ubuntu especially the hyprland settings. 
+- That is the reason the DOTS for those distro's are "fixed" and they are being pulled on the releases. This releases are NOT in any of the branches of the KooL's Hyprland Dots. 
+
+- for Debian and Ubuntu if you want to update from newest KooL's dots versions (main branch), after running copy.sh, you will have 100% error which will appear on top. However, Hyprland is very good in pin pointing those errors. 
+- You can simply just remove those lines or add # on those lines. Then, it should be ok.
 
 #### ❗ some known issues on this Installer
 - some users reported that they have to install some packages. It is in the install-scripts/force-install.sh
 - At this time the packages force to install are the following `imagemagick`
+
+> [!NOTE] 
+> This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
 
 #### 🫥 Improving performance for Older Nvidia Cards using driver 470
   - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
