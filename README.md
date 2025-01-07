@@ -1,6 +1,18 @@
-## NOTE: Ubuntu-Hyprland install script has its own repo now
-- [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
+<div align="center">
 
+# 💌 ** KooL's Debian - Hyprland Install Script ** 💌
+#### For Debian 13 Trixie (Testing) and SID (unstable)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/JaKooLit/Hyprland-Dots/main/assets/latte.png" width="400" />
+</p>
+
+<div align="center">
+
+![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) <a href="https://discord.gg/9JEgZsfhex"> <img src="https://img.shields.io/discord/1151869464405606400?style=for-the-badge&logo=discord&color=cba6f7&link=https%3A%2F%2Fdiscord.gg%9JEgZsfhex"> </a>
+
+<br/>
+</div>
 
 <div align="center">
 <br> 
@@ -8,15 +20,9 @@
   <a href="#-to-use-this-script"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
   <a href="#gallery-and-videos"><kbd> <br> Gallery <br> </kbd></a>&ensp;&ensp;
  </div><br>
-<div align="center">
 
-## 💌 JaKooLit's Debian-Hyprland Install Script 💌
-#### For Debian 13 Trixie (Testing) and SID (unstable)
-
-![GitHub Repo stars](https://img.shields.io/github/stars/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) ![GitHub last commit](https://img.shields.io/github/last-commit/JaKooLit/Debian-Hyprland?style=for-the-badge&color=b4befe) ![GitHub repo size](https://img.shields.io/github/repo-size/JaKooLit/Debian-Hyprland?style=for-the-badge&color=cba6f7) <a href="https://discord.gg/9JEgZsfhex"> <img src="https://img.shields.io/discord/1151869464405606400?style=for-the-badge&logo=discord&color=cba6f7&link=https%3A%2F%2Fdiscord.gg%9JEgZsfhex"> </a>
-
-<br/>
-</div>
+## NOTE: Ubuntu-Hyprland install script has its own repo now
+- [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
 
 <div align="center">
 👇 KOOL's Hyprland-Dots related Links 👇
