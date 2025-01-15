@@ -1,5 +1,8 @@
 ## Changelogs
 
+## 12 Jan 2025
+- switch to final version of aylurs-gtk-shell-v1
+
 ## 01 Jan 2025
 - Switched to download dots from KooL's Hyprland dots specific branch
 
