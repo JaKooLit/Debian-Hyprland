@@ -42,13 +42,6 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_rofi_wayland.log"
 MLOG="install-$(date +%d-%H%M%S)_rofi_wayland2.log"
 
-# uninstall other rofi
-for PKG in "rofi" "bison"; do
-  uninstall_package "$PKG" "$LOG"
-done
-
-sleep 1
-printf "\n%.0s" {1..2}
 # Installation of main components
 printf "\n%s - Installing ${SKY_BLUE}rofi-wayland dependencies${RESET}.... \n" "${INFO}"
 
@@ -61,8 +54,8 @@ printf "\n%.0s" {1..2}
 printf "${NOTE} Installing ${SKY_BLUE}rofi-wayland${RESET}...\n"
 
 # Check if rofi folder exists
-if [ -d "$rofi_tag" ]; then
-  rm -rf "$rofi_tag"
+if [ -d "rofi-$rofi_tag" ]; then
+  rm -rf "rofi-$rofi_tag"
 fi
 
 # cloning rofi-wayland
@@ -74,7 +67,7 @@ if [ -f "$rofi_tag.tar.gz" ]; then
   tar xf $rofi_tag.tar.gz
 fi
 
-cd $rofi_tag || exit 1
+cd rofi-$rofi_tag || exit 1
 
 # Proceed with the installation steps
 if meson setup build && ninja -C build ; then
