@@ -72,7 +72,9 @@ fi
 read -p "${CAT} Have you edited your /etc/apt/sources.list? ${YELLOW}[Very Important else script will fail]${RESET} (y/n): ${RESET}" proceed2
 
 if [ "$proceed2" != "y" ]; then
+    printf "\n%.0s" {1..2}
     echo "Installation aborted! Kindly edit your ${YELLOW}sources.list${RESET} first. Refer to readme."
+    printf "\n%.0s" {1..2}
     exit 1
 fi
 

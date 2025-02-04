@@ -48,7 +48,10 @@ show_progress() {
 
 
 # Function for installing packages with a progress bar
-install_package() {  
+install_package() { 
+    if sudo dpkg -l | grep -q -w "$1" ; then
+    echo -e "${INFO} ${MAGENTA}$1${RESET} is already installed. Skipping..."
+  else 
     (
       stdbuf -oL sudo apt-get install -y "$1" 2>&1
     ) >> "$LOG" 2>&1 &
