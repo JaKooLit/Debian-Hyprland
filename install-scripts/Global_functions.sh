@@ -68,21 +68,23 @@ install_package() {
   fi
 }
 
-# Function for re-installing packages
-re_install_package() {  
-    # Try to reinstall the package
-    if sudo apt-get install --reinstall -y "$1" 2>&1 | tee -a "$LOG"; then
-        if dpkg -l | grep -q -w "$1"; then
-            echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully re-installed!"
-        else
-            # Package was not found, installation failed
-            echo -e "${ERROR} $1 failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-        fi
+# Function for re-installing packages with a progress bar
+re_install_package() {
+    (
+        stdbuf -oL sudo apt-get install --reinstall -y "$1" 2>&1
+    ) >> "$LOG" 2>&1 &
+    
+    PID=$!
+    show_progress $PID "$1" 
+    
+    if dpkg -l | grep -q -w "$1"; then
+        echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully re-installed!"
     else
-        # Installation command failed
-        echo -e "${ERROR} Failed to reinstall $1. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
+        # Package not found, reinstallation failed
+        echo -e "${ERROR} ${YELLOW}$1${RESET} failed to re-install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
     fi
 }
+
 
 # Function for uninstalling packages
 uninstall_package() {
