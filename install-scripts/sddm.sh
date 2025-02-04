@@ -8,11 +8,9 @@ sddm1=(
 )
 
 sddm2=(
-  qml-module-qtgraphicaleffects
-  qml-module-qtquick-controls 
-  qml-module-qtquick-controls2
-  qml-module-qtquick-extras 
-  qml-module-qtquick-layouts
+  qml6-module-qt5compat-graphicaleffects
+  qt6-declarative-dev
+  qt6-svg-dev
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
