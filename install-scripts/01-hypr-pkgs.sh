@@ -101,6 +101,21 @@ for PKG2 in "${force[@]}"; do
   re_install_package "$PKG2" "$LOG"
 done
 
+
+# install YAD from assets. NOTE This is downloaded from SID repo and sometimes
+# Trixie is removing YAD for some strange reasons
+
+# Check if yad is installed
+if ! command -v yad &> /dev/null; then
+  # yad is not installed, so install it
+  echo "${INFO} Installing ${YELLOW}YAD from assets${RESET} ..."
+  sudo dpkg -i assets/yad_0.40.0-1+b2_amd64.deb
+  # Handle potential dependency issues after installing the .deb
+  sudo apt-get install -f -y
+fi
+
+printf "\n%.0s" {1..2}
+
 # Install up-to-date Rust
 echo "${INFO}Installing most ${YELLOW}up to date Rust compiler${RESET} ..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | tee -a "$LOG"

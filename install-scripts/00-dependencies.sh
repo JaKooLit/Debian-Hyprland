@@ -27,7 +27,7 @@ dependencies=(
     python3-pyquery
     qt6-base-dev
     spirv-tools
-    vulkan-validationlayers
+    #vulkan-validationlayers
     vulkan-utility-libraries-dev
     wayland-protocols
     xdg-desktop-portal

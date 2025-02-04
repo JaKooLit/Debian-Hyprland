@@ -61,11 +61,9 @@ install_package() {
     # Double check if the package was re-installed successfully
     if dpkg -l | grep -q -w "$1"; then
         echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully installed!"
-        return 0
     else
         # Package was not found, installation failed
         echo -e "${ERROR} ${YELLOW}$1${RESET} failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-        return 1
     fi
   fi
 }
@@ -76,16 +74,13 @@ re_install_package() {
     if sudo apt-get install --reinstall -y "$1" 2>&1 | tee -a "$LOG"; then
         if dpkg -l | grep -q -w "$1"; then
             echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully re-installed!"
-            return 0
         else
             # Package was not found, installation failed
             echo -e "${ERROR} $1 failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-            return 1
         fi
     else
         # Installation command failed
         echo -e "${ERROR} Failed to reinstall $1. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-        return 1
     fi
 }
 
@@ -95,10 +90,8 @@ uninstall_package() {
     sudo apt-get autoremove -y "$1" >> "$LOG" 2>&1
     if ! dpkg -l | grep -q -w "^ii  $1" ; then
       echo -e "\e[1A\e[K${OK} ${MAGENTA}$1${RESET} was uninstalled."
-      return 0
     else
       echo -e "\e[1A\e[K${ERROR} $1 failed to uninstall. Please check the uninstall.log."
-      return 1
     fi
   fi
 }
