@@ -32,12 +32,12 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_sddm.log"
 # Install SDDM (no-recommends)
 printf "\n%s - Installing ${SKY_BLUE}SDDM and dependencies${RESET} .... \n" "${NOTE}"
 for PKG1 in "${sddm1[@]}" ; do
-  sudo apt-get install --no-install-recommends -y "$PKG1" "$LOG"
+  sudo apt-get install --no-install-recommends -y "$PKG1" | tee -a "$LOG"
 done
 
 # Installation of additional sddm stuff
 for PKG2 in "${sddm2[@]}"; do
-  install_package "$PKG2" 2>&1 | tee -a "$LOG"
+  install_package "$PKG2"  "$LOG"
 done
 
 # Check if other login managers are installed and disabling their service before enabling sddm
