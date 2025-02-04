@@ -25,6 +25,10 @@ ags=(
     libsoup-3.0-dev
 )
 
+f_ags=(
+    npm
+)
+
 # specific tags to download
 ags_tag="v1.9.0"
 
@@ -49,6 +53,10 @@ printf "\n%s - Installing ${BLUE}Aylur's GTK shell $ags_tag${RESET} Dependencies
 for PKG1 in "${ags[@]}"; do
   install_package "$PKG1" "$LOG"
 done
+
+for force_ags in "${f_ags[@]}"; do
+   re_install_package "$force_ags" 2>&1 | tee -a "$LOG"
+  done
 
 #install typescript by npm
 sudo npm install --global typescript 2>&1 | tee -a "$LOG"

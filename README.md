@@ -271,7 +271,8 @@ env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
 
 #### ❗ other known issues
-- [ ] hypridle cant be installed
+- [ ] hypridle wont build
+- [ ] ags (aylurs gtk shell) wont build
 
 > [!NOTE]
 > Auto start of Hyprland after login (no SDDM or GDM or any login managers)
