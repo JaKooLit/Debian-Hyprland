@@ -2,6 +2,18 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # SWWW - Wallpaper Utility #
 
+# Check if 'swww' is installed
+if command -v swww &>/dev/null; then
+    SWWW_VERSION=$(swww -V | awk '{print $NF}')
+    if [[ "$SWWW_VERSION" == "0.9.5" ]]; then
+        echo -e "${OK} ${MAGENTA}swww v0.9.5${RESET} is already installed. Skipping installation."
+        exit 0
+    fi
+else
+    echo -e "${ERROR} ${MAGENTA}swww${RESET} is not installed. Proceeding with installation."
+fi
+
+
 swww=(
     liblz4-dev
 )

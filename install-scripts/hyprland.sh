@@ -35,7 +35,7 @@ printf "${NOTE} Installing ${SKY_BLUE}Hyprland packages${RESET} .......\n"
 done
 
 # force
-printf "${NOTE} Force Installing ${SKY_BLUE}Hyprland packages${RESET}  .......\n"
+printf "${NOTE} Reinstalling ${SKY_BLUE}Hyprland packages${RESET}  .......\n"
  for HYPR1 in "${f_hypr[@]}"; do
    re_install_package "$HYPR1" "$LOG"
 done

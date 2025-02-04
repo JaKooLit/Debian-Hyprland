@@ -41,21 +41,21 @@ if [ -d "hyprlock" ]; then
 fi
 
 # Clone and build hyprlock
-printf "${INFO} Installing ${YELLOW}hypridle $lock_tag${RESET} ...\n"
+printf "${INFO} Installing ${YELLOW}hyprlock $lock_tag${RESET} ...\n"
 if git clone --recursive -b $lock_tag https://github.com/hyprwm/hyprlock.git; then
     cd hyprlock || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
 	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
     if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hypridle $lock_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${YELLOW}hyprlock $lock_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hypridle $lock_tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}hyprlock $lock_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hypridle $lock_tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ${YELLOW}hyprlock $lock_tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

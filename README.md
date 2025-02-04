@@ -271,6 +271,8 @@ env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
 
 #### ❗ other known issues
+- [ ] hypridle cant be installed
+
 > [!NOTE]
 > Auto start of Hyprland after login (no SDDM or GDM or any login managers)
 - This was disabled a few days ago. (19 May 2024). This was because some users, after they used the Distro-Hyprland scripts with other DE (gnome-wayland or plasma-wayland), if they choose to login into gnome-wayland for example, Hyprland is starting. 

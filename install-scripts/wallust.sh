@@ -19,7 +19,7 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_wallust.log"
 mkdir -p "$(dirname "$LOG")"
 
 # Install up-to-date Rust
-echo "${INFO}Installing most ${YELLOW}up to date Rust compiler${RESET} ..."
+echo "${INFO} Installing most ${YELLOW}up to date Rust compiler${RESET} ..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | tee -a "$LOG"
 source "$HOME/.cargo/env"
 
@@ -34,7 +34,7 @@ fi
 printf "\n%.0s" {1..2} 
 
 # Install Wallust using Cargo
-echo "${INFO}Installing ${SKY_BLUE}Wallust using Cargo${RESET} ..." | tee -a "$LOG"
+echo "${INFO} Installing ${SKY_BLUE}Wallust using Cargo${RESET} ..." | tee -a "$LOG"
 if cargo install wallust 2>&1 | tee -a "$LOG" ; then
     echo "${OK} ${MAGENTA}Wallust${RESET} installed successfully." | tee -a "$LOG"
 

@@ -43,8 +43,6 @@ for PKG_NAME in "${PACKAGES[@]}"; do
     # Delete the file
     sudo rm "$FILE_PATH"
     echo "Deleted: $FILE_PATH" 2>&1 | tee -a "$LOG"
-  else
-    echo "File not found: $FILE_PATH" 2>&1 | tee -a "$LOG"
   fi
 done
 

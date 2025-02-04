@@ -115,7 +115,7 @@ fi
 printf "\n%.0s" {1..2}
 
 # Install up-to-date Rust
-echo "${INFO}Installing most ${YELLOW}up to date Rust compiler${RESET} ..."
+echo "${INFO} Installing most ${YELLOW}up to date Rust compiler${RESET} ..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | tee -a "$LOG"
 source "$HOME/.cargo/env"
 
