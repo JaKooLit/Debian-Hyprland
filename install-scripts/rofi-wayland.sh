@@ -12,6 +12,7 @@ rofi=(
   libnl-3-dev
   libasound2-dev
   libstartup-notification0-dev
+  libwayland-client0
   libxcb-ewmh-dev
   libxcb-cursor-dev
   libxcb-icccm4-dev
@@ -43,11 +44,7 @@ MLOG="install-$(date +%d-%H%M%S)_rofi_wayland2.log"
 
 # uninstall other rofi
 for PKG in "rofi" "bison"; do
-  uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG uninstallation had failed, please check the log"
-    exit 1
-  fi
+  uninstall_package "$PKG" "$LOG"
 done
 
 sleep 1
@@ -56,7 +53,7 @@ printf "\n%.0s" {1..2}
 printf "\n%s - Installing ${SKY_BLUE}rofi-wayland dependencies${RESET}.... \n" "${INFO}"
 
  for FORCE in "${rofi[@]}"; do
-   sudo apt-get --reinstall install -y "$FORCE" 2>&1 | tee -a "$LOG"
+   re_install_package "$FORCE" 2>&1 | tee -a "$LOG"
   done
 
 printf "\n%.0s" {1..2}
