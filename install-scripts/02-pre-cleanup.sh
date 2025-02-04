@@ -48,3 +48,4 @@ for PKG_NAME in "${PACKAGES[@]}"; do
   fi
 done
 
+printf "\n%.0s" {1..2}

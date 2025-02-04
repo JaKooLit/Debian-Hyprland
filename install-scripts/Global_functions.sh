@@ -47,63 +47,54 @@ show_progress() {
 }
 
 
-# Function for re-installing packages with a progress bar
-re_install_package() {
-    echo -e "${NOTE} Force installing ${YELLOW}$1${RESET} ..."
-    
-    # Run the reinstall command in the background
+# Function for installing packages with a progress bar
+install_package() {  
     (
-      stdbuf -oL sudo apt-get install --reinstall -y "$1" 2>&1
+      stdbuf -oL sudo apt-get install -y "$1" 2>&1
     ) >> "$LOG" 2>&1 &
     PID=$!
     show_progress $PID "$1" 
     
     # Double check if the package was re-installed successfully
     if dpkg -l | grep -q -w "$1"; then
-        echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully re-installed!"
+        echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully installed!"
+        return 0
     else
         # Package was not found, installation failed
-        echo -e "${ERROR} $1 failed to re-install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-        exit 1
+        echo -e "${ERROR} ${YELLOW}$1${RESET} failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
+        return 1
     fi
 }
 
 # Function for re-installing packages
-re_install_package() {
-    echo -e "${NOTE} Force installing ${YELLOW}$1${RESET} ..."
-    
+re_install_package() {  
     # Try to reinstall the package
     if sudo apt-get install --reinstall -y "$1" 2>&1 | tee -a "$LOG"; then
-        # Check if the package was installed successfully
         if dpkg -l | grep -q -w "$1"; then
             echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully re-installed!"
+            return 0
         else
             # Package was not found, installation failed
             echo -e "${ERROR} $1 failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-            exit 1
+            return 1
         fi
     else
         # Installation command failed
         echo -e "${ERROR} Failed to reinstall $1. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
-        exit 1
+        return 1
     fi
 }
 
+# Function for uninstalling packages
 uninstall_package() {
-  # Check if package is installed
   if sudo dpkg -l | grep -q -w "^ii  $1" ; then
-    # Package is installed, attempt to uninstall
-    echo -e "${NOTE} Uninstalling ${YELLOW}$1${RESET} ..."
-
-    # Attempt to uninstall the package and its configuration files
     sudo apt-get autoremove -y "$1" >> "$LOG" 2>&1
-
-    # Check if the package is still installed after removal attempt
     if ! dpkg -l | grep -q -w "^ii  $1" ; then
       echo -e "\e[1A\e[K${OK} ${MAGENTA}$1${RESET} was uninstalled."
+      return 0
     else
       echo -e "\e[1A\e[K${ERROR} $1 failed to uninstall. Please check the uninstall.log."
-      exit 1
+      return 1
     fi
   fi
 }

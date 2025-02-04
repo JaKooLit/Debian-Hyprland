@@ -1,8 +1,6 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # main dependencies #
-# 22 Aug 2024 - NOTE will trim this more down
-
 
 # packages neeeded
 dependencies=(
@@ -50,14 +48,10 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 
 # Installation of main dependencies
-printf "\n%s - Installing main dependencies.... \n" "${NOTE}"
+printf "\n%s - Installing ${SKY_BLUE}main dependencies....${RESET} \n" "${NOTE}"
 
 for PKG1 in "${dependencies[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
+  install_package "$PKG1" "$LOG"
 done
 
-clear
+printf "\n%.0s" {1..2}

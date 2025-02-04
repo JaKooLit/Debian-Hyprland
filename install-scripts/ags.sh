@@ -2,6 +2,15 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # Aylur's GTK Shell #
 
+# Check if AGS is installed
+if command -v ags &>/dev/null; then
+    AGS_VERSION=$(ags -v | awk '{print $NF}') 
+    if [[ "$AGS_VERSION" == "1.9.0" ]]; then
+        echo -e "${OK} ${MAGENTA}Aylur's GTK Shell v1.9.0${RESET} is already installed. Skipping installation."
+        exit 0
+    fi
+fi
+
 ags=(
     node-typescript 
     npm 
@@ -33,21 +42,19 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_ags.log"
 MLOG="install-$(date +%d-%H%M%S)_ags2.log"
 
+# Installation of main components
+printf "\n%s - Installing ${BLUE}Aylur's GTK shell $ags_tag${RESET} Dependencies \n" "${INFO}"
+
 # Installing ags Dependencies
 for PKG1 in "${ags[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\033[1A\033[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
+  install_package "$PKG1" "$LOG"
 done
 
 #install typescript by npm
 sudo npm install --global typescript 2>&1 | tee -a "$LOG"
 
 # ags
-
-printf "${NOTE} Install and Compiling Aylurs GTK shell $ags_tag.. \n"
+printf "${INFO} Install and Compiling ${BLUE}Aylur's GTK shell $ags_tag${RESET} .. \n"
 
 # Check if folder exists and remove it
 if [ -d "ags" ]; then
@@ -62,17 +69,18 @@ if git clone --recursive -b "$ags_tag" --depth 1 https://github.com/Aylur/ags.gi
 	npm install
 	meson setup build
     if sudo meson install -C build 2>&1 | tee -a "$MLOG"; then
-        printf "${OK} ags installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${YELLOW}Aylur's GTK shell $ags_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ags" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}Aylur's GTK shell $ags_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
 
     # Move logs to Install-Logs directory
     mv "$MLOG" ../Install-Logs/ || true
     cd ..
 else
-    echo -e "${ERROR} Failed to download ags Please check your connection" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Failed to download ${YELLOW}Aylur's GTK shell $ags_tag${RESET} . Please check your connection" 2>&1 | tee -a "$LOG"
     mv "$MLOG" ../Install-Logs/ || true
     exit 1
 fi
 
+printf "\n%.0s" {1..2}

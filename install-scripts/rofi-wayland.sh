@@ -26,7 +26,7 @@ rofi=(
   wget
 )
 
-
+rofi_tag="1.7.8+wayland1"
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -51,46 +51,43 @@ for PKG in "rofi" "bison"; do
 done
 
 sleep 1
-printf "\n"
+printf "\n%.0s" {1..2}
 # Installation of main components
-printf "\n%s - Installing rofi-wayland dependencies.... \n" "${NOTE}"
+printf "\n%s - Installing ${SKY_BLUE}rofi-wayland dependencies${RESET}.... \n" "${INFO}"
 
-printf "${NOTE} Force installing packages...\n"
  for FORCE in "${rofi[@]}"; do
    sudo apt-get --reinstall install -y "$FORCE" 2>&1 | tee -a "$LOG"
-   [ $? -ne 0 ] && { echo -e "\e[1A\e[K${ERROR} - $FORCE Package installation failed, Please check the installation logs"; exit 1; }
   done
 
-printf "\n\n"
-
+printf "\n%.0s" {1..2}
 # Clone and build rofi - wayland
-printf "${NOTE} Installing rofi-wayland...\n"
+printf "${NOTE} Installing ${SKY_BLUE}rofi-wayland${RESET}...\n"
 
 # Check if rofi folder exists
-if [ -d "rofi-1.7.5+wayland3" ]; then
-  rm -rf "rofi-1.7.5+wayland3"
+if [ -d "$rofi_tag" ]; then
+  rm -rf "$rofi_tag"
 fi
 
 # cloning rofi-wayland
-printf "${NOTE} Downloading rofi-wayland v1.7.5+wayland3 from releases...\n"
-wget https://github.com/lbonn/rofi/releases/download/1.7.5%2Bwayland3/rofi-1.7.5+wayland3.tar.gz
+printf "${NOTE} Downloading ${YELLOW}rofi-wayland $rofi_tag${RESET} from releases...\n"
+wget https://github.com/lbonn/rofi/releases/download/1.7.8%2Bwayland1/rofi-1.7.8+wayland1.tar.gz
 
-if [ -f "rofi-1.7.5+wayland3.tar.gz" ]; then
-  printf "rofi-wayland downloaded successfully.\n" 2>&1 | tee -a "$LOG"
-  tar xf rofi-1.7.5+wayland3.tar.gz
+if [ -f "$rofi_tag.tar.gz" ]; then
+  printf "${OK} ${YELLOW}rofi-wayland $rofi_tag${RESET} downloaded successfully.\n" 2>&1 | tee -a "$LOG"
+  tar xf $rofi_tag.tar.gz
 fi
 
-cd rofi-1.7.5+wayland3 || exit 1
+cd $rofi_tag || exit 1
 
 # Proceed with the installation steps
 if meson setup build && ninja -C build ; then
   if sudo ninja -C build install 2>&1 | tee -a "$MLOG"; then
     printf "${OK} rofi-wayland installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
-    echo -e "${ERROR} Installation failed for rofi-wayland." 2>&1 | tee -a "$MLOG"
+    echo -e "${ERROR} Installation failed for ${YELLOW}rofi-wayland $rofi_tag${RESET}" 2>&1 | tee -a "$MLOG"
   fi
 else
-  echo -e "${ERROR} Meson setup or ninja build failed for rofi-wayland." 2>&1 | tee -a "$MLOG"
+  echo -e "${ERROR} Meson setup or ninja build failed for ${YELLOW}rofi-wayland $rofi_tag${RESET}" 2>&1 | tee -a "$MLOG"
 fi
 
 # Move logs to Install-Logs directory
@@ -98,6 +95,6 @@ mv "$MLOG" ../Install-Logs/ || true
 cd .. || exit 1
 
 # clean up
-rm -rf rofi-1.7.5+wayland3.tar.gz
+rm -rf $rofi_tag.tar.gz
 
 clear
