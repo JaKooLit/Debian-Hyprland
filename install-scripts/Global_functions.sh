@@ -49,8 +49,8 @@ show_progress() {
 
 # Function for installing packages with a progress bar
 install_package() { 
-    if sudo dpkg -l | grep -q -w "$1" ; then
-    echo -e "${INFO} ${MAGENTA}$1${RESET} is already installed. Skipping..."
+  if sudo dpkg -l | grep -q -w "$1" ; then
+  echo -e "${INFO} ${MAGENTA}$1${RESET} is already installed. Skipping..."
   else 
     (
       stdbuf -oL sudo apt-get install -y "$1" 2>&1
@@ -67,6 +67,7 @@ install_package() {
         echo -e "${ERROR} ${YELLOW}$1${RESET} failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
         return 1
     fi
+  fi
 }
 
 # Function for re-installing packages
