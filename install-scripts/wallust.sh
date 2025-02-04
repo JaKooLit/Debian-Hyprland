@@ -46,4 +46,4 @@ else
     exit 1
 fi
 
-clear
+printf "\n%.0s" {1..2}
