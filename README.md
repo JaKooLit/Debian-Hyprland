@@ -29,7 +29,7 @@
 </div>
 <div align="center">
 <br>
-  <a href="https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-old-v-Hyprland"><kbd> <br> Hyprland-Dots Debian repo <br> </kbd></a>&ensp;&ensp;
+  <a href="https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-Dots"><kbd> <br> Hyprland-Dots Debian repo <br> </kbd></a>&ensp;&ensp;
   <a href="https://www.youtube.com/playlist?list=PLDtGd5Fw5_GjXCznR0BzCJJDIQSZJRbxx"><kbd> <br> Youtube <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds"><kbd> <br> Keybinds <br> </kbd></a>&ensp;&ensp;
@@ -149,7 +149,7 @@ sudo nano /etc/apt/sources.list
 - inside the install-scripts directory, you can edit 01-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
 
 #### 💫 SDDM and GTK Themes offered
-- If you opted to install SDDM theme, here's the [`LINK`](https://github.com/JaKooLit/simple-sddm)
+- If you opted to install SDDM theme, here's the [`LINK`](https://codeberg.org/JaKooLit/sddm-sequoia) which is a fork of [`LINK`](https://codeberg.org/minMelody/sddm-sequoia)
 - If you opted to install GTK Themes, Icons,  here's the [`LINK`](https://github.com/JaKooLit/GTK-themes-icons). This also includes Bibata Modern Ice cursor.
 
 #### 🔔 NOTICE TO NVIDIA OWNERS ### 

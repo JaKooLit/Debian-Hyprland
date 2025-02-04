@@ -3,7 +3,7 @@
 # Hyprland-Dots to download from main #
 
 #specific branch or release
-dots_tag="Deb-Untu-old-v-Hyprland"
+dots_tag="Deb-Untu-Dots"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 
