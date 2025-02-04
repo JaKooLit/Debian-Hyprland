@@ -310,7 +310,7 @@ if dpkg -l | grep -qw hyprland; then
 
     if [[ "$HYP" == "y" || "$HYP" == "yes" ]]; then
         echo "${INFO} Rebooting now..."
-        reboot # Optionally reboot if the user agrees
+        systemctl reboot # Optionally reboot if the user agrees
     elif [[ "$HYP" == "n" || "$HYP" == "no" ]]; then
         echo "${INFO} You can reboot later at any time."
     else
