@@ -87,10 +87,18 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hypr-pkgs.log"
 
 # Remove conflicting packages
-printf "\n%s - ${SKY_BLUE}removing some packages${RESET} inorder for dots to work properly \n" "${NOTE}"
+overall_failed=0
+printf "\n%s - Removing some packages as it causes conflicts with KooL's Hyprland Dots \n" "${NOTE}"
 for PKG in "${uninstall[@]}"; do
-  uninstall_package "$PKG" "$LOG"
+  uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    overall_failed=1
+  fi
 done
+
+if [ $overall_failed -ne 0 ]; then
+  echo -e "${ERROR} Some packages failed to uninstall. Please check the log."
+fi
 
 printf "\n%.0s" {1..1}
 
