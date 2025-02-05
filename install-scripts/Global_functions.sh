@@ -25,45 +25,44 @@ if [ ! -d Install-Logs ]; then
     mkdir Install-Logs
 fi
 
-# Function that would show a progress
+# Show progress function
 show_progress() {
     local pid=$1
     local package_name=$2
-    local spin_chars=("●○○○○○" "○●○○○○" "○○●○○○" "○○○●○○" "○○○○●○" "○○○○○●" \
-                      "○○○○●○" "○○○●○○" "○○●○○○" "○●○○○○")  # Growing & Shrinking Dots
+    local spin_chars=("●○○○○○○○○○" "○●○○○○○○○○" "○○●○○○○○○○" "○○○●○○○○○○" "○○○○●○○○○" \
+                      "○○○○○●○○○○" "○○○○○○●○○○" "○○○○○○○●○○" "○○○○○○○○●○" "○○○○○○○○○●") 
     local i=0
 
-    tput civis  # Hide cursor
-    printf "\r${NOTE} Installing ${YELLOW}%s${RESET} ..." "$package_name"
+    tput civis 
+    printf "\r${INFO} Installing ${YELLOW}%s${RESET} ..." "$package_name"
 
     while ps -p $pid &> /dev/null; do
-        printf "\r${NOTE} Installing ${YELLOW}%s${RESET} %s" "$package_name" "${spin_chars[i]}"
+        printf "\r${INFO} Installing ${YELLOW}%s${RESET} %s" "$package_name" "${spin_chars[i]}"
         i=$(( (i + 1) % 10 ))  
         sleep 0.3  
     done
 
-    printf "\r${NOTE} Installing ${YELLOW}%s${RESET} ... Done!%-20s\n" "$package_name" ""
+    printf "\r${INFO} Installing ${YELLOW}%s${RESET} ... Done!%-20s\n" "$package_name" ""
     tput cnorm  
 }
 
 
 # Function for installing packages with a progress bar
 install_package() { 
-  if sudo dpkg -l | grep -q -w "$1" ; then
-  echo -e "${INFO} ${MAGENTA}$1${RESET} is already installed. Skipping..."
+  if dpkg -l | grep -q -w "$1" ; then
+    echo -e "${INFO} ${MAGENTA}$1${RESET} is already installed. Skipping..."
   else 
     (
-      stdbuf -oL sudo apt-get install -y "$1" 2>&1
+      stdbuf -oL sudo apt install -y "$1" 2>&1
     ) >> "$LOG" 2>&1 &
     PID=$!
     show_progress $PID "$1" 
     
-    # Double check if the package was re-installed successfully
+    # Double check if the package successfully installed
     if dpkg -l | grep -q -w "$1"; then
         echo -e "\e[1A\e[K${OK} Package ${YELLOW}$1${RESET} has been successfully installed!"
     else
-        # Package was not found, installation failed
-        echo -e "${ERROR} ${YELLOW}$1${RESET} failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
+        echo -e "\e[1A\e[K${ERROR} ${YELLOW}$1${RESET} failed to install. Please check the install.log. You may need to install it manually. Sorry, I have tried :("
     fi
   fi
 }
@@ -81,7 +80,7 @@ build_dep() {
 # Function for re-installing packages with a progress bar
 re_install_package() {
     (
-        stdbuf -oL sudo apt-get install --reinstall -y "$1" 2>&1
+        stdbuf -oL sudo apt install --reinstall -y "$1" 2>&1
     ) >> "$LOG" 2>&1 &
     
     PID=$!
@@ -99,7 +98,7 @@ re_install_package() {
 # Function for uninstalling packages
 uninstall_package() {
   if sudo dpkg -l | grep -q -w "^ii  $1" ; then
-    sudo apt-get autoremove -y "$1" >> "$LOG" 2>&1
+    sudo apt autoremove -y "$1" >> "$LOG" 2>&1
     if ! dpkg -l | grep -q -w "^ii  $1" ; then
       echo -e "\e[1A\e[K${OK} ${MAGENTA}$1${RESET} was uninstalled."
     else
