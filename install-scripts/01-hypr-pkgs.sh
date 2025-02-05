@@ -98,10 +98,13 @@ for PKG in "${uninstall[@]}"; do
   uninstall_package "$PKG" "$LOG"
 done
 
+printf "\n%.0s" {1..1}
+
 for PKG2 in "${force[@]}"; do
   re_install_package "$PKG2" "$LOG"
 done
 
+printf "\n%.0s" {1..1}
 
 # install YAD from assets. NOTE This is downloaded from SID repo and sometimes
 # Trixie is removing YAD for some strange reasons

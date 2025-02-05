@@ -62,7 +62,6 @@ printf "${YELLOW} Installing ${SKY_BLUE}Nvidia packages${RESET} ...\n"
     install_package "$NVIDIA" "$LOG"
   done
 
-
 # adding additional nvidia-stuff
 printf "${YELLOW} adding ${SKY_BLUE}nvidia-stuff${RESET} to /etc/default/grub..."
 

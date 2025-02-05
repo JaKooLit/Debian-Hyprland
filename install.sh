@@ -83,13 +83,6 @@ if [ ! -d Install-Logs ]; then
     mkdir Install-Logs
 fi
 
-# Function to colorize prompts
-colorize_prompt() {
-    local color="$1"
-    local message="$2"
-    echo -n "${color}${message}$(tput sgr0)"
-}
-
 printf "\n%.0s" {1..1}
 
 # install pciutils if detected not installed. Necessary for detecting GPU
@@ -97,8 +90,8 @@ if ! dpkg -l | grep -w pciutils > /dev/null; then
     echo "pciutils is not installed. Installing..."
     sudo apt-get install -y pciutils
 fi
-printf "\n%.0s" {1..2}
 
+printf "\n%.0s" {1..2}
 # Function to colorize prompts
 colorize_prompt() {
     local color="$1"
@@ -160,7 +153,9 @@ execute_script() {
 printf "\n"
 # Check if nvidia is present
 if lspci | grep -i "nvidia" &> /dev/null; then
-    ask_yes_no "-${YELLOW}NVIDIA${RESET} GPU is detected. Do you want script to configure it?" nvidia
+    printf "${INFO} ${YELLOW}NVIDIA GPU${RESET} detected in your system \n"
+    printf "${NOTE} Script will install ${YELLOW}nvidia-dkms nvidia-utils and nvidia-settings${RESET} \n"
+    ask_yes_no "-Do you want script to configure ${YELLOW}NVIDIA${RESET} for you?" nvidia
 fi
 printf "\n"
 ask_yes_no "-Install ${YELLOW}GTK themes${RESET} (required for Dark/Light function)?" gtk_themes
@@ -179,13 +174,13 @@ ask_yes_no "-Install ${YELLOW}zsh${RESET}, ${YELLOW}oh-my-zsh${RESET} & (Optiona
 printf "\n"
 ask_yes_no "-Installing on ${YELLOW}Asus ROG laptops${RESET}?" rog
 printf "\n"
-ask_yes_no "-Do you want to download pre-configured ${YELLOW}KooL Hyprland dotfiles${RESET}?" dots
+ask_yes_no "-Do you want to download pre-configured ${YELLOW}KooL Hyprland dotfiles?${RESET}" dots
 printf "\n"
 
 # Ensuring all in the scripts folder are made executable
 chmod +x install-scripts/*
 
-printf "\n%.0s" {1..3}
+printf "\n%.0s" {1..2}
 # check if any known login managers are active when users choose to install sddm
 if [ "$sddm" == "y" ] || [ "$sddm" == "Y" ]; then
     # List of services to check

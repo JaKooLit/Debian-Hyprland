@@ -52,7 +52,7 @@ MLOG="install-$(date +%d-%H%M%S)_rofi_wayland2.log"
 printf "\n%s - Re-installing ${SKY_BLUE}rofi-wayland dependencies${RESET}.... \n" "${INFO}"
 
  for FORCE in "${rofi[@]}"; do
-   re_install_package "$FORCE" 2>&1 | tee -a "$LOG"
+   re_install_package "$FORCE" "$LOG"
   done
 
 printf "\n%.0s" {1..2}
