@@ -248,6 +248,9 @@ source ~/.zshrc
 #### 🛣️ Roadmap:
 - [ ] possibly adding gruvbox themes, cursors, icons
 
+### ⁉️ KNOWN ISSUE
+- [ ] hypridle wont build (Feb 2025)
+
 #### ❗ some known issues for nvidia
 - reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  
@@ -271,8 +274,6 @@ env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
 
 #### ❗ other known issues
-- [ ] hypridle wont build
-- [ ] ags (aylurs gtk shell) wont build
 
 > [!NOTE]
 > Auto start of Hyprland after login (no SDDM or GDM or any login managers)

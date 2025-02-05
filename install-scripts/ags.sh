@@ -29,6 +29,10 @@ f_ags=(
     npm
 )
 
+build_dep=(
+    pam
+)
+
 # specific tags to download
 ags_tag="v1.9.0"
 
@@ -57,6 +61,12 @@ done
 for force_ags in "${f_ags[@]}"; do
    re_install_package "$force_ags" 2>&1 | tee -a "$LOG"
   done
+
+printf "\n%.0s" {1..1}
+
+for PKG1 in "${build_dep[@]}"; do
+  build_dep "$PKG1" "$LOG"
+done
 
 #install typescript by npm
 sudo npm install --global typescript 2>&1 | tee -a "$LOG"

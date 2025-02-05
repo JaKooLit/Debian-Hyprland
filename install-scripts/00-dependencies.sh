@@ -59,6 +59,10 @@ dependencies=(
     xwayland
 )
 
+build_dep=(
+  wlroots
+)
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -75,8 +79,14 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 # Installation of main dependencies
 printf "\n%s - Installing ${SKY_BLUE}main dependencies....${RESET} \n" "${NOTE}"
 
-for PKG1 in "${dependencies[@]}"; do
-  install_package "$PKG1" "$LOG"
+for PKG in "${dependencies[@]}"; do
+  install_package "$PKG" "$LOG"
+done
+
+printf "\n%.0s" {1..1}
+
+for PKG1 in "${build_dep[@]}"; do
+  build_dep "$PKG1" "$LOG"
 done
 
 printf "\n%.0s" {1..2}

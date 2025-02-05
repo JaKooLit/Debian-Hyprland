@@ -68,6 +68,16 @@ install_package() {
   fi
 }
 
+# Function for build depencies with a progress bar
+build_dep() { 
+  echo -e "${INFO} building depencies for ${MAGENTA}$1${RESET} "
+    (
+      stdbuf -oL sudo build-dep -y "$1" 2>&1
+    ) >> "$LOG" 2>&1 &
+    PID=$!
+    show_progress $PID "$1" 
+}
+
 # Function for re-installing packages with a progress bar
 re_install_package() {
     (
