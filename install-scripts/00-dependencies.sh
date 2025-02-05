@@ -79,8 +79,6 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 # Installation of main dependencies
 printf "\n%s - Installing ${SKY_BLUE}main dependencies....${RESET} \n" "${NOTE}"
 
-# modernized sources
-sudo apt modernize-sources -y
 
 for PKG in "${dependencies[@]}"; do
   install_package "$PKG" "$LOG"
