@@ -68,8 +68,10 @@ if [ "$proceed" != "y" ]; then
     exit 1
 fi
 
+printf "\n%.0s" {1..1}
 
-read -p "${CAT} Have you edited your /etc/apt/sources.list? ${YELLOW}[Very Important else script will fail]${RESET} (y/n): ${RESET}" proceed2
+echo "${NOTE} Ensure to edit the ${YELLOW}deb-src's${RESET} in ${YELLOW}/etc/apt/sources.list${RESET}"
+read -p "${CAT} ${YELLOW} Very Important else script will fail${RESET}. OK to proceed? (y/n): ${RESET}" proceed2
 
 if [ "$proceed2" != "y" ]; then
     printf "\n%.0s" {1..2}
