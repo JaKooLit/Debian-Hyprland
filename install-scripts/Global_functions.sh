@@ -70,7 +70,7 @@ install_package() {
 
 # Function for build depencies with a progress bar
 build_dep() { 
-  echo -e "${INFO} building depencies for ${MAGENTA}$1${RESET} "
+  echo -e "${INFO} building dependencies for ${MAGENTA}$1${RESET} "
     (
       stdbuf -oL sudo build-dep -y "$1" 2>&1
     ) >> "$LOG" 2>&1 &
