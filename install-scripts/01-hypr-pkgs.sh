@@ -122,7 +122,7 @@ printf "\n%.0s" {1..1}
 if ! command -v yad &> /dev/null; then
   echo "${INFO} Installing ${YELLOW}YAD from assets${RESET} ..."
   sudo dpkg -i assets/yad_0.40.0-1+b2_amd64.deb
-  sudo apt-get install -f -y
+  sudo apt install -f -y
   echo "${INFO} ${YELLOW}YAD from assets${RESET} succesfully installed ..."
 fi
 
