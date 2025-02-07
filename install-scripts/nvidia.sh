@@ -57,13 +57,13 @@ add_to_file() {
 }
 
 # Install additional Nvidia packages
-printf "${YELLOW} Installing Nvidia packages...\n"
+printf "${YELLOW} Installing ${SKY_BLUE}Nvidia packages${RESET} ...\n"
   for NVIDIA in "${nvidia_pkg[@]}"; do
-    install_package "$NVIDIA" 2>&1 | tee -a "$LOG"
+    install_package "$NVIDIA" "$LOG"
   done
 
-
-printf "${YELLOW} nvidia-stuff to /etc/default/grub..."
+# adding additional nvidia-stuff
+printf "${YELLOW} adding ${SKY_BLUE}nvidia-stuff${RESET} to /etc/default/grub..."
 
   # Additional options to add to GRUB_CMDLINE_LINUX
   additional_options="rd.driver.blacklist=nouveau modprobe.blacklist=nouveau nvidia-drm.modeset=1 rcutree.rcu_idle_gp_delay=1"
@@ -106,4 +106,4 @@ printf "${YELLOW} nvidia-stuff to /etc/default/grub..."
     echo "Modules file ($modules_file) not found." 2>&1 | tee -a "$LOG"
    fi
 
-clear
+printf "\n%.0s" {1..2}

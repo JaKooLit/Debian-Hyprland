@@ -1,8 +1,6 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # main dependencies #
-# 22 Aug 2024 - NOTE will trim this more down
-
 
 # packages neeeded
 dependencies=(
@@ -18,6 +16,31 @@ dependencies=(
     golang
     hwdata
     jq
+    libmpdclient-dev
+    libnl-3-dev
+    libasound2-dev
+    libstartup-notification0-dev
+    libwayland-client++1
+    libwayland-dev
+    libcairo-5c-dev
+    libcairo2-dev
+    libsdbus-c++-bin    
+    libegl-dev
+    libegl1-mesa-dev  
+    libpango1.0-dev
+    libgdk-pixbuf-2.0-dev
+    libxcb-keysyms1-dev
+    libwayland-client0
+    libxcb-ewmh-dev
+    libxcb-cursor-dev
+    libxcb-icccm4-dev
+    libxcb-randr0-dev
+    libxcb-render-util0-dev
+    libxcb-util-dev
+    libxcb-xkb-dev
+    libxcb-xinerama0-dev
+    libxkbcommon-dev
+    libxkbcommon-x11-dev
     meson
     ninja-build
     openssl
@@ -29,11 +52,15 @@ dependencies=(
     python3-pyquery
     qt6-base-dev
     spirv-tools
-    vulkan-validationlayers
+    #vulkan-validationlayers
     vulkan-utility-libraries-dev
     wayland-protocols
     xdg-desktop-portal
     xwayland
+)
+
+build_dep=(
+  wlroots
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -50,14 +77,17 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 
 # Installation of main dependencies
-printf "\n%s - Installing main dependencies.... \n" "${NOTE}"
+printf "\n%s - Installing ${SKY_BLUE}main dependencies....${RESET} \n" "${NOTE}"
 
-for PKG1 in "${dependencies[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
+
+for PKG in "${dependencies[@]}"; do
+  install_package "$PKG" "$LOG"
 done
 
-clear
+printf "\n%.0s" {1..1}
+
+for PKG1 in "${build_dep[@]}"; do
+  build_dep "$PKG1" "$LOG"
+done
+
+printf "\n%.0s" {1..2}

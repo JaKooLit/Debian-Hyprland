@@ -3,15 +3,16 @@
 # Hyprland-Dots to download from main #
 
 #specific branch or release
-dots_tag="Deb-Untu-old-v-Hyprland"
+dots_tag="Deb-Untu-Dots"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 
 source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
 # Check if Hyprland-Dots exists
-printf "${NOTE} Downloading KooL's Hyprland Dots for Debian....\n"
+printf "${NOTE} Cloning and Installing ${SKY_BLUE}KooL's Hyprland Dots for Debian${RESET}....\n"
 
+# Check if Hyprland-Dots exists
 if [ -d Hyprland-Dots-Debian ]; then
   cd Hyprland-Dots-Debian
   git stash
@@ -25,8 +26,8 @@ else
     chmod +x copy.sh
     ./copy.sh 
   else
-    echo -e "$ERROR Can't download Hyprland-Dots-Debian"
+    echo -e "$ERROR Can't download ${YELLOW}KooL's Hyprland-Dots-Debian${RESET}"
   fi
 fi
 
-clear
+printf "\n%.0s" {1..2}

@@ -29,7 +29,7 @@
 </div>
 <div align="center">
 <br>
-  <a href="https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-old-v-Hyprland"><kbd> <br> Hyprland-Dots Debian repo <br> </kbd></a>&ensp;&ensp;
+  <a href="https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-Dots"><kbd> <br> Hyprland-Dots Debian repo <br> </kbd></a>&ensp;&ensp;
   <a href="https://www.youtube.com/playlist?list=PLDtGd5Fw5_GjXCznR0BzCJJDIQSZJRbxx"><kbd> <br> Youtube <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds"><kbd> <br> Keybinds <br> </kbd></a>&ensp;&ensp;
@@ -149,7 +149,7 @@ sudo nano /etc/apt/sources.list
 - inside the install-scripts directory, you can edit 01-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
 
 #### 💫 SDDM and GTK Themes offered
-- If you opted to install SDDM theme, here's the [`LINK`](https://github.com/JaKooLit/simple-sddm)
+- If you opted to install SDDM theme, here's the [`LINK`](https://codeberg.org/JaKooLit/sddm-sequoia) which is a fork of [`LINK`](https://codeberg.org/minMelody/sddm-sequoia)
 - If you opted to install GTK Themes, Icons,  here's the [`LINK`](https://github.com/JaKooLit/GTK-themes-icons). This also includes Bibata Modern Ice cursor.
 
 #### 🔔 NOTICE TO NVIDIA OWNERS ### 
@@ -172,6 +172,24 @@ chmod +x install.sh
 ```
 <p align="center">
     <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Install.png" />
+
+
+### 🤟 semi-unattended installation (new for 2025)
+- edit preset.sh to modify what packages you want. Make sure to change only with Y or N
+- to use preset instead of usual `./install.sh` you can ran like this
+
+```bash
+./install.sh --preset
+```
+
+- if you have nvidia you can add --nvidia argument
+
+```bash
+./install.sh --preset --nvidia
+```
+
+- its called semi-unattended it is because you still have to answer some questions when installing KooL's Hyprland Dots
+
 
 #### ✨ for ZSH and OH-MY-ZSH installation
 > installer should auto change your default shell to zsh. However, if it does not, do this
@@ -248,6 +266,9 @@ source ~/.zshrc
 #### 🛣️ Roadmap:
 - [ ] possibly adding gruvbox themes, cursors, icons
 
+### ⁉️ KNOWN ISSUE
+- [ ] hypridle wont build (Feb 2025)
+
 #### ❗ some known issues for nvidia
 - reports from members of my discord, states that some users of nvidia are getting stuck on sddm login. credit  to @Kenni Fix stated was 
 ```  
@@ -271,6 +292,7 @@ env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
 
 #### ❗ other known issues
+
 > [!NOTE]
 > Auto start of Hyprland after login (no SDDM or GDM or any login managers)
 - This was disabled a few days ago. (19 May 2024). This was because some users, after they used the Distro-Hyprland scripts with other DE (gnome-wayland or plasma-wayland), if they choose to login into gnome-wayland for example, Hyprland is starting. 

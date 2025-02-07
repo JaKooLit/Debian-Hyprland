@@ -24,6 +24,7 @@ hypr_package=(
   pavucontrol
   playerctl
   polkit-kde-agent-1
+  pkexec
   python3-requests
   python3-pip
   qt5ct
@@ -85,40 +86,54 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hypr-pkgs.log"
 
-# Installation of main components
-printf "\n%s - Installing hyprland packages.... \n" "${NOTE}"
-
-for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
-done
-
-printf "\n%s - Uninstalling some packages inorder for dots to work properly \n" "${NOTE}"
+# conflicting packages removal
+overall_failed=0
+printf "\n%s - ${SKY_BLUE}Removing some packages${RESET} as it conflicts with KooL's Hyprland Dots \n" "${NOTE}"
 for PKG in "${uninstall[@]}"; do
   uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG uninstallation had failed, please check the log"
-    exit 1
+    overall_failed=1
   fi
+done
+
+if [ $overall_failed -ne 0 ]; then
+  echo -e "${ERROR} Some packages failed to uninstall. Please check the log."
+fi
+
+printf "\n%.0s" {1..1}
+
+
+# Installation of main components
+printf "\n%s - Installing ${SKY_BLUE}KooL's hyprland necessary packages${RESET} .... \n" "${NOTE}"
+
+for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
+  install_package "$PKG1" "$LOG"
 done
 
 for PKG2 in "${force[@]}"; do
-  re_install_package "$PKG2" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - Force reinstall of $PKG2 failed"
-    exit 1
-  fi
+  re_install_package "$PKG2" "$LOG"
 done
 
+printf "\n%.0s" {1..1}
+
+# install YAD from assets. NOTE This is downloaded from SID repo and sometimes
+# Trixie is removing YAD for some strange reasons
+# Check if yad is installed
+if ! command -v yad &> /dev/null; then
+  echo "${INFO} Installing ${YELLOW}YAD from assets${RESET} ..."
+  sudo dpkg -i assets/yad_0.40.0-1+b2_amd64.deb
+  sudo apt install -f -y
+  echo "${INFO} ${YELLOW}YAD from assets${RESET} succesfully installed ..."
+fi
+
+printf "\n%.0s" {1..2}
+
 # Install up-to-date Rust
-echo "Installing most up to date Rust compiler..."
+echo "${INFO} Installing most ${YELLOW}up to date Rust compiler${RESET} ..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | tee -a "$LOG"
 source "$HOME/.cargo/env"
 
 ## making brightnessctl work
 sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
 
-clear
+printf "\n%.0s" {1..2}
