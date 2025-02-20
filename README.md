@@ -56,6 +56,12 @@ https://github.com/user-attachments/assets/49bc12b2-abaf-45de-a21c-67aacd9bb872
 ### NOTE: Ubuntu-Hyprland install script has its own repo now
 - [`Ubuntu-Hyprland LINK`](https://github.com/JaKooLit/Ubuntu-Hyprland)
 
+### Gallery and Videos
+#### 🎥 Feb 2025 Video explanation of installation with preset
+- [YOUTUBE-LINK](https://youtu.be/wQ70lo7P6vA?si=_QcbrNKh_Bg0L3wC)
+- [YOUTUBE-Hyprland-Playlist](https://youtube.com/playlist?list=PLDtGd5Fw5_GjXCznR0BzCJJDIQSZJRbxx&si=iaNjLulFdsZ6AV-t)
+
+
 > [!IMPORTANT]
 > install a backup tool like `snapper` or `timeshift`. and Backup your system before installing hyprland using this script. This script does NOT include uninstallation of packages
 
@@ -79,7 +85,6 @@ sudo nano /etc/apt/sources.list
 - If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
 
-
 > [!IMPORTANT]
 > If you are using Gnome already, DO NOT install the SDDM. The GDM Login Manager works well with Hyprland. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
 
@@ -87,49 +92,6 @@ sudo nano /etc/apt/sources.list
 > If you have GDM already as log-in manager, DO NOT install SDDM
 > You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
 
-
-### Gallery and Videos
-<details>
-<summary>
-📷 Screenshots
-</summary>
-
-<p align="center">
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian2.png" />       
-</p>
-
-<p align="center">
-    <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/default-waybar.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/debian4.png" />   
-   <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/wlogout-dark.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Distro-Hyprland/Debian/hyprlock.png"" /> 
-   <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/waybar-layout.png" /> <img align="center" width="49%" src="https://raw.githubusercontent.com/JaKooLit/screenshots/main/Hyprland-Dots-Showcase/waybar-style.png"" /> 
-</p>
-
-#### ❕ Installed on Kali Linux 😈
-
-![alt text](https://github.com/JaKooLit/screenshots/blob/main/Hyprland-ScreenShots/Debian/Kali-Linux1.png)
-
-
-#### 📷 More updated Screenshots Here [`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-Dots-Showcase)
-
-#### 📷 Older Screenshots: v1[`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian) & v2[`Link`](https://github.com/JaKooLit/screenshots/tree/main/Hyprland-ScreenShots/Debian-v2)
-
-</details>
-
-<details>
-<summary>
-📽️ Youtube Videos
-</summary>
-
-#### ✨ Youtube presentation [`V1`](https://youtu.be/hGEWOif5D4Y?si=WQ-PrPwEhM5Og76Q)
-#### ✨ Youtube presentation [`V2`](https://youtu.be/Qc4VP9JFh2Y)
-
-#### ✨ A video walk through my dotfiles[`Link`](https://youtu.be/fO-RBHvVEcc?si=ijqxxnq_DLiyO8xb)
-#### ✨ A video walk through of My Hyprland-Dots v2[`Link`](https://youtu.be/yaVurRoXc-s?si=iDnBC5S3thPBX3ZE)
-
-#### 💯💯 Check out Installation Video coverage by KSK royal (Kali Linux xfce + nvidia). He have details regarding installing timeshift and switching to sddm from lightdm. He also covers removal of nouveau in favor of proprietary nvidia drivers
-- [`Link`](https://youtu.be/NtpRtSBjz3I?si=YGkS75u_7cW5D_zu)
-
-</details>
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
 - This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
@@ -174,7 +136,7 @@ chmod +x install.sh
     <img align="center" width="100%" src="https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/Debian-Install.png" />
 
 
-### 🤟 semi-unattended installation (new for 2025)
+### 🤟 semi-unattended installation (new for Feb 2025)
 - edit preset.sh to modify what packages you want. Make sure to change only with Y or N
 - to use preset instead of usual `./install.sh` you can ran like this
 
@@ -240,14 +202,21 @@ source ~/.zshrc
 > [!NOTE] 
 > This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
 
-#### 🫥 Improving performance for Older Nvidia Cards using driver 470
-  - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
-  
-#### 🙋  Got a questions regarding the Hyprland Dots configurations? 🙋
-- Head over to Hyprland-Dots wiki Link [`KooL's DOTS WIKI`](https://github.com/JaKooLit/Hyprland-Dots/wiki)
+#### 🎞️ AGS Overview DEMO
+- in case you wonder, here is a short demo of AGS overview [Youtube LINK](https://youtu.be/zY5SLNPBJTs)
+
+#### ✨ TO DO once installation done and dotfiles copied
+- SUPER H for HINT or click on the waybar HINT! Button 
+- Head over to [KooL Hyprland WIKI](https://github.com/JaKooLit/Hyprland-Dots/wiki)
+
+#### 🙋 Got a questions regarding the Hyprland Dots or configurations? 🙋
+- Head over to wiki Link [`WIKI`](https://github.com/JaKooLit/Hyprland-Dots/wiki)
 
 #### ⌨ Keybinds
 - Keybinds [`CLICK`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds)
+
+> [!TIP]
+> KooL Hyprland has a searchable keybind function via rofi. (SUPER SHIFT K) or right click the `HINTS` waybar button
 
 #### 🙋 👋 Having issues or questions? 
 - for the install part, kindly open issue on this repo
@@ -291,6 +260,9 @@ env = GBM_BACKEND,nvidia-drm
 env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
 
+#### 🫥 Improving performance for Older Nvidia Cards using driver 470
+  - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
+  
 #### ❗ other known issues
 
 > [!NOTE]

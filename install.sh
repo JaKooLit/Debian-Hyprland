@@ -179,7 +179,6 @@ execute_script() {
 if lspci | grep -i "nvidia" &> /dev/null; then
     printf "\n"
     printf "${INFO} ${YELLOW}NVIDIA GPU${RESET} detected in your system \n"
-    printf "${NOTE} Script will install ${YELLOW}nvidia-dkms nvidia-utils and nvidia-settings${RESET} \n"
     ask_yes_no "-Do you want script to configure ${YELLOW}NVIDIA${RESET} for you?" nvidia
 fi
 
@@ -212,7 +211,7 @@ ask_yes_no "-Install & configure ${YELLOW}SDDM${RESET} as login manager?" sddm
 # check if any known login managers are active when users choose to install sddm
 if [ "$sddm" == "y" ] || [ "$sddm" == "Y" ]; then
     # List of services to check
-    services=("gdm.service" "gdm3.service" "lightdm.service" "xdm.service" "lxdm.service")
+    services=("gdm.service" "gdm3.service" "lightdm.service" "lxdm.service")
 
     # Loop through each service
     for svc in "${services[@]}"; do
