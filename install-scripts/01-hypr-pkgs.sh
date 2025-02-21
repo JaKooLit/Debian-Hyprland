@@ -48,7 +48,7 @@ hypr_package_2=(
   brightnessctl
   btop
   cava
-  eog
+  loupe
   fastfetch
   gnome-system-monitor
   mousepad
