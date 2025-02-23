@@ -20,7 +20,6 @@ hypr_package=(
   imagemagick
   kitty
   nano
-  nwg-look
   pavucontrol
   playerctl
   polkit-kde-agent-1
@@ -50,6 +49,8 @@ hypr_package_2=(
   btop
   cava
   loupe
+  nwg-look
+  nwg-displays
   fastfetch
   gnome-system-monitor
   mousepad
