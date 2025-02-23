@@ -34,6 +34,7 @@ hypr_package=(
   slurp
   sway-notification-center
   swappy
+  unzip # required later
   waybar
   wget
   wl-clipboard
