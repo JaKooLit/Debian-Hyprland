@@ -3,7 +3,7 @@
 
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="agnosterzak""
+ZSH_THEME="agnosterzak"
 
 plugins=( 
     git
