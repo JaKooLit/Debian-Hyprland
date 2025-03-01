@@ -186,14 +186,13 @@ source ~/.zshrc
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
 - Well, most of the core packages are downloaded and Build and compiled from SOURCE. Unlike Other distros, they already have prepacked binary that can just download and install.
 
-### 🛎 *** DEBIAN and UBUNTU Hyprland Dots UPDATING NOTES ***
+## 🛎 *** DEBIAN and UBUNTU Hyprland Dots UPDATING NOTES ***
 > [!IMPORTANT]
 > This is very Important for Debian and Ubuntu Dots
 - Some parts of KooL's Hyprland Dots [`LINK`](https://github.com/JaKooLit/Hyprland-Dots) are not compatible on Debian and Ubuntu especially the hyprland settings. 
-- That is the reason the DOTS for those distro's are "fixed" and they are being pulled on the releases. This releases are NOT in any of the branches of the KooL's Hyprland Dots. 
+- That is the reason the DOTS for those distro's are "fixed" and they are being pulled on different branch of KooL Dots.
 
-- for Debian and Ubuntu if you want to update from newest KooL's dots versions (main branch), after running copy.sh, you will have 100% error which will appear on top. However, Hyprland is very good in pin pointing those errors. 
-- You can simply just remove those lines or add # on those lines. Then, it should be ok.
+- To update your KooL's Dots follow this [WIKI](https://github.com/JaKooLit/Hyprland-Dots/wiki#--debian-and-ubuntu-hyprland-dots-updating-notes-)
 
 #### ❗ some known issues on this Installer
 - some users reported that they have to install some packages. It is in the install-scripts/force-install.sh
