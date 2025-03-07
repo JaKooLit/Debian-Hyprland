@@ -4,6 +4,8 @@
 
 idle=(
     libsdbus-c++-dev
+    libsdbus-c++2
+    libsdbus-c++-bin
     libhyprlang-dev
 )
 
