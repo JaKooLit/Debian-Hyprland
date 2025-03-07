@@ -14,9 +14,6 @@ nvidia_pkg=(
   nvidia-vaapi-driver
 )
 
-# for ubuntu-nvidia owners! just delete #
-# sudo ubuntu-drivers install
-
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
