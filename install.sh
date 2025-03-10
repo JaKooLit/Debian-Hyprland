@@ -88,11 +88,12 @@ sleep 1
 printf "\n%.0s" {1..1}
 
 # install pciutils if detected not installed. Necessary for detecting GPU
-if ! zypper se -i pciutils > /dev/null; then
+if ! dpkg -l | grep -w pciutils > /dev/null; then
     echo "pciutils is not installed. Installing..." | tee -a "$LOG"
     sudo apt install -y pciutils
     printf "\n%.0s" {1..1}
 fi
+
 
 # Path to the install-scripts directory
 script_directory=install-scripts
