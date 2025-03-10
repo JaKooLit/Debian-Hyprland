@@ -75,7 +75,7 @@ NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprl
 
 # Ask if the user wants to proceed
 if ! whiptail --title "Proceed with Installation?" \
-    --yesno "Would you like to proceed?" 7 50; then
+    --yesno "VERY IMPORTANT!!!\n\nYou must be able to install from source by uncommenting deb-src on /etc/apt/sources.list else script may fail to install Hyprland.\n\n\nShall we proceed?" 15 60; then
     echo -e "\n"
     echo "❌ ${INFO} You 🫵 chose ${YELLOW}NOT${RESET} to proceed. ${YELLOW}Exiting...${RESET}" | tee -a "$LOG"
     echo -e "\n"
