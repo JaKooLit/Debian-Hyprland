@@ -126,6 +126,7 @@ sudo nano /etc/apt/sources.list
 
 ## ✨ Auto clone and install
 - you can use this command to automatically clone the installer and ran the script for you
+- NOTE: `curl` package is required before running this command
 ```bash
 sh <(curl -L https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/auto-install.sh)
 ```
