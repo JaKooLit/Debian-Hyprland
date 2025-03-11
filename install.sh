@@ -94,6 +94,7 @@ if ! dpkg -l | grep -w pciutils > /dev/null; then
     printf "\n%.0s" {1..1}
 fi
 
+
 # Path to the install-scripts directory
 script_directory=install-scripts
 
@@ -168,7 +169,7 @@ if check_services_running; then
 
     # Display the active login manager(s) in the whiptail message box
     whiptail --title "Active non-SDDM login manager(s) detected" \
-        --msgbox "The following login manager(s) are active:\n\n$active_list\n\nIf you want to install SDDM and SDDM theme, stop and disable first the active services above first before running this script\n\nYour option to install SDDM and SDDM theme has now been removed\n\n😎 Ja " 22 80
+        --msgbox "The following login manager(s) are active:\n\n$active_list\n\nIf you want to install SDDM and SDDM theme, stop and disable first the active services above first before running this script\nRefer to README on switching to SDDM if you really want SDDM\n\nNOTE: Your option to install SDDM and SDDM theme has now been removed\n\n😎 Ja " 27 80
 fi
 
 # Check if NVIDIA GPU is detected
