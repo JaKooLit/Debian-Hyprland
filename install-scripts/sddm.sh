@@ -69,6 +69,8 @@ done
 
 printf "\n%.0s" {1..1}
 printf "${INFO} Activating sddm service........\n"
+sudo dpkg-reconfigure sddm 2>&1 | tee -a "$LOG"
+
 sudo systemctl set-default graphical.target 2>&1 | tee -a "$LOG"
 sudo systemctl enable sddm.service 2>&1 | tee -a "$LOG"
 
