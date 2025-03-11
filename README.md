@@ -246,6 +246,8 @@ env = GBM_BACKEND,nvidia-drm
 env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
 
+### 🚩 
+
 #### 🫥 Improving performance for Older Nvidia Cards using driver 470
   - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
   
