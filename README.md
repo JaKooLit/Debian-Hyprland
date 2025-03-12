@@ -110,6 +110,16 @@ sudo nano /etc/apt/sources.list
 #### ✨ Costumize the packages to be installed
 - inside the install-scripts directory, you can edit 01-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
 
+### 🚩 changing login manager to SDDM
+- if you really want to change login manager, there are couple of things you need to carry out before running this install script
+- first install sddm. the no-install-recommends is suggested else it will pull lots of plasma depencies.
+```bash
+sudo apt install --no-install-recommends -y sddm
+```
+- then ran `sudo dpkg-reconfigure sddm` choose sddm and then reboot.
+- once reboot done, you can ran the script and choose sddm & sddm theme
+- [LINK](https://www.simplified.guide/ubuntu/switch-to-gdm) for some guide
+
 #### 💫 SDDM and GTK Themes offered
 - If you opted to install SDDM theme, here's the [`LINK`](https://codeberg.org/JaKooLit/sddm-sequoia) which is a fork of [`LINK`](https://codeberg.org/minMelody/sddm-sequoia)
 - If you opted to install GTK Themes, Icons,  here's the [`LINK`](https://github.com/JaKooLit/GTK-themes-icons). This also includes Bibata Modern Ice cursor.
@@ -245,17 +255,6 @@ log into your account
 env = GBM_BACKEND,nvidia-drm
 env = WLR_RENDERER_ALLOW_SOFTWARE,1
 ```
-
-### 🚩 changing login manager to SDDM
-- if you really want to change login manager, there are couple of things you need to carry out before running this install script
-- first install sddm. the no-install-recommends is suggested else it will pull lots of plasma depencies.
-```bash
-sudo apt install --no-install-recommends -y sddm
-```
-- then ran `sudo dpkg-reconfigure sddm` choose sddm and then reboot.
-- once reboot done, you can ran the script and choose sddm & sddm theme
-- [LINK](https://www.simplified.guide/ubuntu/switch-to-gdm) for some guide
-
 
 #### 🫥 Improving performance for Older Nvidia Cards using driver 470
   - [`SEE HERE`](https://github.com/JaKooLit/Hyprland-Dots/discussions/123#discussion-6035205)
