@@ -49,6 +49,7 @@ if command -v ags &>/dev/null; then
     AGS_VERSION=$(ags -v | awk '{print $NF}') 
     if [[ "$AGS_VERSION" == "1.9.0" ]]; then
         printf "${INFO} ${MAGENTA}Aylur's GTK Shell v1.9.0${RESET} is already installed. Skipping installation."
+        printf "\n%.0s" {1..2}
         exit 0
     fi
 fi

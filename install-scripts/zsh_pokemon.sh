@@ -18,7 +18,6 @@ fi
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_zsh_pokemon.log"
 
-
 printf "${INFO} Installing ${SKY_BLUE}Pokemon color scripts${RESET} ..."
 
 if [ -d "pokemon-colorscripts" ]; then
@@ -34,7 +33,6 @@ if [ -f "$HOME/.zshrc" ]; then
 	sed -i "s|^fastfetch -c \$HOME/.config/fastfetch/config-compact.jsonc|#fastfetch -c \$HOME/.config/fastfetch/config-compact.jsonc|" "$HOME/.zshrc" >> "$LOG" 2>&1
 else
     echo "$HOME/.zshrc not found. Cant enable ${YELLOW}Pokemon color scripts${RESET}" >> "$LOG" 2>&1
-fi  
-
-
+fi
+  
 printf "\n%.0s" {1..2}

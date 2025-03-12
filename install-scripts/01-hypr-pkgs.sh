@@ -10,68 +10,68 @@ Extra=(
 
 )
 
-# packages neeeded
-hypr_package=( 
-  cliphist
-  grim
-  gvfs
-  gvfs-backends
-  inxi
-  imagemagick
-  kitty
-  nano
-  pavucontrol
-  playerctl
-  polkit-kde-agent-1
-  pkexec
-  python3-requests
-  python3-pip
-  qt5ct
-  qt5-style-kvantum
-  qt5-style-kvantum-themes
-  qt6ct
-  slurp
-  sway-notification-center
-  swappy
-  unzip # required later
-  waybar
-  wget
-  wl-clipboard
-  wlogout
-  xdg-user-dirs
-  xdg-utils
-  yad
+# packages needed
+hypr_package=(
+    cliphist
+    grim
+    gvfs
+    gvfs-backends
+    inxi
+    imagemagick
+    kitty
+    nano
+    pavucontrol
+    playerctl
+    polkit-kde-agent-1
+    python3-requests
+    python3-pip
+    qt5ct
+    qt5-style-kvantum
+    qt5-style-kvantum-themes
+    qt6ct
+    slurp
+    swappy
+    sway-notification-center
+    unzip
+    waybar
+    wget
+    wl-clipboard
+    wlogout
+    xdg-user-dirs
+    xdg-utils
+    yad
 )
 
 # the following packages can be deleted. however, dotfiles may not work properly
 hypr_package_2=(
-  brightnessctl
-  btop
-  cava
-  loupe
-  nwg-look
-  nwg-displays
-  fastfetch
-  gnome-system-monitor
-  mousepad
-  mpv
-  mpv-mpris
-  nvtop
-  pamixer
-  qalculate-gtk
+    brightnessctl
+    btop
+    cava
+    fastfetch
+    loupe
+    gnome-system-monitor
+    mousepad
+    mpv
+    mpv-mpris
+    nwg-look
+    nwg-displays
+    nvtop
+    pamixer
+    qalculate-gtk
+)
+
+# packages to force reinstall 
+force=(
+  imagemagick
+  wayland-protocols
 )
 
 # List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
 uninstall=(
-  dunst
-  mako
-  rofi
-  cargo
-)
-
-# List packages to force reinstall
-force=(
-  yad
+    dunst
+    mako
+    rofi
+    cargo
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -106,7 +106,6 @@ fi
 
 printf "\n%.0s" {1..1}
 
-
 # Installation of main components
 printf "\n%s - Installing ${SKY_BLUE}KooL's hyprland necessary packages${RESET} .... \n" "${NOTE}"
 
@@ -114,12 +113,13 @@ for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${Extra[@]}"; do
   install_package "$PKG1" "$LOG"
 done
 
+printf "\n%.0s" {1..1}
+
 for PKG2 in "${force[@]}"; do
   re_install_package "$PKG2" "$LOG"
 done
 
 printf "\n%.0s" {1..1}
-
 # install YAD from assets. NOTE This is downloaded from SID repo and sometimes
 # Trixie is removing YAD for some strange reasons
 # Check if yad is installed
