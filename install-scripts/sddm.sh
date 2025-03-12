@@ -52,18 +52,20 @@ done
 
 # Check if other login managers are installed and disable their service before enabling SDDM
 for login_manager in "${login[@]}"; do
-  if sudo apt list --installed "$login_manager" > /dev/null; then
+  if dpkg -l | grep -q "^ii  $login_manager"; then
     echo "Disabling $login_manager..."
-    sudo systemctl disable "$login_manager.service" >> "$LOG" 2>&1
+    sudo systemctl disable "$login_manager.service" >> "$LOG" 2>&1 || echo "Failed to disable $login_manager" >> "$LOG"
     echo "$login_manager disabled."
   fi
 done
 
 # Double check with systemctl
 for manager in "${login[@]}"; do
-  if systemctl is-active --quiet "$manager" > /dev/null 2>&1; then
-    echo "$manager is active, disabling it..." >> "$LOG" 2>&1
-    sudo systemctl disable "$manager" --now >> "$LOG" 2>&1
+  if systemctl is-active --quiet "$manager.service" > /dev/null 2>&1; then
+    echo "$manager.service is active, disabling it..." >> "$LOG" 2>&1
+    sudo systemctl disable "$manager.service" --now >> "$LOG" 2>&1 || echo "Failed to disable $manager.service" >> "$LOG"
+  else
+    echo "$manager.service is not active" >> "$LOG" 2>&1
   fi
 done
 
@@ -77,4 +79,3 @@ wayland_sessions_dir=/usr/share/wayland-sessions
 sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
 
 printf "\n%.0s" {1..2}
-    
