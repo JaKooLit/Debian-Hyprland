@@ -87,16 +87,6 @@ sudo nano /etc/apt/sources.list
 - delete # on the lines with 'deb-src' 
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
-- If you have login Manager already like GDM (gnome login manager), I highly advice not to install SDDM. But if you decide to install SDDM, see here [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
-
-
-> [!IMPORTANT]
-> If you are using Gnome already, DO NOT install the SDDM. The GDM Login Manager works well with Hyprland. For some reason, during installation, you will be asked which login manager you wanted to use. But during my test, nothing happened.
-
-> [!WARNING] 
-> If you have GDM already as log-in manager, DO NOT install SDDM
-> You will encounter issues. See [`Issue 2 - SDDM`](https://github.com/JaKooLit/Debian-Hyprland/issues/2)
-
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
 - This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
@@ -115,6 +105,16 @@ sudo nano /etc/apt/sources.list
 #### ✨ Costumize the packages to be installed
 - inside the install-scripts directory, you can edit 01-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
 
+### 🚩 changing login manager to SDDM
+- if you really want to change login manager, there are couple of things you need to carry out before running this install script
+- first install sddm. the no-install-recommends is suggested else it will pull lots of plasma depencies.
+```bash
+sudo apt install --no-install-recommends -y sddm
+```
+- then ran `sudo dpkg-reconfigure sddm` choose sddm and then reboot.
+- once reboot done, you can ran the script and choose sddm & sddm theme
+- [LINK](https://www.simplified.guide/ubuntu/switch-to-gdm) for some guide
+
 #### 💫 SDDM and GTK Themes offered
 - If you opted to install SDDM theme, here's the [`LINK`](https://codeberg.org/JaKooLit/sddm-sequoia) which is a fork of [`LINK`](https://codeberg.org/minMelody/sddm-sequoia)
 - If you opted to install GTK Themes, Icons,  here's the [`LINK`](https://github.com/JaKooLit/GTK-themes-icons). This also includes Bibata Modern Ice cursor.
@@ -127,13 +127,17 @@ sudo nano /etc/apt/sources.list
 
 > [!IMPORTANT]
 > Another important note for nvidia owners
-> If you have nvidia, by default debian is installing nouveau or open-source nvidia driver. If you want to keep the default nvidia driver installed by Debian, choose N on the if you have nvidia question. Or else you will encounter same issue as SDDM above.
+> If you have nvidia, by default debian is installing nouveau or open-source nvidia driver. If you want to keep the default nvidia driver installed by Debian, choose N on the if you have nvidia question.
 
 ## ✨ Auto clone and install
 - you can use this command to automatically clone the installer and ran the script for you
 - NOTE: `curl` package is required before running this command
 ```bash
 sh <(curl -L https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/auto-install.sh)
+```
+- if you are using say fish or a non-POSIX compliant
+```bash
+curl -sL https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/auto-install.sh | bash
 ```
 
 ## ✨ to use this script
