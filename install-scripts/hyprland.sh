@@ -3,10 +3,8 @@
 # Main Hyprland Package #
 
 hypr=(
-  libhyprutils0
-  libhyprlang-dev
-  hyprwayland-scanner
   hyprland-protocols
+  hyprwayland-scanner
 )
 
 # forcing to reinstall. Had experience it says hyprland is already installed
@@ -29,6 +27,7 @@ fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprland.log"
+
 
 # Hyprland
 printf "${NOTE} Installing ${SKY_BLUE}Hyprland packages${RESET} .......\n"

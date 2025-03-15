@@ -3,7 +3,7 @@
 # This script is cleaning up previous manual installation files / directories
 
 # 22 Aug 2024
-# Files to be removed rom /usr/local/bin
+# Files to be removed from /usr/local/bin
 
 TARGET_DIR="/usr/local/bin"
 
@@ -46,7 +46,9 @@ for PKG_NAME in "${PACKAGES[@]}"; do
     # Delete the file
     sudo rm "$FILE_PATH"
     echo "Deleted: $FILE_PATH" 2>&1 | tee -a "$LOG"
+  else
+    echo "File not found: $FILE_PATH" 2>&1 | tee -a "$LOG"
   fi
 done
 
-printf "\n%.0s" {1..2}
+clear

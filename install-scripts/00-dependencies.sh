@@ -1,6 +1,8 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # main dependencies #
+# 22 Aug 2024 - NOTE will trim this more down
+
 
 # packages neeeded
 dependencies=(
@@ -16,31 +18,8 @@ dependencies=(
     golang
     hwdata
     jq
-    libmpdclient-dev
-    libnl-3-dev
-    libasound2-dev
-    libstartup-notification0-dev
-    libwayland-client++1
-    libwayland-dev
-    libcairo-5c-dev
-    libcairo2-dev
-    libsdbus-c++-bin    
     libegl-dev
-    libegl1-mesa-dev  
-    libpango1.0-dev
-    libgdk-pixbuf-2.0-dev
-    libxcb-keysyms1-dev
-    libwayland-client0
-    libxcb-ewmh-dev
-    libxcb-cursor-dev
-    libxcb-icccm4-dev
-    libxcb-randr0-dev
-    libxcb-render-util0-dev
-    libxcb-util-dev
-    libxcb-xkb-dev
-    libxcb-xinerama0-dev
-    libxkbcommon-dev
-    libxkbcommon-x11-dev
+    libegl1-mesa-dev
     meson
     ninja-build
     openssl
@@ -52,12 +31,27 @@ dependencies=(
     python3-pyquery
     qt6-base-dev
     spirv-tools
-    #vulkan-validationlayers
+    unzip
+    vulkan-validationlayers
     vulkan-utility-libraries-dev
     wayland-protocols
     xdg-desktop-portal
     xwayland
+)
+
+# hyprland dependencies
+hyprland_dep=(
     bc
+    binutils
+    libc6
+    libcairo2
+    libdisplay-info2
+    libdrm2
+    libhyprcursor-dev
+    libhyprlang-dev
+    libhyprutils-dev
+    libpam0g-dev
+    hyprcursor-util
 )
 
 build_dep=(
@@ -83,9 +77,8 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_dependencies.log"
 # Installation of main dependencies
 printf "\n%s - Installing ${SKY_BLUE}main dependencies....${RESET} \n" "${NOTE}"
 
-
-for PKG in "${dependencies[@]}"; do
-  install_package "$PKG" "$LOG"
+for PKG1 in "${dependencies[@]}" "${hyprland_dep[@]}"; do
+  install_package "$PKG1" "$LOG"
 done
 
 printf "\n%.0s" {1..1}
