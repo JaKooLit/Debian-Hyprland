@@ -14,9 +14,9 @@
 
 <div align="center">
 <br> 
-  <a href="#-announcement-"><kbd> <br> Read this First <br> </kbd></a>&ensp;&ensp;
-  <a href="#-to-use-this-script"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
-  <a href="#gallery-and-videos"><kbd> <br> Gallery <br> </kbd></a>&ensp;&ensp;
+  <a href="#-announcement-" target="_blank"><kbd> <br> Read this First <br> </kbd></a>&ensp;&ensp;
+  <a href="#-to-use-this-script"  target="_blank"><kbd> <br> Installation <br> </kbd></a>&ensp;&ensp;
+  <a href="#gallery-and-videos"  target="_blank"><kbd> <br> Gallery <br> </kbd></a>&ensp;&ensp;
  </div><br>
 
 <p align="center">
