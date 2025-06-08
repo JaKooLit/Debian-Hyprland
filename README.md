@@ -121,14 +121,13 @@ sudo apt install --no-install-recommends -y sddm
 > If you have nvidia, by default debian is installing nouveau or open-source nvidia driver. If you want to keep the default nvidia driver installed by Debian, Dont select Nvidia in the options.
 
 ## ✨ Auto clone and install
+> [!CAUTION] 
+> If you are using FISH SHELL, DO NOT use this function. Clone and ran install.sh instead
+
 - you can use this command to automatically clone the installer and ran the script for you
 - NOTE: `curl` package is required before running this command
 ```bash
 sh <(curl -L https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/auto-install.sh)
-```
-- if you are using say fish or a non-POSIX compliant
-```bash
-curl -sL https://raw.githubusercontent.com/JaKooLit/Debian-Hyprland/main/auto-install.sh | bash
 ```
 
 ## ✨ to use this script
@@ -275,10 +274,11 @@ cd ~/Debian-Hyprland
 - Feel free to copy, re-distribute, and use this script however you want. Would appreciate if you give me some loves by crediting my work :)
 
 
-#### ⏩ Contributing
+#### ✍️ Contributing
 - As stated above, these script does not contain actual config files. These are only the installer of packages
-- The development branch of this script is pulling the latest "stable" releases of the Hyprland-Dotfiles.
-- If you want to contribute and/or test the Hyprland-Dotfiles (development branch), [`Hyprland-Dots-Development`](https://github.com/JaKooLit/Hyprland-Dots/tree/development) 
+- If you want to contribute and/or test the Hyprland-Dotfiles (development branch), [`Hyprland-Dots-Development`](https://github.com/JaKooLit/Hyprland-Dots/tree/development)
+- Want to contribute on KooL-Hyprland-Dots Click [`HERE`](https://github.com/JaKooLit/Hyprland-Dots/blob/main/CONTRIBUTING.md) for a guide how to contribute
+- Want to contribute on This Installer? Click [`HERE`](https://github.com/JaKooLit/Debian-Hyprland/blob/main/CONTRIBUTING.md) for a guide how to contribute
 
 
 #### 👍👍👍 Thanks and Credits!
