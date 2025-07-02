@@ -23,7 +23,7 @@ printf "${NOTE} Cloning and Installing ${SKY_BLUE}KooL's Hyprland Dots for Debia
 
 # Check if Hyprland-Dots exists
 if [ -d Hyprland-Dots-Debian ]; then
-  cd Hyprland-Dots-Debian
+  cd Hyprland-Dots-Debian || exit
   git stash && git pull
   chmod +x copy.sh
   ./copy.sh 

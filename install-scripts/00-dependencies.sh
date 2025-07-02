@@ -45,14 +45,24 @@ hyprland_dep=(
     bc
     binutils
     libc6
-    libcairo2
+    libcairo2-dev
     libdisplay-info2
     libdrm2
-    libhyprcursor-dev
-    libhyprlang-dev
-    libhyprutils-dev
+    libjpeg-dev
+    libjxl-dev
+    libmagic-dev
+    libpixman-1-dev
+    libpugixml-dev
+    libre2-dev
+    librsvg2-dev
+    libspng-dev
+    libtomlplusplus-dev
+    libwebp-dev
+    libzip-dev
     libpam0g-dev
-    hyprcursor-util
+    qt6-base-private-dev
+    qt6-wayland-dev
+    qt6-wayland-private-dev
 )
 
 build_dep=(

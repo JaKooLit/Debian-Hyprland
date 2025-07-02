@@ -1,10 +1,10 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
-# hyprland #
+# hyprcursor #
 
 
 #specific branch or release
-lang_tag="v0.49.0"
+lang_tag="v0.1.12"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -20,33 +20,33 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
 fi
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprland.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprcursor.log"
+MLOG="install-$(date +%d-%H%M%S)_hyprcursor2.log"
 
 # Installation of dependencies
-printf "\n%s - Installing ${YELLOW}hyprland dependencies${RESET} .... \n" "${INFO}"
+printf "\n%s - Installing ${YELLOW}hyprcursor dependencies${RESET} .... \n" "${INFO}"
 
-# Check if hyprland directory exists and remove it
-if [ -d "hyprland" ]; then
-    rm -rf "hyprland"
+# Check if hyprcursor directory exists and remove it
+if [ -d "hyprcursor" ]; then
+    rm -rf "hyprcursor"
 fi
 
 # Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprland $lang_tag${RESET} ...\n"
-if git clone --recursive -b $lang_tag https://github.com/hyprwm/hyprland.git; then
-    cd hyprland || exit 1
+printf "${INFO} Installing ${YELLOW}hyprcursor $lang_tag${RESET} ...\n"
+if git clone --recursive -b $lang_tag https://github.com/hyprwm/hyprcursor.git; then
+    cd hyprcursor || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-    cmake --build ./build --config Release --target all -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+    cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprland $lang_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${MAGENTA}hyprcursor $lang_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland $lang_tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}hyprcursor $lang_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprland $lang_tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ${YELLOW}hyprcursor $lang_tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
-rm -rf "hyprland" # Cleanup
+rm -rf "hyprcursor" # Cleanup
 printf "\n%.0s" {1..2}

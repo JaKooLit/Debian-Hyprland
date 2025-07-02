@@ -1,13 +1,13 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
-# hypidle #
+# hypridle #
 
 idle=(
     libsdbus-c++-dev
 )
 
 #specific branch or release
-idle_tag="v0.1.2"
+idle_tag="v0.1.6"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -59,5 +59,5 @@ if git clone --recursive -b $idle_tag https://github.com/hyprwm/hypridle.git; th
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hypridle $idle_tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
-
+rm -rf "hypridle" # Cleanup
 printf "\n%.0s" {1..2}

@@ -12,7 +12,7 @@ lock=(
 )
 
 #specific branch or release
-lock_tag="v0.4.0"
+lock_tag="v0.8.2"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -48,7 +48,7 @@ printf "${INFO} Installing ${YELLOW}hyprlock $lock_tag${RESET} ...\n"
 if git clone --recursive -b $lock_tag https://github.com/hyprwm/hyprlock.git; then
     cd hyprlock || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
-	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+	cmake --build ./build --config Release --target hyprlock -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
     if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} ${YELLOW}hyprlock $lock_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
@@ -60,5 +60,5 @@ if git clone --recursive -b $lock_tag https://github.com/hyprwm/hyprlock.git; th
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprlock $lock_tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
-
+rm -rf "hyprlock" # Cleanup
 printf "\n%.0s" {1..2}
