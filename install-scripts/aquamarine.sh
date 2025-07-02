@@ -1,6 +1,6 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
-# hyplang #
+# aquamarine #
 
 
 #specific branch or release
@@ -36,14 +36,14 @@ printf "${INFO} Installing ${YELLOW}aquamarine $lang_tag${RESET} ...\n"
 if git clone --recursive -b $lang_tag https://github.com/hyprwm/aquamarine.git; then
     cd aquamarine || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-    cmake --build ./build --config Release --target aquamarine -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+    cmake --build ./build --config Release --target aquamarine -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} ${MAGENTA}aquamarine $lang_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for ${YELLOW}aquamarine $lang_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv "$MLOG" ../Install-Logs/ || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}aquamarine $lang_tag${RESET}" 2>&1 | tee -a "$LOG"
