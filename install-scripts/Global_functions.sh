@@ -36,7 +36,7 @@ show_progress() {
     tput civis 
     printf "\r${INFO} Installing ${YELLOW}%s${RESET} ..." "$package_name"
 
-    while ps -p $pid &> /dev/null; do
+    while ps -p "$pid" &> /dev/null; do
         printf "\r${INFO} Installing ${YELLOW}%s${RESET} %s" "$package_name" "${spin_chars[i]}"
         i=$(( (i + 1) % 10 ))  
         sleep 0.3  
@@ -111,6 +111,7 @@ uninstall_package() {
   # Checking if package is installed
   if sudo dpkg -l | grep -q -w "^ii  $1" ; then
     echo -e "${NOTE} removing $pkg ..."
+    # shellcheck disable=SC2024
     sudo apt autoremove -y "$1" >> "$LOG" 2>&1 | grep -v "error: target not found"
     
     if ! dpkg -l | grep -q -w "^ii  $1" ; then

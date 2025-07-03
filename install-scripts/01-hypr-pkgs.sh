@@ -138,6 +138,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | t
 source "$HOME/.cargo/env"
 
 ## making brightnessctl work
-sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
+sudo chmod +s "$(which brightnessctl)" 2>&1 | tee -a "$LOG" || true
 
 printf "\n%.0s" {1..2}

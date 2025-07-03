@@ -47,14 +47,14 @@ printf "${INFO} Installing ${YELLOW}hypridle $idle_tag${RESET} ...\n"
 if git clone --recursive -b $idle_tag https://github.com/hyprwm/hypridle.git; then
     cd hypridle || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
-	cmake --build ./build --config Release --target hypridle -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
+	cmake --build ./build --config Release --target hypridle -j"$(nproc 2>/dev/null || getconf NPROCESSORS_CONF)"
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} ${MAGENTA}hypridle $idle_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for ${YELLOW}hypridle $idle_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv "$MLOG" ../Install-Logs/ || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hypridle $idle_tag${RESET}" 2>&1 | tee -a "$LOG"

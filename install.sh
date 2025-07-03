@@ -337,9 +337,9 @@ execute_script "hyprcursor.sh"
 sleep 1
 execute_script "hyprgraphics.sh"
 sleep 1
-execute_script "hypr-qt-support.sh"
+execute_script "hyprland-qt-support.sh"
 sleep 1
-execute_script "hypr-qtutils.sh"
+execute_script "hyprland-qtutils.sh"
 sleep 1
 execute_script "hyprland.sh"
 sleep 1

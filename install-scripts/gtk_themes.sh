@@ -37,10 +37,11 @@ fi
 
 echo "$NOTE Cloning ${SKY_BLUE}GTK themes and Icons${RESET} repository..." 2>&1 | tee -a "$LOG"
 if git clone --depth=1 https://github.com/JaKooLit/GTK-themes-icons.git ; then
-    cd GTK-themes-icons
+    (
+    cd GTK-themes-icons || exit 1
     chmod +x auto-extract.sh
     ./auto-extract.sh
-    cd ..
+    )
     echo "$OK Extracted GTK Themes & Icons to ~/.icons & ~/.themes directories" 2>&1 | tee -a "$LOG"
 else
     echo "$ERROR Download failed for GTK themes and Icons.." 2>&1 | tee -a "$LOG"
