@@ -43,7 +43,7 @@ if git clone --recursive -b $lang_tag https://github.com/hyprwm/hyprwayland-scan
         echo -e "${ERROR} Installation failed for ${YELLOW}hyprwayland-scanner $lang_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv "$MLOG" ../Install-Logs/ || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprwayland-scanner $lang_tag${RESET}" 2>&1 | tee -a "$LOG"

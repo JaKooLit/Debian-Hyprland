@@ -7,8 +7,6 @@ lock=(
 	libgbm-dev
 	libdrm-dev
     libmagic-dev
-    libhyprlang-dev
-    libhyprutils-dev
 )
 
 #specific branch or release
@@ -55,7 +53,7 @@ if git clone --recursive -b $lock_tag https://github.com/hyprwm/hyprlock.git; th
         echo -e "${ERROR} Installation failed for ${YELLOW}hyprlock $lock_tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv "$MLOG" ../Install-Logs/ || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprlock $lock_tag${RESET}" 2>&1 | tee -a "$LOG"
