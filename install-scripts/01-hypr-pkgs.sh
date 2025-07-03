@@ -72,6 +72,19 @@ uninstall=(
     mako
     rofi
     cargo
+    # These conflict with source repositories
+    hyprcursor-util
+    hyprland
+    hyprland-dev
+    hyprland-protocols
+    hyprpaper
+    hyprwayland-scanner
+    libhyprcursor-dev
+    libhyprcursor0
+    libhyprlang-dev
+    libhyprlang2
+    libhyprutils-dev
+    libhyprutils0
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
