@@ -60,6 +60,7 @@ hyprland_dep=(
     libwebp-dev
     libzip-dev
     libpam0g-dev
+    libxcursor-dev
     qt6-declarative-dev
     qt6-base-private-dev
     qt6-wayland-dev
