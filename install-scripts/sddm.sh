@@ -55,6 +55,7 @@ done
 for login_manager in "${login[@]}"; do
   if dpkg -l | grep -q "^ii  $login_manager"; then
     echo "Disabling $login_manager..."
+    # shellcheck disable=SC2024
     sudo systemctl disable "$login_manager.service" >> "$LOG" 2>&1 || echo "Failed to disable $login_manager" >> "$LOG"
     echo "$login_manager disabled."
   fi
@@ -64,6 +65,7 @@ done
 for manager in "${login[@]}"; do
   if systemctl is-active --quiet "$manager.service" > /dev/null 2>&1; then
     echo "$manager.service is active, disabling it..." >> "$LOG" 2>&1
+    # shellcheck disable=SC2024
     sudo systemctl disable "$manager.service" --now >> "$LOG" 2>&1 || echo "Failed to disable $manager.service" >> "$LOG"
   else
     echo "$manager.service is not active" >> "$LOG" 2>&1

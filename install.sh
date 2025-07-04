@@ -329,6 +329,28 @@ echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland packages...${RESET}" | tee -a 
 sleep 1
 execute_script "01-hypr-pkgs.sh"
 sleep 1
+execute_script "hyprutils.sh" # Order is very specific for dependencies are scattered
+sleep 1
+execute_script "hyprlang.sh"
+sleep 1
+execute_script "hyprcursor.sh"
+sleep 1
+execute_script "hyprgraphics.sh"
+sleep 1
+execute_script "hyprland-qt-support.sh"
+sleep 1
+execute_script "hyprland-qtutils.sh"
+sleep 1
+execute_script "hyprwayland-scanner.sh"
+sleep 1
+execute_script "aquamarine.sh"
+sleep 1
+execute_script "hyprland-protocols.sh"
+sleep 1
+execute_script "hypridle.sh"
+sleep 1
+execute_script "hyprlock.sh"
+sleep 1
 execute_script "hyprland.sh"
 sleep 1
 execute_script "wallust.sh"
@@ -336,12 +358,6 @@ sleep 1
 execute_script "swww.sh"
 sleep 1
 execute_script "rofi-wayland.sh"
-sleep 1
-execute_script "hyprlock.sh"
-sleep 1
-execute_script "hyprlang.sh"
-sleep 1
-execute_script "hypridle.sh"
 
 #execute_script "imagemagick.sh" #this is for compiling from source. 07 Sep 2024
 # execute_script "waybar-git.sh" only if waybar on repo is old

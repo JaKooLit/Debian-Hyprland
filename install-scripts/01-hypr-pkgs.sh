@@ -26,8 +26,8 @@ hypr_package=(
     python3-requests
     python3-pip
     qt5ct
-    qt5-style-kvantum
-    qt5-style-kvantum-themes
+    qt-style-kvantum
+    qt-style-kvantum-themes
     qt6ct
     slurp
     swappy
@@ -72,6 +72,19 @@ uninstall=(
     mako
     rofi
     cargo
+    # These conflict with source repositories
+    hyprcursor-util
+    hyprland
+    hyprland-dev
+    hyprland-protocols
+    hyprpaper
+    hyprwayland-scanner
+    libhyprcursor-dev
+    libhyprcursor0
+    libhyprlang-dev
+    libhyprlang2
+    libhyprutils-dev
+    libhyprutils0
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -138,6 +151,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 2>&1 | t
 source "$HOME/.cargo/env"
 
 ## making brightnessctl work
-sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
+sudo chmod +s "$(which brightnessctl)" 2>&1 | tee -a "$LOG" || true
 
 printf "\n%.0s" {1..2}
