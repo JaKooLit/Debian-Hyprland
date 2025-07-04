@@ -7,6 +7,7 @@ lock=(
 	libgbm-dev
 	libdrm-dev
     libmagic-dev
+    libsdbus-c++-dev
 )
 
 #specific branch or release
