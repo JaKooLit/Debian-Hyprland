@@ -341,9 +341,9 @@ execute_script "hyprland-qt-support.sh"
 sleep 1
 execute_script "hyprland-qtutils.sh"
 sleep 1
-execute_script "aquamarine.sh"
-sleep 1
 execute_script "hyprwayland-scanner.sh"
+sleep 1
+execute_script "aquamarine.sh"
 sleep 1
 execute_script "hyprland-protocols.sh"
 sleep 1
