@@ -9,46 +9,66 @@ TARGET_DIR="/usr/local/bin"
 
 # Define packages to manually remove (was manually installed previously)
 PACKAGES=(
-  hyprctl
-  hyprpm
-  hyprland
-  Hyprland
-  cliphist
-  pypr
-  swappy
-  waybar
-  magick
+    hyprctl
+    hyprpm
+    hyprland
+    Hyprland
+    hyprwayland-scanner
+    hyprcursor-util
+    hyprland-update-screen
+    hyprland-dialog
+    hyprland-share-picker
+    hyprlock
+    hypridle
+    cliphist
+    pypr
+    swappy
+    waybar
+    magick
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+set -euo pipefail
+IFS=$'\n\t'
+
+SCRIPT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
+
+PARENT_DIR="$SCRIPT_DIR/.."
+source "$SCRIPT_DIR/colors.sh" || {
+    echo "Failed to source $SCRIPT_DIR/colors.sh"
+    exit 1
+}
+
+source "$SCRIPT_DIR/parse_args.sh" || {
+    echo "${ERROR} Failed to source $SCRIPT_DIR/parse_args.sh"
+    exit 1
+}
 
 # Change the working directory to the parent directory of the script
-PARENT_DIR="$SCRIPT_DIR/.."
-cd "$PARENT_DIR" || { echo "${ERROR} Failed to change directory to $PARENT_DIR"; exit 1; }
-
-# Source the global functions script
-if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
-  echo "Failed to source Global_functions.sh"
-  exit 1
-fi
+cd "$PARENT_DIR" || {
+    echo "${ERROR} Failed to change directory to $PARENT_DIR"
+    exit 1
+}
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_pre-clean-up.log"
+LOG="$PARENT_DIR/Install-Logs/install-$(date +%d-%H%M%S)_pre-clean-up.log"
 
 # Loop through the list of packages
 for PKG_NAME in "${PACKAGES[@]}"; do
-  # Construct the full path to the file
-  FILE_PATH="$TARGET_DIR/$PKG_NAME"
+    # Construct the full path to the file
+    FILE_PATH="$TARGET_DIR/$PKG_NAME"
 
-  # Check if the file exists
-  if [[ -f "$FILE_PATH" ]]; then
-    # Delete the file
-    sudo rm "$FILE_PATH"
-    echo "Deleted: $FILE_PATH" 2>&1 | tee -a "$LOG"
-  else
-    echo "File not found: $FILE_PATH" 2>&1 | tee -a "$LOG"
-  fi
+    # Check if the file exists
+    if [[ -f "$FILE_PATH" ]]; then
+        if [[ $DRY -eq 1 ]]; then
+            echo "${NOTE} Not removing $FILE_PATH."
+        else
+            # Delete the file
+            sudo rm "$FILE_PATH"
+            echo "Deleted: $FILE_PATH" 2>&1 | tee -a "$LOG"
+        fi
+    else
+        echo "File not found: $FILE_PATH" 2>&1 | tee -a "$LOG"
+    fi
 done
-
-clear

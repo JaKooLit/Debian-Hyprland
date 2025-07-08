@@ -53,6 +53,7 @@ Thank you for your interest in contributing to KooL Hyprland Projects! We welcom
 - Update the **documentation** if necessary.
 - Add tests if applicable.
 - Make sure all tests pass or fully tested before submitting your changes.
+- Use the `shellcheck` static analyzer or something similar for all scripts and minimize all warnings and eradicate errors. You cannot ignore warnings unless you have a good reason too.
 - Keep your pull request focused and avoid including unrelated changes.
 - Remember to follow the following files before submitting your changes.
   - [bug.yml](https://github.com/JaKooLit/Debian-Hyprland/blob/main/.github/ISSUE_TEMPLATE/bug.yml) - Use this template to create a report to help us improve.

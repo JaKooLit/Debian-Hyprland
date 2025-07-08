@@ -1,3 +1,5 @@
 Install-Logs/*
 
 !Install-Logs/.gitkeep
+
+faux-install-dir

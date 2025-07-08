@@ -2,20 +2,23 @@
 # https://github.com/JaKooLit
 
 # Set some colors for output messages
-OK="$(tput setaf 2)[OK]$(tput sgr0)"
-ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
-NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
-INFO="$(tput setaf 4)[INFO]$(tput sgr0)"
-WARN="$(tput setaf 1)[WARN]$(tput sgr0)"
-CAT="$(tput setaf 6)[ACTION]$(tput sgr0)"
-MAGENTA="$(tput setaf 5)"
-ORANGE="$(tput setaf 214)"
-WARNING="$(tput setaf 1)"
-YELLOW="$(tput setaf 3)"
-GREEN="$(tput setaf 2)"
-BLUE="$(tput setaf 4)"
-SKY_BLUE="$(tput setaf 6)"
-RESET="$(tput sgr0)"
+export MAGENTA="$(tput setaf 5)"
+export YELLOW="$(tput setaf 226)"
+export RED="$(tput setaf 1)"
+export ORANGE="$(tput setaf 3)"
+export GREEN="$(tput setaf 2)"
+export BLUE="$(tput setaf 4)"
+export SKY_BLUE="$(tput setaf 12)"
+export GRAY="$(tput setaf 251)"
+export GREY=$GRAY
+export WARNING=$ORANGE
+export RESET="$(tput sgr0)"
+export OK="${GREEN}[OK]${RESET}"
+export ERROR="${RED}[ERROR]${RESET}"
+export NOTE="${GRAY}[NOTE]${RESET}"
+export INFO="${BLUE}[INFO]${RESET}"
+export WARN="${WARNING}[WARN]${RESET}"
+export CAT="${SKY_BLUE}[ACTION]${RESET}"
 
 # Variables
 Distro="Debian-Hyprland"
@@ -24,10 +27,9 @@ Distro_DIR="$HOME/$Distro"
 
 printf "\n%.0s" {1..1}
 
-if ! command -v git &> /dev/null
-then
+if ! command -v git &>/dev/null; then
     echo "${INFO} Git not found! ${SKY_BLUE}Installing Git...${RESET}"
-    if ! sudo apt install -y git; then
+    if ! sudo apt install --assume-yes git; then
         echo "${ERROR} Failed to install Git. Exiting."
         exit 1
     fi

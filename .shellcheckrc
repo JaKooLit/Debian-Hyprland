@@ -1,0 +1,4 @@
+# Notify shellcheck that we are sourcing external scripts
+external-sources=true
+
+extended-analysis=true
