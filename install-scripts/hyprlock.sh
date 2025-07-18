@@ -7,8 +7,6 @@ lock=(
 	libgbm-dev
 	libdrm-dev
     libmagic-dev
-    libhyprlang-dev
-    libhyprutils-dev
 )
 
 #specific branch or release
