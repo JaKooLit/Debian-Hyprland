@@ -333,6 +333,8 @@ execute_script "hyprcursor.sh"
 sleep 1
 execute_script "hyprutils.sh"
 sleep 1
+execute_script "hyprwayland-scanner.sh"
+sleep 1
 execute_script "hyprland.sh"
 sleep 1
 execute_script "wallust.sh"
