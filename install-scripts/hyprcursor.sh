@@ -62,6 +62,6 @@ else
     echo -e "${ERROR} Download failed for hyprcursor." 2>&1 | tee -a "$LOG"
 fi
 
-clear
+printf "\n%.0s" {1..2}
 
 

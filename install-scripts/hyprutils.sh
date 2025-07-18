@@ -47,5 +47,6 @@ else
   echo -e "${ERROR} Download failed for hyprutils" 2>&1 | tee -a "$LOG"
 fi
 
+printf "\n%.0s" {1..2}
 
 
