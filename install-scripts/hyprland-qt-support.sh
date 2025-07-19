@@ -7,6 +7,7 @@ qt_support=(
     qt6-base-dev
 	qt6-wayland
 	qt6-declarative-dev
+	qml6-module-qtcore
 )
 
 #specific branch or release
