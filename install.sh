@@ -20,9 +20,9 @@ SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
 # Display warning message
-echo -e "${WARNING}NOTE:${RESET} Hyprland on Repo is extremely outdated and will not be supported anymore."
-echo -e "Use this at your own risk." 
-echo -e "${WARNING}Any issues will not be dealt with${RESET}"
+echo -e "${NOTE}: Most Hyprland Packages installed here are manually built from github"
+echo -e "${INFO}: You need to manually update it yourself." 
+echo -e "${WARN}: Use this script at your own risk"
 echo
 
 # Prompt user to continue or exit
@@ -78,7 +78,7 @@ fi
 printf "\n%.0s" {1..2}  
 echo -e "\e[35m
 	╦╔═┌─┐┌─┐╦    ╦ ╦┬ ┬┌─┐┬─┐┬  ┌─┐┌┐┌┌┬┐
-	╠╩╗│ ││ │║    ╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ 2025
+	╠╩╗│ ││ │║    ╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ July 2025
 	╩ ╩└─┘└─┘╩═╝  ╩ ╩ ┴ ┴  ┴└─┴─┘┴ ┴┘└┘─┴┘ Debian Trixie / SiD
 \e[0m"
 printf "\n%.0s" {1..1} 

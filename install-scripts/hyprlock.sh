@@ -10,6 +10,10 @@ lock=(
     libaudit-dev
 )
 
+build_dep=(
+    pam
+)
+
 #specific branch or release
 lock_tag="v0.9.0"
 
@@ -35,6 +39,10 @@ printf "\n%s - Installing ${YELLOW}hyprlock dependencies${RESET} .... \n" "${INF
 
 for PKG1 in "${lock[@]}"; do
   re_install_package "$PKG1" "$LOG"
+done
+
+for PKG1 in "${build_dep[@]}"; do
+  build_dep "$PKG1" "$LOG"
 done
 
 # Check if hyprlock directory exists and remove it
