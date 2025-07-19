@@ -10,7 +10,7 @@ lock=(
 )
 
 #specific branch or release
-lock_tag="v0.4.0"
+lock_tag="v0.9.0"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
