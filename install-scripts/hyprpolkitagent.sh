@@ -6,6 +6,10 @@
 polkitagent=(
 	libpolkit-agent-1-dev
 	libpolkit-qt6-1-dev
+  qml6-module-qtquick-layouts
+  qt6-tools-dev
+  qt6-tools-dev-tools
+  qt6-charts-dev
 )
 
 #specific branch or release
