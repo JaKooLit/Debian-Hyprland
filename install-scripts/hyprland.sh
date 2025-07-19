@@ -45,7 +45,7 @@ printf "\n%s - Installing Hyprland additional dependencies (glaze).... \n" "${NO
 if [ ! -d /usr/include/glaze ]; then
     echo "${INFO} ${YELLOW}Glaze${RESET} is not installed. Installing ${YELLOW}glaze from assets${RESET} ..."
     sudo dpkg -i assets/libglaze-dev_4.4.3-1_all.deb 2>&1 | tee -a "$LOG"
-    sudo apt install -f -y 2>&1 | tee -a "$LOG"
+    sudo apt-get install -f -y 2>&1 | tee -a "$LOG"
     echo "${INFO} ${YELLOW}libglaze-dev from assets${RESET} installed."
 fi
 

@@ -3,9 +3,16 @@
 # XDG-Desktop-Portals for hyprland #
 
 xdg=(
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-hyprland
+  libdrm-dev
+  libpipewire-0.3-dev
+  libspa-0.2-dev
+  libsdbus-c++-dev
+  libwayland-client0
+  wayland-protocols
+  xdg-desktop-portal-gtk
 )
+
+xdph_tag="v1.3.9"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -26,9 +33,37 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_xdph.log"
 [[ -f "/usr/lib/xdg-desktop-portal-hyprland" ]] && sudo rm "/usr/lib/xdg-desktop-portal-hyprland"
 
 # XDG-DESKTOP-PORTAL-HYPRLAND
-printf "${NOTE} Installing ${SKY_BLUE}xdg-desktop-portal-hyprland${RESET}\n\n" 
-for xdgs in "${xdg[@]}"; do
-  install_package "$xdgs" "$LOG"
+printf "${NOTE} Installing ${SKY_BLUE}xdg-desktop-portal-hyprland dependencies${RESET}\n\n" 
+
+for PKG1 in "${xdg[@]}"; do
+  re_install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+    exit 1
+  fi
 done
-    
+
+# Clone, build, and install XDPH
+printf "${NOTE} Cloning and Installing ${YELLOW}XDG Desktop Portal Hyprland $hyprland_tag${RESET} ...\n"
+
+# Check if xdg-desktop-portal-hyprland folder exists and remove it
+if [ -d "xdg-desktop-portal-hyprland" ]; then
+  printf "${NOTE} Removing existing xdg-desktop-portal-hyprland folder...\n"
+  rm -rf "xdg-desktop-portal-hyprland" 2>&1 | tee -a "$LOG"
+fi
+
+if git clone --recursive -b $xdph_tag "https://github.com/hyprwm/xdg-desktop-portal-hyprland.git"; then
+  cd "xdg-desktop-portal-hyprland" || exit 1
+  make all
+  if sudo make install 2>&1 | tee -a "$MLOG"; then
+    printf "${OK} ${MAGENTA}xdph $xdph_tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+  else
+    echo -e "${ERROR} Installation failed for ${YELLOW}xdph $xdph_tag${RESET}" 2>&1 | tee -a "$MLOG"
+  fi
+  mv $MLOG ../Install-Logs/ || true   
+  cd ..
+else
+  echo -e "${ERROR} Download failed for ${YELLOW}xdph $xdph_tag${RESET}" 2>&1 | tee -a "$LOG"
+fi
+
 printf "\n%.0s" {1..2}

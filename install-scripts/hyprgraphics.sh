@@ -3,6 +3,9 @@
 # Hypr Ecosystem #
 # hyprgraphics #
 
+hyprgraphics=(
+	libmagic
+)
 
 #specific branch or release
 graphics_tag="v0.1.5"
@@ -26,6 +29,15 @@ MLOG="install-$(date +%d-%H%M%S)_hyprgraphics2.log"
 
 # Installation of dependencies
 printf "\n%s - Installing ${YELLOW}hyprgraphics dependencies${RESET} .... \n" "${INFO}"
+
+for PKG1 in "${hyprgraphics[@]}"; do
+  re_install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+    exit 1
+  fi
+done
+printf "\n%.0s" {1..1}
 
 # Check if hyprgraphics directory exists and remove it
 if [ -d "hyprgraphics" ]; then

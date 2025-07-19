@@ -32,7 +32,7 @@ MLOG="install-$(date +%d-%H%M%S)_hyprpolkitagent.log"
 printf "\n%s - Installing hyprpolkitagent dependencies.... \n" "${NOTE}"
 
 for PKG1 in "${polkitagent[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
+  re_install_package "$PKG1" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
     echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
     exit 1

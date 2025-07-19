@@ -6,11 +6,14 @@
 qtutils=(
 	libqt6core5compat6
     qt6-base-dev
-	qt6-wayland
+	qt6-wayland-dev
+    qt6-wayland
 	qt6-declarative-dev
 	qml6-module-qtcore
 	qt6-3d-dev
 	qt6-5compat-dev
+    libqt6waylandclient6
+    qml6-module-qtwayland-client-texturesharing
 )
 
 #specific branch or release
