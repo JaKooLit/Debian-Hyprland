@@ -3,10 +3,12 @@
 # Main Hyprland Package#
 
 #specific branch or release
-hyprland_tag="v0.41.2"
+hyprland_tag="v0.49.0"
 
 hyprland=(
 	libxcb-errors-dev
+	libre2-dev
+	libglaze-dev
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -34,8 +36,24 @@ for PKG1 in "${hyprland[@]}"; do
   fi
 done
 
+printf "\n%.0s" {1..1}
+
+# Installation of dependencies (glaze)
+printf "\n%s - Installing Hyprland additional dependencies (glaze).... \n" "${NOTE}"
+
+# Check if /usr/include/glaze exists
+if [ ! -d /usr/include/glaze ]; then
+    echo "${INFO} ${YELLOW}Glaze${RESET} is not installed. Installing ${YELLOW}glaze from assets${RESET} ..."
+    sudo dpkg -i assets/libglaze-dev_4.4.3-1_all.deb 2>&1 | tee -a "$LOG"
+    sudo apt install -f -y 2>&1 | tee -a "$LOG"
+    echo "${INFO} ${YELLOW}libglaze-dev from assets${RESET} installed."
+fi
+
+
+printf "\n%.0s" {1..1}
+
 # Clone, build, and install Hyprland using Cmake
-printf "${NOTE} Cloning Hyprland...\n"
+printf "${NOTE} Cloning and Installing ${YELLOW}Hyprland $hyprland_tag${RESET} ...\n"
 
 # Check if Hyprland folder exists and remove it
 if [ -d "Hyprland" ]; then
@@ -47,14 +65,14 @@ if git clone --recursive -b $hyprland_tag "https://github.com/hyprwm/Hyprland"; 
   cd "Hyprland" || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} Hyprland installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    printf "${OK} ${MAGENTA}Hyprland $hyprland_tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
-    echo -e "${ERROR} Installation failed for Hyprland." 2>&1 | tee -a "$MLOG"
+    echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $hyprland_tag${RESET}" 2>&1 | tee -a "$MLOG"
   fi
   mv $MLOG ../Install-Logs/ || true   
   cd ..
 else
-  echo -e "${ERROR} Download failed for Hyprland." 2>&1 | tee -a "$LOG"
+  echo -e "${ERROR} Download failed for ${YELLOW}Hyprland $hyprland_tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 wayland_sessions_dir=/usr/share/wayland-sessions

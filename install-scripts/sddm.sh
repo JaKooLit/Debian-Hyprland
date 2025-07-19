@@ -48,7 +48,7 @@ done
 
 # Installation of additional sddm stuff
 for PKG2 in "${sddm2[@]}"; do
-  install_package "$PKG2"  "$LOG"
+  re_install_package "$PKG2"  "$LOG"
 done
 
 # Check if other login managers are installed and disable their service before enabling SDDM

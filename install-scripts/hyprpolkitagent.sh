@@ -1,15 +1,15 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # Hypr Ecosystem #
-# hyprcursor #
+# hyprpolkitagent #
 
-cursor=(
-libzip-dev
-librsvg2-dev
+polkitagent=(
+	libpolkit-agent-1-dev
+	libpolkit-qt6-1-dev
 )
 
 #specific branch or release
-cursor_tag="v0.1.12"
+polkitagent_tag="v0.1.2"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -25,13 +25,13 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
 fi
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprcursor.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprcursor.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprpolkitagent.log"
+MLOG="install-$(date +%d-%H%M%S)_hyprpolkitagent.log"
 
 # Installation of dependencies
-printf "\n%s - Installing hyprcursor dependencies.... \n" "${NOTE}"
+printf "\n%s - Installing hyprpolkitagent dependencies.... \n" "${NOTE}"
 
-for PKG1 in "${cursor[@]}"; do
+for PKG1 in "${polkitagent[@]}"; do
   install_package "$PKG1" 2>&1 | tee -a "$LOG"
   if [ $? -ne 0 ]; then
     echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
@@ -39,28 +39,28 @@ for PKG1 in "${cursor[@]}"; do
   fi
 done
 
-# Check if hyprcursor folder exists and remove it
-if [ -d "hyprcursor" ]; then
-    printf "${NOTE} Removing existing hyprcursor folder...\n"
-    rm -rf "hyprcursor"
+# Check if hyprpolkitagent folder exists and remove it
+if [ -d "hyprpolkitagent" ]; then
+    printf "${NOTE} Removing existing hyprpolkitagent folder...\n"
+    rm -rf "hyprpolkitagent"
 fi
 
 # Clone and build 
-printf "${NOTE} Installing hyprcursor...\n"
-if git clone --recursive -b $cursor_tag https://github.com/hyprwm/hyprcursor.git; then
-    cd hyprcursor || exit 1
+printf "${NOTE} Installing hyprpolkitagent...\n"
+if git clone --recursive -b $polkitagent_tag https://github.com/hyprwm/hyprpolkitagent.git; then
+    cd hyprpolkitagent || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} hyprcursor installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} hyprpolkitagent installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for hyprcursor." 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for hyprpolkitagent." 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for hyprcursor." 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for hyprpolkitagent." 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

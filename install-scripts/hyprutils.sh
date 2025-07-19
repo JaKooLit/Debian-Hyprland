@@ -4,7 +4,7 @@
 # hyprutils #
 
 #specific branch or release
-hyprutils_tag="v0.1.5"
+hyprutils_tag="v0.8.1"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
