@@ -108,11 +108,8 @@ hyprland_dep=(
     libcairo2
     libdisplay-info2
     libdrm2
-    libhyprcursor-dev
-    libhyprlang-dev
-    libhyprutils-dev
     libpam0g-dev
-    hyprcursor-util
+
 )
 
 build_dep=(
