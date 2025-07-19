@@ -79,6 +79,7 @@ dependencies=(
     libxkbcommon-x11-dev
     libxkbregistry-dev
     libxml2-dev
+    libsdbus-c++-dev
     libxxhash-dev
     meson
     ninja-build

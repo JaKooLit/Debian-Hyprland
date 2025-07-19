@@ -8,6 +8,7 @@ lock=(
 	libdrm-dev
     libmagic-dev
     libaudit-dev
+    libsdbus-c++-dev
 )
 
 build_dep=(
