@@ -109,7 +109,6 @@ hyprland_dep=(
     libdisplay-info2
     libdrm2
     libpam0g-dev
-
 )
 
 build_dep=(

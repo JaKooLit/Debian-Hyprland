@@ -7,6 +7,7 @@ lock=(
 	libgbm-dev
 	libdrm-dev
     libmagic-dev
+    libaudit-dev
 )
 
 #specific branch or release
