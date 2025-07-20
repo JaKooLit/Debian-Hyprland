@@ -13,7 +13,7 @@ polkitagent=(
 )
 
 #specific branch or release
-polkitagent_tag="v0.1.2"
+tag="v0.1.2"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -51,7 +51,7 @@ fi
 
 # Clone and build 
 printf "${NOTE} Installing hyprpolkitagent...\n"
-if git clone --recursive -b $polkitagent_tag https://github.com/hyprwm/hyprpolkitagent.git; then
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprpolkitagent.git; then
     cd hyprpolkitagent || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`

@@ -3,7 +3,7 @@
 # Main Hyprland Package#
 
 #specific branch or release
-hyprland_tag="v0.49.0"
+tag="v0.49.0"
 
 hyprland=(
 	libxcb-errors-dev
@@ -53,7 +53,7 @@ fi
 printf "\n%.0s" {1..1}
 
 # Clone, build, and install Hyprland using Cmake
-printf "${NOTE} Cloning and Installing ${YELLOW}Hyprland $hyprland_tag${RESET} ...\n"
+printf "${NOTE} Cloning and Installing ${YELLOW}Hyprland $tag${RESET} ...\n"
 
 # Check if Hyprland folder exists and remove it
 if [ -d "Hyprland" ]; then
@@ -61,18 +61,18 @@ if [ -d "Hyprland" ]; then
   rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $hyprland_tag "https://github.com/hyprwm/Hyprland"; then
+if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
   make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} ${MAGENTA}Hyprland $hyprland_tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
-    echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $hyprland_tag${RESET}" 2>&1 | tee -a "$MLOG"
+    echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"
   fi
   mv $MLOG ../Install-Logs/ || true   
   cd ..
 else
-  echo -e "${ERROR} Download failed for ${YELLOW}Hyprland $hyprland_tag${RESET}" 2>&1 | tee -a "$LOG"
+  echo -e "${ERROR} Download failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

@@ -5,9 +5,9 @@
 
 qt_support=(
     qt6-base-dev
-	qt6-wayland
-	qt6-declarative-dev
-	qml6-module-qtcore
+    qt6-wayland
+    qt6-declarative-dev
+    qml6-module-qtcore
     qml6-module-qtquick-layouts
     qt6-tools-dev
     qt6-tools-dev-tools
@@ -15,7 +15,7 @@ qt_support=(
 )
 
 #specific branch or release
-qt_support_tag="v0.1.0"
+tag="v0.1.0"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -53,21 +53,21 @@ if [ -d "hyprland-qt-support" ]; then
 fi
 
 # Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprland-qt-support $qt_support_tag${RESET} ...\n"
-if git clone --recursive -b $qt_support_tag https://github.com/hyprwm/hyprland-qt-support.git; then
+printf "${INFO} Installing ${YELLOW}hyprland-qt-support $tag${RESET} ...\n"
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-qt-support.git; then
     cd hyprland-qt-support || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprland-qt-support $qt_support_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${MAGENTA}hyprland-qt-support $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-qt-support $qt_support_tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-qt-support $tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprland-qt-support $qt_support_tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ${YELLOW}hyprland-qt-support $tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

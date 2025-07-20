@@ -5,7 +5,7 @@
 
 
 #specific branch or release
-protocols_tag="v0.6.4"
+tag="v0.6.4"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -33,20 +33,20 @@ if [ -d "hyprland-protocols" ]; then
 fi
 
 # Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprland-protocols $protocols_tag${RESET} ...\n"
-if git clone --recursive -b $protocols_tag https://github.com/hyprwm/hyprland-protocols.git; then
+printf "${INFO} Installing ${YELLOW}hyprland-protocols $tag${RESET} ...\n"
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-protocols.git; then
     cd hyprland-protocols || exit 1
 	meson setup build
     if sudo meson install -C build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprland-protocols $protocols_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${MAGENTA}hyprland-protocols $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-protocols $protocols_tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-protocols $tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprland-protocols protocols_tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ${YELLOW}hyprland-protocols tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

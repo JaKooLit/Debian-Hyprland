@@ -12,7 +12,8 @@ xdg=(
   xdg-desktop-portal-gtk
 )
 
-xdph_tag="v1.3.9"
+#specific branch or release
+tag="v1.3.9"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -44,7 +45,7 @@ for PKG1 in "${xdg[@]}"; do
 done
 
 # Clone, build, and install XDPH
-printf "${NOTE} Cloning and Installing ${YELLOW}XDG Desktop Portal Hyprland $hyprland_tag${RESET} ...\n"
+printf "${NOTE} Cloning and Installing ${YELLOW}XDG Desktop Portal Hyprland $tag${RESET} ...\n"
 
 # Check if xdg-desktop-portal-hyprland folder exists and remove it
 if [ -d "xdg-desktop-portal-hyprland" ]; then
@@ -52,19 +53,19 @@ if [ -d "xdg-desktop-portal-hyprland" ]; then
   rm -rf "xdg-desktop-portal-hyprland" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $xdph_tag "https://github.com/hyprwm/xdg-desktop-portal-hyprland.git"; then
+if git clone --recursive -b $tag "https://github.com/hyprwm/xdg-desktop-portal-hyprland.git"; then
   cd "xdg-desktop-portal-hyprland" || exit 1
   cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B build
   cmake --build build
   if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} ${MAGENTA}xdph $xdph_tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    printf "${OK} ${MAGENTA}xdph $tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
-    echo -e "${ERROR} Installation failed for ${YELLOW}xdph $xdph_tag${RESET}" 2>&1 | tee -a "$MLOG"
+    echo -e "${ERROR} Installation failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$MLOG"
   fi
   mv $MLOG ../Install-Logs/ || true   
   cd ..
 else
-  echo -e "${ERROR} Download failed for ${YELLOW}xdph $xdph_tag${RESET}" 2>&1 | tee -a "$LOG"
+  echo -e "${ERROR} Download failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

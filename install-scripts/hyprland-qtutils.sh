@@ -17,7 +17,7 @@ qtutils=(
 )
 
 #specific branch or release
-qtutils_tag="v0.1.4"
+tag="v0.1.4"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -55,21 +55,21 @@ if [ -d "hyprland-qtutils" ]; then
 fi
 
 # Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprland-qtutils $qtutils_tag${RESET} ...\n"
-if git clone --recursive -b $qtutils_tag https://github.com/hyprwm/hyprland-qtutils.git; then
+printf "${INFO} Installing ${YELLOW}hyprland-qtutils $tag${RESET} ...\n"
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-qtutils.git; then
     cd hyprland-qtutils || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprland-qtutils $qtutils_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${MAGENTA}hyprland-qtutils $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-qtutils $qtutils_tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-qtutils $tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprland-qtutils $qtutils_tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ${YELLOW}hyprland-qtutils $tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

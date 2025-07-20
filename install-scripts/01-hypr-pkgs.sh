@@ -12,52 +12,52 @@ Extra=(
 
 # packages needed
 hypr_package=(
-    cliphist
-    grim
-    gvfs
-    gvfs-backends
-    inxi
-    imagemagick
-    kitty
-    nano
-    pavucontrol
-    playerctl
-    polkit-kde-agent-1
-    python3-requests
-    python3-pip
-    qt5ct
-    qt5-style-kvantum
-    qt5-style-kvantum-themes
-    qt6ct
-    slurp
-    swappy
-    sway-notification-center
-    unzip
-    waybar
-    wget
-    wl-clipboard
-    wlogout
-    xdg-user-dirs
-    xdg-utils
-    yad
+  cliphist
+  grim
+  gvfs
+  gvfs-backends
+  inxi
+  imagemagick
+  kitty
+  nano
+  pavucontrol
+  playerctl
+  polkit-kde-agent-1
+  python3-requests
+  python3-pip
+  qt5ct
+  qt5-style-kvantum
+  qt5-style-kvantum-themes
+  qt6ct
+  slurp
+  swappy
+  sway-notification-center
+  unzip
+  waybar
+  wget
+  wl-clipboard
+  wlogout
+  xdg-user-dirs
+  xdg-utils
+  yad
 )
 
 # the following packages can be deleted. however, dotfiles may not work properly
 hypr_package_2=(
-    brightnessctl
-    btop
-    cava
-    fastfetch
-    loupe
-    gnome-system-monitor
-    mousepad
-    mpv
-    mpv-mpris
-    nwg-look
-    nwg-displays
-    nvtop
-    pamixer
-    qalculate-gtk
+  brightnessctl
+  btop
+  cava
+  fastfetch
+  loupe
+  gnome-system-monitor
+  mousepad
+  mpv
+  mpv-mpris
+  nwg-look
+  nwg-displays
+  nvtop
+  pamixer
+  qalculate-gtk
 )
 
 # packages to force reinstall 
@@ -68,10 +68,10 @@ force=(
 
 # List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
 uninstall=(
-    dunst
-    mako
-    rofi
-    cargo
+  dunst
+  mako
+  rofi
+  cargo
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##

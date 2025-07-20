@@ -6,8 +6,9 @@
 scan_depend=(
     libpugixml-dev
 )
+
 #specific branch or release
-scan_tag="v0.4.5"
+tag="v0.4.5"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -48,7 +49,7 @@ fi
 
 # Clone and build hyprlang
 printf "${NOTE} Installing hyprwayland-scanner...\n"
-if git clone --recursive -b $scan_tag https://github.com/hyprwm/hyprwayland-scanner.git; then
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprwayland-scanner.git; then
     cd hyprwayland-scanner || exit 1
 	cmake -DCMAKE_INSTALL_PREFIX=/usr -B build
 	cmake --build build -j `nproc`

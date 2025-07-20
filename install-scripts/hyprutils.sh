@@ -4,7 +4,7 @@
 # hyprutils #
 
 #specific branch or release
-hyprutils_tag="v0.8.1"
+tag="v0.8.1"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -32,7 +32,7 @@ if [ -d "hyprutils" ]; then
   rm -rf "hyprutils" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone -b $hyprutils_tag "https://github.com/hyprwm/hyprutils.git"; then
+if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
   cd "hyprutils" || exit 1
   cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
   cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`

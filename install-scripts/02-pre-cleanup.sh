@@ -18,12 +18,16 @@ PACKAGES=(
 
 # List of packages installed from Debian-Hyprland repo
 uninstall=(
+  hyprland
   xdg-desktop-portal-hyprland
   libhhyprland-dev
   libhyprutils-dev
   libhyprutils0
   hyprwayland-scanner
-  hyprland-protocols	
+  hyprland-protocols
+  hyprctl
+  hyprpm
+  Hyprland
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
