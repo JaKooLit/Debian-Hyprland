@@ -6,9 +6,11 @@
 tag="v0.49.0"
 
 hyprland=(
-	libxcb-errors-dev
-	libre2-dev
-	libglaze-dev
+  libxcb-errors-dev
+  libre2-dev
+  libglaze-dev
+  libudis86-dev
+  libinotify-ocaml-dev
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
