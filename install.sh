@@ -24,6 +24,9 @@ echo -e "${NOTE}: Most Hyprland Packages installed here are manually built from 
 echo -e "${INFO}: You need to manually update it yourself." 
 echo -e "${WARN}: Use this script at your own risk"
 echo
+echo -e "${NOTE}: Since it builds from source, installation WILL takes Longer"
+echo -e "${WARN}: You've been warned so stop crying!"
+echo
 
 # Prompt user to continue or exit
 read -rp "Do you want to continue with the installation? [y/N]: " confirm
