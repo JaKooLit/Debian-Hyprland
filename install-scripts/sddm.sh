@@ -8,10 +8,13 @@ sddm1=(
 )
 
 sddm2=(
-  qt6-5compat-dev
-  qml6-module-qt5compat-graphicaleffects
+  libqt6svg6
   qt6-declarative-dev
   qt6-svg-dev
+  qt6-virtualkeyboard-plugin
+  libqt6multimedia6
+  qml6-module-qtquick-controls
+  qml6-module-qtquick-effects
 )
 
 # login managers to attempt to disable
@@ -48,7 +51,7 @@ done
 
 # Installation of additional sddm stuff
 for PKG2 in "${sddm2[@]}"; do
-  re_install_package "$PKG2"  "$LOG"
+  install_package "$PKG2"  "$LOG"
 done
 
 # Check if other login managers are installed and disable their service before enabling SDDM
@@ -77,5 +80,6 @@ sudo systemctl enable sddm.service 2>&1 | tee -a "$LOG"
 
 wayland_sessions_dir=/usr/share/wayland-sessions
 [ ! -d "$wayland_sessions_dir" ] && { printf "$CAT - $wayland_sessions_dir not found, creating...\n"; sudo mkdir -p "$wayland_sessions_dir" 2>&1 | tee -a "$LOG"; }
+sudo cp assets/hyprland.desktop "$wayland_sessions_dir/" 2>&1 | tee -a "$LOG"
 
 printf "\n%.0s" {1..2}
