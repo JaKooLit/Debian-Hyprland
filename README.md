@@ -80,7 +80,11 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
-- This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
+- 25 July 2025 Update!
+- All Hyprland and associated packages set to install using this script are downloaded and built from source (github). However, do note that it is downloaded from each individual releases. You can set versions by editing the scripts located install-scripts directory.
+- These packages are NOT updated automatically. You need to manually update it yourself
+- 
+- This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots/tree/Debian-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
 
 - Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Changelogs)
 - Since the Hyprland-Dots are evolving, some of the screenshots maybe old
