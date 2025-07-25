@@ -1,5 +1,9 @@
 ## CHANGELOGS
 
+## 22 July 2025
+- Updated sddm theme and script to work with the updated simple_sddm_2 theme
+- Manual building process
+
 ## 21 June 2025
 - Added a warning message that support is now very limited
 

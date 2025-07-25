@@ -11,11 +11,11 @@ packages=(
   cliphist
   wlogout
   kitty
-  hyprland
 )
 
 # Local packages that should be in /usr/local/bin/
 local_pkgs_installed=(
+  hyprland
   rofi
   hypridle
   hyprlock

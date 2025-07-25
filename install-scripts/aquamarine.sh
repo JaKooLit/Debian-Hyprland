@@ -1,11 +1,11 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # Hypr Ecosystem #
-# hyplang #
+# aquamarine #
 
 
 #specific branch or release
-tag="v0.6.3"
+tag="v0.9.2"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -21,33 +21,33 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
 fi
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprlang.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprlang2.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_aquamarine.log"
+MLOG="install-$(date +%d-%H%M%S)_aquamarine.log"
 
 # Installation of dependencies
-printf "\n%s - Installing ${YELLOW}hyprlang dependencies${RESET} .... \n" "${INFO}"
+printf "\n%s - Installing ${YELLOW}aquamarine dependencies${RESET} .... \n" "${INFO}"
 
-# Check if hyprlang directory exists and remove it
-if [ -d "hyprlang" ]; then
-    rm -rf "hyprlang"
+# Check if aquamarinedirectory exists and remove it
+if [ -d "aquamarine" ]; then
+    rm -rf "aquamarine"
 fi
 
 # Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprlang $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git; then
-    cd hyprlang || exit 1
+printf "${INFO} Installing ${YELLOW}aquamarine $tag${RESET} ...\n"
+if git clone --recursive -b $tag https://github.com/hyprwm/aquamarine.git; then
+    cd aquamarine || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-	cmake --build ./build --config Release --target hyprlang -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprlang tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        printf "${OK} ${MAGENTA}aquamarine $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo -e "${ERROR} Installation failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
     cd ..
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo -e "${ERROR} Download failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}
