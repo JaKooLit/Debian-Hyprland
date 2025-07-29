@@ -43,6 +43,20 @@ print_color $YELLOW "
     These packages are NOT updated automatically. You need to manually update it yourself
     
     BE WARNED!!!!!  Installation may take longer!!
+
+
+        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+              
+                                NOTE:
+                    Hyprland and Dependencies versions              
+
+        █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+
+    Debian is not my main Distro. As stated above, Most Hyprland and dependencies as built from release.
+
+    I cannot monitor the updates or changes. If there are new versions, please submit an Merge Request for any updates.
+    
+    Thank you!
 "
 printf "\n%.0s" {1..2}
 
