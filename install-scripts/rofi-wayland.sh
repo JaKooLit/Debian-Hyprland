@@ -35,7 +35,11 @@ rofi=(
   wget
 )
 
-rofi_tag="1.7.8+wayland1"
+# variables 
+rofi_tag="1.7.9+wayland1"
+release_url="https://github.com/lbonn/rofi/releases/download/1.7.9%2Bwayland1/rofi-1.7.9+wayland1.tar.gz"
+
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -62,7 +66,7 @@ printf "\n%s - Re-installing ${SKY_BLUE}rofi-wayland dependencies${RESET}.... \n
 
 printf "\n%.0s" {1..2}
 # Clone and build rofi - wayland
-printf "${NOTE} Installing ${SKY_BLUE}rofi-wayland${RESET}...\n"
+printf "${NOTE} Building and Installing ${SKY_BLUE}rofi-wayland${RESET} $rofi_tag ...\n"
 
 # Check if rofi directory exists
 if [ -d "rofi-$rofi_tag" ]; then
@@ -71,7 +75,7 @@ fi
 
 # cloning rofi-wayland
 printf "${NOTE} Downloading ${YELLOW}rofi-wayland $rofi_tag${RESET} from releases...\n"
-wget https://github.com/lbonn/rofi/releases/download/1.7.8%2Bwayland1/rofi-1.7.8+wayland1.tar.gz
+wget $release_url
 
 if [ -f "rofi-$rofi_tag.tar.gz" ]; then
   printf "${OK} ${YELLOW}rofi-wayland $rofi_tag${RESET} downloaded successfully.\n" 2>&1 | tee -a "$LOG"

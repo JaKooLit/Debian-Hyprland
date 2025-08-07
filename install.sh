@@ -19,6 +19,59 @@ BLUE="$(tput setaf 4)"
 SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
+# Function to print colorful text
+print_color() {
+    printf "%b%s%b\n" "$1" "$2" "$RESET"
+}
+
+# Warning: End of Life Support
+printf "\n%.0s" {1..2}
+print_color $YELLOW "
+        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+              KooL's Debian - Hyprland July 2025 Update
+              
+            Most Hyprland packages are built from Source
+
+                                NOTICE
+        █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+
+    All Hyprland and associated packages set to install using this script are downloaded and built from source (github)
+    
+    However, do note that it is downloaded from each individual releases. You can set versions by editing the scripts
+    located install-scripts directory.
+
+    These packages are NOT updated automatically. You need to manually update it yourself
+    
+    BE WARNED!!!!!  Installation may take longer!!
+
+
+        █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+              
+                                NOTE:
+                    Hyprland and Dependencies versions              
+
+        █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+
+    Debian is not my main Distro. As stated above, Most Hyprland and dependencies as built from release.
+
+    I cannot monitor the updates or changes. If there are new versions, please submit an Merge Request for any updates.
+    
+    Thank you!
+"
+printf "\n%.0s" {1..2}
+
+
+# Prompt user to continue or exit
+read -rp "Do you want to continue with the installation? [y/N]: " confirm
+case "$confirm" in
+    [yY][eE][sS]|[yY])
+        echo -e "${OK} Continuing with installation..."
+        ;;
+    *)
+        echo -e "${NOTE} You chose not to continue. Exiting..."
+        exit 1
+        ;;
+esac
 
 # Create Directory for Install Logs
 if [ ! -d Install-Logs ]; then
@@ -61,7 +114,7 @@ fi
 printf "\n%.0s" {1..2}  
 echo -e "\e[35m
 	╦╔═┌─┐┌─┐╦    ╦ ╦┬ ┬┌─┐┬─┐┬  ┌─┐┌┐┌┌┬┐
-	╠╩╗│ ││ │║    ╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ 2025
+	╠╩╗│ ││ │║    ╠═╣└┬┘├─┘├┬┘│  ├─┤│││ ││ July 2025
 	╩ ╩└─┘└─┘╩═╝  ╩ ╩ ┴ ┴  ┴└─┴─┘┴ ┴┘└┘─┴┘ Debian Trixie / SiD
 \e[0m"
 printf "\n%.0s" {1..1} 
@@ -312,7 +365,27 @@ echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland packages...${RESET}" | tee -a 
 sleep 1
 execute_script "01-hypr-pkgs.sh"
 sleep 1
+execute_script "hyprutils.sh"
+sleep 1
+execute_script "hyprlang.sh"
+sleep 1
+execute_script "hyprcursor.sh"
+sleep 1
+execute_script "hyprwayland-scanner.sh"
+sleep 1
+execute_script "hyprgraphics.sh"
+sleep 1
+execute_script "aquamarine.sh"
+sleep 1
+execute_script "hyprland-qt-support.sh"
+sleep 1
+execute_script "hyprland-qtutils.sh"
+sleep 1
+execute_script "hyprland-protocols.sh"
+sleep 1
 execute_script "hyprland.sh"
+sleep 1
+execute_script "hyprpolkitagent.sh"
 sleep 1
 execute_script "wallust.sh"
 sleep 1
@@ -321,8 +394,6 @@ sleep 1
 execute_script "rofi-wayland.sh"
 sleep 1
 execute_script "hyprlock.sh"
-sleep 1
-execute_script "hyprlang.sh"
 sleep 1
 execute_script "hypridle.sh"
 
@@ -429,8 +500,8 @@ execute_script "03-Final-Check.sh"
 
 printf "\n%.0s" {1..1}
 
-# Check if either hyprland or hyprland-git is installed
-if dpkg -l | grep -qw hyprland; then
+# Check if either hyprland or Hyprland files exist in /usr/local/bin/
+if [ -e /usr/local/bin/hyprland ] || [ -f /usr/local/bin/Hyprland ]; then
     printf "\n ${OK} 👌 Hyprland is installed. However, some essential packages may not be installed. Please see above!"
     printf "\n${CAT} Ignore this message if it states ${YELLOW}All essential packages${RESET} are installed as per above\n"
     sleep 2

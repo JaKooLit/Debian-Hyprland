@@ -2,8 +2,8 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # SDDM themes #
 
-source_theme="https://codeberg.org/JaKooLit/sddm-sequoia"
-theme_name="sequoia_2"
+source_theme="https://github.com/JaKooLit/simple-sddm-2.git"
+theme_name="simple_sddm_2"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -17,6 +17,7 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
   echo "Failed to source Global_functions.sh"
   exit 1
 fi
+
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_sddm_theme.log"
@@ -52,51 +53,57 @@ if git clone --depth=1 "$source_theme" "$theme_name"; then
   sudo mv "$theme_name" "/usr/share/sddm/themes/$theme_name" 2>&1 | tee -a "$LOG"
 
   # setting up SDDM theme
-  sddm_conf_dir="/etc/sddm.conf.d"
+  sddm_conf="/etc/sddm.conf"
   BACKUP_SUFFIX=".bak"
-  
+
   echo -e "${NOTE} Setting up the login screen." | tee -a "$LOG"
 
-  if [ -d "$sddm_conf_dir" ]; then
-    echo "Backing up files in $sddm_conf_dir" | tee -a "$LOG"
-    for file in "$sddm_conf_dir"/*; do
-      if [ -f "$file" ]; then
-        if [[ "$file" == *$BACKUP_SUFFIX ]]; then
-          echo "Skipping backup file: $file" | tee -a "$LOG"
-          continue
-        fi
-        # Backup each original file
-        sudo cp "$file" "$file$BACKUP_SUFFIX" 2>&1 | tee -a "$LOG"
-        echo "Backup created for $file" | tee -a "$LOG"
-        
-        # Edit existing "Current=" 
-        if grep -q '^[[:space:]]*Current=' "$file"; then
-          sudo sed -i "s/^[[:space:]]*Current=.*/Current=$theme_name/" "$file" 2>&1 | tee -a "$LOG"
-          echo "Updated theme in $file" | tee -a "$LOG"
-        fi
-      fi
-    done
+  # Backup the sddm.conf file if it exists
+  if [ -f "$sddm_conf" ]; then
+    echo "Backing up $sddm_conf" | tee -a "$LOG"
+    sudo cp "$sddm_conf" "$sddm_conf$BACKUP_SUFFIX" 2>&1 | tee -a "$LOG"
   else
-    echo "$CAT - $sddm_conf_dir not found, creating..." | tee -a "$LOG"
-    sudo mkdir -p "$sddm_conf_dir" 2>&1 | tee -a "$LOG"
+    echo "$sddm_conf does not exist, creating a new one." | tee -a "$LOG"
+    sudo touch "$sddm_conf" 2>&1 | tee -a "$LOG"
   fi
 
-  if [ ! -f "$sddm_conf_dir/theme.conf.user" ]; then
-    echo -e "[Theme]\nCurrent = $theme_name" | sudo tee "$sddm_conf_dir/theme.conf.user" > /dev/null
+  # Check if the [Theme] section exists
+  if grep -q '^\[Theme\]' "$sddm_conf"; then
+    # Update the Current= line under [Theme]
+    sudo sed -i "/^\[Theme\]/,/^\[/{s/^\s*Current=.*/Current=$theme_name/}" "$sddm_conf" 2>&1 | tee -a "$LOG"
     
-    if [ -f "$sddm_conf_dir/theme.conf.user" ]; then
-      echo "Created and configured $sddm_conf_dir/theme.conf.user with theme $theme_name" | tee -a "$LOG"
+    # If no Current= line was found and replaced, append it after the [Theme] section
+    if ! grep -q '^\s*Current=' "$sddm_conf"; then
+      sudo sed -i "/^\[Theme\]/a Current=$theme_name" "$sddm_conf" 2>&1 | tee -a "$LOG"
+      echo "Appended Current=$theme_name under [Theme] in $sddm_conf" | tee -a "$LOG"
     else
-      echo "Failed to create $sddm_conf_dir/theme.conf.user" | tee -a "$LOG"
+      echo "Updated Current=$theme_name in $sddm_conf" | tee -a "$LOG"
     fi
   else
-    echo "$sddm_conf_dir/theme.conf.user already exists, skipping creation." | tee -a "$LOG"
+    # Append the [Theme] section at the end if it doesn't exist
+    echo -e "\n[Theme]\nCurrent=$theme_name" | sudo tee -a "$sddm_conf" > /dev/null
+    echo "Added [Theme] section with Current=$theme_name in $sddm_conf" | tee -a "$LOG"
+  fi
+
+  # Add [General] section with InputMethod=qtvirtualkeyboard if it doesn't exist
+  if ! grep -q '^\[General\]' "$sddm_conf"; then
+    echo -e "\n[General]\nInputMethod=qtvirtualkeyboard" | sudo tee -a "$sddm_conf" > /dev/null
+    echo "Added [General] section with InputMethod=qtvirtualkeyboard in $sddm_conf" | tee -a "$LOG"
+  else
+    # Update InputMethod line if section exists
+    if grep -q '^\s*InputMethod=' "$sddm_conf"; then
+      sudo sed -i '/^\[General\]/,/^\[/{s/^\s*InputMethod=.*/InputMethod=qtvirtualkeyboard/}' "$sddm_conf" 2>&1 | tee -a "$LOG"
+      echo "Updated InputMethod to qtvirtualkeyboard in $sddm_conf" | tee -a "$LOG"
+    else
+      sudo sed -i '/^\[General\]/a InputMethod=qtvirtualkeyboard' "$sddm_conf" 2>&1 | tee -a "$LOG"
+      echo "Appended InputMethod=qtvirtualkeyboard under [General] in $sddm_conf" | tee -a "$LOG"
+    fi
   fi
 
   # Replace current background from assets
-  sudo cp -r assets/sddm.png "/usr/share/sddm/themes/$theme_name/backgrounds/default" 2>&1 | tee -a "$LOG"
-  sudo sed -i 's|^wallpaper=".*"|wallpaper="backgrounds/default"|' "/usr/share/sddm/themes/$theme_name/theme.conf" 2>&1 | tee -a "$LOG"
-
+  sudo cp -r assets/sddm.png "/usr/share/sddm/themes/$theme_name/Backgrounds/default" 2>&1 | tee -a "$LOG"
+  sudo sed -i 's|^wallpaper=".*"|wallpaper="Backgrounds/default"|' "/usr/share/sddm/themes/$theme_name/theme.conf" 2>&1 | tee -a "$LOG"
+  
   printf "\n%.0s" {1..1}
   printf "${NOTE} copying ${YELLOW}JetBrains Mono Nerd Font${RESET} to ${YELLOW}/usr/local/share/fonts${RESET} .......\n"
   printf "${NOTE} necessary for the new SDDM theme to work properly........\n"
@@ -110,16 +117,16 @@ if git clone --depth=1 "$source_theme" "$theme_name"; then
     echo "Failed to copy fonts."
   fi
 
-  fc-cache -fv 2>&1 | tee -a "$LOG"
+  # Update font cache and log the output
+  fc-cache -v -f 2>&1 | tee -a "$LOG"
 
   printf "\n%.0s" {1..1}
-  
-  echo "${OK} - ${MAGENTA}Additional SDDM Theme${RESET} successfully installed." | tee -a "$LOG"
+
+  echo "${OK} - ${MAGENTA}Additional ${YELLOW}$theme_name SDDM Theme${RESET} successfully installed." | tee -a "$LOG"
 
 else
 
   echo "${ERROR} - Failed to clone the sddm theme repository. Please check your internet connection." | tee -a "$LOG" >&2
 fi
-
 
 printf "\n%.0s" {1..2}

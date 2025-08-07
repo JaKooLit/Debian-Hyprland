@@ -29,7 +29,7 @@
 </div>
 <div align="center">
 <br>
-  <a href="https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-Dots"><kbd> <br> Hyprland-Dots Debian repo <br> </kbd></a>&ensp;&ensp;
+  <a href="https://github.com/JaKooLit/Hyprland-Dots/tree/Debian-Dots"><kbd> <br> Hyprland-Dots Debian repo <br> </kbd></a>&ensp;&ensp;
   <a href="https://www.youtube.com/playlist?list=PLDtGd5Fw5_GjXCznR0BzCJJDIQSZJRbxx"><kbd> <br> Youtube <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds"><kbd> <br> Keybinds <br> </kbd></a>&ensp;&ensp;
@@ -80,7 +80,11 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
-- This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots/tree/Deb-Untu-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
+- 25 July 2025 Update!
+- All Hyprland and associated packages set to install using this script are downloaded and built from source (github). However, do note that it is downloaded from each individual releases. You can set versions by editing the scripts located install-scripts directory.
+- These packages are NOT updated automatically. You need to manually update it yourself
+- 
+- This Repo does not contain Hyprland Dots or configs! Pre-configured Dotfiles are on [`Hyprland-Dots`](https://github.com/JaKooLit/Hyprland-Dots/tree/Debian-Dots) . During installation, if you opt to copy pre-configured dots, it will be downloaded from that centralized repo.
 
 - Hyprland-Dots use are constantly evolving / improving. you can check CHANGELOGS here [`Hyprland-Dots-Changelogs`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Changelogs)
 - Since the Hyprland-Dots are evolving, some of the screenshots maybe old
@@ -107,7 +111,7 @@ sudo apt install --no-install-recommends -y sddm
 - [LINK](https://www.simplified.guide/ubuntu/switch-to-gdm) for some guide
 
 #### 💫 SDDM and GTK Themes offered
-- If you opted to install SDDM theme, here's the [`LINK`](https://codeberg.org/JaKooLit/sddm-sequoia) which is a fork of [`LINK`](https://codeberg.org/minMelody/sddm-sequoia)
+- If you opted to install SDDM theme, here's the [`LINK`](https://github.com/JaKooLit/simple-sddm-2) which is a modified fork of [`LINK`](https://github.com/Keyitdev/sddm-astronaut-theme)
 - If you opted to install GTK Themes, Icons,  here's the [`LINK`](https://github.com/JaKooLit/GTK-themes-icons). This also includes Bibata Modern Ice cursor.
 
 #### 🔔 NOTICE TO NVIDIA OWNERS ### 

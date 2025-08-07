@@ -9,15 +9,25 @@ TARGET_DIR="/usr/local/bin"
 
 # Define packages to manually remove (was manually installed previously)
 PACKAGES=(
-  hyprctl
-  hyprpm
-  hyprland
-  Hyprland
   cliphist
   pypr
   swappy
   waybar
   magick
+)
+
+# List of packages installed from Debian-Hyprland repo
+uninstall=(
+  hyprland
+  xdg-desktop-portal-hyprland
+  libhhyprland-dev
+  libhyprutils-dev
+  libhyprutils0
+  hyprwayland-scanner
+  hyprland-protocols
+  hyprctl
+  hyprpm
+  Hyprland
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -51,4 +61,19 @@ for PKG_NAME in "${PACKAGES[@]}"; do
   fi
 done
 
-clear
+
+# packages removal installed from Debian-Hyprland repo
+overall_failed=0
+printf "\n%s - ${SKY_BLUE}Removing some packages${RESET} installed from Debian Hyprland official repo \n" "${NOTE}"
+for PKG in "${uninstall[@]}"; do
+  uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    overall_failed=1
+  fi
+done
+
+if [ $overall_failed -ne 0 ]; then
+  echo -e "${ERROR} Some packages failed to uninstall. Please check the log."
+fi
+
+printf "\n%.0s" {1..1}
