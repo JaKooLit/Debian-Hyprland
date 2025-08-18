@@ -352,9 +352,6 @@ sudo apt update
 sleep 1
 # execute pre clean up
 execute_script "02-pre-cleanup.sh"
-
-echo "${INFO} Installing ${SKY_BLUE}necessary dependencies...${RESET}" | tee -a "$LOG"
-sleep 1
 execute_script "00-dependencies.sh"
 
 echo "${INFO} Installing ${SKY_BLUE}necessary fonts...${RESET}" | tee -a "$LOG"
