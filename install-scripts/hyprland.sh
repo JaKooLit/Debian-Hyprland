@@ -3,9 +3,11 @@
 # Main Hyprland Package#
 
 #specific branch or release
-tag="v0.49.0"
+tag="v0.50.1"
 
 hyprland=(
+  clang
+  llvm
   libxcb-errors-dev
   libre2-dev
   libglaze-dev
@@ -65,7 +67,8 @@ fi
 
 if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
-  make all
+  patch -p1 < ../assets/0001-fix-hyprland-compile-issue.patch
+  CXX=clang++ CXXFLAGS=-std=gnu++26 make all
   if sudo make install 2>&1 | tee -a "$MLOG"; then
     printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
