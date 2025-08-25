@@ -5,7 +5,7 @@
 
 
 #specific branch or release
-tag="v0.6.3"
+tag="v0.6.4"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

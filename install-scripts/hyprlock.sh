@@ -16,7 +16,7 @@ build_dep=(
 )
 
 #specific branch or release
-tag="v0.9.0"
+tag="v0.9.1"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

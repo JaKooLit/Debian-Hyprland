@@ -13,7 +13,7 @@ xdg=(
 )
 
 #specific branch or release
-tag="v1.3.9"
+tag="v1.3.10"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
