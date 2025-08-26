@@ -1,0 +1,26 @@
+diff --git a/hyprctl/main.cpp b/hyprctl/main.cpp
+index daf8d4a8..62ab8578 100644
+--- a/hyprctl/main.cpp
++++ b/hyprctl/main.cpp
+@@ -268,7 +268,7 @@ int requestIPC(std::string_view filename, std::string_view arg) {
+     sockaddr_un serverAddress = {0};
+     serverAddress.sun_family  = AF_UNIX;
+ 
+-    std::string socketPath = getRuntimeDir() + "/" + instanceSignature + "/" + filename;
++    std::string socketPath = getRuntimeDir() + "/" + std::string(instanceSignature) + "/" + std::string(filename);
+ 
+     strncpy(serverAddress.sun_path, socketPath.c_str(), sizeof(serverAddress.sun_path) - 1);
+ 
+diff --git a/src/helpers/Monitor.cpp b/src/helpers/Monitor.cpp
+index 4e5c4080..1944f22e 100644
+--- a/src/helpers/Monitor.cpp
++++ b/src/helpers/Monitor.cpp
+@@ -549,7 +549,7 @@ bool CMonitor::applyMonitorRule(SMonitorRule* pMonitorRule, bool force) {
+         std::ranges::sort(sortedModes, sortFunc);
+         if (sortedModes.size() > 3)
+             sortedModes.erase(sortedModes.begin() + 3, sortedModes.end());
+-        requestedModes.insert_range(requestedModes.end(), sortedModes | std::views::reverse);
++        requestedModes.insert(requestedModes.end(), sortedModes.rbegin(), sortedModes.rend());
+     };
+ 
+     // last fallback is always preferred mode

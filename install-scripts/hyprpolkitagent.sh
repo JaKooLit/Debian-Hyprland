@@ -13,7 +13,7 @@ polkitagent=(
 )
 
 #specific branch or release
-tag="v0.1.2"
+tag="v0.1.3"
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
