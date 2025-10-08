@@ -6,6 +6,8 @@
 
 #specific branch or release
 tag="v0.6.4"
+# Allow environment override
+if [ -n "${HYPRLANG_TAG:-}" ]; then tag="$HYPRLANG_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1

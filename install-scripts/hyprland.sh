@@ -4,6 +4,8 @@
 
 #specific branch or release
 tag="v0.50.1"
+# Allow environment override
+if [ -n "${HYPRLAND_TAG:-}" ]; then tag="$HYPRLAND_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1

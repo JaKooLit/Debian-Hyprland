@@ -9,6 +9,8 @@ scan_depend=(
 
 #specific branch or release
 tag="v0.4.5"
+# Allow environment override
+if [ -n "${HYPRWAYLAND_SCANNER_TAG:-}" ]; then tag="$HYPRWAYLAND_SCANNER_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1

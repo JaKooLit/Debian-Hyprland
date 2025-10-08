@@ -5,6 +5,8 @@
 
 #specific branch or release
 tag="v0.8.2"
+# Allow environment override
+if [ -n "${HYPRUTILS_TAG:-}" ]; then tag="$HYPRUTILS_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1

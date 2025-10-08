@@ -16,6 +16,8 @@ qt_support=(
 
 #specific branch or release
 tag="v0.1.0"
+# Allow environment override
+if [ -n "${HYPRLAND_QT_SUPPORT_TAG:-}" ]; then tag="$HYPRLAND_QT_SUPPORT_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1

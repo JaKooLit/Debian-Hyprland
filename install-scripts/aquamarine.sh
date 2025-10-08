@@ -6,6 +6,8 @@
 
 #specific branch or release
 tag="v0.9.2"
+# Allow environment override
+if [ -n "${AQUAMARINE_TAG:-}" ]; then tag="$AQUAMARINE_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1

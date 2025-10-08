@@ -18,6 +18,8 @@ qtutils=(
 
 #specific branch or release
 tag="v0.1.4"
+# Allow environment override
+if [ -n "${HYPRLAND_QTUTILS_TAG:-}" ]; then tag="$HYPRLAND_QTUTILS_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1
