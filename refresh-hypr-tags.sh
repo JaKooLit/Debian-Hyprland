@@ -56,11 +56,12 @@ while IFS='=' read -r k v; do
   cur[$k]="$v"
 edone < "$TAGS_FILE"
 
-# Fetch latest
+# Fetch latest, but only update keys set to 'auto' or 'latest' unless forced
+FORCE=${FORCE:-0}
 for key in "${!repos[@]}"; do
   repo="${repos[$key]}"
   url="https://api.github.com/repos/$repo/releases/latest"
-  echo "[INFO] Fetching latest tag for $repo" | tee -a "$SUMMARY_LOG"
+  echo "[INFO] Checking latest tag for $repo" | tee -a "$SUMMARY_LOG"
   body=$(curl -fsSL "$url" || true)
   [[ -z "$body" ]] && { echo "[WARN] Empty response for $repo" | tee -a "$SUMMARY_LOG"; continue; }
   if command -v jq >/dev/null 2>&1; then
@@ -68,8 +69,17 @@ for key in "${!repos[@]}"; do
   else
     tag=$(printf '%s' "$body" | grep -m1 '"tag_name"' | sed -E 's/.*"tag_name"\s*:\s*"([^"]+)".*/\1/')
   fi
-  [[ -n "$tag" ]] && cur[$key]="$tag" || echo "[WARN] Could not parse tag for $repo" | tee -a "$SUMMARY_LOG"
-
+  if [[ -z "$tag" ]]; then
+    echo "[WARN] Could not parse tag for $repo" | tee -a "$SUMMARY_LOG"
+    continue
+  fi
+  existing="${cur[$key]:-}"
+  if [[ $FORCE -eq 1 ]] || [[ "$existing" =~ ^(auto|latest)$ ]] || [[ -z "$existing" ]]; then
+    cur[$key]="$tag"
+    echo "[OK] $key := $tag" | tee -a "$SUMMARY_LOG"
+  else
+    echo "[SKIP] $key pinned ($existing), not overriding" | tee -a "$SUMMARY_LOG"
+  fi
 done
 
 # Write back

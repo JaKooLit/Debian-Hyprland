@@ -137,6 +137,13 @@ fetch_latest_tags() {
     exit 1
   fi
 
+  # Read existing to respect pinned values (only update keys set to 'auto' or 'latest')
+  declare -A existing
+  while IFS='=' read -r k v; do
+    [[ -z "$k" || "$k" =~ ^# ]] && continue
+    existing[$k]="$v"
+  done < "$TAGS_FILE"
+
   declare -A repos=(
     [HYPRLAND_TAG]="hyprwm/Hyprland"
     [AQUAMARINE_TAG]="hyprwm/aquamarine"
@@ -180,7 +187,10 @@ fetch_latest_tags() {
   done < "$TAGS_FILE"
 
   for k in "${!tags[@]}"; do
-    map[$k]="${tags[$k]}"
+    # Only override if pinned value is 'auto' or 'latest'
+    if [[ "${existing[$k]:-}" =~ ^(auto|latest)$ ]] || [[ -z "${existing[$k]:-}" ]]; then
+      map[$k]="${tags[$k]}"
+    fi
   done
 
   {

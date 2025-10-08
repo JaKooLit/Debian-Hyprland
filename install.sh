@@ -368,12 +368,11 @@ echo "${INFO} Installing ${SKY_BLUE}necessary fonts...${RESET}" | tee -a "$LOG"
 sleep 1
 execute_script "fonts.sh"
 
-# Auto-refresh tags before building the Hyprland stack (can be disabled with NO_FETCH_LATEST=1)
-if [ -z "${NO_FETCH_LATEST:-}" ] || [ "${NO_FETCH_LATEST:-0}" = "0" ]; then
-  if [ -f ./refresh-hypr-tags.sh ]; then
-    chmod +x ./refresh-hypr-tags.sh || true
-    ./refresh-hypr-tags.sh
-  fi
+# Optional: refresh tags before building the Hyprland stack
+# Set FETCH_LATEST=1 to opt-in (default is no-refresh to honor pinned tags)
+if [ "${FETCH_LATEST:-0}" = "1" ] && [ -f ./refresh-hypr-tags.sh ]; then
+  chmod +x ./refresh-hypr-tags.sh || true
+  ./refresh-hypr-tags.sh
 fi
 
 echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland packages...${RESET}" | tee -a "$LOG"
