@@ -84,12 +84,27 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
       echo "${NOTE} Hyprland compile patch does not apply on $tag; skipping."
     fi
   fi
-  # Prefer /usr/local when resolving pkg-config and CMake prefixes
-  export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
-  export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
-  CXX=clang++ CXXFLAGS=-std=gnu++26 make all
+  # By default, build Hyprland with bundled hyprutils/hyprlang to avoid version mismatches
+  # You can force system libs by exporting USE_SYSTEM_HYPRLIBS=1 before running this script.
+  USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-0}
+  if [ "$USE_SYSTEM" = "1" ]; then
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
+    SYSTEM_FLAGS=("-DUSE_SYSTEM_HYPRUTILS=ON" "-DUSE_SYSTEM_HYPRLANG=ON")
+  else
+    # Ensure we do not accidentally pick up mismatched system headers
+    unset PKG_CONFIG_PATH || true
+    SYSTEM_FLAGS=("-DUSE_SYSTEM_HYPRUTILS=OFF" "-DUSE_SYSTEM_HYPRLANG=OFF")
+  fi
+
+  # Make sure submodules are present when building bundled deps
+  git submodule update --init --recursive || true
+
+  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release "${SYSTEM_FLAGS[@]}"
+  cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
   if [ $DO_INSTALL -eq 1 ]; then
-    if sudo make install 2>&1 | tee -a "$MLOG"; then
+    if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
       printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
       echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"
