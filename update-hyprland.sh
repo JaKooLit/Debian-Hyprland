@@ -227,53 +227,64 @@ export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG H
     modules=("${filtered[@]}")
   fi
 
-  # Ensure wayland-protocols-src and aquamarine are installed before hyprland on install runs
+  # Ensure core prerequisites are installed before hyprland on install runs
+  # Order: wayland-protocols-src, hyprutils, hyprlang, aquamarine, hyprland
   if [[ $DO_INSTALL -eq 1 ]]; then
-    local has_hl=0 has_aqua=0 has_wp=0
+    local has_hl=0 has_aqua=0 has_wp=0 has_utils=0 has_lang=0
     for m in "${modules[@]}"; do
       [[ "$m" == "hyprland" ]] && has_hl=1
       [[ "$m" == "aquamarine" ]] && has_aqua=1
       [[ "$m" == "wayland-protocols-src" ]] && has_wp=1
+      [[ "$m" == "hyprutils" ]] && has_utils=1
+      [[ "$m" == "hyprlang" ]] && has_lang=1
     done
     if [[ $has_hl -eq 1 ]]; then
-      # ensure wayland-protocols-src present
-      if [[ $has_wp -eq 0 ]]; then
-        modules=("wayland-protocols-src" "${modules[@]}")
-      fi
-      # ensure aquamarine present
-      if [[ $has_aqua -eq 0 ]]; then
-        modules=("aquamarine" "${modules[@]}")
-      fi
-      # Reorder to ensure wayland-protocols-src and aquamarine appear before hyprland
+      # ensure each prerequisite is present
+      [[ $has_wp -eq 0 ]] && modules=("wayland-protocols-src" "${modules[@]}")
+      [[ $has_utils -eq 0 ]] && modules=("hyprutils" "${modules[@]}")
+      [[ $has_lang -eq 0 ]] && modules=("hyprlang" "${modules[@]}")
+      [[ $has_aqua -eq 0 ]] && modules=("aquamarine" "${modules[@]}")
+
+      # Reorder to exact sequence before hyprland
       # Remove existing occurrences and rebuild in correct order
       local tmp=()
-      local inserted_wp=0 inserted_aqua=0
+      local inserted_wp=0 inserted_utils=0 inserted_lang=0 inserted_aqua=0
       for m in "${modules[@]}"; do
         if [[ "$m" == "wayland-protocols-src" ]]; then
-          if [[ $inserted_wp -eq 0 ]]; then
-            tmp+=("wayland-protocols-src")
-            inserted_wp=1
+          if [[ $inserted_wp -eq 0 ]]; then tmp+=("wayland-protocols-src"); inserted_wp=1; fi
+        elif [[ "$m" == "hyprutils" ]]; then
+          if [[ $inserted_utils -eq 0 ]]; then
+            # ensure protocols before utils
+            if [[ $inserted_wp -eq 0 ]]; then tmp+=("wayland-protocols-src"); inserted_wp=1; fi
+            tmp+=("hyprutils"); inserted_utils=1
+          fi
+        elif [[ "$m" == "hyprlang" ]]; then
+          if [[ $inserted_lang -eq 0 ]]; then
+            # ensure utils before lang
+            if [[ $inserted_utils -eq 0 ]]; then
+              if [[ $inserted_wp -eq 0 ]]; then tmp+=("wayland-protocols-src"); inserted_wp=1; fi
+              tmp+=("hyprutils"); inserted_utils=1
+            fi
+            tmp+=("hyprlang"); inserted_lang=1
           fi
         elif [[ "$m" == "aquamarine" ]]; then
           if [[ $inserted_aqua -eq 0 ]]; then
-            # ensure protocols before aquamarine
-            if [[ $inserted_wp -eq 0 ]]; then
-              tmp+=("wayland-protocols-src")
-              inserted_wp=1
+            # ensure lang before aquamarine
+            if [[ $inserted_lang -eq 0 ]]; then
+              if [[ $inserted_utils -eq 0 ]]; then
+                if [[ $inserted_wp -eq 0 ]]; then tmp+=("wayland-protocols-src"); inserted_wp=1; fi
+                tmp+=("hyprutils"); inserted_utils=1
+              fi
+              tmp+=("hyprlang"); inserted_lang=1
             fi
-            tmp+=("aquamarine")
-            inserted_aqua=1
+            tmp+=("aquamarine"); inserted_aqua=1
           fi
         elif [[ "$m" == "hyprland" ]]; then
-          # ensure protocols and aquamarine already present
-          if [[ $inserted_wp -eq 0 ]]; then
-            tmp+=("wayland-protocols-src")
-            inserted_wp=1
-          fi
-          if [[ $inserted_aqua -eq 0 ]]; then
-            tmp+=("aquamarine")
-            inserted_aqua=1
-          fi
+          # ensure all prerequisites already present
+          if [[ $inserted_wp -eq 0 ]]; then tmp+=("wayland-protocols-src"); inserted_wp=1; fi
+          if [[ $inserted_utils -eq 0 ]]; then tmp+=("hyprutils"); inserted_utils=1; fi
+          if [[ $inserted_lang -eq 0 ]]; then tmp+=("hyprlang"); inserted_lang=1; fi
+          if [[ $inserted_aqua -eq 0 ]]; then tmp+=("aquamarine"); inserted_aqua=1; fi
           tmp+=("hyprland")
         else
           tmp+=("$m")

@@ -54,7 +54,7 @@ if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
   else
     echo "${NOTE} DRY RUN: Skipping installation of hyprutils $tag."
   fi
-  mv $MLOG ../Install-Logs/ || true   
+  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
   cd ..
 else
   echo -e "${ERROR} Download failed for hyprutils" 2>&1 | tee -a "$LOG"

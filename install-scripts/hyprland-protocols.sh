@@ -56,7 +56,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-protocols.gi
         echo "${NOTE} DRY RUN: Skipping installation of hyprland-protocols $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprland-protocols tag${RESET}" 2>&1 | tee -a "$LOG"

@@ -72,7 +72,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprwayland-scanner.g
         echo "${NOTE} DRY RUN: Skipping installation of hyprwayland-scanner $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
     cd ..
 else
     echo -e "${ERROR} Download failed for hyprwayland-scanner. Please check log." 2>&1 | tee -a "$LOG"

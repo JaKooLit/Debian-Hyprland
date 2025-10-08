@@ -167,6 +167,13 @@ execute_script() {
     fi
 }
 
+# Load centralized Hyprland stack tags if present and export for child scripts
+if [ -f "./hypr-tags.env" ]; then
+    # shellcheck disable=SC1091
+    source "./hypr-tags.env"
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+fi
+
 #################
 ## Default values for the options (will be overwritten by preset file if available)
 gtk_themes="OFF"
@@ -382,6 +389,9 @@ sleep 1
 execute_script "hyprland-qtutils.sh"
 sleep 1
 execute_script "hyprland-protocols.sh"
+sleep 1
+# Ensure wayland-protocols (from source) is installed to satisfy Hyprland's >= 1.45 requirement
+execute_script "wayland-protocols-src.sh"
 sleep 1
 execute_script "hyprland.sh"
 sleep 1

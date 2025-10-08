@@ -57,7 +57,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/aquamarine.git; then
         echo "${NOTE} DRY RUN: Skipping installation of aquamarine $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$LOG"

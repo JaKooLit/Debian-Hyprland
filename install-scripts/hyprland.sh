@@ -94,7 +94,7 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
   else
     echo "${NOTE} DRY RUN: Skipping installation of Hyprland $tag."
   fi
-  mv $MLOG ../Install-Logs/ || true   
+  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
   cd ..
 else
   echo -e "${ERROR} Download failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$LOG"
