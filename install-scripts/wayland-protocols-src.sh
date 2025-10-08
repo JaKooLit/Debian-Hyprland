@@ -4,7 +4,7 @@
 # Provides a newer wayland-protocols.pc for pkg-config when distro version is too old
 
 #specific tag or release (e.g., 1.45, 1.46)
-tag="1.46"
+tag="1.45"
 # Allow environment override
 if [ -n "${WAYLAND_PROTOCOLS_TAG:-}" ]; then tag="$WAYLAND_PROTOCOLS_TAG"; fi
 
@@ -42,8 +42,25 @@ fi
 # Clone and build (meson)
 # Upstream: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
 printf "${INFO} Installing ${YELLOW}wayland-protocols $tag${RESET} ...\n"
-if git clone --depth=1 -b "$tag" https://gitlab.freedesktop.org/wayland/wayland-protocols.git; then
+repo_url="https://gitlab.freedesktop.org/wayland/wayland-protocols.git"
+if git clone --depth=1 --filter=blob:none "$repo_url" wayland-protocols; then
     cd wayland-protocols || exit 1
+    # Fetch tags and attempt to checkout the requested tag, trying both raw and v-prefixed
+    git fetch --tags --depth=1 >/dev/null 2>&1 || true
+    checked_out=0
+    for candidate in "$tag" "v$tag"; do
+        if git rev-parse -q --verify "refs/tags/$candidate" >/dev/null; then
+            git checkout -q "refs/tags/$candidate"
+            checked_out=1
+            break
+        fi
+    done
+    if [ "$checked_out" -ne 1 ]; then
+        echo "${ERROR} Tag $tag not found in $repo_url" | tee -a "$LOG"
+        echo "${NOTE} Available tags (truncated):" | tee -a "$LOG"
+        git tag --list | tail -n 20 | tee -a "$LOG" || true
+        exit 1
+    fi
     # Install to /usr/local so pkg-config can prefer it over distro /usr
     meson setup build --prefix=/usr/local
     meson compile -C build -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
