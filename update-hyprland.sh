@@ -35,12 +35,12 @@ SUMMARY_LOG="$LOG_DIR/update-hypr-$TS.log"
 DEFAULT_MODULES=(
   hyprutils
   hyprlang
+  aquamarine
   hyprgraphics
   hyprwayland-scanner
   hyprland-protocols
   hyprland-qt-support
   hyprland-qtutils
-  aquamarine
   hyprland
 )
 
@@ -224,6 +224,43 @@ run_stack() {
       [[ $skip_it -eq 0 ]] && filtered+=("$m")
     done
     modules=("${filtered[@]}")
+  fi
+
+  # Ensure aquamarine is installed before hyprland on install runs
+  if [[ $DO_INSTALL -eq 1 ]]; then
+    local has_hl=0 has_aqua=0
+    for m in "${modules[@]}"; do
+      [[ "$m" == "hyprland" ]] && has_hl=1
+      [[ "$m" == "aquamarine" ]] && has_aqua=1
+    done
+    if [[ $has_hl -eq 1 ]]; then
+      if [[ $has_aqua -eq 0 ]]; then
+        # Prepend aquamarine if missing
+        modules=("aquamarine" "${modules[@]}")
+      fi
+      # Reorder to ensure aquamarine appears before hyprland
+      # Remove existing occurrences and rebuild in correct order
+      local tmp=()
+      local inserted_aqua=0
+      for m in "${modules[@]}"; do
+        if [[ "$m" == "aquamarine" ]]; then
+          if [[ $inserted_aqua -eq 0 ]]; then
+            tmp+=("aquamarine")
+            inserted_aqua=1
+          fi
+        elif [[ "$m" == "hyprland" ]]; then
+          # ensure aquamarine is already present before adding hyprland
+          if [[ $inserted_aqua -eq 0 ]]; then
+            tmp+=("aquamarine")
+            inserted_aqua=1
+          fi
+          tmp+=("hyprland")
+        else
+          tmp+=("$m")
+        fi
+      done
+      modules=("${tmp[@]}")
+    fi
   fi
 
   declare -A results

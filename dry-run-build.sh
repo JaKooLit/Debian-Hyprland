@@ -27,12 +27,12 @@ SUMMARY_LOG="$LOG_DIR/build-dry-run-$TS.log"
 DEFAULT_MODULES=(
   hyprutils
   hyprlang
+  aquamarine
   hyprgraphics
   hyprwayland-scanner
   hyprland-protocols
   hyprland-qt-support
   hyprland-qtutils
-  aquamarine
   hyprland
 )
 
