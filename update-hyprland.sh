@@ -51,6 +51,7 @@ DO_DRY_RUN=0
 FETCH_LATEST=0
 RESTORE=0
 VIA_HELPER=0
+NO_FETCH=0
 ONLY_LIST=""
 SKIP_LIST=""
 SET_ARGS=()
@@ -230,6 +231,18 @@ export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG H
   # Ensure core prerequisites are installed before hyprland on install runs
   # Order: wayland-protocols-src, hyprland-protocols, hyprutils, hyprlang, aquamarine, hyprland
   if [[ $DO_INSTALL -eq 1 ]]; then
+    # Auto-fetch latest tags for Hyprland stack unless disabled
+    if [[ $NO_FETCH -eq 0 ]]; then
+      # Detect whether hyprland is part of the run
+      need_fetch=0
+      for m in "${modules[@]}"; do
+        [[ "$m" == "hyprland" ]] && need_fetch=1
+      done
+      if [[ $need_fetch -eq 1 ]]; then
+        echo "[INFO] Auto-fetching latest tags for Hyprland stack" | tee -a "$SUMMARY_LOG"
+        fetch_latest_tags
+      fi
+    fi
     local has_hl=0 has_aqua=0 has_wp=0 has_utils=0 has_lang=0 has_hlprot=0
     for m in "${modules[@]}"; do
       [[ "$m" == "hyprland" ]] && has_hl=1
@@ -346,6 +359,7 @@ while [[ $# -gt 0 ]]; do
     --fetch-latest) FETCH_LATEST=1; shift ;;
     --restore) RESTORE=1; shift ;;
     --via-helper) VIA_HELPER=1; shift ;;
+    --no-fetch) NO_FETCH=1; shift ;;
     --only) ONLY_LIST=${2:-}; shift 2 ;;
     --skip) SKIP_LIST=${2:-}; shift 2 ;;
     --set)
