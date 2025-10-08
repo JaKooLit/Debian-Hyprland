@@ -171,6 +171,17 @@ execute_script() {
 if [ -f "./hypr-tags.env" ]; then
     # shellcheck disable=SC1091
     source "./hypr-tags.env"
+    # If core tags are set to auto/latest, refresh to resolve concrete versions
+    if [ "${HYPRUTILS_TAG:-}" = "auto" ] || [ "${HYPRUTILS_TAG:-}" = "latest" ] || [ -z "${HYPRUTILS_TAG:-}" ] || \
+       [ "${HYPRLANG_TAG:-}" = "auto" ] || [ "${HYPRLANG_TAG:-}" = "latest" ] || [ -z "${HYPRLANG_TAG:-}" ]; then
+        if [ -f ./refresh-hypr-tags.sh ]; then
+            chmod +x ./refresh-hypr-tags.sh || true
+            ./refresh-hypr-tags.sh
+            # reload after refresh
+            # shellcheck disable=SC1091
+            source "./hypr-tags.env"
+        fi
+    fi
     export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
 fi
 
