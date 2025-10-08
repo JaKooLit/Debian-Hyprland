@@ -84,6 +84,9 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
       echo "${NOTE} Hyprland compile patch does not apply on $tag; skipping."
     fi
   fi
+  # Prefer /usr/local when resolving pkg-config and CMake prefixes
+  export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+  export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
   CXX=clang++ CXXFLAGS=-std=gnu++26 make all
   if [ $DO_INSTALL -eq 1 ]; then
     if sudo make install 2>&1 | tee -a "$MLOG"; then
