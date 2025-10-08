@@ -17,6 +17,13 @@ qt_support=(
 #specific branch or release
 tag="v0.1.0"
 
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -58,10 +65,14 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-qt-support.g
     cd hyprland-qt-support || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
-    if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprland-qt-support $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    if [ $DO_INSTALL -eq 1 ]; then
+        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
+            printf "${OK} ${MAGENTA}hyprland-qt-support $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        else
+            echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-qt-support $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        fi
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-qt-support $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo "${NOTE} DRY RUN: Skipping installation of hyprland-qt-support $tag."
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 

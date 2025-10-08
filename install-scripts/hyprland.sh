@@ -5,6 +5,13 @@
 #specific branch or release
 tag="v0.50.1"
 
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
+
 hyprland=(
   clang
   llvm
@@ -67,12 +74,23 @@ fi
 
 if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
-  patch -p1 < ../assets/0001-fix-hyprland-compile-issue.patch
+  # Apply patch only if it applies cleanly; otherwise skip
+  if [ -f ../assets/0001-fix-hyprland-compile-issue.patch ]; then
+    if patch -p1 --dry-run < ../assets/0001-fix-hyprland-compile-issue.patch >/dev/null 2>&1; then
+      patch -p1 < ../assets/0001-fix-hyprland-compile-issue.patch
+    else
+      echo "${NOTE} Hyprland compile patch does not apply on $tag; skipping."
+    fi
+  fi
   CXX=clang++ CXXFLAGS=-std=gnu++26 make all
-  if sudo make install 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+  if [ $DO_INSTALL -eq 1 ]; then
+    if sudo make install 2>&1 | tee -a "$MLOG"; then
+      printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    else
+      echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"
+    fi
   else
-    echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"
+    echo "${NOTE} DRY RUN: Skipping installation of Hyprland $tag."
   fi
   mv $MLOG ../Install-Logs/ || true   
   cd ..

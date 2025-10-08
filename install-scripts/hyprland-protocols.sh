@@ -7,6 +7,13 @@
 #specific branch or release
 tag="v0.6.4"
 
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
+
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -37,10 +44,14 @@ printf "${INFO} Installing ${YELLOW}hyprland-protocols $tag${RESET} ...\n"
 if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-protocols.git; then
     cd hyprland-protocols || exit 1
 	meson setup build
-    if sudo meson install -C build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hyprland-protocols $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    if [ $DO_INSTALL -eq 1 ]; then
+        if sudo meson install -C build 2>&1 | tee -a "$MLOG" ; then
+            printf "${OK} ${MAGENTA}hyprland-protocols $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        else
+            echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-protocols $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        fi
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprland-protocols $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo "${NOTE} DRY RUN: Skipping installation of hyprland-protocols $tag."
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG ../Install-Logs/ || true 
