@@ -35,6 +35,7 @@ SUMMARY_LOG="$LOG_DIR/update-hypr-$TS.log"
 DEFAULT_MODULES=(
   hyprutils
   hyprlang
+  wayland-protocols-src
   aquamarine
   hyprgraphics
   hyprwayland-scanner
@@ -226,30 +227,49 @@ run_stack() {
     modules=("${filtered[@]}")
   fi
 
-  # Ensure aquamarine is installed before hyprland on install runs
+  # Ensure wayland-protocols-src and aquamarine are installed before hyprland on install runs
   if [[ $DO_INSTALL -eq 1 ]]; then
-    local has_hl=0 has_aqua=0
+    local has_hl=0 has_aqua=0 has_wp=0
     for m in "${modules[@]}"; do
       [[ "$m" == "hyprland" ]] && has_hl=1
       [[ "$m" == "aquamarine" ]] && has_aqua=1
+      [[ "$m" == "wayland-protocols-src" ]] && has_wp=1
     done
     if [[ $has_hl -eq 1 ]]; then
+      # ensure wayland-protocols-src present
+      if [[ $has_wp -eq 0 ]]; then
+        modules=("wayland-protocols-src" "${modules[@]}")
+      fi
+      # ensure aquamarine present
       if [[ $has_aqua -eq 0 ]]; then
-        # Prepend aquamarine if missing
         modules=("aquamarine" "${modules[@]}")
       fi
-      # Reorder to ensure aquamarine appears before hyprland
+      # Reorder to ensure wayland-protocols-src and aquamarine appear before hyprland
       # Remove existing occurrences and rebuild in correct order
       local tmp=()
-      local inserted_aqua=0
+      local inserted_wp=0 inserted_aqua=0
       for m in "${modules[@]}"; do
-        if [[ "$m" == "aquamarine" ]]; then
+        if [[ "$m" == "wayland-protocols-src" ]]; then
+          if [[ $inserted_wp -eq 0 ]]; then
+            tmp+=("wayland-protocols-src")
+            inserted_wp=1
+          fi
+        elif [[ "$m" == "aquamarine" ]]; then
           if [[ $inserted_aqua -eq 0 ]]; then
+            # ensure protocols before aquamarine
+            if [[ $inserted_wp -eq 0 ]]; then
+              tmp+=("wayland-protocols-src")
+              inserted_wp=1
+            fi
             tmp+=("aquamarine")
             inserted_aqua=1
           fi
         elif [[ "$m" == "hyprland" ]]; then
-          # ensure aquamarine is already present before adding hyprland
+          # ensure protocols and aquamarine already present
+          if [[ $inserted_wp -eq 0 ]]; then
+            tmp+=("wayland-protocols-src")
+            inserted_wp=1
+          fi
           if [[ $inserted_aqua -eq 0 ]]; then
             tmp+=("aquamarine")
             inserted_aqua=1
