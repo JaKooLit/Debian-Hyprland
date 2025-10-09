@@ -86,7 +86,7 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
   fi
   # By default, build Hyprland with bundled hyprutils/hyprlang to avoid version mismatches
   # You can force system libs by exporting USE_SYSTEM_HYPRLIBS=1 before running this script.
-  USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-0}
+USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-1}
   if [ "$USE_SYSTEM" = "1" ]; then
     export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
     export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
