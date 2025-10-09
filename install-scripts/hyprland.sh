@@ -100,7 +100,19 @@ USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-1}
   # Make sure submodules are present when building bundled deps
   git submodule update --init --recursive || true
 
-  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release "${SYSTEM_FLAGS[@]}"
+  # Force Clang toolchain to support required language features and flags
+  export CC="${CC:-clang}"
+  export CXX="${CXX:-clang++}"
+  CONFIG_FLAGS=(
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_C_COMPILER="${CC}"
+    -DCMAKE_CXX_COMPILER="${CXX}"
+    -DCMAKE_CXX_STANDARD=26
+    -DCMAKE_CXX_STANDARD_REQUIRED=ON
+    -DCMAKE_CXX_EXTENSIONS=ON
+    "${SYSTEM_FLAGS[@]}"
+  )
+  cmake -S . -B build "${CONFIG_FLAGS[@]}"
   cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
   if [ $DO_INSTALL -eq 1 ]; then
