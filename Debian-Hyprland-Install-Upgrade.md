@@ -110,6 +110,8 @@ This method now automatically:
 
 ## Upgrade Workflows
 
+Quick link: [Upgrade 0.49/0.50.x → 0.51.1](#upgrade-049050x--0511)
+
 ### Upgrading to Latest Hyprland Release
 
 #### Option A: Automatic Discovery
@@ -150,6 +152,31 @@ This method now automatically:
 
 # Install only specific components
 ./update-hyprland.sh --install --only hyprland,aquamarine
+```
+
+### Upgrade: 0.49/0.50.x ➜ 0.51.1
+
+If you’re currently on Hyprland 0.49 or 0.50.x, you can upgrade directly to 0.51.1 without a full reinstall.
+
+Recommended path:
+```bash
+# Ensure hypr-tags.env pins the target version (skip if already v0.51.1)
+./update-hyprland.sh --set HYPRLAND=v0.51.1
+
+# Upgrade Hyprland (prerequisites are auto-included and ordered)
+./update-hyprland.sh --install --only hyprland
+```
+
+Notes:
+- The command will automatically ensure and run, as needed: wayland-protocols-src, hyprland-protocols, hyprutils, hyprlang, aquamarine, then hyprland.
+- Full install via install.sh is not required for this upgrade unless you also want to install/refresh optional modules (e.g., SDDM, Bluetooth, Thunar, AGS, dotfiles) or you’re recovering from a failed/partial setup.
+- Optional: add --with-deps to re-run dependency installation first:
+```bash
+./update-hyprland.sh --with-deps --install --only hyprland
+```
+- You can dry-run first to validate:
+```bash
+./update-hyprland.sh --dry-run --only hyprland
 ```
 
 ## Dry-Run Testing

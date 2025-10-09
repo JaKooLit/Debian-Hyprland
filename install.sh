@@ -22,13 +22,13 @@ RESET="$(tput sgr0)"
 # Function to print colorful text
 print_color() {
     printf "%b%s%b\n" "$1" "$2" "$RESET"
-}
+l
 
 # Warning: End of Life Support
 printf "\n%.0s" {1..2}
 print_color $YELLOW "
         █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
-              KooL's Debian - Hyprland July 2025 Update
+              KooL's Debian - Hyprland October 2025 Update
               
             Most Hyprland packages are built from Source
 
@@ -40,9 +40,11 @@ print_color $YELLOW "
     However, do note that it is downloaded from each individual releases. You can set versions by editing the scripts
     located install-scripts directory.
 
-    These packages are NOT updated automatically. You need to manually update it yourself
+    These packages are NOT updated automatically. 
+
+    See the HOWTO documentation on how to get next release of Hyprland installed 
     
-    BE WARNED!!!!!  Installation may take longer!!
+    BE WARNED!!!!!  Installation will take longer!!
 
 
         █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
@@ -52,9 +54,6 @@ print_color $YELLOW "
 
         █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
 
-    Debian is not my main Distro. As stated above, Most Hyprland and dependencies as built from release.
-
-    I cannot monitor the updates or changes. If there are new versions, please submit an Merge Request for any updates.
     
     Thank you!
 "
@@ -120,10 +119,10 @@ echo -e "\e[35m
 printf "\n%.0s" {1..1} 
 
 # Welcome message using whiptail (for displaying information)
-whiptail --title "KooL Debian-Hyprland Trixie-SID (2025) Install Script" \
-    --msgbox "Welcome to KooL Debian-Hyprland Trixie-SID (2025) Install Script!!!\n\n\
+whiptail --title "KooL Debian-Hyprland Trixie+ (2025) Install Script" \
+    --msgbox "Welcome to KooL Debian-Hyprland Trixie+  (2025) Install Script!!!\n\n\
 ATTENTION: Run a full system update and Reboot first !!! (Highly Recommended)\n\n\
-NOTE: If you are installing on a VM, ensure to enable 3D acceleration else Hyprland may NOT start!" \
+NOTE: If you are installing on a VM, ensure to enable 3D acceleration otherwise Hyprland may NOT start!" \
     15 80
 
 # Ask if the user wants to proceed
