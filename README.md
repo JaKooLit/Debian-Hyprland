@@ -80,6 +80,14 @@ sudo nano /etc/apt/sources.list
 - ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
+
+- 10 OCTOBER 2025 Update!
+- Hyprland-Debian nows builds 0.51.1 from source! 
+  - The installer now can be used to install newer releases later 
+  - If you are currently running 0.49, or 0.50, you can upgrade to 0.51.1
+  - You do not have to re-install everything, but re-running `install.sh` works also 
+  - Intstructions are available in English and Spanish 
+
 - 25 July 2025 Update!
 - All Hyprland and associated packages set to install using this script are downloaded and built from source (github). However, do note that it is downloaded from each individual releases. You can set versions by editing the scripts located install-scripts directory.
 - These packages are NOT updated automatically. You need to manually update it yourself
