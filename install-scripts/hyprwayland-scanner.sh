@@ -9,6 +9,15 @@ scan_depend=(
 
 #specific branch or release
 tag="v0.4.5"
+# Allow environment override
+if [ -n "${HYPRWAYLAND_SCANNER_TAG:-}" ]; then tag="$HYPRWAYLAND_SCANNER_TAG"; fi
+
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -53,13 +62,17 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprwayland-scanner.g
     cd hyprwayland-scanner || exit 1
 	cmake -DCMAKE_INSTALL_PREFIX=/usr -B build
 	cmake --build build -j `nproc`
-    if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} hyprwayland-scanner installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    if [ $DO_INSTALL -eq 1 ]; then
+        if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
+            printf "${OK} hyprwayland-scanner installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        else
+            echo -e "${ERROR} Installation failed for hyprwayland-scanner." 2>&1 | tee -a "$MLOG"
+        fi
     else
-        echo -e "${ERROR} Installation failed for hyprwayland-scanner." 2>&1 | tee -a "$MLOG"
+        echo "${NOTE} DRY RUN: Skipping installation of hyprwayland-scanner $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
     cd ..
 else
     echo -e "${ERROR} Download failed for hyprwayland-scanner. Please check log." 2>&1 | tee -a "$LOG"

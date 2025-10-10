@@ -5,6 +5,15 @@
 
 #specific branch or release
 tag="v0.8.2"
+# Allow environment override
+if [ -n "${HYPRUTILS_TAG:-}" ]; then tag="$HYPRUTILS_TAG"; fi
+
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -34,14 +43,18 @@ fi
 
 if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
   cd "hyprutils" || exit 1
-  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
   cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-  if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} hyprutils installed successfully.\n" 2>&1 | tee -a "$MLOG"
+  if [ $DO_INSTALL -eq 1 ]; then
+    if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
+      printf "${OK} hyprutils installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    else
+      echo -e "${ERROR} Installation failed for hyprutils." 2>&1 | tee -a "$MLOG"
+    fi
   else
-    echo -e "${ERROR} Installation failed for hyprutils." 2>&1 | tee -a "$MLOG"
+    echo "${NOTE} DRY RUN: Skipping installation of hyprutils $tag."
   fi
-  mv $MLOG ../Install-Logs/ || true   
+  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
   cd ..
 else
   echo -e "${ERROR} Download failed for hyprutils" 2>&1 | tee -a "$LOG"

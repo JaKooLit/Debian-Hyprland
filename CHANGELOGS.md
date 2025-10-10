@@ -1,5 +1,62 @@
 ## CHANGELOGS
 
+## 10 October 2025 
+
+###    Hyprland 0.51.x install support
+    
+-     Hyprland builds 0.51.x from source
+-     Added documentation for upgrading from 0.49/0.50.x to 0.51.1.
+    
+###    New scripts and modules
+    - update-hyprland.sh: Manage the Hyprland stack with:
+      - --install / --dry-run build modes
+      - --only and --skip for selective components
+      - --with-deps to (re)install build deps
+      - --set {KEY=TAG} and --restore tag backup support
+      - --fetch-latest to pull latest GitHub release tags
+      - --via-helper to delegate summary-only dry-runs
+    - dry-run-build.sh: Compile-only helper with summary output
+    - install-scripts/wayland-protocols-src.sh: Build wayland-protocols from
+      source (>= 1.45) to satisfy Hyprland 0.51.x requirements
+    
+###   Core features
+    - Centralized tag management via hypr-tags.env; tags exported to all
+      modules. Environment overrides remain first priority.
+    - Automatic dependency ordering for Hyprland 0.51.x:
+      wayland-protocols-src → hyprland-protocols → hyprutils → hyprlang →
+      aquamarine → hyprland
+    - Optional auto-fetch of latest tags on install runs that include
+      hyprland (can be disabled via --no-fetch)
+    - Selective updates for targeted components and skip lists
+    - Dry-run mode to validate builds without installing
+    
+###  Installer integration
+    - install.sh reads hypr-tags.env and optionally refreshes tags.
+    - Ensures wayland-protocols-src is built before Hyprland.
+    - Maintains proper sequencing for the Hyprland dependencies.
+    
+###  Docs
+    - Debian-Hyprland-Install-Upgrade.md and .es.md:
+      - Add explicit section: Upgrade 0.49/0.50.x → 0.51.1
+      - Recommend: `./update-hyprland.sh --install --only hyprland`
+      - Provide optional `--with-deps` and `--dry-run` flows
+    - Full install via install.sh is not required for this
+      upgrade unless optional modules need refresh
+    
+###  Usage highlights
+    - Pin and upgrade to 0.51.1:
+      ./update-hyprland.sh --set HYPRLAND=v0.51.1
+      ./update-hyprland.sh --install --only hyprland
+    - Optional:
+      ./update-hyprland.sh --with-deps --install --only hyprland
+      ./update-hyprland.sh --dry-run --only hyprland
+    
+###   Notes
+    - Target OS remains Debian Trixie/Testing/SID 
+    - Run as sudo-capable user (not root)
+    - Ensure deb-src entries are enabled.
+
+
 ## 22 July 2025
 - Updated sddm theme and script to work with the updated simple_sddm_2 theme
 - Manual building process
