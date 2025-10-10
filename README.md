@@ -71,7 +71,7 @@ https://github.com/user-attachments/assets/49bc12b2-abaf-45de-a21c-67aacd9bb872
 #### ⚠️ Pre-requisites and VERY Important! ### 
 - Do not run this installer as sudo or as root
 - This Installer requires a user with a priviledge to install packages
-- Needs a Debian 13 Testing (Trixie) Branch  as it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build.
+- Needs a Debian 13 Trixie or greater. As it needs a newer wayland packages! I have tried on Stable Debian 12 Bookworm in which, Hyprland wont build.
 - edit your /etc/apt/sources.list and remove # on lines with deb-src to enable source packaging else will not install properly especially Hyprland
 ```bash
 sudo nano /etc/apt/sources.list
@@ -91,11 +91,12 @@ sudo nano /etc/apt/sources.list
 - the wallpaper offered to be downloaded towards the end is from this [`WALLPAPER-REPO`](https://github.com/JaKooLit/Wallpaper-Bank)
 
 #### ✨  Some notes on this installer / Prerequisites
-- This script is meant to install in Debian Testing (Trixie) and Debian Unstable (SID). This script Will NOT work with Bookworm
+- This script is meant to install in Debian Trixie or newer . This script Will NOT work with Bookworm
 - If However, decided to try, recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
 - 🕯️ network-manager-gnome (nm-applet) has been removed from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
 - If you have nvidia, and wanted to use proprietary drivers, uninstall nouveau first (if installed). This script will be installing proprietary nvidia drivers and will not deal with removal of nouveau.
 - NVIDIA users / owners, after installation, check [`THIS`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Notes_to_remember#--for-nvidia-gpu-users)
+- NIVIDIA users:  Strongly suggest you visit this site and install current drivers for newer GPUs. [`NVIDIA-Drivers`](https://github.com/mexersus/debian-nvidia-drivers)
  
 #### ✨ Costumize the packages to be installed
 - inside the install-scripts directory, you can edit 01-hypr-pkgs.sh. Do not edit 00-dependencies.sh unless you know what you are doing. Care though as the Hyprland Dots may not work properly!
@@ -126,7 +127,7 @@ sudo apt install --no-install-recommends -y sddm
 
 ## ✨ Auto clone and install
 > [!CAUTION] 
-> If you are using FISH SHELL, DO NOT use this function. Clone and ran install.sh instead
+> If you are using FISH SHELL, DO NOT use this function. Clone and run install.sh instead
 
 - you can use this command to automatically clone the installer and ran the script for you
 - NOTE: `curl` package is required before running this command
@@ -181,13 +182,9 @@ source ~/.zshrc
 #### Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?!
 - Well, most of the core packages are downloaded and Build and compiled from SOURCE. Unlike Other distros, they already have prepacked binary that can just download and install.
 
-## 🛎 *** DEBIAN and UBUNTU Hyprland Dots UPDATING NOTES ***
-> [!IMPORTANT]
-> This is very Important for Debian and Ubuntu Dots
-- Some parts of KooL's Hyprland Dots [`LINK`](https://github.com/JaKooLit/Hyprland-Dots) are not compatible on Debian and Ubuntu especially the hyprland settings. 
-- That is the reason the DOTS for those distro's are "fixed" and they are being pulled on different branch of KooL Dots.
-
-- To update your KooL's Dots follow this [WIKI](https://github.com/JaKooLit/Hyprland-Dots/wiki#--debian-and-ubuntu-hyprland-dots-updating-notes-)
+## 🛎 *** DEBIAN Hyprland Dots UPDATING NOTES ***
+> [!CHANGE]
+- With this new update to Debian-Hyprland the current Hyprland-Dots are now compatible with Debian. This applies only to Debian, not ubuntu.  
 
 > [!NOTE] 
 > This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
@@ -283,7 +280,6 @@ cd ~/Debian-Hyprland
 - If you want to contribute and/or test the Hyprland-Dotfiles (development branch), [`Hyprland-Dots-Development`](https://github.com/JaKooLit/Hyprland-Dots/tree/development)
 - Want to contribute on KooL-Hyprland-Dots Click [`HERE`](https://github.com/JaKooLit/Hyprland-Dots/blob/main/CONTRIBUTING.md) for a guide how to contribute
 - Want to contribute on This Installer? Click [`HERE`](https://github.com/JaKooLit/Debian-Hyprland/blob/main/CONTRIBUTING.md) for a guide how to contribute
-
 
 #### 👍👍👍 Thanks and Credits!
 - [`Hyprland`](https://hyprland.org/) Of course to Hyprland and @vaxerski for this awesome Dynamic Tiling Manager.
