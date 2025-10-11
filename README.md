@@ -2,7 +2,7 @@
 
 # 💌 KooL's Debian-Hyprland Install Script 💌
 
-#### For Debian 13 Trixie (Testing) and SID (unstable)
+#### For Debian 13 (Trixie) and above (testing, SID)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/JaKooLit/Hyprland-Dots/main/assets/latte.png" width="400" />
