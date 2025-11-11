@@ -38,6 +38,7 @@ DEFAULT_MODULES=(
     wayland-protocols-src
     aquamarine
     hyprgraphics
+    libxkbcommon
     hyprwayland-scanner
     hyprland-protocols
     hyprland-qt-support
@@ -64,15 +65,16 @@ ensure_tags_file() {
     if [[ ! -f "$TAGS_FILE" ]]; then
         echo "[INFO] Creating default tags file: $TAGS_FILE" | tee -a "$SUMMARY_LOG"
         cat >"$TAGS_FILE" <<'EOF'
-HYPRLAND_TAG=v0.50.1
-AQUAMARINE_TAG=v0.9.2
-HYPRUTILS_TAG=v0.8.2
+HYPRLAND_TAG=v0.52.1
+AQUAMARINE_TAG=v0.9.3
+HYPRUTILS_TAG=main
 HYPRLANG_TAG=v0.6.4
 HYPRGRAPHICS_TAG=v0.1.6
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
 HYPRLAND_GUIUTILS_TAG=v0.1.4
+LIBXKBCOMMON_TAG=xkbcommon-1.13.0
 EOF
     fi
 }
@@ -115,6 +117,7 @@ set_tags_from_args() {
         HYPRLAND_PROTOCOLS | hyprland-protocols | hyprland_protocols) key=HYPRLAND_PROTOCOLS_TAG ;;
         HYPRLAND_QT_SUPPORT | hyprland-qt-support | hyprland_qt_support) key=HYPRLAND_QT_SUPPORT_TAG ;;
         HYPRLAND_GUIUTILS | hyprland-guiutils | hyprland_guiutils) key=HYPRLAND_GUIUTILS_TAG ;;
+        LIBXKBCOMMON | libxkbcommon) key=LIBXKBCOMMON_TAG ;;
         esac
         map[$key]="$val"
     done
@@ -154,6 +157,7 @@ fetch_latest_tags() {
         [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
         [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
         [HYPRLAND_GUIUTILS_TAG]="hyprwm/hyprland-guiutils"
+        [LIBXKBCOMMON_TAG]="xkbcommon/libxkbcommon"
     )
 
     declare -A tags
@@ -207,7 +211,7 @@ run_stack() {
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
     # Export tags so child scripts inherit them
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_GUIUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_GUIUTILS_TAG WAYLAND_PROTOCOLS_TAG LIBXKBCOMMON_TAG
 
     # Optionally install dependencies (not dry-run)
     if [[ $WITH_DEPS -eq 1 ]]; then

@@ -396,6 +396,9 @@ execute_script "hyprwayland-scanner.sh"
 sleep 1
 execute_script "hyprgraphics.sh"
 sleep 1
+# Ensure libxkbcommon is up-to-date for Hyprland >= 0.52.1
+execute_script "libxkbcommon.sh"
+sleep 1
 execute_script "aquamarine.sh"
 sleep 1
 execute_script "hyprland-qt-support.sh"
