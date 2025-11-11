@@ -41,7 +41,7 @@ DEFAULT_MODULES=(
     hyprwayland-scanner
     hyprland-protocols
     hyprland-qt-support
-    hyprland-qtutils
+    hyprland-guiutils
     hyprland
 )
 
@@ -72,7 +72,7 @@ HYPRGRAPHICS_TAG=v0.1.5
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-HYPRLAND_QTUTILS_TAG=v0.1.4
+HYPRLAND_GUIUTILS_TAG=v0.1.4
 EOF
     fi
 }
@@ -114,7 +114,7 @@ set_tags_from_args() {
         HYPRWAYLAND_SCANNER | hyprwayland-scanner | hyprwayland_scanner) key=HYPRWAYLAND_SCANNER_TAG ;;
         HYPRLAND_PROTOCOLS | hyprland-protocols | hyprland_protocols) key=HYPRLAND_PROTOCOLS_TAG ;;
         HYPRLAND_QT_SUPPORT | hyprland-qt-support | hyprland_qt_support) key=HYPRLAND_QT_SUPPORT_TAG ;;
-        HYPRLAND_QTUTILS | hyprland-qtutils | hyprland_qtutils) key=HYPRLAND_QTUTILS_TAG ;;
+        HYPRLAND_GUIUTILS | hyprland-guiutils | hyprland_guiutils) key=HYPRLAND_GUIUTILS_TAG ;;
         esac
         map[$key]="$val"
     done
@@ -153,7 +153,7 @@ fetch_latest_tags() {
         [HYPRWAYLAND_SCANNER_TAG]="hyprwm/hyprwayland-scanner"
         [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
         [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
-        [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
+        [HYPRLAND_GUIUTILS_TAG]="hyprwm/hyprland-guiutils"
     )
 
     declare -A tags
@@ -207,7 +207,7 @@ run_stack() {
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
     # Export tags so child scripts inherit them
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_GUIUTILS_TAG WAYLAND_PROTOCOLS_TAG
 
     # Optionally install dependencies (not dry-run)
     if [[ $WITH_DEPS -eq 1 ]]; then
@@ -502,7 +502,7 @@ if [[ $VIA_HELPER -eq 1 ]]; then
     fi
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_GUIUTILS_TAG WAYLAND_PROTOCOLS_TAG
     helper="$REPO_ROOT/dry-run-build.sh"
     if [[ ! -x "$helper" ]]; then
         echo "[ERROR] dry-run-build.sh not found or not executable at $helper" | tee -a "$SUMMARY_LOG"

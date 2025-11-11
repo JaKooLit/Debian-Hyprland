@@ -178,7 +178,7 @@ if [ -f "./hypr-tags.env" ]; then
             source "./hypr-tags.env"
         fi
     fi
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_GUIUTILS_TAG WAYLAND_PROTOCOLS_TAG
 fi
 
 #################
@@ -400,7 +400,7 @@ execute_script "aquamarine.sh"
 sleep 1
 execute_script "hyprland-qt-support.sh"
 sleep 1
-execute_script "hyprland-qtutils.sh"
+execute_script "hyprland-guiutils.sh"
 sleep 1
 execute_script "hyprland-protocols.sh"
 sleep 1

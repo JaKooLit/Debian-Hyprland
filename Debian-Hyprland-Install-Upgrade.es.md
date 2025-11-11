@@ -67,7 +67,7 @@ HYPRGRAPHICS_TAG=v0.1.5
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-HYPRLAND_QTUTILS_TAG=v0.1.4
+HYPRLAND_GUIUTILS_TAG=v0.1.4
 WAYLAND_PROTOCOLS_TAG=1.45
 ```
 
@@ -148,7 +148,7 @@ Enlace rápido: [Actualización 0.49/0.50.x → 0.51.1](#actualización-049050x-
 
 ```bash
 # Instalar todo excepto los componentes Qt
-./update-hyprland.sh --install --skip hyprland-qt-support,hyprland-qtutils
+./update-hyprland.sh --install --skip hyprland-qt-support,hyprland-guiutils
 
 # Instalar solo componentes específicos
 ./update-hyprland.sh --install --only hyprland,aquamarine

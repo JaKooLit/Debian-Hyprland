@@ -22,7 +22,7 @@ HYPRGRAPHICS_TAG=v0.1.5
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-HYPRLAND_QTUTILS_TAG=v0.1.4
+HYPRLAND_GUIUTILS_TAG=v0.1.4
 WAYLAND_PROTOCOLS_TAG=1.45
 EOF
 fi
@@ -46,7 +46,7 @@ declare -A repos=(
   [HYPRWAYLAND_SCANNER_TAG]="hyprwm/hyprwayland-scanner"
   [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
   [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
-  [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
+  [HYPRLAND_GUIUTILS_TAG]="hyprwm/hyprland-guiutils"
 )
 
 # Read existing

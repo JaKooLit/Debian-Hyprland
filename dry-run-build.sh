@@ -8,7 +8,7 @@
 #   ./dry-run-build.sh                  # run full stack dry-run
 #   ./dry-run-build.sh --with-deps      # install dependencies first, then dry-run build
 #   ./dry-run-build.sh --only hyprland  # run a subset (comma-separated allowed)
-#   ./dry-run-build.sh --skip qtutils   # skip one or more (comma-separated)
+#   ./dry-run-build.sh --skip guiutils  # skip one or more (comma-separated)
 #
 # Notes:
 # - Run from the repository root. Do not cd into install-scripts/.
@@ -33,7 +33,7 @@ DEFAULT_MODULES=(
   hyprwayland-scanner
   hyprland-protocols
   hyprland-qt-support
-  hyprland-qtutils
+  hyprland-guiutils
   hyprland
 )
 
