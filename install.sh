@@ -542,6 +542,8 @@ execute_script "aquamarine.sh"
 sleep 1
 execute_script "hyprland-qt-support.sh"
 sleep 1
+execute_script "hyprland-qtutils.sh"
+sleep 1
 execute_script "hyprland-guiutils.sh"
 sleep 1
 execute_script "hyprland-protocols.sh"
