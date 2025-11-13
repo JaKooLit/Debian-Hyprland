@@ -299,9 +299,6 @@ execute_script() {
     fi
 }
 
-# Immediately install the Debian Hyprland stack; source builds remain available via individual scripts if needed
-install_debian_hyprland_stack
-
 # Load centralized Hyprland stack tags if present and export for child scripts
 if [ -f "./hypr-tags.env" ]; then
     # shellcheck disable=SC1091
@@ -513,6 +510,9 @@ execute_script "00-dependencies.sh"
 echo "${INFO} Installing ${SKY_BLUE}necessary fonts...${RESET}" | tee -a "$LOG"
 sleep 1
 execute_script "fonts.sh"
+
+# Install core Debian Hyprland stack (0.51.1+ds-1 and ecosystem) before running Hyprland-specific scripts
+install_debian_hyprland_stack
 
 # Optional: refresh tags before building the Hyprland stack
 # Set FETCH_LATEST=1 to opt-in (default is no-refresh to honor pinned tags)
