@@ -3,7 +3,8 @@
 # Main Hyprland Package#
 
 #specific branch or release
-tag="v0.52.1"
+# Default source tag aligned with Debian sid package (0.51.1)
+tag="v0.51.1"
 # Allow environment override
 if [ -n "${HYPRLAND_TAG:-}" ]; then tag="$HYPRLAND_TAG"; fi
 

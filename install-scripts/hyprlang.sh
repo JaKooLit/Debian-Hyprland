@@ -31,36 +31,15 @@ fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprlang.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprlang2.log"
 
-# Installation of dependencies
-printf "\n%s - Installing ${YELLOW}hyprlang dependencies${RESET} .... \n" "${INFO}"
+# For this branch, prefer Debian packages for hyprlang by default
+printf "\n%s - Installing ${YELLOW}hyprlang (Debian packages)${RESET} .... \n" "${INFO}"
 
-# Check if hyprlang directory exists and remove it
-if [ -d "hyprlang" ]; then
-    rm -rf "hyprlang"
-fi
-
-# Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprlang $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git; then
-    cd hyprlang || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
-	cmake --build ./build --config Release --target hyprlang -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-    if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-            printf "${OK} ${MAGENTA}hyprlang tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
-        else
-            echo -e "${ERROR} Installation failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$MLOG"
-        fi
-    else
-        echo "${NOTE} DRY RUN: Skipping installation of hyprlang $tag."
-    fi
-    #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
-    cd ..
+if [ $DO_INSTALL -eq 1 ]; then
+    install_package "libhyprlang2" 2>&1 | tee -a "$LOG"
+    install_package "libhyprlang-dev" 2>&1 | tee -a "$LOG"
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo "${NOTE} DRY RUN: Would install libhyprlang2 and libhyprlang-dev from APT."
 fi
 
 printf "\n%.0s" {1..2}

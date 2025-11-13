@@ -30,34 +30,15 @@ fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprutils.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprutils2.log"
 
-# Clone, build, and install using Cmake
-printf "${NOTE} Cloning hyprutils...\n"
+# For this branch, prefer Debian packages for hyprutils by default
+printf "${NOTE} Installing hyprutils (Debian packages)...\n"
 
-# Check if hyprutils folder exists and remove it
-if [ -d "hyprutils" ]; then
-  printf "${NOTE} Removing existing hyprutils folder...\n"
-  rm -rf "hyprutils" 2>&1 | tee -a "$LOG"
-fi
-
-if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
-  cd "hyprutils" || exit 1
-  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
-  cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-  if [ $DO_INSTALL -eq 1 ]; then
-    if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
-      printf "${OK} hyprutils installed successfully.\n" 2>&1 | tee -a "$MLOG"
-    else
-      echo -e "${ERROR} Installation failed for hyprutils." 2>&1 | tee -a "$MLOG"
-    fi
-  else
-    echo "${NOTE} DRY RUN: Skipping installation of hyprutils $tag."
-  fi
-  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
-  cd ..
+if [ $DO_INSTALL -eq 1 ]; then
+  install_package "libhyprutils9" 2>&1 | tee -a "$LOG"
+  install_package "libhyprutils-dev" 2>&1 | tee -a "$LOG"
 else
-  echo -e "${ERROR} Download failed for hyprutils" 2>&1 | tee -a "$LOG"
+  echo "${NOTE} DRY RUN: Would install libhyprutils9 and libhyprutils-dev from APT."
 fi
 
 printf "\n%.0s" {1..2}

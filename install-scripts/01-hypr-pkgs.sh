@@ -67,10 +67,10 @@ force=(
 )
 
 # List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
+# NOTE: rofi is no longer removed here because this branch uses the Debian Wayland-capable rofi package by default.
 uninstall=(
   dunst
   mako
-  rofi
   cargo
 )
 

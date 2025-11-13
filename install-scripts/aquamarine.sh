@@ -31,36 +31,15 @@ fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_aquamarine.log"
-MLOG="install-$(date +%d-%H%M%S)_aquamarine.log"
 
-# Installation of dependencies
-printf "\n%s - Installing ${YELLOW}aquamarine dependencies${RESET} .... \n" "${INFO}"
+# For this branch, prefer Debian packages for aquamarine by default
+printf "\n%s - Installing ${YELLOW}aquamarine (Debian package)${RESET} .... \n" "${INFO}"
 
-# Check if aquamarinedirectory exists and remove it
-if [ -d "aquamarine" ]; then
-    rm -rf "aquamarine"
-fi
-
-# Clone and build 
-printf "${INFO} Installing ${YELLOW}aquamarine $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/aquamarine.git; then
-    cd aquamarine || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
-    if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-            printf "${OK} ${MAGENTA}aquamarine $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
-        else
-            echo -e "${ERROR} Installation failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$MLOG"
-        fi
-    else
-        echo "${NOTE} DRY RUN: Skipping installation of aquamarine $tag."
-    fi
-    #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
-    cd ..
+if [ $DO_INSTALL -eq 1 ]; then
+    install_package "libaquamarine8" 2>&1 | tee -a "$LOG"
+    install_package "libaquamarine-dev" 2>&1 | tee -a "$LOG"
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$LOG"
+    echo "${NOTE} DRY RUN: Would install libaquamarine8 and libaquamarine-dev from APT."
 fi
 
 printf "\n%.0s" {1..2}

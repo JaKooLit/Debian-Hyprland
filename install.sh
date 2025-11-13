@@ -101,12 +101,127 @@ if is_ubuntu; then
     exit 1
 fi
 
+# Ensure sid repo and pinning are configured for Hyprland-related packages
+ensure_sid_repo_and_pinning() {
+    # Add sid source if not present
+    if [ ! -f /etc/apt/sources.list.d/sid.list ]; then
+        echo "${NOTE} Adding Debian sid repository (low priority by default)" | tee -a "$LOG"
+        echo "deb http://deb.debian.org/debian sid main contrib non-free non-free-firmware" | sudo tee /etc/apt/sources.list.d/sid.list >/dev/null
+    fi
+
+    # Global low priority for sid
+    if [ ! -f /etc/apt/preferences.d/99-sid-low.pref ]; then
+        echo "${NOTE} Creating global low-priority pin for sid (Pin-Priority: 50)" | tee -a "$LOG"
+        sudo tee /etc/apt/preferences.d/99-sid-low.pref >/dev/null <<'EOF'
+Package: *
+Pin: release a=sid
+Pin-Priority: 50
+EOF
+    fi
+
+    # Prefer sid/testing for specific Hyprland-related libraries and tools
+    if [ ! -f /etc/apt/preferences.d/90-hyprland-sid.pref ]; then
+        echo "${NOTE} Creating Hyprland-specific pinning for sid/testing libs" | tee -a "$LOG"
+        sudo tee /etc/apt/preferences.d/90-hyprland-sid.pref >/dev/null <<'EOF'
+Package: wlroots
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libwlroots-*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: wayland-protocols
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: xwayland
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libdisplay-info*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libgulkan*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: vulkan-utility-libraries-dev
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: vulkan-validationlayers
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libre2-*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libudis86*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libxcb-errors*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libtomlplusplus*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libhyprcursor*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libhyprlang*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libhyprgraphics*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: libhyprutils*
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: hyprwayland-scanner
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: hyprland
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: hyprland-dev
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: hyprland-backgrounds
+Pin: release a=sid
+Pin-Priority: 990
+
+Package: qml6-module-org-hyprland-style
+Pin: release a=sid
+Pin-Priority: 990
+EOF
+    fi
+
+    echo "${NOTE} Updating APT package lists (including sid metadata)" | tee -a "$LOG"
+    sudo apt update | tee -a "$LOG"
+}
+
 # install whiptails if detected not installed. Necessary for this version
 if ! command -v whiptail >/dev/null; then
     echo "${NOTE} - whiptail is not installed. Installing..." | tee -a "$LOG"
     sudo apt install -y whiptail
     printf "\n%.0s" {1..1}
 fi
+
+# Ensure sid repo/pinning before we start pulling Hyprland ecosystem packages
+ensure_sid_repo_and_pinning
 
 printf "\n%.0s" {1..2}
 echo -e "\e[35m
@@ -147,6 +262,27 @@ fi
 # Path to the install-scripts directory
 script_directory=install-scripts
 
+# Install core Hyprland stack from Debian packages by default (Hyprland 0.51.1 and ecosystem)
+install_debian_hyprland_stack() {
+    echo "${NOTE} Installing Debian Hyprland stack (0.51.1+ds-1 and related tools) ..." | tee -a "$LOG"
+    sudo apt install -y \
+        hyprland/sid \
+        hyprland-dev/sid \
+        hyprland-backgrounds/sid \
+        qml6-module-org-hyprland-style/sid \
+        hypridle \
+        hyprlock \
+        hyprpaper \
+        hyprpicker \
+        hyprland-protocols \
+        xdg-desktop-portal-hyprland \
+        rofi \
+        rofi-dev || {
+        echo "${ERROR} Failed to install Debian Hyprland stack. Please check your APT configuration." | tee -a "$LOG"
+        exit 1
+    }
+}
+
 # Function to execute a script if it exists and make it executable
 execute_script() {
     local script="$1"
@@ -162,6 +298,9 @@ execute_script() {
         echo "Script '$script' not found in '$script_directory'." | tee -a "$LOG"
     fi
 }
+
+# Immediately install the Debian Hyprland stack; source builds remain available via individual scripts if needed
+install_debian_hyprland_stack
 
 # Load centralized Hyprland stack tags if present and export for child scripts
 if [ -f "./hypr-tags.env" ]; then

@@ -55,51 +55,16 @@ fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_rofi_wayland.log"
-MLOG="install-$(date +%d-%H%M%S)_rofi_wayland2.log"
 
-# Installation of main components
-printf "\n%s - Re-installing ${SKY_BLUE}rofi-wayland dependencies${RESET}.... \n" "${INFO}"
+# For this branch, prefer Debian rofi (with Wayland support) instead of building rofi-wayland
+printf "\n%s - Installing ${SKY_BLUE}rofi (Debian package, Wayland-capable)${RESET}.... \n" "${INFO}"
 
- for FORCE in "${rofi[@]}"; do
-   re_install_package "$FORCE" "$LOG"
-  done
-
-printf "\n%.0s" {1..2}
-# Clone and build rofi - wayland
-printf "${NOTE} Building and Installing ${SKY_BLUE}rofi-wayland${RESET} $rofi_tag ...\n"
-
-# Check if rofi directory exists
-if [ -d "rofi-$rofi_tag" ]; then
-  rm -rf "rofi-$rofi_tag"
-fi
-
-# cloning rofi-wayland
-printf "${NOTE} Downloading ${YELLOW}rofi-wayland $rofi_tag${RESET} from releases...\n"
-wget $release_url
-
-if [ -f "rofi-$rofi_tag.tar.gz" ]; then
-  printf "${OK} ${YELLOW}rofi-wayland $rofi_tag${RESET} downloaded successfully.\n" 2>&1 | tee -a "$LOG"
-  tar xf rofi-$rofi_tag.tar.gz
-fi
-
-cd rofi-$rofi_tag || exit 1
-
-# Proceed with the installation steps
-if meson setup build && ninja -C build ; then
-  if sudo ninja -C build install 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} rofi-wayland installed successfully.\n" 2>&1 | tee -a "$MLOG"
-  else
-    echo -e "${ERROR} Installation failed for ${YELLOW}rofi-wayland $rofi_tag${RESET}" 2>&1 | tee -a "$MLOG"
-  fi
+if [ $DO_INSTALL -eq 1 ]; then
+  install_package "rofi" 2>&1 | tee -a "$LOG"
+  # Optional: headers for themes or building scripts
+  install_package "rofi-dev" 2>&1 | tee -a "$LOG" || true
 else
-  echo -e "${ERROR} Meson setup or ninja build failed for ${YELLOW}rofi-wayland $rofi_tag${RESET}" 2>&1 | tee -a "$MLOG"
+  echo "${NOTE} DRY RUN: Would install rofi and rofi-dev from APT (Wayland-capable rofi 2.0.0)."
 fi
-
-# Move logs to Install-Logs directory
-mv "$MLOG" ../Install-Logs/ || true
-cd .. || exit 1
-
-# clean up
-rm -rf rofi-$rofi_tag.tar.gz
 
 printf "\n%.0s" {1..2}

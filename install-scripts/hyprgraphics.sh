@@ -34,45 +34,15 @@ fi
 
 # Set the name of the log file to include the current date and time
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprgraphics.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprgraphics2.log"
 
-# Installation of dependencies
-printf "\n%s - Installing ${YELLOW}hyprgraphics dependencies${RESET} .... \n" "${INFO}"
+# For this branch, prefer Debian packages for hyprgraphics by default
+printf "\n%s - Installing ${YELLOW}hyprgraphics (Debian packages)${RESET} .... \n" "${INFO}"
 
-for PKG1 in "${hyprgraphics[@]}"; do
-  re_install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
-done
-printf "\n%.0s" {1..1}
-
-# Check if hyprgraphics directory exists and remove it
-if [ -d "hyprgraphics" ]; then
-    rm -rf "hyprgraphics"
-fi
-
-# Clone and build 
-printf "${INFO} Installing ${YELLOW}hyprgraphics $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprgraphics.git; then
-    cd hyprgraphics || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-	cmake --build ./build --config Release --target hyprgraphics -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-    if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
-            printf "${OK} ${MAGENTA}hyprgraphics $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
-        else
-            echo -e "${ERROR} Installation failed for ${YELLOW}hyprgraphics $graphics${RESET}" 2>&1 | tee -a "$MLOG"
-        fi
-    else
-        echo "${NOTE} DRY RUN: Skipping installation of hyprgraphics $tag."
-    fi
-    #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
-    cd ..
+if [ $DO_INSTALL -eq 1 ]; then
+  install_package "libhyprgraphics2" 2>&1 | tee -a "$LOG"
+  install_package "libhyprgraphics-dev" 2>&1 | tee -a "$LOG"
 else
-    echo -e "${ERROR} Download failed for ${YELLOW}hyprgraphics $graphics${RESET}" 2>&1 | tee -a "$LOG"
+  echo "${NOTE} DRY RUN: Would install libhyprgraphics2 and libhyprgraphics-dev from APT."
 fi
 
 printf "\n%.0s" {1..2}
