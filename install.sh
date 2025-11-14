@@ -111,102 +111,114 @@ ensure_sid_repo_and_pinning() {
 
     # Global low priority for sid
     if [ ! -f /etc/apt/preferences.d/99-sid-low.pref ]; then
-        echo "${NOTE} Creating global low-priority pin for sid (Pin-Priority: 50)" | tee -a "$LOG"
+        echo "${NOTE} Creating global low-priority pin for sid (Pin-Priority: 50, using release n=sid)" | tee -a "$LOG"
         sudo tee /etc/apt/preferences.d/99-sid-low.pref >/dev/null <<'EOF'
 Package: *
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 50
 EOF
+    else
+        # Ensure existing pref file uses the correct selector (n=sid, not a=sid)
+        if grep -q 'release a=sid' /etc/apt/preferences.d/99-sid-low.pref 2>/dev/null; then
+            echo "${NOTE} Updating existing 99-sid-low.pref to use 'release n=sid'" | tee -a "$LOG"
+            sudo sed -i 's/release a=sid/release n=sid/g' /etc/apt/preferences.d/99-sid-low.pref
+        fi
     fi
 
-    # Prefer sid/testing for specific Hyprland-related libraries and tools
+    # Prefer sid for specific Hyprland-related libraries and tools
     if [ ! -f /etc/apt/preferences.d/90-hyprland-sid.pref ]; then
-        echo "${NOTE} Creating Hyprland-specific pinning for sid/testing libs" | tee -a "$LOG"
+        echo "${NOTE} Creating Hyprland-specific pinning for sid libs (Pin-Priority: 990, using release n=sid)" | tee -a "$LOG"
         sudo tee /etc/apt/preferences.d/90-hyprland-sid.pref >/dev/null <<'EOF'
 Package: wlroots
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libwlroots-*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: wayland-protocols
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: xwayland
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libdisplay-info*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libgulkan*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: vulkan-utility-libraries-dev
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: vulkan-validationlayers
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libre2-*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libudis86*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libxcb-errors*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libtomlplusplus*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libhyprcursor*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libhyprlang*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libhyprgraphics*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: libhyprutils*
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: hyprwayland-scanner
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: hyprland
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: hyprland-dev
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: hyprland-backgrounds
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 
 Package: qml6-module-org-hyprland-style
-Pin: release a=sid
+Pin: release n=sid
 Pin-Priority: 990
 EOF
+    else
+        # Ensure existing Hyprland pin file uses the correct selector (n=sid, not a=sid)
+        if grep -q 'release a=sid' /etc/apt/preferences.d/90-hyprland-sid.pref 2>/dev/null; then
+            echo "${NOTE} Updating existing 90-hyprland-sid.pref to use 'release n=sid'" | tee -a "$LOG"
+            sudo sed -i 's/release a=sid/release n=sid/g' /etc/apt/preferences.d/90-hyprland-sid.pref
+        fi
     fi
 
     echo "${NOTE} Updating APT package lists (including sid metadata)" | tee -a "$LOG"
