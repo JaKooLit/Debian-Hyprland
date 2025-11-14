@@ -13,7 +13,7 @@ packages=(
   kitty
 )
 
-# Local packages that should be in /usr/local/bin/
+# Local packages that should be available in PATH (previously assumed in /usr/local/bin)
 local_pkgs_installed=(
   hyprland
   rofi
@@ -61,9 +61,9 @@ for pkg in "${packages[@]}"; do
     fi
 done
 
-# Check for local packages
+# Check for local packages in PATH (hyprland, rofi, etc.)
 for pkg1 in "${local_pkgs_installed[@]}"; do
-    if ! [ -f "/usr/local/bin/$pkg1" ]; then
+    if ! command -v "$pkg1" >/dev/null 2>&1; then
         local_missing+=("$pkg1")
     fi
 done
@@ -88,9 +88,9 @@ else
     fi
 
     if [ ${#local_missing[@]} -ne 0 ]; then
-        echo "${WARN} The following local packages are missing from /usr/local/bin/ and will be logged:"
+        echo "${WARN} The following local packages are missing from PATH and will be logged:"
         for pkg1 in "${local_missing[@]}"; do
-            echo "$pkg1 is not installed. can't find it in /usr/local/bin/"
+            echo "$pkg1 is not installed. can't find it in PATH"
             echo "$pkg1" >> "$LOG" # Log the missing local package to the file
         done
     fi
