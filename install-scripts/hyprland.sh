@@ -15,6 +15,10 @@ if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]
     echo "${NOTE} DRY RUN: install step will be skipped."
 fi
 
+# By default, install Hyprland from Debian packages.
+# Set HYPRLAND_FROM_SOURCE=1 if you explicitly want to build from source.
+HYPRLAND_FROM_SOURCE=${HYPRLAND_FROM_SOURCE:-0}
+
 hyprland=(
   clang
   llvm
@@ -43,8 +47,25 @@ fi
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprland.log"
 MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
 
-# Installation of dependencies
-printf "\n%s - Installing hyprland additional dependencies.... \n" "${NOTE}"
+# If not explicitly told to build from source, install Hyprland from Debian packages
+if [ "$HYPRLAND_FROM_SOURCE" != "1" ]; then
+  printf "\n%s - Installing ${YELLOW}Hyprland from Debian packages${RESET} .... \n" "${NOTE}"
+
+  if [ $DO_INSTALL -eq 1 ]; then
+    # Core Hyprland packages; pinning (if configured) will select sid/testing as needed
+    install_package "hyprland" 2>&1 | tee -a "$LOG"
+    install_package "hyprland-dev" 2>&1 | tee -a "$LOG" || true
+    install_package "hyprland-backgrounds" 2>&1 | tee -a "$LOG" || true
+  else
+    echo "${NOTE} DRY RUN: Would install hyprland, hyprland-dev and hyprland-backgrounds from APT."
+  fi
+
+  printf "\n%.0s" {1..2}
+  exit 0
+fi
+
+# Installation of dependencies for source builds
+printf "\n%s - Installing hyprland additional dependencies (source build).... \n" "${NOTE}"
 
 for PKG1 in "${hyprland[@]}"; do
   install_package "$PKG1" 2>&1 | tee -a "$LOG"

@@ -667,8 +667,9 @@ execute_script "03-Final-Check.sh"
 
 printf "\n%.0s" {1..1}
 
-# Check if either hyprland or Hyprland files exist in /usr/local/bin/
-if [ -e /usr/local/bin/hyprland ] || [ -f /usr/local/bin/Hyprland ]; then
+# Check if Hyprland is available in PATH or in standard system locations
+if command -v Hyprland >/dev/null 2>&1 || command -v hyprland >/dev/null 2>&1 || \
+   [ -x /usr/bin/Hyprland ] || [ -x /usr/bin/hyprland ]; then
     printf "\n ${OK} 👌 Hyprland is installed. However, some essential packages may not be installed. Please see above!"
     printf "\n${CAT} Ignore this message if it states ${YELLOW}All essential packages${RESET} are installed as per above\n"
     sleep 2
