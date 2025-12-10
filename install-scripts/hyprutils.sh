@@ -4,7 +4,7 @@
 # hyprutils #
 
 #specific branch or release
-tag="v0.8.2"
+tag="v0.10.4"
 # Allow environment override
 if [ -n "${HYPRUTILS_TAG:-}" ]; then tag="$HYPRUTILS_TAG"; fi
 

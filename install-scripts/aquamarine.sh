@@ -5,7 +5,7 @@
 
 
 #specific branch or release
-tag="v0.9.3"
+tag="v0.10.0"
 # Allow environment override
 if [ -n "${AQUAMARINE_TAG:-}" ]; then tag="$AQUAMARINE_TAG"; fi
 
