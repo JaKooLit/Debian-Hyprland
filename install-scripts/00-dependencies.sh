@@ -39,6 +39,7 @@ dependencies=(
   libgulkan-0.15-0t64
   libgulkan-dev
   libinih-dev
+  libiniparser-dev
   libinput-dev
   libjbig-dev
   libjpeg-dev

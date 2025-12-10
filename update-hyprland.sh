@@ -33,15 +33,17 @@ SUMMARY_LOG="$LOG_DIR/update-hypr-$TS.log"
 
 # Default module order (core first, then Hyprland)
 DEFAULT_MODULES=(
+    xkbcommon
     hyprutils
     hyprlang
+    hyprtoolkit
     wayland-protocols-src
     aquamarine
     hyprgraphics
     hyprwayland-scanner
     hyprland-protocols
     hyprland-qt-support
-    hyprland-qtutils
+    hyprland-guiutils
     hyprland
 )
 

@@ -400,12 +400,16 @@ execute_script "aquamarine.sh"
 sleep 1
 execute_script "hyprland-qt-support.sh"
 sleep 1
-execute_script "hyprland-qtutils.sh"
+execute_script "hyprtoolkit.sh"
+sleep 1
+execute_script "hyprland-guiutils.sh"
 sleep 1
 execute_script "hyprland-protocols.sh"
 sleep 1
 # Ensure wayland-protocols (from source) is installed to satisfy Hyprland's >= 1.45 requirement
 execute_script "wayland-protocols-src.sh"
+sleep 1
+execute_script "xkbcommon.sh"
 sleep 1
 execute_script "hyprland.sh"
 sleep 1
