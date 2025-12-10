@@ -2,8 +2,11 @@
 
 ## 10 December 2025
 
-- Updated Hyprland Build to v0.52.2
+- Updated:
+    - Hyprland Build to v0.52.2
     - Thanks entirely to @sdegler
+- Fixed:
+    - `qt5-style-kvantum-themes` failed to install Wrong package name
 
 ## 10 October 2025
 
