@@ -3,7 +3,7 @@
 # Main Hyprland Package#
 
 #specific branch or release
-tag="v0.51.1"
+tag="v0.52.2"
 # Allow environment override
 if [ -n "${HYPRLAND_TAG:-}" ]; then tag="$HYPRLAND_TAG"; fi
 

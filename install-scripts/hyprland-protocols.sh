@@ -5,7 +5,7 @@
 
 
 #specific branch or release
-tag="v0.6.4"
+tag="v0.7.0"
 # Allow environment override
 if [ -n "${HYPRLAND_PROTOCOLS_TAG:-}" ]; then tag="$HYPRLAND_PROTOCOLS_TAG"; fi
 

@@ -1,12 +1,12 @@
 #!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # Hypr Ecosystem #
-# hyprutils #
+# hyprtoolkit #
 
 #specific branch or release
-tag="v0.10.4"
+tag="v0.4.1"
 # Allow environment override
-if [ -n "${HYPRUTILS_TAG:-}" ]; then tag="$HYPRUTILS_TAG"; fi
+if [ -n "${HYPRTOOLKIT_TAG:-}" ]; then tag="$HYPRTOOLKIT_TAG"; fi
 
 # Dry-run support
 DO_INSTALL=1
@@ -29,35 +29,35 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
 fi
 
 # Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprutils.log"
-MLOG="install-$(date +%d-%H%M%S)_hyprutils2.log"
+LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprtoolkit.log"
+MLOG="install-$(date +%d-%H%M%S)_hyprtoolkit2.log"
 
 # Clone, build, and install using Cmake
-printf "${NOTE} Cloning hyprutils...\n"
+printf "${NOTE} Cloning hyprtoolkit...\n"
 
-# Check if hyprutils folder exists and remove it
-if [ -d "hyprutils" ]; then
-  printf "${NOTE} Removing existing hyprutils folder...\n"
-  rm -rf "hyprutils" 2>&1 | tee -a "$LOG"
+# Check if hyprtoolkit folder exists and remove it
+if [ -d "hyprtoolkit" ]; then
+  printf "${NOTE} Removing existing hyprtoolkit folder...\n"
+  rm -rf "hyprtoolkit" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
-  cd "hyprutils" || exit 1
+if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git"; then
+  cd "hyprtoolkit" || exit 1
   cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
   cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
   if [ $DO_INSTALL -eq 1 ]; then
     if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
-      printf "${OK} hyprutils installed successfully.\n" 2>&1 | tee -a "$MLOG"
+      printf "${OK} hyprtoolkit installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
-      echo -e "${ERROR} Installation failed for hyprutils." 2>&1 | tee -a "$MLOG"
+      echo -e "${ERROR} Installation failed for hyprtoolkit." 2>&1 | tee -a "$MLOG"
     fi
   else
-    echo "${NOTE} DRY RUN: Skipping installation of hyprutils $tag."
+    echo "${NOTE} DRY RUN: Skipping installation of hyprtoolkit $tag."
   fi
   [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
   cd ..
 else
-  echo -e "${ERROR} Download failed for hyprutils" 2>&1 | tee -a "$LOG"
+  echo -e "${ERROR} Download failed for hyprtoolkit" 2>&1 | tee -a "$LOG"
 fi
 
 printf "\n%.0s" {1..2}

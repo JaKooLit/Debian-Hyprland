@@ -8,7 +8,7 @@ hyprgraphics=(
 )
 
 #specific branch or release
-tag="v0.1.5"
+tag="v0.4.0"
 # Allow environment override
 if [ -n "${HYPRGRAPHICS_TAG:-}" ]; then tag="$HYPRGRAPHICS_TAG"; fi
 

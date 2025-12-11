@@ -2,8 +2,14 @@
 
 ## 10 December 2025
 
-- Updated Hyprland Build to v0.52.2
+- Updated:
+    - Hyprland Build to v0.52.2
     - Thanks entirely to @sdegler
+- Fixed:
+    - `qt5-style-kvantum-themes` failed to install
+        - Wrong package name it's `qt-style-kvantume-themes`
+    - `libdisplay-info2` failed to install
+        - New package name: `libdisplay-info3`
 
 ## 10 October 2025
 

@@ -5,7 +5,7 @@
 
 
 #specific branch or release
-tag="v0.6.4"
+tag="v0.6.7"
 # Allow environment override
 if [ -n "${HYPRLANG_TAG:-}" ]; then tag="$HYPRLANG_TAG"; fi
 

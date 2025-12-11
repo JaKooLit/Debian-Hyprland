@@ -5,7 +5,7 @@
 
 
 #specific branch or release
-tag="v0.9.3"
+tag="v0.10.0"
 # Allow environment override
 if [ -n "${AQUAMARINE_TAG:-}" ]; then tag="$AQUAMARINE_TAG"; fi
 
@@ -45,7 +45,7 @@ fi
 printf "${INFO} Installing ${YELLOW}aquamarine $tag${RESET} ...\n"
 if git clone --recursive -b $tag https://github.com/hyprwm/aquamarine.git; then
     cd aquamarine || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if [ $DO_INSTALL -eq 1 ]; then
         if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
