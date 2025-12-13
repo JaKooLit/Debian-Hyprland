@@ -1,6 +1,10 @@
 #!/bin/bash
 # https://github.com/JaKooLit
 
+# Source location for pre-built Debian packages (can be local or network share)
+# Set this variable to the path containing .deb files, or leave empty to build from source
+DEB_PACKAGES_SOURCE="/mnt/nas/Projects/Jak/debian-pkg/build/debs"
+
 clear
 
 # Set some colors for output messages
@@ -116,6 +120,82 @@ echo -e "\e[35m
 \e[0m"
 printf "\n%.0s" {1..1}
 
+# Function to clean up existing Hyprland installations
+clean_existing_hyprland() {
+    echo "${INFO} Checking for existing Hyprland installations..." | tee -a "$LOG"
+    
+    # List of Hyprland-related packages and binaries to check
+    local hyprland_packages=("hyprland" "hyprutils" "hyprgraphics" "hyprcursor" "hyprtoolkit" "hyprland-guiutils" "hyprwire" "aquamarine" "hypridle" "hyprlock" "hyprpolkitagent" "hyprpicker" "xdg-desktop-portal-hyprland" "hyprland-plugins")
+    local hyprland_binaries=("/usr/local/bin/Hyprland" "/usr/local/bin/hyprland" "/usr/bin/Hyprland" "/usr/bin/hyprland")
+    
+    # Remove installed .deb packages
+    echo "${INFO} Removing any previously installed .deb packages..." | tee -a "$LOG"
+    for pkg in "${hyprland_packages[@]}"; do
+        if dpkg -l | grep -q "^ii.*$pkg"; then
+            echo "${NOTE} Removing package: $pkg" | tee -a "$LOG"
+            sudo apt-get remove -y "$pkg" 2>&1 | grep -E "(Setting up|Removing)" | tee -a "$LOG" || true
+        fi
+    done
+    
+    # Remove binaries built from source
+    echo "${INFO} Checking for binaries built from source..." | tee -a "$LOG"
+    for binary in "${hyprland_binaries[@]}"; do
+        if [ -e "$binary" ]; then
+            echo "${NOTE} Removing binary: $binary" | tee -a "$LOG"
+            sudo rm -f "$binary"
+        fi
+    done
+    
+    # Remove development files from /usr/local
+    if [ -d "/usr/local/include/hyprland" ] || [ -d "/usr/local/lib/libhypr" ]; then
+        echo "${INFO} Removing development files from /usr/local..." | tee -a "$LOG"
+        sudo rm -rf /usr/local/include/hyprland* 2>/dev/null || true
+        sudo rm -rf /usr/local/lib/libhypr* 2>/dev/null || true
+        sudo rm -rf /usr/local/lib/libaquamarine* 2>/dev/null || true
+        sudo rm -rf /usr/local/lib/libypr* 2>/dev/null || true
+        sudo ldconfig 2>/dev/null || true
+    fi
+    
+    echo "${OK} Cleanup completed" | tee -a "$LOG"
+}
+
+# Function to install packages from pre-built .deb files
+install_from_packages() {
+    echo "${INFO} Installing from pre-built packages at: ${SKY_BLUE}$DEB_PACKAGES_SOURCE${RESET}" | tee -a "$LOG"
+    
+    if [ ! -d "$DEB_PACKAGES_SOURCE" ]; then
+        echo "${ERROR} Package source directory not found: $DEB_PACKAGES_SOURCE" | tee -a "$LOG"
+        return 1
+    fi
+    
+    local pkg_count=$(find "$DEB_PACKAGES_SOURCE" -name "*.deb" | wc -l)
+    if [ "$pkg_count" -eq 0 ]; then
+        echo "${ERROR} No .deb files found in $DEB_PACKAGES_SOURCE" | tee -a "$LOG"
+        return 1
+    fi
+    
+    echo "${INFO} Found ${SKY_BLUE}$pkg_count${RESET} .deb packages" | tee -a "$LOG"
+    
+    # Clean up existing installations before installing from packages
+    echo "${CAT} Removing existing Hyprland installations to avoid conflicts..." | tee -a "$LOG"
+    clean_existing_hyprland
+    
+    # Update package cache after cleanup
+    echo "${INFO} Updating package cache..." | tee -a "$LOG"
+    sudo apt-get update 2>&1 | tail -3 | tee -a "$LOG"
+    
+    # Install all packages
+    echo "${INFO} Installing packages..." | tee -a "$LOG"
+    sudo dpkg -i "$DEB_PACKAGES_SOURCE"/*.deb 2>&1 | tee -a "$LOG"
+    
+    # Fix any dependency issues
+    echo "${INFO} Fixing any dependency issues..." | tee -a "$LOG"
+    sudo apt-get install -f -y 2>&1 | tee -a "$LOG"
+    
+    echo "${OK} Package installation completed!" | tee -a "$LOG"
+    return 0
+}
+
 # Welcome message using whiptail (for displaying information)
 whiptail --title "KooL Debian-Hyprland Trixie+ (2025) Install Script" \
     --msgbox "Welcome to KooL Debian-Hyprland Trixie+  (2025) Install Script!!!\n\n\
@@ -123,9 +203,27 @@ ATTENTION: Run a full system update and Reboot first !!! (Highly Recommended)\n\
 NOTE: If you are installing on a VM, ensure to enable 3D acceleration otherwise Hyprland may NOT start!" \
     15 80
 
+# Ask user to choose build method
+build_method="source"
+if [ -d "$DEB_PACKAGES_SOURCE" ] && [ "$(find "$DEB_PACKAGES_SOURCE" -name "*.deb" 2>/dev/null | wc -l)" -gt 0 ]; then
+    if whiptail --title "Build Method" \
+        --yesno "Pre-built Hyprland packages are available at:\n$DEB_PACKAGES_SOURCE\n\nWould you like to install from pre-built packages?\n\nSelect YES for faster installation from packages\nSelect NO to build from source (takes longer)" 15 70; then
+        build_method="packages"
+        echo "${OK} Selected build method: ${SKY_BLUE}Pre-built Packages${RESET}" | tee -a "$LOG"
+    else
+        echo "${OK} Selected build method: ${SKY_BLUE}From Source${RESET}" | tee -a "$LOG"
+    fi
+fi
+
 # Ask if the user wants to proceed
+if [ "$build_method" = "packages" ]; then
+    proceed_msg="Build method: PRE-BUILT PACKAGES\n\nThis will install pre-compiled Hyprland packages from the shared location.\n\nShall we proceed?"
+else
+    proceed_msg="Build method: FROM SOURCE\n\nVERY IMPORTANT!!!\nYou must be able to install from source by uncommenting deb-src on /etc/apt/sources.list else script may fail.\n\nShall we proceed?"
+fi
+
 if ! whiptail --title "Proceed with Installation?" \
-    --yesno "VERY IMPORTANT!!!\n\nYou must be able to install from source by uncommenting deb-src on /etc/apt/sources.list else script may fail to install Hyprland.\n\n\nShall we proceed?" 15 60; then
+    --yesno "$proceed_msg" 15 60; then
     echo -e "\n"
     echo "❌ ${INFO} You 🫵 chose ${YELLOW}NOT${RESET} to proceed. ${YELLOW}Exiting...${RESET}" | tee -a "$LOG"
     echo -e "\n"
@@ -375,55 +473,68 @@ echo "${INFO} Installing ${SKY_BLUE}necessary fonts...${RESET}" | tee -a "$LOG"
 sleep 1
 execute_script "fonts.sh"
 
-# Optional: refresh tags before building the Hyprland stack
-# Set FETCH_LATEST=1 to opt-in (default is no-refresh to honor pinned tags)
-if [ "${FETCH_LATEST:-0}" = "1" ] && [ -f ./refresh-hypr-tags.sh ]; then
-    chmod +x ./refresh-hypr-tags.sh || true
-    ./refresh-hypr-tags.sh
-fi
+# Build method selection: from source or pre-built packages
+if [ "$build_method" = "packages" ]; then
+    echo "${INFO} Installing from ${SKY_BLUE}pre-built packages${RESET}..." | tee -a "$LOG"
+    sleep 1
+    if install_from_packages; then
+        echo "${OK} Pre-built packages installed successfully!" | tee -a "$LOG"
+    else
+        echo "${ERROR} Failed to install pre-built packages. Exiting..." | tee -a "$LOG"
+        exit 1
+    fi
+else
+    # Build from source (original method)
+    # Optional: refresh tags before building the Hyprland stack
+    # Set FETCH_LATEST=1 to opt-in (default is no-refresh to honor pinned tags)
+    if [ "${FETCH_LATEST:-0}" = "1" ] && [ -f ./refresh-hypr-tags.sh ]; then
+        chmod +x ./refresh-hypr-tags.sh || true
+        ./refresh-hypr-tags.sh
+    fi
 
-echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland packages...${RESET}" | tee -a "$LOG"
-sleep 1
-execute_script "01-hypr-pkgs.sh"
-sleep 1
-execute_script "hyprutils.sh"
-sleep 1
-execute_script "hyprlang.sh"
-sleep 1
-execute_script "hyprcursor.sh"
-sleep 1
-execute_script "hyprwayland-scanner.sh"
-sleep 1
-execute_script "hyprgraphics.sh"
-sleep 1
-execute_script "aquamarine.sh"
-sleep 1
-execute_script "hyprland-qt-support.sh"
-sleep 1
-execute_script "hyprtoolkit.sh"
-sleep 1
-execute_script "hyprland-guiutils.sh"
-sleep 1
-execute_script "hyprland-protocols.sh"
-sleep 1
-# Ensure wayland-protocols (from source) is installed to satisfy Hyprland's >= 1.45 requirement
-execute_script "wayland-protocols-src.sh"
-sleep 1
-execute_script "xkbcommon.sh"
-sleep 1
-execute_script "hyprland.sh"
-sleep 1
-execute_script "hyprpolkitagent.sh"
-sleep 1
-execute_script "wallust.sh"
-sleep 1
-execute_script "swww.sh"
-sleep 1
-execute_script "rofi-wayland.sh"
-sleep 1
-execute_script "hyprlock.sh"
-sleep 1
-execute_script "hypridle.sh"
+    echo "${INFO} Installing ${SKY_BLUE}KooL Hyprland packages from source...${RESET}" | tee -a "$LOG"
+    sleep 1
+    execute_script "01-hypr-pkgs.sh"
+    sleep 1
+    execute_script "hyprutils.sh"
+    sleep 1
+    execute_script "hyprlang.sh"
+    sleep 1
+    execute_script "hyprcursor.sh"
+    sleep 1
+    execute_script "hyprwayland-scanner.sh"
+    sleep 1
+    execute_script "hyprgraphics.sh"
+    sleep 1
+    execute_script "aquamarine.sh"
+    sleep 1
+    execute_script "hyprland-qt-support.sh"
+    sleep 1
+    execute_script "hyprtoolkit.sh"
+    sleep 1
+    execute_script "hyprland-guiutils.sh"
+    sleep 1
+    execute_script "hyprland-protocols.sh"
+    sleep 1
+    # Ensure wayland-protocols (from source) is installed to satisfy Hyprland's >= 1.45 requirement
+    execute_script "wayland-protocols-src.sh"
+    sleep 1
+    execute_script "xkbcommon.sh"
+    sleep 1
+    execute_script "hyprland.sh"
+    sleep 1
+    execute_script "hyprpolkitagent.sh"
+    sleep 1
+    execute_script "wallust.sh"
+    sleep 1
+    execute_script "swww.sh"
+    sleep 1
+    execute_script "rofi-wayland.sh"
+    sleep 1
+    execute_script "hyprlock.sh"
+    sleep 1
+    execute_script "hypridle.sh"
+fi
 
 #execute_script "imagemagick.sh" #this is for compiling from source. 07 Sep 2024
 # execute_script "waybar-git.sh" only if waybar on repo is old

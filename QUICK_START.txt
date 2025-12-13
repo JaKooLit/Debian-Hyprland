@@ -1,0 +1,79 @@
+=== QUICK START - HYPRLAND INSTALLATION ===
+
+OPTION 1: Install from Pre-built Packages (RECOMMENDED - 5-10 minutes)
+---
+cd ~/Projects/Jak/Debian-Hyprland
+./install.sh
+→ When prompted, select YES to use pre-built packages
+→ Script automatically cleans old installations and installs fresh
+
+Benefits:
+✓ Fast (5-10 minutes vs 1-2 hours)
+✓ No build tools needed
+✓ Pre-tested and validated
+✓ 59 packages ready to install
+
+
+OPTION 2: Build from Source (1-2 hours)
+---
+cd ~/Projects/Jak/Debian-Hyprland
+./install.sh
+→ When prompted, select NO to build from source
+→ Script compiles everything from GitHub
+
+Benefits:
+✓ Latest upstream code
+✓ Custom build options possible
+✗ Takes much longer
+✗ Requires all build tools
+
+
+KEY CHANGES IN install.sh:
+---
+1. DEB_PACKAGES_SOURCE variable (line 6)
+   Current: /mnt/nas/Projects/Jak/debian-pkg/build/debs
+   Change this to use different package location
+
+2. clean_existing_hyprland() function (lines 123-160)
+   - Removes old .deb packages
+   - Removes source-built binaries
+   - Removes development files from /usr/local
+   - Updates library cache
+
+3. install_from_packages() function (lines 162-197)
+   - Validates packages exist
+   - Calls cleanup function
+   - Installs all .deb files
+   - Fixes dependencies
+
+
+PRE-BUILT PACKAGES:
+---
+Location: /mnt/nas/Projects/Jak/debian-pkg/build/debs
+Total: 59 .deb files
+Version: Hyprland 0.52.2 (and all dependencies)
+
+
+TROUBLESHOOTING:
+---
+Q: Script says "No .deb files found"
+A: Check if path is correct and accessible
+   ls -la /mnt/nas/Projects/Jak/debian-pkg/build/debs/
+
+Q: Installation fails with dependency errors
+A: Run manually: sudo apt-get install -f -y
+
+Q: Want to switch from source to packages?
+A: The cleanup function automatically handles this!
+   Just run ./install.sh again and choose packages
+
+
+MORE INFO:
+---
+See INSTALL_METHOD_GUIDE.md for detailed documentation
+See Install-Logs/ directory for error details if something fails
+
+
+READY TO GO:
+---
+./install.sh
