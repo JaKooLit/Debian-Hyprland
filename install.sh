@@ -186,20 +186,21 @@ install_from_packages() {
     
     # Install core packages only (skip plugins and debug symbols)
     echo "${INFO} Installing core Hyprland packages (excluding plugins and debug symbols)..." | tee -a "$LOG"
-    cd "$DEB_PACKAGES_SOURCE"
     
     # Install only essential packages, skip plugins and dbgsym
-    for deb in *.deb; do
+    for deb in "$DEB_PACKAGES_SOURCE"/*.deb; do
+        filename=$(basename "$deb")
+        
         # Skip debug symbols and plugins
-        if [[ "$deb" == *"-dbgsym_"* ]]; then
+        if [[ "$filename" == *"-dbgsym_"* ]]; then
             continue
         fi
-        if [[ "$deb" == "hyprland-plugin-"* ]]; then
+        if [[ "$filename" == "hyprland-plugin-"* ]]; then
             continue
         fi
         
-        echo "${INFO} Installing: $deb" | tee -a "$LOG"
-        sudo dpkg -i "$deb" 2>&1 | grep -E "(Setting up|Unpacking)" | tee -a "$LOG" || true
+        echo "${INFO} Installing: $filename" | tee -a "$LOG"
+        sudo dpkg -i "$deb" 2>&1 | tee -a "$LOG" || true
     done
     
     # Fix any dependency issues
