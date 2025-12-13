@@ -184,15 +184,31 @@ install_from_packages() {
     echo "${INFO} Updating package cache..." | tee -a "$LOG"
     sudo apt-get update 2>&1 | tail -3 | tee -a "$LOG"
     
-    # Install all packages
-    echo "${INFO} Installing packages..." | tee -a "$LOG"
-    sudo dpkg -i "$DEB_PACKAGES_SOURCE"/*.deb 2>&1 | tee -a "$LOG"
+    # Install core packages only (skip plugins and debug symbols)
+    echo "${INFO} Installing core Hyprland packages (excluding plugins and debug symbols)..." | tee -a "$LOG"
+    cd "$DEB_PACKAGES_SOURCE"
+    
+    # Install only essential packages, skip plugins and dbgsym
+    for deb in *.deb; do
+        # Skip debug symbols and plugins
+        if [[ "$deb" == *"-dbgsym_"* ]]; then
+            continue
+        fi
+        if [[ "$deb" == "hyprland-plugin-"* ]]; then
+            continue
+        fi
+        
+        echo "${INFO} Installing: $deb" | tee -a "$LOG"
+        sudo dpkg -i "$deb" 2>&1 | grep -E "(Setting up|Unpacking)" | tee -a "$LOG" || true
+    done
     
     # Fix any dependency issues
     echo "${INFO} Fixing any dependency issues..." | tee -a "$LOG"
-    sudo apt-get install -f -y 2>&1 | tee -a "$LOG"
+    sudo apt-get install -f -y 2>&1 | tail -5 | tee -a "$LOG"
     
-    echo "${OK} Package installation completed!" | tee -a "$LOG"
+    echo "${OK} Core package installation completed!" | tee -a "$LOG"
+    echo "${NOTE} To install plugins, run: sudo dpkg -i $DEB_PACKAGES_SOURCE/hyprland-plugin-*.deb" | tee -a "$LOG"
+    echo "${NOTE} To install debug symbols, run: sudo dpkg -i $DEB_PACKAGES_SOURCE/*-dbgsym*.deb" | tee -a "$LOG"
     return 0
 }
 
