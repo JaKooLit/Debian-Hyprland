@@ -209,6 +209,16 @@ fi
 
 echo "${OK} Quickshell installed successfully." | tee -a "$MLOG"
 
+# Install a wrapper to run Quickshell with system QML imports (avoids Nix/Flatpak overrides)
+WRAP=/usr/local/bin/qs-system
+sudo tee "$WRAP" >/dev/null <<'EOSH'
+#!/usr/bin/env bash
+# Run Quickshell preferring system Qt6 QML modules
+unset QML_IMPORT_PATH QML2_IMPORT_PATH
+exec qs "$@"
+EOSH
+sudo chmod +x "$WRAP" || true
+
 # Build logs already written to $PARENT_DIR/Install-Logs
 # Keep source directory for reference in case user wants to rebuild later
 
