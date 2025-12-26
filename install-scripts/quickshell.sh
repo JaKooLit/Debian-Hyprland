@@ -27,6 +27,12 @@ mkdir -p "$PARENT_DIR/Install-Logs"
 LOG="$PARENT_DIR/Install-Logs/install-$(date +%d-%H%M%S)_quickshell.log"
 MLOG="$PARENT_DIR/Install-Logs/install-$(date +%d-%H%M%S)_quickshell_build.log"
 
+# Debian Trixie guard: Quickshell not compatible on Trixie at this time
+if grep -Eiq '\bVERSION_CODENAME=trixie\b' /etc/os-release; then
+  echo "[INFO] debian Trixie not compatible with quickshell. Skipping quickshell install." | tee -a "$LOG"
+  exit 0
+fi
+
 # Refresh sudo credentials once (install_package uses sudo internally)
 if command -v sudo >/dev/null 2>&1; then
     sudo -v 2>/dev/null || sudo -v
