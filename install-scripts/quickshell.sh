@@ -209,12 +209,47 @@ fi
 
 echo "${OK} Quickshell installed successfully." | tee -a "$MLOG"
 
+# Provide a shim for missing QtQuick.Effects.RectangularShadow (wraps MultiEffect)
+OVR_DIR=/usr/local/share/quickshell-overrides/QtQuick/Effects
+sudo install -d -m 755 "$OVR_DIR"
+sudo tee "$OVR_DIR/RectangularShadow.qml" >/dev/null <<'QML'
+import QtQuick
+import QtQuick.Effects
+
+Item {
+    id: root
+    // Minimal RectangularShadow shim using MultiEffect
+    // Map common properties used by configs
+    property alias source: fx.source
+    property color color: "#000000"
+    property real opacity: 0.4
+    property real blur: 32
+    property real xOffset: 0
+    property real yOffset: 6
+    property real scale: 1.0
+
+    MultiEffect {
+        id: fx
+        anchors.fill: parent
+        shadowEnabled: true
+        shadowColor: root.color
+        shadowOpacity: root.opacity
+        shadowBlur: root.blur
+        shadowHorizontalOffset: root.xOffset
+        shadowVerticalOffset: root.yOffset
+        shadowScale: root.scale
+    }
+}
+QML
+
 # Install a wrapper to run Quickshell with system QML imports (avoids Nix/Flatpak overrides)
 WRAP=/usr/local/bin/qs-system
 sudo tee "$WRAP" >/dev/null <<'EOSH'
 #!/usr/bin/env bash
-# Run Quickshell preferring system Qt6 QML modules
-unset QML_IMPORT_PATH QML2_IMPORT_PATH
+# Run Quickshell preferring system Qt6 QML modules and overrides
+OVR=/usr/local/share/quickshell-overrides
+export QML_IMPORT_PATH="$OVR${QML_IMPORT_PATH:+:$QML_IMPORT_PATH}"
+export QML2_IMPORT_PATH="$OVR${QML2_IMPORT_PATH:+:$QML2_IMPORT_PATH}"
 exec qs "$@"
 EOSH
 sudo chmod +x "$WRAP" || true
