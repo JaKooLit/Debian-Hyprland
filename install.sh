@@ -302,6 +302,7 @@ gtk_themes="OFF"
 bluetooth="OFF"
 thunar="OFF"
 ags="OFF"
+quickshell="OFF"
 sddm="OFF"
 sddm_theme="OFF"
 xdph="OFF"
@@ -401,6 +402,7 @@ options_command+=(
     "bluetooth" "Do you want script to configure Bluetooth?" "OFF"
     "thunar" "Do you want Thunar file manager to be installed?" "OFF"
     "ags" "Install AGS v1 for Desktop-Like Overview" "OFF"
+    "quickshell" "Install Quickshell (QtQuick-based shell toolkit)?" "OFF"
     "xdph" "Install XDG-DESKTOP-PORTAL-HYPRLAND (for screen share)?" "OFF"
     "zsh" "Install zsh shell with Oh-My-Zsh?" "OFF"
     "pokemon" "Add Pokemon color scripts to your terminal?" "OFF"
@@ -591,6 +593,10 @@ for option in "${options[@]}"; do
     ags)
         echo "${INFO} Installing ${SKY_BLUE}AGS v1 for Desktop Overview...${RESET}" | tee -a "$LOG"
         execute_script "ags.sh"
+        ;;
+    quickshell)
+        echo "${INFO} Installing ${SKY_BLUE}Quickshell${RESET} (QtQuick-based shell toolkit)..." | tee -a "$LOG"
+        execute_script "quickshell.sh"
         ;;
     xdph)
         echo "${INFO} Installing ${SKY_BLUE}xdg-desktop-portal-hyprland...${RESET}" | tee -a "$LOG"
