@@ -91,11 +91,23 @@ USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-1}
   if [ "$USE_SYSTEM" = "1" ]; then
     export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
     export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
-    SYSTEM_FLAGS=("-DUSE_SYSTEM_HYPRUTILS=ON" "-DUSE_SYSTEM_HYPRLANG=ON")
+    SYSTEM_FLAGS=(
+      "-DUSE_SYSTEM_HYPRUTILS=ON"
+      "-DUSE_SYSTEM_HYPRLANG=ON"
+      "-DUSE_SYSTEM_HYPRWIRE=ON"
+    )
+    # Optional preflight: verify hyprwire is discoverable by CMake/pkg-config
+    if [ ! -e "/usr/local/lib/cmake/Hyprwire/HyprwireConfig.cmake" ] && ! pkg-config --exists hyprwire 2>/dev/null; then
+      echo "${NOTE} hyprwire not detected in /usr/local yet. Ensure install-scripts/hyprwire.sh ran successfully or set USE_SYSTEM_HYPRLIBS=0 to use subprojects."
+    fi
   else
     # Ensure we do not accidentally pick up mismatched system headers
     unset PKG_CONFIG_PATH || true
-    SYSTEM_FLAGS=("-DUSE_SYSTEM_HYPRUTILS=OFF" "-DUSE_SYSTEM_HYPRLANG=OFF")
+    SYSTEM_FLAGS=(
+      "-DUSE_SYSTEM_HYPRUTILS=OFF"
+      "-DUSE_SYSTEM_HYPRLANG=OFF"
+      "-DUSE_SYSTEM_HYPRWIRE=OFF"
+    )
   fi
 
   # Make sure submodules are present when building bundled deps
