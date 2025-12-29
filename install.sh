@@ -293,7 +293,7 @@ if [ -f "./hypr-tags.env" ]; then
             source "./hypr-tags.env"
         fi
     fi
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG HYPRWIRE_TAG WAYLAND_PROTOCOLS_TAG
 fi
 
 #################
@@ -539,6 +539,9 @@ else
     execute_script "wayland-protocols-src.sh"
     sleep 1
     execute_script "xkbcommon.sh"
+    sleep 1
+    # Build hyprwire before Hyprland (required by Hyprland >= 0.53)
+    execute_script "hyprwire.sh"
     sleep 1
     execute_script "hyprland.sh"
     sleep 1

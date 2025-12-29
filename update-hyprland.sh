@@ -44,6 +44,7 @@ DEFAULT_MODULES=(
     hyprland-protocols
     hyprland-qt-support
     hyprland-guiutils
+    hyprwire
     hyprland
 )
 
@@ -75,6 +76,7 @@ HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
 HYPRLAND_QTUTILS_TAG=v0.1.4
+HYPRWIRE_TAG=auto
 EOF
     fi
 }
@@ -156,6 +158,7 @@ fetch_latest_tags() {
         [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
         [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
         [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
+        [HYPRWIRE_TAG]="hyprwm/hyprwire"
     )
 
     declare -A tags
@@ -209,7 +212,7 @@ run_stack() {
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
     # Export tags so child scripts inherit them
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG HYPRWIRE_TAG WAYLAND_PROTOCOLS_TAG
 
     # Optionally install dependencies (not dry-run)
     if [[ $WITH_DEPS -eq 1 ]]; then
