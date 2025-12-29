@@ -47,12 +47,12 @@ if git clone --recursive -b "$tag" https://github.com/hyprwm/hyprwire.git; then
   cat > append_range_compat.hpp <<'EOF'
 #pragma once
 #include <iterator>
-#define APPEND_RANGE(vec, rng) (vec).insert((vec).end(), std::begin((rng)), std::end((rng)))
+#define APPEND_RANGE(vec, ...) (vec).insert((vec).end(), std::begin(__VA_ARGS__), std::end(__VA_ARGS__))
 EOF
   # Replace X.append_range(Y) -> APPEND_RANGE(X, Y)
-  git ls-files '*.cpp' | xargs sed -ri 's/([A-Za-z_][A-Za-z0-9_]*)\.append_range\(/APPEND_RANGE(\1, /g'
+git ls-files | grep -E '\\.(c|cc|cpp|cxx|h|hh|hpp)$' | xargs sed -ri 's/([A-Za-z_][A-Za-z0-9_]*)\.append_range\(/APPEND_RANGE(\1, /g'
 
-  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_FLAGS="-include ${PWD}/append_range_compat.hpp"
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_STANDARD=23 -DCMAKE_CXX_FLAGS="-include ${PWD}/append_range_compat.hpp"
   cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
   if [ $DO_INSTALL -eq 1 ]; then
     if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
