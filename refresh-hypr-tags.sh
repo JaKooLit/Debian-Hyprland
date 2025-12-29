@@ -54,7 +54,7 @@ declare -A cur
 while IFS='=' read -r k v; do
   [[ -z "${k:-}" || "$k" =~ ^# ]] && continue
   cur[$k]="$v"
-edone < "$TAGS_FILE"
+done < "$TAGS_FILE"
 
 # Fetch latest, but only update keys set to 'auto' or 'latest' unless forced
 FORCE=${FORCE:-0}
