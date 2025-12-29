@@ -49,10 +49,16 @@ if git clone --recursive -b "$tag" https://github.com/hyprwm/hyprwire.git; then
 #include <iterator>
 #define APPEND_RANGE(vec, ...) (vec).insert((vec).end(), std::begin(__VA_ARGS__), std::end(__VA_ARGS__))
 EOF
-  # Replace X.append_range(Y) -> APPEND_RANGE(X, Y)
-git ls-files | grep -E '\\.(c|cc|cpp|cxx|h|hh|hpp)$' | xargs sed -ri 's/([A-Za-z_][A-Za-z0-9_]*)\.append_range\(/APPEND_RANGE(\1, /g'
+# Replace X.append_range(Y) -> APPEND_RANGE(X, Y) only where it appears
+PATCH_FILES=$(grep -RIl --exclude-dir=.git 'append_range\(' . || true)
+if [ -n "$PATCH_FILES" ]; then
+  echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_]*)\.append_range\(/APPEND_RANGE(\1, /g'
+fi
 
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_STANDARD=23 -DCMAKE_CXX_FLAGS="-include ${PWD}/append_range_compat.hpp"
+# Absolute path for forced include
+APPEND_HDR="$(pwd)/append_range_compat.hpp"
+
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_STANDARD=23 -DCMAKE_CXX_FLAGS="-include ${APPEND_HDR}"
   cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
   if [ $DO_INSTALL -eq 1 ]; then
     if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
