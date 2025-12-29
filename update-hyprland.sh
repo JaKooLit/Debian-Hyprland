@@ -56,6 +56,8 @@ RESTORE=0
 VIA_HELPER=0
 NO_FETCH=0
 USE_SYSTEM_LIBS=1
+AUTO_FALLBACK=0
+MINIMAL=0
 ONLY_LIST=""
 SKIP_LIST=""
 SET_ARGS=()
@@ -247,7 +249,21 @@ run_stack() {
     if [[ -n "$ONLY_LIST" ]]; then
         IFS=',' read -r -a modules <<<"$ONLY_LIST"
     else
-        modules=("${DEFAULT_MODULES[@]}")
+        if [[ $MINIMAL -eq 1 ]]; then
+            modules=(
+                wayland-protocols-src
+                hyprland-protocols
+                hyprutils
+                hyprlang
+                aquamarine
+                hyprgraphics
+                hyprwayland-scanner
+                hyprwire
+                hyprland
+            )
+        else
+            modules=("${DEFAULT_MODULES[@]}")
+        fi
     fi
     if [[ -n "$SKIP_LIST" ]]; then
         IFS=',' read -r -a _skips <<<"$SKIP_LIST"
@@ -290,6 +306,20 @@ run_stack() {
             [[ "$m" == "hyprlang" ]] && has_lang=1
         done
         if [[ $has_hl -eq 1 ]]; then
+            # When using system libs, ensure required libs will be built if missing/outdated
+            if [[ $USE_SYSTEM_LIBS -eq 1 ]]; then
+                if ! pkg-config --exists hyprwire 2>/dev/null; then
+                    modules=("hyprwire" "${modules[@]}")
+                fi
+                req_utils_ver="0.11.0"
+                have_utils_ver=$(pkg-config --modversion hyprutils 2>/dev/null || echo "")
+                if [[ -z "$have_utils_ver" ]] || [[ "$(printf '%s\n' "$req_utils_ver" "$have_utils_ver" | sort -V | head -n1)" != "$req_utils_ver" ]]; then
+                    modules=("hyprutils" "${modules[@]}")
+                fi
+                if ! pkg-config --exists hyprlang 2>/dev/null; then
+                    modules=("hyprlang" "${modules[@]}")
+                fi
+            fi
             # ensure each prerequisite is present
             [[ $has_wp -eq 0 ]] && modules=("wayland-protocols-src" "${modules[@]}")
             [[ $has_hlprot -eq 0 ]] && modules=("hyprland-protocols" "${modules[@]}")
@@ -483,6 +513,14 @@ while [[ $# -gt 0 ]]; do
         USE_SYSTEM_LIBS=1
         shift
         ;;
+    --auto)
+        AUTO_FALLBACK=1
+        shift
+        ;;
+    --minimal)
+        MINIMAL=1
+        shift
+        ;;
     --skip)
         SKIP_LIST=${2:-}
         shift 2
@@ -555,4 +593,19 @@ if [[ $VIA_HELPER -eq 1 ]]; then
     exit $?
 fi
 
-run_stack
+if run_stack; then
+    exit 0
+else
+    rc=$?
+    if [[ $AUTO_FALLBACK -eq 1 && $USE_SYSTEM_LIBS -eq 1 ]]; then
+        echo "[WARN] Build failed with system libs. Retrying with bundled subprojects..." | tee -a "$SUMMARY_LOG"
+        USE_SYSTEM_LIBS=0
+        if run_stack; then
+            exit 0
+        else
+            exit $?
+        fi
+    else
+        exit $rc
+    fi
+fi
