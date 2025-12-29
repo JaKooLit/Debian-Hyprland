@@ -77,6 +77,23 @@ fi
 
 if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
   cd "Hyprland" || exit 1
+
+  # Compatibility shim for toolchains without std::vector::{insert_range,append_range}
+  RANGE_HDR="$(pwd)/hypr_range_compat.hpp"
+  cat > "$RANGE_HDR" <<'EOF'
+#pragma once
+#include <iterator>
+#include <ranges>
+#define INSERT_RANGE(vec, ...) (vec).insert((vec).end(), std::ranges::begin(__VA_ARGS__), std::ranges::end(__VA_ARGS__))
+#define APPEND_RANGE(vec, ...) (vec).insert((vec).end(), std::begin(__VA_ARGS__), std::end(__VA_ARGS__))
+EOF
+  # Rewrite x.insert_range(y) -> INSERT_RANGE(x, y) and x.append_range(y) -> APPEND_RANGE(x, y)
+  PATCH_FILES=$(grep -RIl --exclude-dir=.git '\.\s*\(insert_range\|append_range\)\s*\(' . || true)
+  if [ -n "$PATCH_FILES" ]; then
+    echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:\->\.]+)\s*\.\s*insert_range\s*\(/INSERT_RANGE(\1, /g'
+    echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:\->\.]+)\s*\.\s*append_range\s*\(/APPEND_RANGE(\1, /g'
+  fi
+
   # Apply patch only if it applies cleanly; otherwise skip
   if [ -f ../assets/0001-fix-hyprland-compile-issue.patch ]; then
     if patch -p1 --dry-run < ../assets/0001-fix-hyprland-compile-issue.patch >/dev/null 2>&1; then
@@ -123,7 +140,7 @@ USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-1}
     -DCMAKE_CXX_STANDARD=23
     -DCMAKE_CXX_STANDARD_REQUIRED=ON
     -DCMAKE_CXX_EXTENSIONS=ON
-    -DCMAKE_CXX_FLAGS="-Wno-unknown-warning-option"
+    -DCMAKE_CXX_FLAGS="-Wno-unknown-warning-option -include ${RANGE_HDR}"
     "${SYSTEM_FLAGS[@]}"
   )
   cmake -S . -B build "${CONFIG_FLAGS[@]}"
