@@ -84,13 +84,24 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
 #pragma once
 #include <iterator>
 #include <ranges>
+// insert at end using a range
 #define INSERT_RANGE(vec, ...) (vec).insert((vec).end(), std::ranges::begin(__VA_ARGS__), std::ranges::end(__VA_ARGS__))
+// insert at explicit position using a range
+#define INSERT_RANGE_AT(vec, pos, ...) (vec).insert((vec).end() == (pos) ? (vec).end() : (pos), std::ranges::begin(__VA_ARGS__), std::ranges::end(__VA_ARGS__))
+// append_range compatibility for containers expecting begin/end
 #define APPEND_RANGE(vec, ...) (vec).insert((vec).end(), std::begin(__VA_ARGS__), std::end(__VA_ARGS__))
 EOF
-  # Rewrite x.insert_range(y) -> INSERT_RANGE(x, y) and x.append_range(y) -> APPEND_RANGE(x, y)
-  PATCH_FILES=$(grep -RIl --exclude-dir=.git '\.\s*\(insert_range\|append_range\)\s*\(' . || true)
+  # Rewrite calls:
+  #   x.insert_range(pos, rng) -> INSERT_RANGE_AT(x, pos, rng)
+  #   x.insert_range(rng)      -> INSERT_RANGE(x, rng)
+  #   x.append_range(rng)      -> APPEND_RANGE(x, rng)
+  PATCH_FILES=$(grep -REIl --exclude-dir=.git '\.\s*(insert_range|append_range)\s*\(' . || true)
   if [ -n "$PATCH_FILES" ]; then
+    # Two-arg form first (pos, rng)
+    echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:\->\.]+)\s*\.\s*insert_range\s*\(\s*([^,]+?),\s*/INSERT_RANGE_AT(\1, \2, /g'
+    # One-arg form (rng only)
     echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:\->\.]+)\s*\.\s*insert_range\s*\(/INSERT_RANGE(\1, /g'
+    # append_range
     echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:\->\.]+)\s*\.\s*append_range\s*\(/APPEND_RANGE(\1, /g'
   fi
 
