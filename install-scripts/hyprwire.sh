@@ -42,7 +42,17 @@ fi
 # Clone and build
 if git clone --recursive -b "$tag" https://github.com/hyprwm/hyprwire.git; then
   cd hyprwire || exit 1
-  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+
+  # Temporary compatibility shim for compilers/libstdc++ without std::vector::append_range
+  cat > append_range_compat.hpp <<'EOF'
+#pragma once
+#include <iterator>
+#define APPEND_RANGE(vec, rng) (vec).insert((vec).end(), std::begin((rng)), std::end((rng)))
+EOF
+  # Replace X.append_range(Y) -> APPEND_RANGE(X, Y)
+  git ls-files '*.cpp' | xargs sed -ri 's/([A-Za-z_][A-Za-z0-9_]*)\.append_range\(/APPEND_RANGE(\1, /g'
+
+  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_FLAGS="-include ${PWD}/append_range_compat.hpp"
   cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
   if [ $DO_INSTALL -eq 1 ]; then
     if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
