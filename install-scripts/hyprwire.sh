@@ -52,7 +52,15 @@ EOF
 # Replace X.append_range(Y) -> APPEND_RANGE(X, Y) only where it appears
 PATCH_FILES=$(grep -RIl --exclude-dir=.git 'append_range\(' . || true)
 if [ -n "$PATCH_FILES" ]; then
-  echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_]*)\.append_range\(/APPEND_RANGE(\1, /g'
+  # Replace LHS .append_range(arg...) with APPEND_RANGE(LHS, arg...)
+  # LHS: identifiers and common member/ptr chains (this->obj, ns::obj.member)
+  echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:\->\.]+)\s*\.\s*append_range\s*\(/APPEND_RANGE(\1, /g'
+  # Show any remaining occurrences
+  REMAIN=$(grep -RIn --exclude-dir=.git '\.\s*append_range\s*\(' $PATCH_FILES || true)
+  if [ -n "$REMAIN" ]; then
+    echo "[WARN] Some append_range() calls remain unpatched:" >&2
+    echo "$REMAIN" >&2
+  fi
 fi
 
 # Absolute path for forced include
