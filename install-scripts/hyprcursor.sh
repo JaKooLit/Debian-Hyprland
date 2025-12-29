@@ -10,6 +10,12 @@ librsvg2-dev
 
 #specific branch or release
 tag="v0.1.13"
+# Auto-source centralized tags if env is unset; allow override via HYPRCURSOR_TAG if present
+if [ -z "${HYPRCURSOR_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
+if [ -n "${HYPRCURSOR_TAG:-}" ]; then tag="$HYPRCURSOR_TAG"; fi
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

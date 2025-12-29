@@ -5,6 +5,11 @@
 
 # Specific branch or release (honor env override)
 tag="v0.1.0"
+# Auto-source centralized tags if env is unset
+if [ -z "${HYPRWIRE_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 if [ -n "${HYPRWIRE_TAG:-}" ]; then tag="$HYPRWIRE_TAG"; fi
 
 # Dry-run support

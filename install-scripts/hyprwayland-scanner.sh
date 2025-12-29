@@ -9,6 +9,11 @@ scan_depend=(
 
 #specific branch or release
 tag="v0.4.5"
+# Auto-source centralized tags if env is unset
+if [ -z "${HYPRWAYLAND_SCANNER_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 # Allow environment override
 if [ -n "${HYPRWAYLAND_SCANNER_TAG:-}" ]; then tag="$HYPRWAYLAND_SCANNER_TAG"; fi
 

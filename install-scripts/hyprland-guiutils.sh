@@ -18,6 +18,11 @@ guiutils=(
 
 #specific branch or release
 tag="v0.2.0"
+# Auto-source centralized tags if env is unset
+if [ -z "${HYPRLAND_GUIUTILS_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 # Allow environment override
 if [ -n "${HYPRLAND_GUIUTILS_TAG:-}" ]; then tag="$HYPRLAND_GUIUTILS_TAG"; fi
 

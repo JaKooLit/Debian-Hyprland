@@ -5,6 +5,11 @@
 
 #specific branch or release
 tag="v0.10.4"
+# Auto-source centralized tags if env is unset
+if [ -z "${HYPRUTILS_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 # Allow environment override
 if [ -n "${HYPRUTILS_TAG:-}" ]; then tag="$HYPRUTILS_TAG"; fi
 

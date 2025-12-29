@@ -6,6 +6,11 @@
 
 #specific branch or release
 tag="v0.6.7"
+# Auto-source centralized tags if env is unset
+if [ -z "${HYPRLANG_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 # Allow environment override
 if [ -n "${HYPRLANG_TAG:-}" ]; then tag="$HYPRLANG_TAG"; fi
 
