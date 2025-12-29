@@ -211,8 +211,14 @@ fetch_latest_tags() {
 run_stack() {
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
-    # Export tags so child scripts inherit them
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG HYPRWIRE_TAG WAYLAND_PROTOCOLS_TAG
+    # Export all tag keys found in the tags file so child scripts inherit them
+    while IFS='=' read -r _k _v; do
+        [[ -z "${_k:-}" || "$_k" =~ ^# ]] && continue
+        # Only export keys that look like TAG variables or protocol version
+        if [[ "$_k" == *"_TAG" || "$_k" == "WAYLAND_PROTOCOLS_TAG" ]]; then
+            export "$_k"
+        fi
+    done < "$TAGS_FILE"
 
     # Optionally install dependencies (not dry-run)
     if [[ $WITH_DEPS -eq 1 ]]; then
@@ -507,7 +513,13 @@ if [[ $VIA_HELPER -eq 1 ]]; then
     fi
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    # Export all tag variables dynamically
+    while IFS='=' read -r _k _v; do
+        [[ -z "${_k:-}" || "$_k" =~ ^# ]] && continue
+        if [[ "$_k" == *"_TAG" || "$_k" == "WAYLAND_PROTOCOLS_TAG" ]]; then
+            export "$_k"
+        fi
+    done < "$TAGS_FILE"
     helper="$REPO_ROOT/dry-run-build.sh"
     if [[ ! -x "$helper" ]]; then
         echo "[ERROR] dry-run-build.sh not found or not executable at $helper" | tee -a "$SUMMARY_LOG"
