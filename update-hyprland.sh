@@ -55,6 +55,7 @@ FETCH_LATEST=0
 RESTORE=0
 VIA_HELPER=0
 NO_FETCH=0
+USE_SYSTEM_LIBS=1
 ONLY_LIST=""
 SKIP_LIST=""
 SET_ARGS=()
@@ -219,6 +220,18 @@ run_stack() {
             export "$_k"
         fi
     done < "$TAGS_FILE"
+
+    # Ensure toolchain paths prefer /usr/local for pkg-config and cmake finds
+    export PATH="/usr/local/bin:${PATH}"
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
+
+    # Propagate system/bundled selection to hyprland.sh
+    if [[ $USE_SYSTEM_LIBS -eq 1 ]]; then
+        export USE_SYSTEM_HYPRLIBS=1
+    else
+        export USE_SYSTEM_HYPRLIBS=0
+    fi
 
     # Optionally install dependencies (not dry-run)
     if [[ $WITH_DEPS -eq 1 ]]; then
@@ -461,6 +474,14 @@ while [[ $# -gt 0 ]]; do
     --only)
         ONLY_LIST=${2:-}
         shift 2
+        ;;
+    --bundled)
+        USE_SYSTEM_LIBS=0
+        shift
+        ;;
+    --system)
+        USE_SYSTEM_LIBS=1
+        shift
         ;;
     --skip)
         SKIP_LIST=${2:-}
