@@ -115,6 +115,7 @@ hyprland_dep=(
     libjpeg-dev
     libjxl-dev
     libmagic-dev
+    libmuparser-dev
     libpixman-1-dev
     libpugixml-dev
     libre2-dev

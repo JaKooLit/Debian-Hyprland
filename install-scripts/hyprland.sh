@@ -22,6 +22,7 @@ hyprland=(
   libglaze-dev
   libudis86-dev
   libinotify-ocaml-dev
+  libmuparser-dev
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
