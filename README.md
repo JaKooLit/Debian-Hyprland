@@ -193,7 +193,7 @@ chmod +x install.sh
 
 ## 🛎 **_DEBIAN Hyprland Dots UPDATING NOTES_**
 
-- With this new update to Debian-Hyprland the current Hyprland-Dots are now compatible with Debian. This applies only to Debian, not ubuntu.
+- With this new update to Debian-Hyprland the current Hyprland-Dots are now compatible with Debian.
 
 > [!NOTE]
 > This script does not setup audio. Kindly set up. If you have not, I recommend pipewire. `sudo apt install -y pipewire`
