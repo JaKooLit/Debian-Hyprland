@@ -17,6 +17,8 @@
 #   ./update-hyprland.sh --skip aquamarine --install
 #   ./update-hyprland.sh --with-deps --dry-run
 #   ./update-hyprland.sh --fetch-latest --via-helper   # use dry-run-build.sh for a summary-only run
+#   ./update-hyprland.sh --force-update --install      # override pinned versions (equivalent to FORCE=1)
+#   ./update-hyprland.sh --help                        # show this help
 #
 # Notes:
 # - Requires curl; for --fetch-latest, jq is recommended (installed by 00-dependencies.sh)
@@ -58,12 +60,33 @@ NO_FETCH=0
 USE_SYSTEM_LIBS=1
 AUTO_FALLBACK=0
 MINIMAL=0
+FORCE_UPDATE=0
 ONLY_LIST=""
 SKIP_LIST=""
 SET_ARGS=()
 
 usage() {
-    sed -n '2,120p' "$0" | sed -n '/^# /p' | sed 's/^# \{0,1\}//'
+    # Print the header comments (quick reference) followed by explicit flags overview
+    sed -n '2,140p' "$0" | sed -n '/^# /p' | sed 's/^# \{0,1\}//'
+    cat <<EOF
+
+Options:
+  -h, --help            Show this help and exit
+      --with-deps       Install build dependencies before running
+      --dry-run         Compile only; do not install
+      --install         Compile and install
+      --fetch-latest    Fetch latest releases from GitHub
+      --force-update    Override pinned values in hypr-tags.env (equivalent to FORCE=1)
+      --restore         Restore most recent hypr-tags.env backup
+      --only LIST       Comma-separated subset to build (e.g., hyprland,hyprutils)
+      --skip LIST       Comma-separated modules to skip
+      --bundled         Build Hyprland with bundled hypr* subprojects
+      --system          Prefer system-installed hypr* libraries (default)
+      --via-helper      Use dry-run-build.sh to summarize a dry-run
+      --minimal         Build minimal stack before hyprland
+      --no-fetch        Do not auto-fetch tags on install
+      --set K=V [...]   Set one or more tags (e.g., HYPRLAND=v0.53.0)
+EOF
 }
 
 ensure_tags_file() {
@@ -195,9 +218,14 @@ fetch_latest_tags() {
     done <"$TAGS_FILE"
 
     for k in "${!tags[@]}"; do
-        # Only override if pinned value is 'auto' or 'latest'
-        if [[ "${existing[$k]:-}" =~ ^(auto|latest)$ ]] || [[ -z "${existing[$k]:-}" ]]; then
+        if [[ $FORCE_UPDATE -eq 1 ]]; then
+            # Force override regardless of current value (matches FORCE=1 behavior in refresh-hypr-tags.sh)
             map[$k]="${tags[$k]}"
+        else
+            # Only override if pinned value is 'auto' or 'latest' (or unset)
+            if [[ "${existing[$k]:-}" =~ ^(auto|latest)$ ]] || [[ -z "${existing[$k]:-}" ]]; then
+                map[$k]="${tags[$k]}"
+            fi
         fi
     done
 
@@ -489,6 +517,10 @@ while [[ $# -gt 0 ]]; do
         FETCH_LATEST=1
         shift
         ;;
+    --force-update)
+        FORCE_UPDATE=1
+        shift
+        ;;
     --restore)
         RESTORE=1
         shift
@@ -546,6 +578,11 @@ if [[ $DO_INSTALL -eq 1 && $DO_DRY_RUN -eq 1 ]]; then
 fi
 
 ensure_tags_file
+
+# Env compatibility: honor FORCE=1 as alias for --force-update
+if [[ ${FORCE:-0} -eq 1 ]]; then
+    FORCE_UPDATE=1
+fi
 
 # Apply tag operations
 if [[ $RESTORE -eq 1 ]]; then

@@ -42,6 +42,12 @@ chmod +x ./update-hyprland.sh
 ./update-hyprland.sh --help  # Ver todas las opciones
 ```
 
+Flags clave:
+- --fetch-latest: obtiene las últimas etiquetas desde GitHub
+- --force-update: sobrescribe valores fijados en hypr-tags.env (equivalente a FORCE=1)
+- --dry-run / --install: solo compilar o compilar+instalar
+- --only / --skip: limitar qué módulos se ejecutan
+
 #### dry-run-build.sh
 Herramienta de pruebas que compila componentes sin instalarlos:
 ```bash
@@ -100,6 +106,9 @@ Ahora, este método automáticamente:
 ```bash
 # Obtiene últimas versiones de GitHub e instala
 ./update-hyprland.sh --fetch-latest --install
+
+# Si tu hypr-tags.env tiene valores fijados y deseas sobrescribirlos:
+./update-hyprland.sh --fetch-latest --force-update --install
 ```
 
 ### Método 4: Instalación con Preset
@@ -116,8 +125,11 @@ Enlace rápido: [Actualización 0.49/0.50.x → 0.51.1](#actualización-049050x-
 
 #### Opción A: Descubrimiento Automático
 ```bash
-# Obtiene las últimas etiquetas e instala
+# Obtiene las últimas etiquetas e instala (respeta versiones fijadas en hypr-tags.env)
 ./update-hyprland.sh --fetch-latest --install
+
+# Forzar la actualización de todas las etiquetas (mismo efecto que ejecutar refresh con FORCE=1)
+./update-hyprland.sh --fetch-latest --force-update --install
 ```
 
 #### Opción B: Versión Específica
@@ -253,6 +265,14 @@ find Install-Logs/ -name "*.log" -mtime +30 -delete
 ## Uso Avanzado
 
 ### Gestión de Versiones
+
+#### Forzar la Actualización de Todas las Etiquetas
+```bash
+# Sobrescribe valores fijados en hypr-tags.env con las últimas versiones
+./update-hyprland.sh --fetch-latest --force-update --dry-run
+# Instalar si la dry-run es exitosa
+./update-hyprland.sh --force-update --install
+```
 
 #### Copia de Seguridad y Restauración
 ```bash

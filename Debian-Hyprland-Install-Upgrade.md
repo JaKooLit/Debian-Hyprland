@@ -42,6 +42,12 @@ chmod +x ./update-hyprland.sh
 ./update-hyprland.sh --help  # View all options
 ```
 
+Key flags:
+- --fetch-latest: pull latest release tags from GitHub
+- --force-update: override pinned values in hypr-tags.env (equivalent to FORCE=1)
+- --dry-run / --install: compile-only or compile+install
+- --only / --skip: limit which modules run
+
 #### dry-run-build.sh
 A testing tool that compiles components without installing:
 ```bash
@@ -100,6 +106,9 @@ This method now automatically:
 ```bash
 # Fetch latest GitHub releases and install
 ./update-hyprland.sh --fetch-latest --install
+
+# If your hypr-tags.env has pinned values and you want to override them:
+./update-hyprland.sh --fetch-latest --force-update --install
 ```
 
 ### Method 4: Preset-Based Installation
@@ -116,8 +125,11 @@ Quick link: [Upgrade 0.49/0.50.x → 0.51.1](#upgrade-049050x--0511)
 
 #### Option A: Automatic Discovery
 ```bash
-# Fetch latest tags and install
+# Fetch latest tags and install (respects pins in hypr-tags.env)
 ./update-hyprland.sh --fetch-latest --install
+
+# Force-override pinned values (same effect as running refresh with FORCE=1)
+./update-hyprland.sh --fetch-latest --force-update --install
 ```
 
 #### Option B: Specific Version
@@ -253,6 +265,14 @@ find Install-Logs/ -name "*.log" -mtime +30 -delete
 ## Advanced Usage
 
 ### Tag Management
+
+#### Force Update All Tags
+```bash
+# Override pinned values in hypr-tags.env to the latest releases
+./update-hyprland.sh --fetch-latest --force-update --dry-run
+# Install if the dry-run succeeds
+./update-hyprland.sh --force-update --install
+```
 
 #### Backup and Restore
 ```bash
