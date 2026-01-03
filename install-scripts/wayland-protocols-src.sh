@@ -5,6 +5,11 @@
 
 #specific tag or release (e.g., 1.45, 1.46)
 tag="1.45"
+# Auto-source centralized tags if env is unset
+if [ -z "${WAYLAND_PROTOCOLS_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 # Allow environment override
 if [ -n "${WAYLAND_PROTOCOLS_TAG:-}" ]; then tag="$WAYLAND_PROTOCOLS_TAG"; fi
 

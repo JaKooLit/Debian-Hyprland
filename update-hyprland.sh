@@ -17,6 +17,8 @@
 #   ./update-hyprland.sh --skip aquamarine --install
 #   ./update-hyprland.sh --with-deps --dry-run
 #   ./update-hyprland.sh --fetch-latest --via-helper   # use dry-run-build.sh for a summary-only run
+#   ./update-hyprland.sh --force-update --install      # override pinned versions (equivalent to FORCE=1)
+#   ./update-hyprland.sh --help                        # show this help
 #
 # Notes:
 # - Requires curl; for --fetch-latest, jq is recommended (installed by 00-dependencies.sh)
@@ -44,6 +46,7 @@ DEFAULT_MODULES=(
     hyprland-protocols
     hyprland-qt-support
     hyprland-guiutils
+    hyprwire
     hyprland
 )
 
@@ -54,12 +57,36 @@ FETCH_LATEST=0
 RESTORE=0
 VIA_HELPER=0
 NO_FETCH=0
+USE_SYSTEM_LIBS=1
+AUTO_FALLBACK=0
+MINIMAL=0
+FORCE_UPDATE=0
 ONLY_LIST=""
 SKIP_LIST=""
 SET_ARGS=()
 
 usage() {
-    sed -n '2,120p' "$0" | sed -n '/^# /p' | sed 's/^# \{0,1\}//'
+    # Print the header comments (quick reference) followed by explicit flags overview
+    sed -n '2,140p' "$0" | sed -n '/^# /p' | sed 's/^# \{0,1\}//'
+    cat <<EOF
+
+Options:
+  -h, --help            Show this help and exit
+      --with-deps       Install build dependencies before running
+      --dry-run         Compile only; do not install
+      --install         Compile and install
+      --fetch-latest    Fetch latest releases from GitHub
+      --force-update    Override pinned values in hypr-tags.env (equivalent to FORCE=1)
+      --restore         Restore most recent hypr-tags.env backup
+      --only LIST       Comma-separated subset to build (e.g., hyprland,hyprutils)
+      --skip LIST       Comma-separated modules to skip
+      --bundled         Build Hyprland with bundled hypr* subprojects
+      --system          Prefer system-installed hypr* libraries (default)
+      --via-helper      Use dry-run-build.sh to summarize a dry-run
+      --minimal         Build minimal stack before hyprland
+      --no-fetch        Do not auto-fetch tags on install
+      --set K=V [...]   Set one or more tags (e.g., HYPRLAND=v0.53.0)
+EOF
 }
 
 ensure_tags_file() {
@@ -75,6 +102,7 @@ HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
 HYPRLAND_QTUTILS_TAG=v0.1.4
+HYPRWIRE_TAG=auto
 EOF
     fi
 }
@@ -156,6 +184,7 @@ fetch_latest_tags() {
         [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
         [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
         [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
+        [HYPRWIRE_TAG]="hyprwm/hyprwire"
     )
 
     declare -A tags
@@ -189,9 +218,14 @@ fetch_latest_tags() {
     done <"$TAGS_FILE"
 
     for k in "${!tags[@]}"; do
-        # Only override if pinned value is 'auto' or 'latest'
-        if [[ "${existing[$k]:-}" =~ ^(auto|latest)$ ]] || [[ -z "${existing[$k]:-}" ]]; then
+        if [[ $FORCE_UPDATE -eq 1 ]]; then
+            # Force override regardless of current value (matches FORCE=1 behavior in refresh-hypr-tags.sh)
             map[$k]="${tags[$k]}"
+        else
+            # Only override if pinned value is 'auto' or 'latest' (or unset)
+            if [[ "${existing[$k]:-}" =~ ^(auto|latest)$ ]] || [[ -z "${existing[$k]:-}" ]]; then
+                map[$k]="${tags[$k]}"
+            fi
         fi
     done
 
@@ -208,8 +242,26 @@ fetch_latest_tags() {
 run_stack() {
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
-    # Export tags so child scripts inherit them
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    # Export all tag keys found in the tags file so child scripts inherit them
+    while IFS='=' read -r _k _v; do
+        [[ -z "${_k:-}" || "$_k" =~ ^# ]] && continue
+        # Only export keys that look like TAG variables or protocol version
+        if [[ "$_k" == *"_TAG" || "$_k" == "WAYLAND_PROTOCOLS_TAG" ]]; then
+            export "$_k"
+        fi
+    done < "$TAGS_FILE"
+
+    # Ensure toolchain paths prefer /usr/local for pkg-config and cmake finds
+    export PATH="/usr/local/bin:${PATH}"
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
+
+    # Propagate system/bundled selection to hyprland.sh
+    if [[ $USE_SYSTEM_LIBS -eq 1 ]]; then
+        export USE_SYSTEM_HYPRLIBS=1
+    else
+        export USE_SYSTEM_HYPRLIBS=0
+    fi
 
     # Optionally install dependencies (not dry-run)
     if [[ $WITH_DEPS -eq 1 ]]; then
@@ -225,7 +277,21 @@ run_stack() {
     if [[ -n "$ONLY_LIST" ]]; then
         IFS=',' read -r -a modules <<<"$ONLY_LIST"
     else
-        modules=("${DEFAULT_MODULES[@]}")
+        if [[ $MINIMAL -eq 1 ]]; then
+            modules=(
+                wayland-protocols-src
+                hyprland-protocols
+                hyprutils
+                hyprlang
+                aquamarine
+                hyprgraphics
+                hyprwayland-scanner
+                hyprwire
+                hyprland
+            )
+        else
+            modules=("${DEFAULT_MODULES[@]}")
+        fi
     fi
     if [[ -n "$SKIP_LIST" ]]; then
         IFS=',' read -r -a _skips <<<"$SKIP_LIST"
@@ -268,6 +334,20 @@ run_stack() {
             [[ "$m" == "hyprlang" ]] && has_lang=1
         done
         if [[ $has_hl -eq 1 ]]; then
+            # When using system libs, ensure required libs will be built if missing/outdated
+            if [[ $USE_SYSTEM_LIBS -eq 1 ]]; then
+                if ! pkg-config --exists hyprwire 2>/dev/null; then
+                    modules=("hyprwire" "${modules[@]}")
+                fi
+                req_utils_ver="0.11.0"
+                have_utils_ver=$(pkg-config --modversion hyprutils 2>/dev/null || echo "")
+                if [[ -z "$have_utils_ver" ]] || [[ "$(printf '%s\n' "$req_utils_ver" "$have_utils_ver" | sort -V | head -n1)" != "$req_utils_ver" ]]; then
+                    modules=("hyprutils" "${modules[@]}")
+                fi
+                if ! pkg-config --exists hyprlang 2>/dev/null; then
+                    modules=("hyprlang" "${modules[@]}")
+                fi
+            fi
             # ensure each prerequisite is present
             [[ $has_wp -eq 0 ]] && modules=("wayland-protocols-src" "${modules[@]}")
             [[ $has_hlprot -eq 0 ]] && modules=("hyprland-protocols" "${modules[@]}")
@@ -437,6 +517,10 @@ while [[ $# -gt 0 ]]; do
         FETCH_LATEST=1
         shift
         ;;
+    --force-update)
+        FORCE_UPDATE=1
+        shift
+        ;;
     --restore)
         RESTORE=1
         shift
@@ -452,6 +536,22 @@ while [[ $# -gt 0 ]]; do
     --only)
         ONLY_LIST=${2:-}
         shift 2
+        ;;
+    --bundled)
+        USE_SYSTEM_LIBS=0
+        shift
+        ;;
+    --system)
+        USE_SYSTEM_LIBS=1
+        shift
+        ;;
+    --auto)
+        AUTO_FALLBACK=1
+        shift
+        ;;
+    --minimal)
+        MINIMAL=1
+        shift
         ;;
     --skip)
         SKIP_LIST=${2:-}
@@ -479,6 +579,11 @@ fi
 
 ensure_tags_file
 
+# Env compatibility: honor FORCE=1 as alias for --force-update
+if [[ ${FORCE:-0} -eq 1 ]]; then
+    FORCE_UPDATE=1
+fi
+
 # Apply tag operations
 if [[ $RESTORE -eq 1 ]]; then
     restore_tags
@@ -504,7 +609,13 @@ if [[ $VIA_HELPER -eq 1 ]]; then
     fi
     # shellcheck disable=SC1090
     source "$TAGS_FILE"
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG WAYLAND_PROTOCOLS_TAG
+    # Export all tag variables dynamically
+    while IFS='=' read -r _k _v; do
+        [[ -z "${_k:-}" || "$_k" =~ ^# ]] && continue
+        if [[ "$_k" == *"_TAG" || "$_k" == "WAYLAND_PROTOCOLS_TAG" ]]; then
+            export "$_k"
+        fi
+    done < "$TAGS_FILE"
     helper="$REPO_ROOT/dry-run-build.sh"
     if [[ ! -x "$helper" ]]; then
         echo "[ERROR] dry-run-build.sh not found or not executable at $helper" | tee -a "$SUMMARY_LOG"
@@ -519,4 +630,19 @@ if [[ $VIA_HELPER -eq 1 ]]; then
     exit $?
 fi
 
-run_stack
+if run_stack; then
+    exit 0
+else
+    rc=$?
+    if [[ $AUTO_FALLBACK -eq 1 && $USE_SYSTEM_LIBS -eq 1 ]]; then
+        echo "[WARN] Build failed with system libs. Retrying with bundled subprojects..." | tee -a "$SUMMARY_LOG"
+        USE_SYSTEM_LIBS=0
+        if run_stack; then
+            exit 0
+        else
+            exit $?
+        fi
+    else
+        exit $rc
+    fi
+fi

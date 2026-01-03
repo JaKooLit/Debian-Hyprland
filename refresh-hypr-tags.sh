@@ -13,7 +13,7 @@ SUMMARY_LOG="$LOG_DIR/refresh-tags-$TS.log"
 
 # Ensure tags file exists
 if [[ ! -f "$TAGS_FILE" ]]; then
-  cat > "$TAGS_FILE" <<'EOF'
+cat > "$TAGS_FILE" <<'EOF'
 HYPRLAND_TAG=v0.51.1
 AQUAMARINE_TAG=v0.9.3
 HYPRUTILS_TAG=v0.8.2
@@ -23,6 +23,7 @@ HYPRWAYLAND_SCANNER_TAG=v0.4.5
 HYPRLAND_PROTOCOLS_TAG=v0.6.4
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
 HYPRLAND_QTUTILS_TAG=v0.1.4
+HYPRWIRE_TAG=auto
 WAYLAND_PROTOCOLS_TAG=1.45
 EOF
 fi
@@ -47,6 +48,7 @@ declare -A repos=(
   [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
   [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
   [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
+  [HYPRWIRE_TAG]="hyprwm/hyprwire"
 )
 
 # Read existing
@@ -54,7 +56,7 @@ declare -A cur
 while IFS='=' read -r k v; do
   [[ -z "${k:-}" || "$k" =~ ^# ]] && continue
   cur[$k]="$v"
-edone < "$TAGS_FILE"
+done < "$TAGS_FILE"
 
 # Fetch latest, but only update keys set to 'auto' or 'latest' unless forced
 FORCE=${FORCE:-0}

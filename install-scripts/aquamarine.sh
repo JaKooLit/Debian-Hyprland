@@ -6,6 +6,11 @@
 
 #specific branch or release
 tag="v0.10.0"
+# Auto-source centralized tags if env is unset
+if [ -z "${AQUAMARINE_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
 # Allow environment override
 if [ -n "${AQUAMARINE_TAG:-}" ]; then tag="$AQUAMARINE_TAG"; fi
 
@@ -43,7 +48,7 @@ fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}aquamarine $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/aquamarine.git; then
+if git clone --recursive -b "$tag" https://github.com/hyprwm/aquamarine.git; then
     cd aquamarine || exit 1
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`

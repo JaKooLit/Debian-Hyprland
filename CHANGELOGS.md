@@ -1,5 +1,15 @@
 ## CHANGELOGS
 
+## 02 January 2026
+
+- Updated:
+    - `update-hyprland.sh` pinned to v0.52.2
+    - Currently only Debian testing and SID branches build v0.53+
+    - Added `--force-update` to refresh the pacakge versions if pinned
+        - This is only for debian testing+ versions
+    - `update-hyprland.sh` added `-/--help`
+    - documentation for updating hyprland
+
 ## 10 December 2025
 
 - Updated:
