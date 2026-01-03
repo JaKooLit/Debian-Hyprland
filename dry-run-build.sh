@@ -134,11 +134,16 @@ done
 
 # Summary
 {
-  echo "\nSummary (dry-run):"
+  printf "\nSummary (dry-run):\n"
   for mod in "${MODULES[@]}"; do
     printf "%-24s %s\n" "$mod" "${RESULTS[$mod]:-SKIPPED}"
   done
-  echo "\nLogs: individual module logs are under Install-Logs/. This summary: $SUMMARY_LOG"
+  # Show current tag values to make changes visible during dry-runs
+  if [[ -f "$REPO_ROOT/hypr-tags.env" ]]; then
+    printf "\nCurrent versions (from %s):\n" "$REPO_ROOT/hypr-tags.env"
+    grep -E '^[A-Z0-9_]+=' "$REPO_ROOT/hypr-tags.env" | sort
+  fi
+  printf "\nLogs: individual module logs are under Install-Logs/. This summary: %s\n" "$SUMMARY_LOG"
 } | tee -a "$SUMMARY_LOG"
 
 # Exit non-zero if any FAIL occurred

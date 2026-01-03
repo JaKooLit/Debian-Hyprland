@@ -160,6 +160,8 @@ set_tags_from_args() {
 fetch_latest_tags() {
     ensure_tags_file
     backup_tags
+    CHANGES_FILE="$LOG_DIR/update-delta-$TS.log"
+    : >"$CHANGES_FILE"
 
     # Require curl; jq is preferred. Fallback to grep/sed if jq is missing.
     if ! command -v curl >/dev/null 2>&1; then
@@ -217,6 +219,8 @@ fetch_latest_tags() {
         map[$k]="$v"
     done <"$TAGS_FILE"
 
+    # Build a list of changes (old -> new) according to override rules
+    changes=()
     for k in "${!tags[@]}"; do
         if [[ $FORCE_UPDATE -eq 1 ]]; then
             # Force override regardless of current value (matches FORCE=1 behavior in refresh-hypr-tags.sh)
@@ -228,6 +232,27 @@ fetch_latest_tags() {
             fi
         fi
     done
+
+    # Interactive confirmation before writing, if we have a TTY
+    if [[ -t 0 && ${#changes[@]} -gt 0 ]]; then
+        printf "\nPlanned tag updates (update-hyprland.sh):\n" | tee -a "$SUMMARY_LOG"
+        printf "%s\n" "${changes[@]}" | tee -a "$SUMMARY_LOG" | tee -a "$CHANGES_FILE"
+        printf "\nProceed with writing updated tags to %s? [Y/n]: " "$TAGS_FILE"
+        read -r ans || true
+        ans=${ans:-Y}
+        case "$ans" in
+            [nN]|[nN][oO])
+                echo "[INFO] User aborted tag update; leaving $TAGS_FILE unchanged." | tee -a "$SUMMARY_LOG"
+                # restore original copy
+                latest_bak=$(ls -1t "$TAGS_FILE".bak-* 2>/dev/null | head -n1 || true)
+                [[ -n "$latest_bak" ]] && cp "$latest_bak" "$TAGS_FILE"
+                return 0
+                ;;
+        esac
+    else
+        # non-interactive: still record changes
+        printf "%s\n" "${changes[@]}" >>"$CHANGES_FILE" || true
+    fi
 
     {
         for k in "${!map[@]}"; do
@@ -479,11 +504,21 @@ run_stack() {
     done
 
     {
-        echo "\nSummary:"
+        printf "\nSummary:\n"
         for mod in "${modules[@]}"; do
             printf "%-24s %s\n" "$mod" "${results[$mod]:-SKIPPED}"
         done
-        echo "\nLogs under: $LOG_DIR. This run: $SUMMARY_LOG"
+        # Show updated versions (final tag values)
+        if [[ -f "$TAGS_FILE" ]]; then
+            printf "\nUpdated versions (from %s):\n" "$TAGS_FILE"
+            grep -E '^[A-Z0-9_]+=' "$TAGS_FILE" | sort
+        fi
+        # Include change list if present
+        if [[ -f "$LOG_DIR/update-delta-$TS.log" ]]; then
+            printf "\nChanges applied this run:\n"
+            cat "$LOG_DIR/update-delta-$TS.log"
+        fi
+        printf "\nLogs under: %s. This run: %s\n" "$LOG_DIR" "$SUMMARY_LOG"
     } | tee -a "$SUMMARY_LOG"
 
     # Non-zero on any FAILs
