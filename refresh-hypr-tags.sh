@@ -56,10 +56,14 @@ declare -A cur
 while IFS='=' read -r k v; do
   [[ -z "${k:-}" || "$k" =~ ^# ]] && continue
   cur[$k]="$v"
+  # keep original snapshot for diff
+  orig_${k}="$v"
+  export orig_${k} 2>/dev/null || true
 done < "$TAGS_FILE"
 
 # Fetch latest, but only update keys set to 'auto' or 'latest' unless forced
 FORCE=${FORCE:-0}
+changes=()
 for key in "${!repos[@]}"; do
   repo="${repos[$key]}"
   url="https://api.github.com/repos/$repo/releases/latest"
@@ -78,11 +82,29 @@ for key in "${!repos[@]}"; do
   existing="${cur[$key]:-}"
   if [[ $FORCE -eq 1 ]] || [[ "$existing" =~ ^(auto|latest)$ ]] || [[ -z "$existing" ]]; then
     cur[$key]="$tag"
+    if [[ "$existing" != "$tag" ]]; then
+      changes+=("$key: $existing -> $tag")
+    fi
     echo "[OK] $key := $tag" | tee -a "$SUMMARY_LOG"
   else
     echo "[SKIP] $key pinned ($existing), not overriding" | tee -a "$SUMMARY_LOG"
   fi
 done
+
+# Show change summary and prompt before writing (interactive only)
+if [[ -t 0 && ${#changes[@]} -gt 0 ]]; then
+  printf "\nPlanned tag updates (refresh-hypr-tags.sh):\n" | tee -a "$SUMMARY_LOG"
+  printf "%s\n" "${changes[@]}" | tee -a "$SUMMARY_LOG"
+  printf "\nProceed with writing updated tags to %s? [Y/n]: " "$TAGS_FILE"
+  read -r ans || true
+  ans=${ans:-Y}
+  case "$ans" in
+    [nN]|[nN][oO])
+      echo "[INFO] User aborted tag update; leaving $TAGS_FILE unchanged." | tee -a "$SUMMARY_LOG"
+      exit 0
+      ;;
+  esac
+fi
 
 # Write back
 {

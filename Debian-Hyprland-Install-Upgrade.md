@@ -44,7 +44,7 @@ chmod +x ./update-hyprland.sh
 
 Key flags:
 - --fetch-latest: pull latest release tags from GitHub
-- --force-update: override pinned values in hypr-tags.env (equivalent to FORCE=1)
+- --force-update: override pinned values in hypr-tags.env (equivalent to FORCE=1). Implies --fetch-latest.
 - --dry-run / --install: compile-only or compile+install
 - --only / --skip: limit which modules run
 

@@ -9,6 +9,8 @@
         - This is only for debian testing+ versions
     - `update-hyprland.sh` added `-/--help`
     - documentation for updating hyprland
+- Added: version update to `refresh-tags` and `update-hyprland` script
+- Fixed: `--force-update` implies `--fetch-latest`
 
 ## 10 December 2025
 
