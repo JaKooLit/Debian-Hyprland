@@ -56,9 +56,6 @@ declare -A cur
 while IFS='=' read -r k v; do
   [[ -z "${k:-}" || "$k" =~ ^# ]] && continue
   cur[$k]="$v"
-  # keep original snapshot for diff
-  orig_${k}="$v"
-  export orig_${k} 2>/dev/null || true
 done < "$TAGS_FILE"
 
 # Fetch latest, but only update keys set to 'auto' or 'latest' unless forced

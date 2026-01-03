@@ -222,25 +222,13 @@ fetch_latest_tags() {
     # Build a list of changes (old -> new) according to override rules
     changes=()
     for k in "${!tags[@]}"; do
-        old="${existing[$k]:-}"
-        new="${tags[$k]}"
         if [[ $FORCE_UPDATE -eq 1 ]]; then
-            if [[ -n "$new" && "$old" != "$new" ]]; then
-                changes+=("$k: $old -> $new")
-                map[$k]="$new"
-            else
-                # still ensure map has at least old value
-                [[ -n "${map[$k]:-}" ]] || map[$k]="$old"
-            fi
+            # Force override regardless of current value (matches FORCE=1 behavior in refresh-hypr-tags.sh)
+            map[$k]="${tags[$k]}"
         else
-            if [[ "$old" =~ ^(auto|latest)$ ]] || [[ -z "$old" ]]; then
-                if [[ -n "$new" && "$old" != "$new" ]]; then
-                    changes+=("$k: $old -> $new")
-                    map[$k]="$new"
-                fi
-            else
-                # pinned: keep old
-                map[$k]="$old"
+            # Only override if pinned value is 'auto' or 'latest' (or unset)
+            if [[ "${existing[$k]:-}" =~ ^(auto|latest)$ ]] || [[ -z "${existing[$k]:-}" ]]; then
+                map[$k]="${tags[$k]}"
             fi
         fi
     done
@@ -566,8 +554,6 @@ while [[ $# -gt 0 ]]; do
         ;;
     --force-update)
         FORCE_UPDATE=1
-        # --force-update implies --fetch-latest so tags actually refresh
-        FETCH_LATEST=1
         shift
         ;;
     --restore)

@@ -44,7 +44,7 @@ chmod +x ./update-hyprland.sh
 
 Flags clave:
 - --fetch-latest: obtiene las últimas etiquetas desde GitHub
-- --force-update: sobrescribe valores fijados en hypr-tags.env (equivalente a FORCE=1). Implica --fetch-latest.
+- --force-update: sobrescribe valores fijados en hypr-tags.env (equivalente a FORCE=1)
 - --dry-run / --install: solo compilar o compilar+instalar
 - --only / --skip: limitar qué módulos se ejecutan
 
