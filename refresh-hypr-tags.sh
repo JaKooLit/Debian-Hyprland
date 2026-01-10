@@ -11,20 +11,61 @@ mkdir -p "$LOG_DIR"
 TS=$(date +%F-%H%M%S)
 SUMMARY_LOG="$LOG_DIR/refresh-tags-$TS.log"
 
+usage() {
+  cat <<'EOF'
+refresh-hypr-tags.sh
+Refresh hypr-tags.env with latest GitHub release tags.
+
+Usage:
+  ./refresh-hypr-tags.sh
+  FORCE=1 ./refresh-hypr-tags.sh
+  ./refresh-hypr-tags.sh --force-update
+  ./refresh-hypr-tags.sh --get-latest
+
+Notes:
+  - By default, only updates keys set to auto/latest (or unset).
+  - Use FORCE=1 or --force-update to override pinned values.
+EOF
+}
+
+# Arg parsing (minimal/backwards compatible)
+FORCE=${FORCE:-0}
+for arg in "$@"; do
+  case "$arg" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --force-update|--force)
+      FORCE=1
+      ;;
+    # Alias for user ergonomics; refresh always checks latest tags.
+    --get-latest|--fetch-latest)
+      :
+      ;;
+    *)
+      echo "[WARN] Unknown argument ignored: $arg" | tee -a "$SUMMARY_LOG"
+      ;;
+  esac
+done
+
 # Ensure tags file exists
 if [[ ! -f "$TAGS_FILE" ]]; then
 cat > "$TAGS_FILE" <<'EOF'
-HYPRLAND_TAG=v0.51.1
-AQUAMARINE_TAG=v0.9.3
-HYPRUTILS_TAG=v0.8.2
-HYPRLANG_TAG=v0.6.4
-HYPRGRAPHICS_TAG=v0.1.5
+# Default Hyprland stack versions
+HYPRLAND_TAG=v0.53.1
+AQUAMARINE_TAG=v0.10.0
+HYPRUTILS_TAG=v0.11.0
+HYPRLANG_TAG=v0.6.8
+HYPRGRAPHICS_TAG=v0.5.0
+HYPRTOOLKIT_TAG=v0.4.1
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
-HYPRLAND_PROTOCOLS_TAG=v0.6.4
+HYPRLAND_PROTOCOLS_TAG=v0.7.0
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-HYPRLAND_QTUTILS_TAG=v0.1.4
-HYPRWIRE_TAG=auto
-WAYLAND_PROTOCOLS_TAG=1.45
+HYPRLAND_QTUTILS_TAG=v0.1.5
+HYPRLAND_GUIUTILS_TAG=v0.2.0
+HYPRWIRE_TAG=v0.2.1
+WAYLAND_PROTOCOLS_TAG=1.46
 EOF
 fi
 
@@ -38,16 +79,19 @@ if ! command -v curl >/dev/null 2>&1; then
 fi
 
 # Map of env var -> repo
+# (Some modules may not publish GitHub releases; in that case the tag may not refresh.)
 declare -A repos=(
   [HYPRLAND_TAG]="hyprwm/Hyprland"
   [AQUAMARINE_TAG]="hyprwm/aquamarine"
   [HYPRUTILS_TAG]="hyprwm/hyprutils"
   [HYPRLANG_TAG]="hyprwm/hyprlang"
   [HYPRGRAPHICS_TAG]="hyprwm/hyprgraphics"
+  [HYPRTOOLKIT_TAG]="hyprwm/hyprtoolkit"
   [HYPRWAYLAND_SCANNER_TAG]="hyprwm/hyprwayland-scanner"
   [HYPRLAND_PROTOCOLS_TAG]="hyprwm/hyprland-protocols"
   [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
   [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
+  [HYPRLAND_GUIUTILS_TAG]="hyprwm/hyprland-guiutils"
   [HYPRWIRE_TAG]="hyprwm/hyprwire"
 )
 
@@ -59,13 +103,18 @@ while IFS='=' read -r k v; do
 done < "$TAGS_FILE"
 
 # Fetch latest, but only update keys set to 'auto' or 'latest' unless forced
-FORCE=${FORCE:-0}
 changes=()
 for key in "${!repos[@]}"; do
   repo="${repos[$key]}"
   url="https://api.github.com/repos/$repo/releases/latest"
   echo "[INFO] Checking latest tag for $repo" | tee -a "$SUMMARY_LOG"
-  body=$(curl -fsSL "$url" || true)
+
+  # Be resilient to transient GitHub API errors (e.g. 5xx).
+  body=$(curl -fsSL \
+    --retry 3 --retry-all-errors --retry-delay 1 \
+    -H 'Accept: application/vnd.github+json' \
+    "$url" || true)
+
   [[ -z "$body" ]] && { echo "[WARN] Empty response for $repo" | tee -a "$SUMMARY_LOG"; continue; }
   if command -v jq >/dev/null 2>&1; then
     tag=$(printf '%s' "$body" | jq -r '.tag_name // empty')

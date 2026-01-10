@@ -3,14 +3,16 @@
 ## 02 January 2026
 
 - Updated:
-    - `update-hyprland.sh` pinned to v0.52.2
-    - Currently only Debian testing and SID branches build v0.53+
-    - Added `--force-update` to refresh the pacakge versions if pinned
-        - This is only for debian testing+ versions
+    - Default Hyprland stack versions now target 0.53.1 (see `hypr-tags.env`)
+    - Added trixie compatibility mode flags:
+        - `--build-trixie` / `--no-trixie` (auto-detected on Debian 13)
+    - Added `--force-update` to refresh pinned package versions
     - `update-hyprland.sh` added `-/--help`
-    - documentation for updating hyprland
-- Added: version update to `refresh-tags` and `update-hyprland` script
-- Fixed: `--force-update` implies `--fetch-latest`
+    - Documentation for updating hyprland
+- Added:
+    - Version refresh improvements for `refresh-hypr-tags.sh` (accepts `--get-latest`, retries transient GitHub errors)
+- Fixed:
+    - `--force-update` implies `--fetch-latest`
 
 ## 10 December 2025
 

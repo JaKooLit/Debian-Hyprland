@@ -89,9 +89,9 @@ sudo nano /etc/apt/sources.list
 - 10 October 2025 Update!
 - Hyprland-Debian nows builds 0.51.1 from source!
     - The installer now can be used to install newer releases later
-    - If you are currently running 0.49, or 0.50, you can upgrade to 0.51.1
-        > Note: At this time Debian 13 (Trixie) can't compile v0.52.2+  
-        > Debian Testing and SID can
+- If you are currently running 0.49, or 0.50, you can upgrade to 0.51.1
+        > Note: Newer Hyprland versions (0.53.x+) may require compatibility shims on Debian 13 (Trixie).
+        > Use the provided update/install scripts with `--build-trixie` if needed.
     - You do not have to re-install everything, but re-running `install.sh` works also
     - Instructions are available in English and Spanish
 
