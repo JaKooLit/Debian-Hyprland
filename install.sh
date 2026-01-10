@@ -558,6 +558,14 @@ else
     execute_script "hypridle.sh"
 fi
 
+# Ensure /usr/local/lib is in the dynamic linker search path.
+# Many Hypr* components install shared libraries into /usr/local/lib; without this,
+# tools like hyprctl can fail to load (e.g. missing libhyprwire.so.*).
+if ! sudo grep -qxF "/usr/local/lib" /etc/ld.so.conf.d/usr-local.conf 2>/dev/null; then
+    echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/usr-local.conf >/dev/null
+fi
+sudo ldconfig 2>/dev/null || true
+
 #execute_script "imagemagick.sh" #this is for compiling from source. 07 Sep 2024
 # execute_script "waybar-git.sh" only if waybar on repo is old
 

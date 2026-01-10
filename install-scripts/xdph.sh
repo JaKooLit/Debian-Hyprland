@@ -29,6 +29,7 @@ if ! source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"; then
 fi
 
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_xdph.log"
+MLOG="install-$(date +%d-%H%M%S)_xdph2.log"
 
 # Check if the file exists and remove it
 [[ -f "/usr/lib/xdg-desktop-portal-hyprland" ]] && sudo rm "/usr/lib/xdg-desktop-portal-hyprland"
@@ -58,11 +59,12 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/xdg-desktop-portal-h
   cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B build
   cmake --build build
   if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
-    printf "${OK} ${MAGENTA}xdph $tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    printf "${OK} ${MAGENTA}xdph $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
     echo -e "${ERROR} Installation failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$MLOG"
   fi
-  mv $MLOG ../Install-Logs/ || true   
+  # Move the additional logs to Install-Logs directory
+  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/ || true
   cd ..
 else
   echo -e "${ERROR} Download failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$LOG"

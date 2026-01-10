@@ -503,6 +503,17 @@ run_stack() {
         fi
     done
 
+    # Ensure /usr/local/lib is in the dynamic linker search path after installs.
+    # Many Hypr* components install shared libraries into /usr/local/lib; without this,
+    # tools like hyprctl can fail to load (e.g. missing libhyprwire.so.*).
+    if [[ $DO_INSTALL -eq 1 ]]; then
+        echo "[INFO] Ensuring /usr/local/lib is in dynamic linker path" | tee -a "$SUMMARY_LOG"
+        if ! sudo grep -qxF "/usr/local/lib" /etc/ld.so.conf.d/usr-local.conf 2>/dev/null; then
+            echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/usr-local.conf >/dev/null
+        fi
+        sudo ldconfig || true
+    fi
+
     {
         printf "\nSummary:\n"
         for mod in "${modules[@]}"; do
