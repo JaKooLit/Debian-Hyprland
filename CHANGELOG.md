@@ -1,6 +1,14 @@
-## CHANGELOGS
+## CHANGELOG
 
 ## 02 January 2026
+
+### > Note: Support for Hyprland v0.53.1 is now available for Debian Stable (Trixie)
+
+### > At this time it should be considered BETA, not for production use
+
+### > Testing with NVIDIA has not yet been done
+
+### > Only Intel, AMD, and in VMs
 
 - Updated:
     - Default Hyprland stack versions now target 0.53.1 (see `hypr-tags.env`)
