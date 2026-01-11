@@ -70,10 +70,10 @@
 
 #### ⚠️ Pre-requisites and VERY Important
 
-- Do not run this installer as sudo or as root
-- This Installer requires a user with a priviledge to install packages
-- Needs a Debian 13 Trixie or greater. As it needs newer wayland packages!
-- edit your `/etc/apt/sources.list` and **remove** `#` on lines with `deb-src` to enable source packaging else will not install properly especially Hyprland
+- Do not run this installer with `sudo` or as `root`
+- This Installer requires a user with a `sudo` privileges to install packages
+- Debian 13 Trixie or greater. For the correct `GCC` compiler and libs
+- Edit your `/etc/apt/sources.list` and **remove** `#` on lines with `deb-src` to enable source packaging else will not install properly especially Hyprland
 
 ```bash
 sudo nano /etc/apt/sources.list
@@ -86,6 +86,16 @@ sudo nano /etc/apt/sources.list
 
 [Debian-Hyprland Changelogs](https://github.com/JaKooLit/Debian-Hyprland/blob/main/CHANGELOGS.md)
 
+- 10 January 2026 Update!
+- Debian now builds Hyprland v0.53.1!
+    - This requires the just released `Debian-Hyprland v2.9.4`
+    - Debian 13 (Trixie, aka Stable)'
+        - Does now support v0.53.1
+            - At this time is should not be used for production
+            - Testing is on going but NVIDIA GPUs have not been tested
+            - Intel, AMD, and in VMs only so far
+    - Debian Testing (Forky) and Unstable (SID) - Build 0.53.1 without issue
+      '
 - 10 October 2025 Update!
 - Hyprland-Debian nows builds 0.51.1 from source!
     - The installer now can be used to install newer releases later
