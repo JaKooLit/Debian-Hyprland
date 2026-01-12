@@ -118,6 +118,16 @@ EOF
         sed -ri 's|^\s*#embed\s+"\.{0,2}/\.{0,2}/example/hyprland\.conf"\s*$|#include "defaultConfig.bytes.inc"|g' src/config/defaultConfig.hpp || true
     fi
 
+    # Compatibility: some toolchains/libstdc++ do not support std::string operator+ with std::string_view.
+    # Hyprland hyprctl uses a std::string_view filename; ensure it is converted explicitly.
+    HYPRCTL_MAIN="$(pwd)/hyprctl/src/main.cpp"
+    if [ -f "$HYPRCTL_MAIN" ] && grep -q "std::string socketPath" "$HYPRCTL_MAIN"; then
+        # Only patch if we see a "+ filename" concatenation.
+        if grep -qE '\+\s*filename\s*;' "$HYPRCTL_MAIN"; then
+            sed -ri 's/\+\s*filename\s*;/+ std::string(filename);/g' "$HYPRCTL_MAIN" || true
+        fi
+    fi
+
     # Apply patch only if it applies cleanly; otherwise skip
     if [ -f ../assets/0001-fix-hyprland-compile-issue.patch ]; then
         if patch -p1 --dry-run <../assets/0001-fix-hyprland-compile-issue.patch >/dev/null 2>&1; then

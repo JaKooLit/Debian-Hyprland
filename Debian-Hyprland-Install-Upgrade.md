@@ -6,13 +6,15 @@ This guide covers the enhanced installation and upgrade workflows for KooL's Deb
 
 1. [Overview](#overview)
 2. [New Features](#new-features)
-3. [Central Version Management](#central-version-management)
-4. [Installation Methods](#installation-methods)
-5. [Upgrade Workflows](#upgrade-workflows)
-6. [Dry-Run Testing](#dry-run-testing)
-7. [Log Management](#log-management)
-8. [Advanced Usage](#advanced-usage)
-9. [Troubleshooting](#troubleshooting)
+3. [Flags Reference](#flags-reference)
+4. [Debian 13 (Trixie) Compatibility Mode](#debian-13-trixie-compatibility-mode)
+5. [Central Version Management](#central-version-management)
+6. [Installation Methods](#installation-methods)
+7. [Upgrade Workflows](#upgrade-workflows)
+8. [Dry-Run Testing](#dry-run-testing)
+9. [Log Management](#log-management)
+10. [Advanced Usage](#advanced-usage)
+11. [Troubleshooting](#troubleshooting)
 
 ## Overview
 
@@ -27,6 +29,7 @@ The Debian-Hyprland project now includes enhanced automation and management tool
 ## New Features
 
 ### Enhanced install.sh
+
 The original install.sh script now includes:
 
 - **Tag consistency**: Reads `hypr-tags.env` and exports version variables to all modules
@@ -36,48 +39,126 @@ The original install.sh script now includes:
 ### New Scripts
 
 #### update-hyprland.sh
+
 A focused tool for managing and building just the Hyprland stack:
+
 ```bash
 chmod +x ./update-hyprland.sh
 ./update-hyprland.sh --help  # View all options
 ```
 
 Key flags:
+
 - --fetch-latest: pull latest release tags from GitHub
 - --force-update: override pinned values in hypr-tags.env (equivalent to FORCE=1)
 - --dry-run / --install: compile-only or compile+install
 - --only / --skip: limit which modules run
+- --build-trixie / --no-trixie: enable/disable Debian 13 (trixie) compatibility mode (auto-detected by default)
 
 #### dry-run-build.sh
+
 A testing tool that compiles components without installing:
+
 ```bash
 chmod +x ./dry-run-build.sh
 ./dry-run-build.sh --help  # View all options
 ```
 
 #### wayland-protocols-src.sh
+
 A new module that builds wayland-protocols from source to satisfy Hyprland 0.51.x requirements.
+
+## Flags Reference
+
+This repo provides several "control flags" that affect how the stack is built. These are intentionally consistent across tools.
+
+### update-hyprland.sh flags
+
+- `--install` / `--dry-run`: compile+install vs compile-only
+- `--only <list>` / `--skip <list>`: run a subset of modules
+- `--fetch-latest`: query GitHub Releases and refresh tags
+- `--force-update`: override pinned values in `hypr-tags.env` (equivalent to `FORCE=1`)
+- `--build-trixie` / `--no-trixie`: enable/disable Debian 13 compatibility mode
+
+Notes:
+- When trixie mode is enabled, `update-hyprland.sh` exports `HYPR_BUILD_TRIXIE=1` and forwards `--build-trixie` to module scripts.
+
+### install.sh flags
+
+- `--preset <file>`: run unattended-ish using preset choices
+- `--build-trixie` / `--no-trixie`: enable/disable Debian 13 compatibility mode
+
+You can also force via env:
+
+```bash
+HYPR_BUILD_TRIXIE=1 ./install.sh
+```
+
+### refresh-hypr-tags.sh flags
+
+- `--get-latest`: refresh tags to latest GitHub releases (alias; refresh always checks latest)
+- `--force-update`: force-override pinned values
+
+Equivalent env form:
+
+```bash
+FORCE=1 ./refresh-hypr-tags.sh --get-latest
+```
+
+## Debian 13 (Trixie) Compatibility Mode
+
+Newer Hyprland versions (0.53.x+) may require source-level compatibility shims on Debian 13 (trixie) due to toolchain / standard-library feature gaps.
+
+- Default behavior is **auto-detect** (via `/etc/os-release`): if `ID=debian` and `VERSION_CODENAME=trixie`, compatibility mode turns on.
+- You can force it on/off:
+
+```bash
+# Force ON
+./update-hyprland.sh --build-trixie --install
+
+# Force OFF
+./update-hyprland.sh --no-trixie --install
+```
 
 ## Central Version Management
 
 ### hypr-tags.env
+
 This file contains version tags for all Hyprland components:
 
 ```bash
 # Current versions (example)
-HYPRLAND_TAG=v0.51.1
-AQUAMARINE_TAG=v0.9.3
-HYPRUTILS_TAG=v0.8.2
-HYPRLANG_TAG=v0.6.4
-HYPRGRAPHICS_TAG=v0.1.5
+HYPRLAND_TAG=v0.53.1
+AQUAMARINE_TAG=v0.10.0
+HYPRUTILS_TAG=v0.11.0
+HYPRLANG_TAG=v0.6.8
+HYPRGRAPHICS_TAG=v0.5.0
+HYPRTOOLKIT_TAG=v0.4.1
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
-HYPRLAND_PROTOCOLS_TAG=v0.6.4
+HYPRLAND_PROTOCOLS_TAG=v0.7.0
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-HYPRLAND_QTUTILS_TAG=v0.1.4
-WAYLAND_PROTOCOLS_TAG=1.45
+HYPRLAND_QTUTILS_TAG=v0.1.5
+HYPRLAND_GUIUTILS_TAG=v0.2.0
+HYPRWIRE_TAG=v0.2.1
+WAYLAND_PROTOCOLS_TAG=1.46
+```
+
+### Refreshing tags (latest releases)
+
+You can refresh `hypr-tags.env` to the latest GitHub release tags:
+
+```bash
+# Update only keys set to auto/latest (or unset)
+./refresh-hypr-tags.sh --get-latest
+
+# Force-override pinned keys
+FORCE=1 ./refresh-hypr-tags.sh --get-latest
+# or
+./refresh-hypr-tags.sh --force-update
 ```
 
 ### Version Override Priority
+
 1. Environment variables (exported)
 2. hypr-tags.env file values
 3. Default hardcoded values in each module
@@ -85,6 +166,7 @@ WAYLAND_PROTOCOLS_TAG=1.45
 ## Installation Methods
 
 ### Method 1: Original Full Installation
+
 ```bash
 # Standard installation with all components
 chmod +x install.sh
@@ -92,17 +174,20 @@ chmod +x install.sh
 ```
 
 This method now automatically:
+
 - Loads versions from `hypr-tags.env`
 - Installs wayland-protocols from source before Hyprland
 - Maintains proper dependency ordering
 
 ### Method 2: Hyprland Stack Only
+
 ```bash
 # Install only Hyprland and essential components
 ./update-hyprland.sh --install
 ```
 
 ### Method 3: Fresh Installation with Latest Versions
+
 ```bash
 # Fetch latest GitHub releases and install
 ./update-hyprland.sh --fetch-latest --install
@@ -112,6 +197,7 @@ This method now automatically:
 ```
 
 ### Method 4: Preset-Based Installation
+
 ```bash
 # Use preset file for automated choices
 ./install.sh --preset ./preset.sh
@@ -124,6 +210,7 @@ Quick link: [Upgrade 0.49/0.50.x → 0.51.1](#upgrade-049050x--0511)
 ### Upgrading to Latest Hyprland Release
 
 #### Option A: Automatic Discovery
+
 ```bash
 # Fetch latest tags and install (respects pins in hypr-tags.env)
 ./update-hyprland.sh --fetch-latest --install
@@ -133,12 +220,14 @@ Quick link: [Upgrade 0.49/0.50.x → 0.51.1](#upgrade-049050x--0511)
 ```
 
 #### Option B: Specific Version
+
 ```bash
 # Set specific Hyprland version
 ./update-hyprland.sh --set HYPRLAND=v0.51.1 --install
 ```
 
 #### Option C: Test Before Installing
+
 ```bash
 # Test compilation first, then install if successful
 ./update-hyprland.sh --fetch-latest --dry-run
@@ -171,6 +260,7 @@ Quick link: [Upgrade 0.49/0.50.x → 0.51.1](#upgrade-049050x--0511)
 If you’re currently on Hyprland 0.49 or 0.50.x, you can upgrade directly to 0.51.1 without a full reinstall.
 
 Recommended path:
+
 ```bash
 # Ensure hypr-tags.env pins the target version (skip if already v0.51.1)
 ./update-hyprland.sh --set HYPRLAND=v0.51.1
@@ -180,13 +270,17 @@ Recommended path:
 ```
 
 Notes:
+
 - The command will automatically ensure and run, as needed: wayland-protocols-src, hyprland-protocols, hyprutils, hyprlang, aquamarine, then hyprland.
 - Full install via install.sh is not required for this upgrade unless you also want to install/refresh optional modules (e.g., SDDM, Bluetooth, Thunar, AGS, dotfiles) or you’re recovering from a failed/partial setup.
 - Optional: add --with-deps to re-run dependency installation first:
+
 ```bash
 ./update-hyprland.sh --with-deps --install --only hyprland
 ```
+
 - You can dry-run first to validate:
+
 ```bash
 ./update-hyprland.sh --dry-run --only hyprland
 ```
@@ -194,6 +288,7 @@ Notes:
 ## Dry-Run Testing
 
 ### Why Use Dry-Run?
+
 - Test compilation compatibility before installing
 - Validate version combinations
 - Debug build issues without system changes
@@ -226,6 +321,7 @@ Notes:
 ```
 
 ### Dry-Run Limitations
+
 - **Dependencies still install**: apt operations run to ensure compilation succeeds
 - **pkg-config requirements**: Some components need system-installed prerequisites
 - **No system changes**: No files installed to /usr/local or /usr
@@ -233,7 +329,9 @@ Notes:
 ## Log Management
 
 ### Log Location
+
 All build activities generate timestamped logs in:
+
 ```
 Install-Logs/
 ├── 01-Hyprland-Install-Scripts-YYYY-MM-DD-HHMMSS.log  # Main install log
@@ -243,6 +341,7 @@ Install-Logs/
 ```
 
 ### Log Analysis
+
 ```bash
 # View most recent install log
 ls -t Install-Logs/*.log | head -1 | xargs less
@@ -255,8 +354,10 @@ cat Install-Logs/build-dry-run-*.log
 ```
 
 ### Log Retention
+
 - Logs accumulate over time for historical reference
 - Manual cleanup recommended periodically:
+
 ```bash
 # Keep only logs from last 30 days
 find Install-Logs/ -name "*.log" -mtime +30 -delete
@@ -267,6 +368,7 @@ find Install-Logs/ -name "*.log" -mtime +30 -delete
 ### Tag Management
 
 #### Force Update All Tags
+
 ```bash
 # Override pinned values in hypr-tags.env to the latest releases
 ./update-hyprland.sh --fetch-latest --force-update --dry-run
@@ -275,6 +377,7 @@ find Install-Logs/ -name "*.log" -mtime +30 -delete
 ```
 
 #### Backup and Restore
+
 ```bash
 # Tags are automatically backed up on changes
 # Restore most recent backup
@@ -282,6 +385,7 @@ find Install-Logs/ -name "*.log" -mtime +30 -delete
 ```
 
 #### Multiple Version Sets
+
 ```bash
 # Save current configuration
 cp hypr-tags.env hypr-tags-stable.env
@@ -296,6 +400,7 @@ cp hypr-tags-stable.env hypr-tags.env
 ### Environment Integration
 
 #### Custom PKG_CONFIG_PATH
+
 ```bash
 # Ensure /usr/local takes precedence
 export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
@@ -303,6 +408,7 @@ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PK
 ```
 
 #### Parallel Builds
+
 ```bash
 # Control build parallelism (default: all cores)
 export MAKEFLAGS="-j4"
@@ -312,6 +418,7 @@ export MAKEFLAGS="-j4"
 ### Development Workflow
 
 #### Testing New Releases
+
 ```bash
 # 1. Create test environment
 cp hypr-tags.env hypr-tags.backup
@@ -327,6 +434,7 @@ cp hypr-tags.env hypr-tags.backup
 ```
 
 #### Component Development
+
 ```bash
 # Install dependencies only
 ./update-hyprland.sh --with-deps --dry-run
@@ -343,9 +451,11 @@ tail -f Install-Logs/install-*hyprland*.log
 ### Common Issues
 
 #### CMake Configuration Fails
+
 **Symptoms**: "Package dependency requirement not satisfied"
 
 **Solutions**:
+
 ```bash
 # Install missing prerequisites
 ./update-hyprland.sh --install --only wayland-protocols-src,hyprutils,hyprlang
@@ -358,9 +468,11 @@ rm -rf hyprland aquamarine hyprutils hyprlang
 ```
 
 #### Compilation Errors
+
 **Symptoms**: "too many errors emitted"
 
 **Solutions**:
+
 ```bash
 # Update core dependencies first
 ./update-hyprland.sh --fetch-latest --install --only hyprutils,hyprlang
@@ -370,9 +482,11 @@ grep -A5 -B5 "error:" Install-Logs/install-*hyprland*.log
 ```
 
 #### Tag Not Found
+
 **Symptoms**: "Remote branch X not found"
 
 **Solutions**:
+
 ```bash
 # Check available tags
 git ls-remote --tags https://github.com/hyprwm/Hyprland
@@ -384,31 +498,34 @@ git ls-remote --tags https://github.com/hyprwm/Hyprland
 ### Debug Steps
 
 1. **Check system compatibility**:
-   ```bash
-   # Verify Debian version
-   cat /etc/os-release
-   
-   # Ensure deb-src enabled
-   grep -E "^deb-src" /etc/apt/sources.list
-   ```
+
+    ```bash
+    # Verify Debian version
+    cat /etc/os-release
+
+    # Ensure deb-src enabled
+    grep -E "^deb-src" /etc/apt/sources.list
+    ```
 
 2. **Verify environment**:
-   ```bash
-   # Check current tags
-   cat hypr-tags.env
-   
-   # Test dry-run first
-   ./update-hyprland.sh --dry-run --only hyprland
-   ```
+
+    ```bash
+    # Check current tags
+    cat hypr-tags.env
+
+    # Test dry-run first
+    ./update-hyprland.sh --dry-run --only hyprland
+    ```
 
 3. **Analyze logs**:
-   ```bash
-   # Most recent errors
-   grep -i "error\|fail" Install-Logs/*.log | tail -20
-   
-   # Module-specific issues
-   ls -la Install-Logs/install-*[component]*.log
-   ```
+
+    ```bash
+    # Most recent errors
+    grep -i "error\|fail" Install-Logs/*.log | tail -20
+
+    # Module-specific issues
+    ls -la Install-Logs/install-*[component]*.log
+    ```
 
 ### Getting Help
 
@@ -420,6 +537,7 @@ git ls-remote --tags https://github.com/hyprwm/Hyprland
 ## Migration from Previous Versions
 
 ### Existing Installations
+
 The new tools work alongside existing installations:
 
 ```bash
@@ -431,6 +549,7 @@ The new tools work alongside existing installations:
 ```
 
 ### Converting to Tag Management
+
 ```bash
 # Current versions are saved to hypr-tags.env automatically
 # Verify with:

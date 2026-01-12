@@ -72,7 +72,14 @@ fi
 printf "${INFO} Installing ${YELLOW}hyprland-guiutils $tag${RESET} ...\n"
 if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-guiutils.git; then
     cd hyprland-guiutils || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+    # Prefer /usr/local Hypr* libs so we don't accidentally link against copies in /lib.
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
+    export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH:-}"
+    export LDFLAGS="-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,-rpath-link,/usr/local/lib ${LDFLAGS:-}"
+    export CPPFLAGS="-I/usr/local/include ${CPPFLAGS:-}"
+
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
 	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if [ $DO_INSTALL -eq 1 ]; then
         if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then

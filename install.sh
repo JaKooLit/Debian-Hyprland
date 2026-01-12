@@ -105,6 +105,60 @@ if is_ubuntu; then
     exit 1
 fi
 
+# Debian Trixie compatibility mode
+# Some Hypr* components need source-level shims on Debian 13 (trixie) toolchains.
+# Default: auto-detect via /etc/os-release
+# Overrides:
+#   --build-trixie / --no-trixie
+#   HYPR_BUILD_TRIXIE=1|0 (env)
+TRIXIE_MODE="auto"
+PRESET_FILE=""
+
+# Parse a small set of supported CLI args (order-independent)
+# NOTE: install.sh historically used "$1"/"$2" for --preset; this keeps that working.
+args=("$@")
+for ((i=0; i<${#args[@]}; i++)); do
+    case "${args[$i]}" in
+        --build-trixie)
+            TRIXIE_MODE="on"
+            ;;
+        --no-trixie)
+            TRIXIE_MODE="off"
+            ;;
+        --preset)
+            if [ $((i+1)) -lt ${#args[@]} ]; then
+                PRESET_FILE="${args[$((i+1))]}"
+            fi
+            ;;
+    esac
+done
+
+# If env explicitly sets HYPR_BUILD_TRIXIE, honor it.
+if [ -n "${HYPR_BUILD_TRIXIE+x}" ]; then
+    if [ "${HYPR_BUILD_TRIXIE}" = "1" ]; then
+        TRIXIE_MODE="on"
+    elif [ "${HYPR_BUILD_TRIXIE}" = "0" ]; then
+        TRIXIE_MODE="off"
+    fi
+fi
+
+# Resolve auto-detection
+if [ "$TRIXIE_MODE" = "auto" ]; then
+    HYPR_BUILD_TRIXIE=0
+    if [ -f /etc/os-release ]; then
+        # shellcheck disable=SC1091
+        . /etc/os-release || true
+        if [ "${ID:-}" = "debian" ] && [ "${VERSION_CODENAME:-}" = "trixie" ]; then
+            HYPR_BUILD_TRIXIE=1
+        fi
+    fi
+elif [ "$TRIXIE_MODE" = "on" ]; then
+    HYPR_BUILD_TRIXIE=1
+else
+    HYPR_BUILD_TRIXIE=0
+fi
+export HYPR_BUILD_TRIXIE
+
 # install whiptails if detected not installed. Necessary for this version
 if ! command -v whiptail >/dev/null; then
     echo "${NOTE} - whiptail is not installed. Installing..." | tee -a "$LOG"
@@ -269,7 +323,13 @@ execute_script() {
     if [ -f "$script_path" ]; then
         chmod +x "$script_path"
         if [ -x "$script_path" ]; then
-            env "$script_path"
+            # Pass --build-trixie to all module scripts when in trixie compatibility mode.
+            # Scripts that don't care should simply ignore unknown args.
+            if [ "${HYPR_BUILD_TRIXIE:-0}" = "1" ]; then
+                env HYPR_BUILD_TRIXIE=1 "$script_path" --build-trixie
+            else
+                env HYPR_BUILD_TRIXIE=0 "$script_path"
+            fi
         else
             echo "Failed to make script '$script' executable." | tee -a "$LOG"
         fi
@@ -323,9 +383,9 @@ load_preset() {
     fi
 }
 
-# Check if --preset argument is passed
-if [[ "$1" == "--preset" && -n "$2" ]]; then
-    load_preset "$2"
+# Check if --preset argument is passed (order-independent)
+if [ -n "${PRESET_FILE:-}" ]; then
+    load_preset "$PRESET_FILE"
 fi
 
 # List of services to check for active login managers
@@ -557,6 +617,14 @@ else
     sleep 1
     execute_script "hypridle.sh"
 fi
+
+# Ensure /usr/local/lib is in the dynamic linker search path.
+# Many Hypr* components install shared libraries into /usr/local/lib; without this,
+# tools like hyprctl can fail to load (e.g. missing libhyprwire.so.*).
+if ! sudo grep -qxF "/usr/local/lib" /etc/ld.so.conf.d/usr-local.conf 2>/dev/null; then
+    echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/usr-local.conf >/dev/null
+fi
+sudo ldconfig 2>/dev/null || true
 
 #execute_script "imagemagick.sh" #this is for compiling from source. 07 Sep 2024
 # execute_script "waybar-git.sh" only if waybar on repo is old

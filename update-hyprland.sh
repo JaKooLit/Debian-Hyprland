@@ -65,6 +65,12 @@ ONLY_LIST=""
 SKIP_LIST=""
 SET_ARGS=()
 
+# Trixie compatibility mode
+# - auto: enable on Debian trixie (useful for toolchain/library shims)
+# - on: force enable via --build-trixie
+# - off: force disable via --no-trixie
+TRIXIE_MODE="auto"
+
 usage() {
     # Print the header comments (quick reference) followed by explicit flags overview
     sed -n '2,140p' "$0" | sed -n '/^# /p' | sed 's/^# \{0,1\}//'
@@ -85,6 +91,8 @@ Options:
       --via-helper      Use dry-run-build.sh to summarize a dry-run
       --minimal         Build minimal stack before hyprland
       --no-fetch        Do not auto-fetch tags on install
+      --build-trixie    Force Debian 13 (trixie) compatibility mode (enables needed shims)
+      --no-trixie       Disable trixie compatibility mode
       --set K=V [...]   Set one or more tags (e.g., HYPRLAND=v0.53.0)
 EOF
 }
@@ -93,16 +101,18 @@ ensure_tags_file() {
     if [[ ! -f "$TAGS_FILE" ]]; then
         echo "[INFO] Creating default tags file: $TAGS_FILE" | tee -a "$SUMMARY_LOG"
         cat >"$TAGS_FILE" <<'EOF'
-HYPRLAND_TAG=v0.50.1
-AQUAMARINE_TAG=v0.9.2
-HYPRUTILS_TAG=v0.8.2
-HYPRLANG_TAG=v0.6.4
-HYPRGRAPHICS_TAG=v0.1.5
+# Default Hyprland stack versions
+# (You can override any of these via --set or by editing hypr-tags.env.)
+HYPRLAND_TAG=v0.53.1
+AQUAMARINE_TAG=v0.10.0
+HYPRUTILS_TAG=v0.11.0
+HYPRLANG_TAG=v0.6.8
+HYPRGRAPHICS_TAG=v0.5.0
 HYPRWAYLAND_SCANNER_TAG=v0.4.5
-HYPRLAND_PROTOCOLS_TAG=v0.6.4
+HYPRLAND_PROTOCOLS_TAG=v0.7.0
 HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-HYPRLAND_QTUTILS_TAG=v0.1.4
-HYPRWIRE_TAG=auto
+HYPRLAND_QTUTILS_TAG=v0.1.5
+HYPRWIRE_TAG=v0.2.1
 EOF
     fi
 }
@@ -280,6 +290,20 @@ run_stack() {
     export PATH="/usr/local/bin:${PATH}"
     export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
     export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
+
+    # Auto-detect Debian trixie unless explicitly overridden.
+    if [[ "$TRIXIE_MODE" == "auto" ]] && [[ -f /etc/os-release ]]; then
+        # shellcheck disable=SC1091
+        . /etc/os-release || true
+        if [[ "${ID:-}" == "debian" ]] && [[ "${VERSION_CODENAME:-}" == "trixie" ]]; then
+            TRIXIE_MODE="on"
+        fi
+    fi
+    if [[ "$TRIXIE_MODE" == "on" ]]; then
+        export HYPR_BUILD_TRIXIE=1
+    else
+        export HYPR_BUILD_TRIXIE=0
+    fi
 
     # Propagate system/bundled selection to hyprland.sh
     if [[ $USE_SYSTEM_LIBS -eq 1 ]]; then
@@ -496,12 +520,32 @@ run_stack() {
             continue
         }
         chmod +x "$script" || true
+
+        # Extra args for module scripts
+        # Most scripts ignore unknown flags, so this is safe and lets us add future
+        # trixie-specific shims without changing update-hyprland.sh again.
+        extra_args=()
+        if [[ "${HYPR_BUILD_TRIXIE:-0}" == "1" ]]; then
+            extra_args+=("--build-trixie")
+        fi
+
         if [[ $DO_DRY_RUN -eq 1 ]]; then
-            if DRY_RUN=1 "$script"; then results[$mod]="PASS"; else results[$mod]="FAIL"; fi
+            if DRY_RUN=1 "$script" "${extra_args[@]}"; then results[$mod]="PASS"; else results[$mod]="FAIL"; fi
         else
-            if "$script"; then results[$mod]="INSTALLED"; else results[$mod]="FAIL"; fi
+            if "$script" "${extra_args[@]}"; then results[$mod]="INSTALLED"; else results[$mod]="FAIL"; fi
         fi
     done
+
+    # Ensure /usr/local/lib is in the dynamic linker search path after installs.
+    # Many Hypr* components install shared libraries into /usr/local/lib; without this,
+    # tools like hyprctl can fail to load (e.g. missing libhyprwire.so.*).
+    if [[ $DO_INSTALL -eq 1 ]]; then
+        echo "[INFO] Ensuring /usr/local/lib is in dynamic linker path" | tee -a "$SUMMARY_LOG"
+        if ! sudo grep -qxF "/usr/local/lib" /etc/ld.so.conf.d/usr-local.conf 2>/dev/null; then
+            echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/usr-local.conf >/dev/null
+        fi
+        sudo ldconfig || true
+    fi
 
     {
         printf "\nSummary:\n"
@@ -566,6 +610,14 @@ while [[ $# -gt 0 ]]; do
         ;;
     --no-fetch)
         NO_FETCH=1
+        shift
+        ;;
+    --build-trixie)
+        TRIXIE_MODE="on"
+        shift
+        ;;
+    --no-trixie)
+        TRIXIE_MODE="off"
         shift
         ;;
     --only)
