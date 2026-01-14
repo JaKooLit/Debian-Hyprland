@@ -35,7 +35,7 @@
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds"><kbd> <br> Keybinds <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/FAQ"><kbd> <br> FAQ <br> </kbd></a>&ensp;&ensp;
-  <a href="https://discord.gg/kool-tech-world"><kbd> <br> Discord <br> </kbd></a>
+  <a href="https://discord.gg/RZJgC7KAKm"><kbd> <br> Discord <br> </kbd></a>
 </div><br>
 
 <p align="center">
