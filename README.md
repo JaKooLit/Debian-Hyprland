@@ -35,7 +35,7 @@
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki"><kbd> <br> Wiki <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds"><kbd> <br> Keybinds <br> </kbd></a>&ensp;&ensp;
   <a href="https://github.com/JaKooLit/Hyprland-Dots/wiki/FAQ"><kbd> <br> FAQ <br> </kbd></a>&ensp;&ensp;
-  <a href="https://discord.gg/kool-tech-world"><kbd> <br> Discord <br> </kbd></a>
+  <a href="https://discord.gg/RZJgC7KAKm"><kbd> <br> Discord <br> </kbd></a>
 </div><br>
 
 <p align="center">
@@ -70,34 +70,54 @@
 
 #### ⚠️ Pre-requisites and VERY Important
 
-- Do not run this installer as sudo or as root
-- This Installer requires a user with a priviledge to install packages
-- Needs a Debian 13 Trixie or greater. As it needs newer wayland packages!
-- edit your `/etc/apt/sources.list` and **remove** `#` on lines with `deb-src` to enable source packaging else will not install properly especially Hyprland
+> Note: At this time `Kali` Linux is not supported.
+> A number of users have reported issues installing and using the Dotfiles
+
+- Do not run this installer with `sudo` or as `root`
+- This Installer requires a user with a `sudo` privileges to install packages
+- Debian 13 Trixie or greater. For the correct `GCC` compiler and libs
+- Edit your `/etc/apt/sources.list` and **remove** `#` on lines with `deb-src` to enable source packaging else will not install properly especially Hyprland
 
 ```bash
 sudo nano /etc/apt/sources.list
 ```
 
-- delete # on the lines with 'deb-src'
-- ensure to allow to install non-free drivers especially for users with NVIDIA gpus. You can also install non-free drivers if required. Edit install-scripts/nvidia.sh and change the nvidia stuff's if required
+- Delete `#` on the lines with `deb-src`
+- Make sure to install `non-free` repository especially for users with NVIDIA GPUs. You can also install non-free drivers if required.
+    - Edit `install-scripts/nvidia.sh` and change the NVIDIA settings if required
+
+> Note: For users with newer NVIDIA GPUs, especially, RTX5000 series, we strongly suggest you manually install the current `open` drivers for NVIDIA
+> Not install them from Jak's Debian install script
 
 ### 🪧🪧🪧 ANNOUNCEMENT 🪧🪧🪧
 
 [Debian-Hyprland Changelogs](https://github.com/JaKooLit/Debian-Hyprland/blob/main/CHANGELOGS.md)
 
+- 10 January 2026 Update!
+- Debian now builds Hyprland v0.53.1!
+    - This requires the just released `Debian-Hyprland v2.9.4` installer
+    - Debian 13 (`Trixie`, aka `Stable`)
+        - While it does now support v0.53.1
+            - At this time it should not be used for production
+            - Testing is on going but NVIDIA GPUs have not been tested
+            - Intel, AMD, and in VMs only so far
+    - Debian Testing (`Forky`) and Unstable (`SID`) - Build and run Hyprland v0.53.1 without issue
+
 - 10 October 2025 Update!
 - Hyprland-Debian nows builds 0.51.1 from source!
     - The installer now can be used to install newer releases later
-- If you are currently running 0.49, or 0.50, you can upgrade to 0.51.1
-        > Note: Newer Hyprland versions (0.53.x+) may require compatibility shims on Debian 13 (Trixie).
-        > Use the provided update/install scripts with `--build-trixie` if needed.
+- If you are currently running 0.49, or 0.50, you can upgrade to 0.51.1 > Note: Newer Hyprland versions (0.53.x+) may require compatibility shims on Debian 13 (Trixie). > Use the provided update/install scripts with `--build-trixie` if needed.
     - You do not have to re-install everything, but re-running `install.sh` works also
     - Instructions are available in English and Spanish
 
 #### ✨ Some notes on this installer / Prerequisites
 
-- Recommend to install SDDM. Apart from GDM and SDDM, any other Login Manager may not work nor launch Hyprland. However, hyprland can be launched through tty by type Hyprland
+- Recommend installing SDDM. Apart from GDM and SDDM, other Login Managers may not launch `Hyprland`.
+    - yprland can be launched through tty by typing:
+        - Prior to Hyprland v0.53.x `Hyprland` or `hyprland`
+        - After Hyprland v0.53.x you must use `start-hyprland`
+            - Otherwise will generate and error at start up.
+            - You might need to update the login manager if not using SDDM or GDM
 - 🕯️ network-manager-gnome (nm-applet) _has been removed_ from the packages to install. This is because it is known to restart the networkmanager causing issues in the installation process. After you boot up, inorder to get the network-manager applet, install network-manager-gnome. `sudo apt install network-manager-gnome` See below if your network or wifi became unmanaged after installation
 
 ### 🚩 changing login manager to SDDM
@@ -189,7 +209,9 @@ chmod +x install.sh
 
 **Most common question I got is, Hey Ja, Why the heck it is taking long time to install? Other distro like Arch its only a minute or two. Why here takes like forever?!?!?**
 
-- Well, most of the core packages are downloaded and Build and compiled from _SOURCE_. Unlike Other distros, they already have prepacked binary that can just download and install.
+- Most of the core packages are downloaded, some have to be compiled from source.
+    - Unlike Other distros, these packages already have prepacked binary that can just download and install.
+    - This adds to the install time
 
 ## 🛎 **_DEBIAN Hyprland Dots UPDATING NOTES_**
 
@@ -207,7 +229,7 @@ Head over to wiki Link [`WIKI`](https://github.com/JaKooLit/Hyprland-Dots/wiki)
 Keybinds [`CLICK`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds)
 
 > [!TIP]
-> KooL Hyprland has a searchable keybind function via rofi. (SUPER SHIFT K) or right click the `HINTS` waybar button
+> KooL Hyprland has a searchable keybind rofi menu. (`SUPER SHIFT K`) or right click the `HINTS` waybar button
 
 #### 🙋 👋 Having issues or questions?
 
@@ -221,7 +243,9 @@ Keybinds [`CLICK`](https://github.com/JaKooLit/Hyprland-Dots/wiki/Keybinds)
 - `./install-scripts/sddm.sh` - to reinstall sddm
 
 > [!IMPORTANT]
-> DO NOT CD into install-scripts directory as script as it will fail. Scripts are designed to ran outside install-scripts directory for installation logging purposes.
+> DO NOT CD into `install-scripts` directory to run any of those scripts
+> The scripts are designed to ran outside `install-scripts` directory.
+> If you do the scripts will fail.
 
 #### 🛣️ Roadmap
 
@@ -240,7 +264,7 @@ log into your account
 )
 ```
 
-- add "env = WLR_DRM_DEVICES,/dev/dri/cardX" to the ENVvariables config `~/.config/hypr/UserConfigs/ENVariables.conf` ; X being where the symlink of the gpu points to
+- add `env = WLR_DRM_DEVICES,/dev/dri/cardX` to the ENVvariables config `~/.config/hypr/UserConfigs/ENVariables.conf` ; X being where the symlink of the gpu points to
 
 - more info from the hyprland wiki [`Hyprland Wiki Link`](https://wiki.hyprland.org/FAQ/#my-external-monitor-is-blank--doesnt-render--receives-no-signal-laptop)
 
