@@ -1,5 +1,12 @@
 ## CHANGELOG
 
+## 15 January 2026
+
+- Updated README
+    - Added not about not supporting `Kali` Linux
+    - Update info on NVIDIA GPUs
+    - Cleaning up some formatting
+
 ## 02 January 2026
 
 ### > Note: Support for Hyprland v0.53.1 is now available for Debian Stable (Trixie)
