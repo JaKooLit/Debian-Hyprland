@@ -1,5 +1,15 @@
 ## CHANGELOG
 
+## 21 January 2026
+
+### Important Note for Debian `Trixie` users.
+
+- If you later upgrade Debian to `Forky` or `SID` you **MUST** recompile Hyprland!!
+    - Run `update-hyprland --install --with-deps`
+    - Reboot after
+    - Failure to do so will prevent Hyprland from starting
+    - You will be returned to the login manager
+
 ## 15 January 2026
 
 - Updated README

@@ -13,6 +13,14 @@
 <br/>
 </div>
 
+## IMPORTANT note for Debian `Trixie` users
+
+> If you later update Debian to `Forky` or `SID` you **MUST** recompile Hyprland!!
+> Run `update-hyprland.sh --install --with-deps`
+> Reboot afterwards
+> Failure to do so will prevent Hyprland from starting under `Forky` or `SID`
+> It will return to the login manager
+
 <div align="center">
 <br>
   <a href="#-announcement-"><kbd> <br> Read this First <br> </kbd></a>&ensp;&ensp;
