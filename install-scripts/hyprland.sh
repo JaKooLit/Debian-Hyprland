@@ -193,29 +193,60 @@ EOF
                 VERSION=$(printf '%s' "$VER_OUTPUT" | head -n1 | awk '{print $2}')
                 COMMIT=$(printf '%s' "$VER_OUTPUT" | grep -oP 'commit \K[a-f0-9]+' | head -1)
                 TAG=$(printf '%s' "$VER_OUTPUT" | grep -oP 'Tag: \K[^,]+' | head -1)
+                COMMIT_DATE=$(printf '%s' "$VER_OUTPUT" | grep -oP '^Date:\s+\K.*' | head -1)
+                COMMITS=$(printf '%s' "$VER_OUTPUT" | grep -oP 'commits:\s*\K[0-9]+' | head -1)
+                DIRTY=$(printf '%s' "$VER_OUTPUT" | grep -qi 'dirty' && echo "dirty" || echo "clean")
+                COMMIT_MSG=$(printf '%s' "$VER_OUTPUT" | head -n1 | sed -n 's/.*(version: \(.*\))\..*/\1/p')
+
                 [ -z "$COMMIT" ] && COMMIT="unknown"
                 [ -z "$TAG" ] && TAG="v$VERSION"
-                
+                [ -z "$COMMIT_DATE" ] && COMMIT_DATE="$(date)"
+                [ -z "$COMMITS" ] && COMMITS="0"
+                [ -z "$COMMIT_MSG" ] && COMMIT_MSG="version: bump"
+
+                # Prefer versions from hyprland --version; fall back to hypr-tags.env values
+                parse_ver() { printf '%s' "$VER_OUTPUT" | grep -m1 "$1:" | grep -oP '\d+\.\d+\.\d+' | head -1; }
+                AQUA_VER=$(parse_ver "Aquamarine")
+                HYPRLANG_VER=$(parse_ver "Hyprlang")
+                HYPRUTILS_VER=$(parse_ver "Hyprutils")
+                HYPRCURSOR_VER=$(parse_ver "Hyprcursor")
+                HYPRGRAPHICS_VER=$(parse_ver "Hyprgraphics")
+
+                [ -z "$AQUA_VER" ] && AQUA_VER="${AQUAMARINE_TAG#v}"
+                [ -z "$HYPRLANG_VER" ] && HYPRLANG_VER="${HYPRLANG_TAG#v}"
+                [ -z "$HYPRUTILS_VER" ] && HYPRUTILS_VER="${HYPRUTILS_TAG#v}"
+                [ -z "$HYPRGRAPHICS_VER" ] && HYPRGRAPHICS_VER="${HYPRGRAPHICS_TAG#v}"
+                [ -z "$HYPRCURSOR_VER" ] && HYPRCURSOR_VER="0.1.13"
+                [ -z "$AQUA_VER" ] && AQUA_VER="0.0.0"
+                [ -z "$HYPRLANG_VER" ] && HYPRLANG_VER="0.0.0"
+                [ -z "$HYPRUTILS_VER" ] && HYPRUTILS_VER="0.0.0"
+                [ -z "$HYPRGRAPHICS_VER" ] && HYPRGRAPHICS_VER="0.0.0"
+
+                # AQUAMARINE_VERSION components
+                AQUA_MAJOR=$(echo "$AQUA_VER" | cut -d. -f1)
+                AQUA_MINOR=$(echo "$AQUA_VER" | cut -d. -f2)
+                AQUA_PATCH=$(echo "$AQUA_VER" | cut -d. -f3)
+
                 # Use printf to safely write the file
-                printf '%s\n' '#pragma once' > /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_COMMIT_HASH    "'"$COMMIT"'"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_BRANCH         ""' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_COMMIT_MESSAGE "version: bump"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_COMMIT_DATE    "'"$(date)"'"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_DIRTY          "clean"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_TAG            "'"$TAG"'"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define GIT_COMMITS        "6766"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define AQUAMARINE_VERSION "0.10.0"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '// clang-format off' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define AQUAMARINE_VERSION_MAJOR 0' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define AQUAMARINE_VERSION_MINOR 10' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define AQUAMARINE_VERSION_PATCH 0' >> /tmp/version_header.h.tmp
-                printf '%s\n' '// clang-format on' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define HYPRLANG_VERSION     "0.6.8"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define HYPRUTILS_VERSION    "0.11.0"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define HYPRCURSOR_VERSION   "0.1.13"' >> /tmp/version_header.h.tmp
-                printf '%s\n' '#define HYPRGRAPHICS_VERSION "0.5.0"' >> /tmp/version_header.h.tmp
+                printf '%s\n' "#pragma once" > /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMIT_HASH    \"$COMMIT\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_BRANCH         \"\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMIT_MESSAGE \"$COMMIT_MSG\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMIT_DATE    \"$COMMIT_DATE\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_DIRTY          \"$DIRTY\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_TAG            \"$TAG\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMITS        \"$COMMITS\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION \"$AQUA_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "// clang-format off" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION_MAJOR $AQUA_MAJOR" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION_MINOR $AQUA_MINOR" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION_PATCH $AQUA_PATCH" >> /tmp/version_header.h.tmp
+                printf '%s\n' "// clang-format on" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRLANG_VERSION     \"$HYPRLANG_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRUTILS_VERSION    \"$HYPRUTILS_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRCURSOR_VERSION   \"$HYPRCURSOR_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRGRAPHICS_VERSION \"$HYPRGRAPHICS_VER\"" >> /tmp/version_header.h.tmp
                 
                 if sudo mv /tmp/version_header.h.tmp /usr/include/hyprland/src/version.h 2>&1 | tee -a "$MLOG"; then
                     printf "${OK} System version header updated to $VERSION\n" 2>&1 | tee -a "$MLOG"
