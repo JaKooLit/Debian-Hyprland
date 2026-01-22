@@ -185,6 +185,45 @@ EOF
     if [ $DO_INSTALL -eq 1 ]; then
         if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
             printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+            
+            # Update version header file for tools like fastfetch that read it at runtime
+            printf "${NOTE} Updating system version header for Hyprland...\n"
+            if [ -f ./build/hyprland ]; then
+                VER_OUTPUT=$(./build/hyprland --version)
+                VERSION=$(printf '%s' "$VER_OUTPUT" | head -n1 | awk '{print $2}')
+                COMMIT=$(printf '%s' "$VER_OUTPUT" | grep -oP 'commit \K[a-f0-9]+' | head -1)
+                TAG=$(printf '%s' "$VER_OUTPUT" | grep -oP 'Tag: \K[^,]+' | head -1)
+                [ -z "$COMMIT" ] && COMMIT="unknown"
+                [ -z "$TAG" ] && TAG="v$VERSION"
+                
+                # Use printf to safely write the file
+                printf '%s\n' '#pragma once' > /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_COMMIT_HASH    "'"$COMMIT"'"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_BRANCH         ""' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_COMMIT_MESSAGE "version: bump"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_COMMIT_DATE    "'"$(date)"'"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_DIRTY          "clean"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_TAG            "'"$TAG"'"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define GIT_COMMITS        "6766"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define AQUAMARINE_VERSION "0.10.0"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '// clang-format off' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define AQUAMARINE_VERSION_MAJOR 0' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define AQUAMARINE_VERSION_MINOR 10' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define AQUAMARINE_VERSION_PATCH 0' >> /tmp/version_header.h.tmp
+                printf '%s\n' '// clang-format on' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define HYPRLANG_VERSION     "0.6.8"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define HYPRUTILS_VERSION    "0.11.0"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define HYPRCURSOR_VERSION   "0.1.13"' >> /tmp/version_header.h.tmp
+                printf '%s\n' '#define HYPRGRAPHICS_VERSION "0.5.0"' >> /tmp/version_header.h.tmp
+                
+                if sudo mv /tmp/version_header.h.tmp /usr/include/hyprland/src/version.h 2>&1 | tee -a "$MLOG"; then
+                    printf "${OK} System version header updated to $VERSION\n" 2>&1 | tee -a "$MLOG"
+                else
+                    printf "${NOTE} Could not update system version header (non-critical)\n" 2>&1 | tee -a "$MLOG"
+                fi
+                rm -f /tmp/version_header.h.tmp
+            fi
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"
         fi
