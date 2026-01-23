@@ -3,7 +3,7 @@
 # Main Hyprland Package#
 
 #specific branch or release
-tag="v0.53.0"
+tag="v0.53.2"
 # Auto-source centralized tags if env is unset
 if [ -z "${HYPRLAND_TAG:-}" ]; then
   TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
@@ -81,6 +81,8 @@ fi
 
 if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
     cd "Hyprland" || exit 1
+    BUILD_DIR="$BUILD_ROOT/hyprland"
+    mkdir -p "$BUILD_DIR"
 
     # Compatibility shim for toolchains without std::vector::{insert_range,append_range}
     RANGE_HDR="$(pwd)/hypr_range_compat.hpp"
@@ -179,17 +181,27 @@ EOF
         -DCMAKE_CXX_FLAGS="-Wno-unknown-warning-option -include ${RANGE_HDR}"
         "${SYSTEM_FLAGS[@]}"
     )
-    cmake -S . -B build "${CONFIG_FLAGS[@]}"
-    cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+    cmake -S . -B "$BUILD_DIR" "${CONFIG_FLAGS[@]}"
+    cmake --build "$BUILD_DIR" -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
             printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
             
             # Update version header file for tools like fastfetch that read it at runtime
             printf "${NOTE} Updating system version header for Hyprland...\n"
-            if [ -f ./build/hyprland ]; then
-                VER_OUTPUT=$(./build/hyprland --version)
+            VER_OUTPUT=""
+            if [ -x "$BUILD_DIR/Hyprland" ]; then
+                VER_OUTPUT=$("$BUILD_DIR/Hyprland" --version)
+            elif [ -x "$BUILD_DIR/hyprland" ]; then
+                VER_OUTPUT=$("$BUILD_DIR/hyprland" --version)
+            elif command -v Hyprland >/dev/null 2>&1; then
+                VER_OUTPUT=$(Hyprland --version)
+            elif command -v hyprctl >/dev/null 2>&1; then
+                VER_OUTPUT=$(hyprctl version)
+            fi
+
+            if [ -n "$VER_OUTPUT" ]; then
                 VERSION=$(printf '%s' "$VER_OUTPUT" | head -n1 | awk '{print $2}')
                 COMMIT=$(printf '%s' "$VER_OUTPUT" | grep -oP 'commit \K[a-f0-9]+' | head -1)
                 TAG=$(printf '%s' "$VER_OUTPUT" | grep -oP 'Tag: \K[^,]+' | head -1)
@@ -247,13 +259,35 @@ EOF
                 printf '%s\n' "#define HYPRUTILS_VERSION    \"$HYPRUTILS_VER\"" >> /tmp/version_header.h.tmp
                 printf '%s\n' "#define HYPRCURSOR_VERSION   \"$HYPRCURSOR_VER\"" >> /tmp/version_header.h.tmp
                 printf '%s\n' "#define HYPRGRAPHICS_VERSION \"$HYPRGRAPHICS_VER\"" >> /tmp/version_header.h.tmp
-                
-                if sudo mv /tmp/version_header.h.tmp /usr/include/hyprland/src/version.h 2>&1 | tee -a "$MLOG"; then
+
+                TARGETS=()
+                if [ -f /usr/local/include/hyprland/src/version.h ]; then
+                    TARGETS+=(/usr/local/include/hyprland/src/version.h)
+                fi
+                if [ -f /usr/include/hyprland/src/version.h ]; then
+                    # If both exist, keep /usr/include in sync to avoid fastfetch mismatch.
+                    TARGETS+=(/usr/include/hyprland/src/version.h)
+                fi
+                if [ ${#TARGETS[@]} -eq 0 ]; then
+                    # Default to /usr/local if neither header exists yet.
+                    TARGETS+=(/usr/local/include/hyprland/src/version.h)
+                fi
+
+                UPDATED=0
+                for tgt in "${TARGETS[@]}"; do
+                    if sudo install -d "$(dirname "$tgt")" && sudo cp /tmp/version_header.h.tmp "$tgt" 2>&1 | tee -a "$MLOG"; then
+                        UPDATED=1
+                    fi
+                done
+
+                if [ $UPDATED -eq 1 ]; then
                     printf "${OK} System version header updated to $VERSION\n" 2>&1 | tee -a "$MLOG"
                 else
                     printf "${NOTE} Could not update system version header (non-critical)\n" 2>&1 | tee -a "$MLOG"
                 fi
                 rm -f /tmp/version_header.h.tmp
+            else
+                printf "${NOTE} Could not determine Hyprland version output for header update (non-critical)\n" 2>&1 | tee -a "$MLOG"
             fi
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"

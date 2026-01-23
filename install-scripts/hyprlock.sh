@@ -55,9 +55,11 @@ fi
 printf "${INFO} Installing ${YELLOW}hyprlock $tag${RESET} ...\n"
 if git clone --recursive -b $tag https://github.com/hyprwm/hyprlock.git; then
     cd hyprlock || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
-	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-    if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
+    BUILD_DIR="$BUILD_ROOT/hyprlock"
+    mkdir -p "$BUILD_DIR"
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+    if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} ${YELLOW}hyprlock $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for ${YELLOW}hyprlock $tag${RESET}" 2>&1 | tee -a "$MLOG"

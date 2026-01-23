@@ -65,10 +65,12 @@ fi
 printf "${NOTE} Installing hyprwayland-scanner...\n"
 if git clone --recursive -b $tag https://github.com/hyprwm/hyprwayland-scanner.git; then
     cd hyprwayland-scanner || exit 1
-	cmake -DCMAKE_INSTALL_PREFIX=/usr -B build
-	cmake --build build -j `nproc`
+    BUILD_DIR="$BUILD_ROOT/hyprwayland-scanner"
+    mkdir -p "$BUILD_DIR"
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" -j `nproc`
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
             printf "${OK} hyprwayland-scanner installed successfully.\n" 2>&1 | tee -a "$MLOG"
         else
             echo -e "${ERROR} Installation failed for hyprwayland-scanner." 2>&1 | tee -a "$MLOG"

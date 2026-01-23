@@ -85,8 +85,10 @@ fi
 cd rofi-$rofi_tag || exit 1
 
 # Proceed with the installation steps
-if meson setup build && ninja -C build ; then
-  if sudo ninja -C build install 2>&1 | tee -a "$MLOG"; then
+BUILD_DIR="$BUILD_ROOT/rofi-$rofi_tag"
+mkdir -p "$BUILD_DIR"
+if meson setup "$BUILD_DIR" && ninja -C "$BUILD_DIR" ; then
+  if sudo ninja -C "$BUILD_DIR" install 2>&1 | tee -a "$MLOG"; then
     printf "${OK} rofi-wayland installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
     echo -e "${ERROR} Installation failed for ${YELLOW}rofi-wayland $rofi_tag${RESET}" 2>&1 | tee -a "$MLOG"

@@ -19,7 +19,7 @@
 
 ## 02 January 2026
 
-### > Note: Support for Hyprland v0.53.1 is now available for Debian Stable (Trixie)
+### > Note: Support for Hyprland v0.53.2 is now available for Debian Stable (Trixie)
 
 ### > At this time it should be considered BETA, not for production use
 
@@ -28,7 +28,7 @@
 ### > Only Intel, AMD, and in VMs
 
 - Updated:
-    - Default Hyprland stack versions now target 0.53.1 (see `hypr-tags.env`)
+    - Default Hyprland stack versions now target 0.53.2 (see `hypr-tags.env`)
     - Added trixie compatibility mode flags:
         - `--build-trixie` / `--no-trixie` (auto-detected on Debian 13)
     - Added `--force-update` to refresh pinned package versions

@@ -183,32 +183,33 @@ fi
 # Configure with Ninja; enable RelWithDebInfo, leave features ON (deps installed above)
 CMAKE_FLAGS=(
     -GNinja
-    -B build
     -DCMAKE_BUILD_TYPE=RelWithDebInfo
     -DDISTRIBUTOR="Debian-Hyprland installer"
 )
 
 note "Configuring Quickshell (CMake)..."
 # Use explicit source/build dirs and preserve cmake exit code with pipefail
-if ! cmake -S . -B build "${CMAKE_FLAGS[@]}" 2>&1 | tee -a "$MLOG"; then
+BUILD_DIR="$BUILD_ROOT/quickshell"
+mkdir -p "$BUILD_DIR"
+if ! cmake -S . -B "$BUILD_DIR" "${CMAKE_FLAGS[@]}" 2>&1 | tee -a "$MLOG"; then
     echo "${ERROR} CMake configure failed. See log: $MLOG" | tee -a "$LOG"
     exit 1
 fi
 
 # Ensure build files exist before invoking ninja
-if [ ! -f build/build.ninja ]; then
+if [ ! -f "$BUILD_DIR/build.ninja" ]; then
     echo "${ERROR} build/build.ninja not generated; aborting build." | tee -a "$LOG"
     exit 1
 fi
 
 note "Building Quickshell (Ninja)..."
-if ! cmake --build build 2>&1 | tee -a "$MLOG"; then
+if ! cmake --build "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
     echo "${ERROR} Build failed. See log: $MLOG" | tee -a "$LOG"
     exit 1
 fi
 
 note "Installing Quickshell..."
-if ! sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
+if ! sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
     echo "${ERROR} Installation failed. See log: $MLOG" | tee -a "$LOG"
     exit 1
 fi

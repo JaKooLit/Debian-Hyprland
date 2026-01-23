@@ -56,9 +56,11 @@ fi
 
 if git clone --recursive -b $tag "https://github.com/hyprwm/xdg-desktop-portal-hyprland.git"; then
   cd "xdg-desktop-portal-hyprland" || exit 1
-  cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B build
-  cmake --build build
-  if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
+  BUILD_DIR="$BUILD_ROOT/xdg-desktop-portal-hyprland"
+  mkdir -p "$BUILD_DIR"
+  cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B "$BUILD_DIR"
+  cmake --build "$BUILD_DIR"
+  if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
     printf "${OK} ${MAGENTA}xdph $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
     echo -e "${ERROR} Installation failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$MLOG"

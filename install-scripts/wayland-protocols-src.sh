@@ -67,10 +67,12 @@ if git clone --depth=1 --filter=blob:none "$repo_url" wayland-protocols; then
         exit 1
     fi
     # Install to /usr/local so pkg-config can prefer it over distro /usr
-    meson setup build --prefix=/usr/local
-    meson compile -C build -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+    BUILD_DIR="$BUILD_ROOT/wayland-protocols"
+    mkdir -p "$BUILD_DIR"
+    meson setup "$BUILD_DIR" --prefix=/usr/local
+    meson compile -C "$BUILD_DIR" -j"$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo meson install -C build 2>&1 | tee -a "$MLOG" ; then
+        if sudo meson install -C "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
             printf "${OK} ${MAGENTA}wayland-protocols $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}wayland-protocols $tag${RESET}" 2>&1 | tee -a "$MLOG"

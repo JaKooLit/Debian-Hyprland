@@ -103,7 +103,7 @@ ensure_tags_file() {
         cat >"$TAGS_FILE" <<'EOF'
 # Default Hyprland stack versions
 # (You can override any of these via --set or by editing hypr-tags.env.)
-HYPRLAND_TAG=v0.53.1
+        HYPRLAND_TAG=v0.53.2
 AQUAMARINE_TAG=v0.10.0
 HYPRUTILS_TAG=v0.11.0
 HYPRLANG_TAG=v0.6.8

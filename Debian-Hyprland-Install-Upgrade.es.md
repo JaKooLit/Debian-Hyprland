@@ -128,7 +128,7 @@ Archivo con etiquetas de versión para todos los componentes de Hyprland:
 
 ```bash
 # Versiones actuales (ejemplo)
-HYPRLAND_TAG=v0.53.1
+HYPRLAND_TAG=v0.53.2
 AQUAMARINE_TAG=v0.10.0
 HYPRUTILS_TAG=v0.11.0
 HYPRLANG_TAG=v0.6.8

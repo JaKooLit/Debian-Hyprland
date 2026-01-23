@@ -50,10 +50,12 @@ fi
 printf "${INFO} Installing ${YELLOW}aquamarine $tag${RESET} ...\n"
 if git clone --recursive -b "$tag" https://github.com/hyprwm/aquamarine.git; then
     cd aquamarine || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
-	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
+    BUILD_DIR="$BUILD_ROOT/aquamarine"
+    mkdir -p "$BUILD_DIR"
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
             printf "${OK} ${MAGENTA}aquamarine $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$MLOG"

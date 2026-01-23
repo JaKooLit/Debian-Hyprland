@@ -109,9 +109,11 @@ printf "\n%.0s" {1..1}
 # Clone repository with the specified tag and capture git output into MLOG
 if git clone --depth=1 https://github.com/JaKooLit/ags_v1.9.0.git; then
     cd ags_v1.9.0 || exit 1
+    BUILD_DIR="$BUILD_ROOT/ags_v1.9.0"
+    mkdir -p "$BUILD_DIR"
     npm install
-    meson setup build
-   if sudo meson install -C build 2>&1 | tee -a "$MLOG"; then
+    meson setup "$BUILD_DIR"
+   if sudo meson install -C "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
     printf "\n${OK} ${YELLOW}Aylur's GTK shell $ags_tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
 
     # Patch installed AGS launchers to ensure GI typelibs in /usr/local/lib are discoverable in GJS ESM

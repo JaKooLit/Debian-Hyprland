@@ -50,9 +50,11 @@ fi
 printf "${NOTE} Installing xkbcommon...\n"
 if git clone --recursive -b $tag https://github.com/xkbcommon/libxkbcommon.git; then
     cd libxkbcommon || exit 1
-    meson setup build --libdir=/usr/local/lib
-    meson compile -C build
-    if sudo meson install -C build 2>&1 | tee -a "$MLOG" ; then
+    BUILD_DIR="$BUILD_ROOT/libxkbcommon"
+    mkdir -p "$BUILD_DIR"
+    meson setup "$BUILD_DIR" --libdir=/usr/local/lib
+    meson compile -C "$BUILD_DIR"
+    if sudo meson install -C "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} xkbcommon installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for xkbcommon." 2>&1 | tee -a "$MLOG"
