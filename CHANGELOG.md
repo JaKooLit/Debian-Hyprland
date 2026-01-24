@@ -2,9 +2,9 @@
 
 ## 24 January 2026
 
-- Updated Hyprland version to v0.53.3 
- - Fixes `hyprpm` issues 
- - All packages remain the same 
+- Updated Hyprland version to v0.53.3
+- Fixes `hyprpm` issues
+- All other packages remain at the same version
 
 ## 23 January 2026
 
