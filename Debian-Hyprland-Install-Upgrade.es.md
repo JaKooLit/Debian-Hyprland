@@ -327,6 +327,20 @@ Notas:
 - **Sin cambios en el sistema**: No instala archivos en /usr/local o /usr
 
 ## Gestión de Logs
+## Artefactos de Build y Limpieza
+
+Todas las fuentes descargadas y salidas de compilación ahora viven en `~/Debian-Hyprland/build/`:
+
+- **Fuentes:** `build/src/<proyecto>`
+- **Salida de build:** `build/<proyecto>`
+
+Esto mantiene el repositorio limpio. Para eliminar todos los artefactos de compilación:
+
+```bash
+rm -rf ~/Debian-Hyprland/build
+```
+
+Nota: Esto solo elimina artefactos de compilación y fuentes descargadas; no desinstala nada del sistema.
 
 ### Ubicación de Logs
 
