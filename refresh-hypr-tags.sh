@@ -53,7 +53,7 @@ done
 if [[ ! -f "$TAGS_FILE" ]]; then
 cat > "$TAGS_FILE" <<'EOF'
 # Default Hyprland stack versions
-HYPRLAND_TAG=v0.53.2
+HYPRLAND_TAG=v0.53.3
 AQUAMARINE_TAG=v0.10.0
 HYPRUTILS_TAG=v0.11.0
 HYPRLANG_TAG=v0.6.8

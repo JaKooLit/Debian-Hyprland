@@ -3,7 +3,7 @@
 # Main Hyprland Package#
 
 #specific branch or release
-tag="v0.53.2"
+tag="v0.53.3"
 # Auto-source centralized tags if env is unset
 if [ -z "${HYPRLAND_TAG:-}" ]; then
   TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
