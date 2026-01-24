@@ -1,5 +1,14 @@
 ## CHANGELOG
 
+## 23 January 2026
+
+- New layout for building Hyprland Source
+    - The `build` directory will hold the source and compiler output
+    - Now you can just remove the build directory after install
+- Updated the default Hyprland version to `v0.53.2`
+- Updated the documentation on the new directory layout
+- Fixed issue of Fastfetch reading old hyprland version file
+
 ## 21 January 2026
 
 ### Important Note for Debian `Trixie` users.
