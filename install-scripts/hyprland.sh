@@ -73,14 +73,15 @@ printf "\n%.0s" {1..1}
 # Clone, build, and install Hyprland using Cmake
 printf "${NOTE} Cloning and Installing ${YELLOW}Hyprland $tag${RESET} ...\n"
 
-# Check if Hyprland folder exists and remove it
-if [ -d "Hyprland" ]; then
+# Check if Hyprland folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/Hyprland"
+if [ -d "$SRC_DIR" ]; then
     printf "${NOTE} Removing existing Hyprland folder...\n"
-    rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
+    rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
-    cd "Hyprland" || exit 1
+if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland" "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprland"
     mkdir -p "$BUILD_DIR"
 
@@ -131,9 +132,9 @@ EOF
     fi
 
     # Apply patch only if it applies cleanly; otherwise skip
-    if [ -f ../assets/0001-fix-hyprland-compile-issue.patch ]; then
-        if patch -p1 --dry-run <../assets/0001-fix-hyprland-compile-issue.patch >/dev/null 2>&1; then
-            patch -p1 <../assets/0001-fix-hyprland-compile-issue.patch
+    if [ -f "$PARENT_DIR/assets/0001-fix-hyprland-compile-issue.patch" ]; then
+        if patch -p1 --dry-run <"$PARENT_DIR/assets/0001-fix-hyprland-compile-issue.patch" >/dev/null 2>&1; then
+            patch -p1 <"$PARENT_DIR/assets/0001-fix-hyprland-compile-issue.patch"
         else
             echo "${NOTE} Hyprland compile patch does not apply on $tag; skipping."
         fi
@@ -295,7 +296,7 @@ EOF
     else
         echo "${NOTE} DRY RUN: Skipping installation of Hyprland $tag."
     fi
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$LOG"

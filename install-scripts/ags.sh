@@ -95,8 +95,9 @@ sudo npm install --global typescript 2>&1 | tee -a "$LOG"
 # ags v1
 printf "${NOTE} Install and Compiling ${SKY_BLUE}Aylur's GTK shell $ags_tag${RESET}..\n"
 
-# Remove previous sources (both legacy "ags" and tagged "ags_v1.9.0")
-for SRC_DIR in "ags" "ags_v1.9.0"; do
+# Remove previous sources (both legacy "ags" and tagged "ags_v1.9.0") under build/src
+for OLD in "ags" "ags_v1.9.0"; do
+    SRC_DIR="$SRC_ROOT/$OLD"
     if [ -d "$SRC_DIR" ]; then
         printf "${NOTE} Removing existing %s directory...\\n" "$SRC_DIR"
         rm -rf "$SRC_DIR"
@@ -107,8 +108,9 @@ printf "\n%.0s" {1..1}
 printf "${INFO} Kindly Standby...cloning and compiling ${SKY_BLUE}Aylur's GTK shell $ags_tag${RESET}...\n"
 printf "\n%.0s" {1..1}
 # Clone repository with the specified tag and capture git output into MLOG
-if git clone --depth=1 https://github.com/JaKooLit/ags_v1.9.0.git; then
-    cd ags_v1.9.0 || exit 1
+SRC_DIR="$SRC_ROOT/ags_v1.9.0"
+if git clone --depth=1 https://github.com/JaKooLit/ags_v1.9.0.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/ags_v1.9.0"
     mkdir -p "$BUILD_DIR"
     npm install
@@ -205,11 +207,11 @@ WRAP
     echo -e "\n${ERROR} ${YELLOW}Aylur's GTK shell $ags_tag${RESET} Installation failed\n " 2>&1 | tee -a "$MLOG"
    fi
     # Move logs to Install-Logs directory
-    mv "$MLOG" ../Install-Logs/ || true
+    mv "$MLOG" "$PARENT_DIR/Install-Logs/" || true
     cd ..
 else
     echo -e "\n${ERROR} Failed to download ${YELLOW}Aylur's GTK shell $ags_tag${RESET} Please check your connection\n" 2>&1 | tee -a "$LOG"
-    mv "$MLOG" ../Install-Logs/ || true
+    mv "$MLOG" "$PARENT_DIR/Install-Logs/" || true
     exit 1
 fi
 

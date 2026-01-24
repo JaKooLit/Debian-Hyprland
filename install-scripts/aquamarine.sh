@@ -41,15 +41,16 @@ MLOG="install-$(date +%d-%H%M%S)_aquamarine.log"
 # Installation of dependencies
 printf "\n%s - Installing ${YELLOW}aquamarine dependencies${RESET} .... \n" "${INFO}"
 
-# Check if aquamarinedirectory exists and remove it
-if [ -d "aquamarine" ]; then
-    rm -rf "aquamarine"
+# Check if aquamarinedirectory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/aquamarine"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}aquamarine $tag${RESET} ...\n"
-if git clone --recursive -b "$tag" https://github.com/hyprwm/aquamarine.git; then
-    cd aquamarine || exit 1
+if git clone --recursive -b "$tag" https://github.com/hyprwm/aquamarine.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/aquamarine"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
@@ -64,7 +65,7 @@ if git clone --recursive -b "$tag" https://github.com/hyprwm/aquamarine.git; the
         echo "${NOTE} DRY RUN: Skipping installation of aquamarine $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}aquamarine $tag${RESET}" 2>&1 | tee -a "$LOG"

@@ -29,18 +29,19 @@ for PKG1 in "${engine[@]}"; do
     install_package "$PKG1" "$LOG"
 done
 
-# Check if the directory exists and delete it if present
-if [ -d "GTK-themes-icons" ]; then
+# Check if the directory exists and delete it if present (under build/src)
+SRC_DIR="$SRC_ROOT/GTK-themes-icons"
+if [ -d "$SRC_DIR" ]; then
     echo "$NOTE GTK themes and Icons directory exist..deleting..." 2>&1 | tee -a "$LOG"
-    rm -rf "GTK-themes-icons" 2>&1 | tee -a "$LOG"
+    rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
 
 echo "$NOTE Cloning ${SKY_BLUE}GTK themes and Icons${RESET} repository..." 2>&1 | tee -a "$LOG"
-if git clone --depth=1 https://github.com/JaKooLit/GTK-themes-icons.git ; then
-    cd GTK-themes-icons
+if git clone --depth=1 https://github.com/JaKooLit/GTK-themes-icons.git "$SRC_DIR"; then
+    cd "$SRC_DIR"
     chmod +x auto-extract.sh
     ./auto-extract.sh
-    cd ..
+    cd "$PARENT_DIR"
     echo "$OK Extracted GTK Themes & Icons to ~/.icons & ~/.themes directories" 2>&1 | tee -a "$LOG"
 else
     echo "$ERROR Download failed for GTK themes and Icons.." 2>&1 | tee -a "$LOG"

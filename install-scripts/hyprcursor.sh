@@ -45,16 +45,17 @@ for PKG1 in "${cursor[@]}"; do
   fi
 done
 
-# Check if hyprcursor folder exists and remove it
-if [ -d "hyprcursor" ]; then
+# Check if hyprcursor folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprcursor"
+if [ -d "$SRC_DIR" ]; then
     printf "${NOTE} Removing existing hyprcursor folder...\n"
-    rm -rf "hyprcursor"
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${NOTE} Installing hyprcursor...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprcursor.git; then
-    cd hyprcursor || exit 1
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprcursor.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprcursor"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B "$BUILD_DIR"
@@ -65,7 +66,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprcursor.git; then
         echo -e "${ERROR} Installation failed for hyprcursor." 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv $MLOG "$PARENT_DIR/Install-Logs/" || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for hyprcursor." 2>&1 | tee -a "$LOG"

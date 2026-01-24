@@ -41,15 +41,16 @@ MLOG="install-$(date +%d-%H%M%S)_protocols2.log"
 # Installation of dependencies
 printf "\n%s - Installing ${YELLOW}hyprland-protocols dependencies${RESET} .... \n" "${INFO}"
 
-# Check if hyprland-protocols directory exists and remove it
-if [ -d "hyprland-protocols" ]; then
-    rm -rf "hyprland-protocols"
+# Check if hyprland-protocols directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprland-protocols"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}hyprland-protocols $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-protocols.git; then
-    cd hyprland-protocols || exit 1
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-protocols.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprland-protocols"
     mkdir -p "$BUILD_DIR"
 	meson setup "$BUILD_DIR"
@@ -63,7 +64,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-protocols.gi
         echo "${NOTE} DRY RUN: Skipping installation of hyprland-protocols $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprland-protocols tag${RESET}" 2>&1 | tee -a "$LOG"

@@ -40,13 +40,14 @@ MLOG="install-$(date +%d-%H%M%S)_hyprtoolkit2.log"
 # Clone, build, and install using Cmake
 printf "${NOTE} Cloning hyprtoolkit...\n"
 
-# Check if hyprtoolkit folder exists and remove it
-if [ -d "hyprtoolkit" ]; then
+# Check if hyprtoolkit folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprtoolkit"
+if [ -d "$SRC_DIR" ]; then
   printf "${NOTE} Removing existing hyprtoolkit folder...\n"
-  rm -rf "hyprtoolkit" 2>&1 | tee -a "$LOG"
+  rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
-
-if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git"; then
+if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git" "$SRC_DIR"; then
+  cd "$SRC_DIR" || exit 1
   cd "hyprtoolkit" || exit 1
   BUILD_DIR="$BUILD_ROOT/hyprtoolkit"
   mkdir -p "$BUILD_DIR"
@@ -61,7 +62,7 @@ if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git"; then
   else
     echo "${NOTE} DRY RUN: Skipping installation of hyprtoolkit $tag."
   fi
-  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+  [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
   cd ..
 else
   echo -e "${ERROR} Download failed for hyprtoolkit" 2>&1 | tee -a "$LOG"

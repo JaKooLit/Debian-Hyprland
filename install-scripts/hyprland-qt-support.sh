@@ -61,15 +61,16 @@ done
 
 printf "\n%.0s" {1..1}
 
-# Check if hyprland-qt-support directory exists and remove it
-if [ -d "hyprland-qt-support" ]; then
-    rm -rf "hyprland-qt-support"
+# Check if hyprland-qt-support directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprland-qt-support"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}hyprland-qt-support $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-qt-support.git; then
-    cd hyprland-qt-support || exit 1
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-qt-support.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprland-qt-support"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B "$BUILD_DIR"
@@ -84,7 +85,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprland-qt-support.g
         echo "${NOTE} DRY RUN: Skipping installation of hyprland-qt-support $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprland-qt-support $tag${RESET}" 2>&1 | tee -a "$LOG"

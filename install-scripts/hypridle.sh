@@ -37,15 +37,16 @@ for PKG1 in "${idle[@]}"; do
   fi
 done
 
-# Check if hypridle directory exists and remove it
-if [ -d "hypridle" ]; then
-    rm -rf "hypridle"
+# Check if hypridle directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hypridle"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}hypridle $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hypridle.git; then
-    cd hypridle || exit 1
+if git clone --recursive -b $tag https://github.com/hyprwm/hypridle.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hypridle"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B "$BUILD_DIR"
@@ -56,7 +57,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hypridle.git; then
         echo -e "${ERROR} Installation failed for ${YELLOW}hypridle $tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv $MLOG "$PARENT_DIR/Install-Logs/" || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hypridle $tag${RESET}" 2>&1 | tee -a "$LOG"

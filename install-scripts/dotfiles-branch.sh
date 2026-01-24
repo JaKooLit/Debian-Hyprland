@@ -24,15 +24,16 @@ fi
 # Check if Hyprland-Dots exists
 printf "${NOTE} Cloning and Installing ${SKY_BLUE}KooL's Hyprland Dots for Debian${RESET}....\n"
 
-# Check if Hyprland-Dots exists
-if [ -d Hyprland-Dots-Debian ]; then
-    cd Hyprland-Dots-Debian
+# Check if Hyprland-Dots exists (under build/src)
+SRC_DIR="$SRC_ROOT/Hyprland-Dots-Debian"
+if [ -d "$SRC_DIR" ]; then
+    cd "$SRC_DIR"
     git stash && git pull
     chmod +x copy.sh
     ./copy.sh
 else
-    if git clone --depth=1 https://github.com/JaKooLit/Hyprland-Dots Hyprland-Dots-Debian; then
-        cd Hyprland-Dots-Debian || exit 1
+    if git clone --depth=1 https://github.com/JaKooLit/Hyprland-Dots "$SRC_DIR"; then
+        cd "$SRC_DIR" || exit 1
         chmod +x copy.sh
         ./copy.sh
     else

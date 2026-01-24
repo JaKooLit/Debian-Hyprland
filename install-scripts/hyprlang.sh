@@ -41,15 +41,16 @@ MLOG="install-$(date +%d-%H%M%S)_hyprlang2.log"
 # Installation of dependencies
 printf "\n%s - Installing ${YELLOW}hyprlang dependencies${RESET} .... \n" "${INFO}"
 
-# Check if hyprlang directory exists and remove it
-if [ -d "hyprlang" ]; then
-    rm -rf "hyprlang"
+# Check if hyprlang directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprlang"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}hyprlang $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git; then
-    cd hyprlang || exit 1
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprlang"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
@@ -64,7 +65,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git; then
         echo "${NOTE} DRY RUN: Skipping installation of hyprlang $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$LOG"

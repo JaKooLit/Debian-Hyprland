@@ -43,14 +43,14 @@ MLOG="install-$(date +%d-%H%M%S)_hyprutils2.log"
 # Clone, build, and install using Cmake
 printf "${NOTE} Cloning hyprutils...\n"
 
-# Check if hyprutils folder exists and remove it
-if [ -d "hyprutils" ]; then
+# Check if hyprutils folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprutils"
+if [ -d "$SRC_DIR" ]; then
     printf "${NOTE} Removing existing hyprutils folder...\n"
-    rm -rf "hyprutils" 2>&1 | tee -a "$LOG"
+    rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
-
-if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
-    cd "hyprutils" || exit 1
+if git clone -b $tag "https://github.com/hyprwm/hyprutils.git" "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprutils"
     mkdir -p "$BUILD_DIR"
     cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
@@ -64,7 +64,7 @@ if git clone -b $tag "https://github.com/hyprwm/hyprutils.git"; then
     else
         echo "${NOTE} DRY RUN: Skipping installation of hyprutils $tag."
     fi
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for hyprutils" 2>&1 | tee -a "$LOG"

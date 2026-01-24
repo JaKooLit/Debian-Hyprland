@@ -39,17 +39,18 @@ MLOG="install-$(date +%d-%H%M%S)_wayland-protocols2.log"
 
 printf "\n%s - Installing ${YELLOW}wayland-protocols (from source)${RESET} .... \n" "${INFO}"
 
-# Clean previous clone
-if [ -d "wayland-protocols" ]; then
-    rm -rf "wayland-protocols"
+# Clean previous clone (under build/src)
+SRC_DIR="$SRC_ROOT/wayland-protocols"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build (meson)
 # Upstream: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
 printf "${INFO} Installing ${YELLOW}wayland-protocols $tag${RESET} ...\n"
 repo_url="https://gitlab.freedesktop.org/wayland/wayland-protocols.git"
-if git clone --depth=1 --filter=blob:none "$repo_url" wayland-protocols; then
-    cd wayland-protocols || exit 1
+if git clone --depth=1 --filter=blob:none "$repo_url" "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
     # Fetch tags and attempt to checkout the requested tag, trying both raw and v-prefixed
     git fetch --tags --depth=1 >/dev/null 2>&1 || true
     checked_out=0
@@ -81,7 +82,7 @@ if git clone --depth=1 --filter=blob:none "$repo_url" wayland-protocols; then
         echo "${NOTE} DRY RUN: Skipping installation of wayland-protocols $tag."
     fi
     # Move additional logs to Install-Logs directory if they exist
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/ || true
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/" || true
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}wayland-protocols $tag${RESET}" 2>&1 | tee -a "$LOG"

@@ -38,11 +38,13 @@ sudo systemctl enable power-profiles-daemon 2>&1 | tee -a "$LOG"
 install_and_log() {
   local project_name="$1"
   local git_url="$2"
+  local src_dir="$SRC_ROOT/$project_name"
   
   printf "${NOTE} Installing $project_name\n"
 
-  if git clone "$git_url" "$project_name"; then
-    cd "$project_name" || exit 1
+  rm -rf "$src_dir"
+  if git clone "$git_url" "$src_dir"; then
+    cd "$src_dir" || exit 1
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh 2>&1 | tee -a "$LOG"
     source "$HOME/.cargo/env"
     make
@@ -58,7 +60,7 @@ install_and_log() {
     fi
 
 	#moving logs into main install-logs
-    mv $LOG ../Install-Logs/ || true 
+    mv $LOG "$PARENT_DIR/Install-Logs/" || true 
     cd - || exit 1
   else
     echo -e "${ERROR} Cloning $project_name from $git_url failed."

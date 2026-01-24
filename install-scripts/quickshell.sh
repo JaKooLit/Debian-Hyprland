@@ -117,7 +117,7 @@ done
 # Build Google Breakpad from source if pkg-config 'breakpad' is missing
 if ! pkg-config --exists breakpad; then
   note "Building Google Breakpad from source..."
-  BP_DIR="$PARENT_DIR/.thirdparty/breakpad"
+  BP_DIR="$SRC_ROOT/breakpad"
   rm -rf "$BP_DIR"
   mkdir -p "$BP_DIR"
   (
@@ -166,7 +166,7 @@ PCEOF
 fi
 
 # Clone source (prefer upstream forgejo; mirror available at github:quickshell-mirror/quickshell)
-SRC_DIR="quickshell-src"
+SRC_DIR="$SRC_ROOT/quickshell-src"
 if [ -d "$SRC_DIR" ]; then
     note "Removing existing $SRC_DIR"
     rm -rf "$SRC_DIR"

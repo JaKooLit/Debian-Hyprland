@@ -48,14 +48,15 @@ done
 # Clone, build, and install XDPH
 printf "${NOTE} Cloning and Installing ${YELLOW}XDG Desktop Portal Hyprland $tag${RESET} ...\n"
 
-# Check if xdg-desktop-portal-hyprland folder exists and remove it
-if [ -d "xdg-desktop-portal-hyprland" ]; then
+# Check if xdg-desktop-portal-hyprland folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/xdg-desktop-portal-hyprland"
+if [ -d "$SRC_DIR" ]; then
   printf "${NOTE} Removing existing xdg-desktop-portal-hyprland folder...\n"
-  rm -rf "xdg-desktop-portal-hyprland" 2>&1 | tee -a "$LOG"
+  rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $tag "https://github.com/hyprwm/xdg-desktop-portal-hyprland.git"; then
-  cd "xdg-desktop-portal-hyprland" || exit 1
+if git clone --recursive -b $tag "https://github.com/hyprwm/xdg-desktop-portal-hyprland.git" "$SRC_DIR"; then
+  cd "$SRC_DIR" || exit 1
   BUILD_DIR="$BUILD_ROOT/xdg-desktop-portal-hyprland"
   mkdir -p "$BUILD_DIR"
   cmake -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib -DCMAKE_INSTALL_PREFIX=/usr -B "$BUILD_DIR"
@@ -66,7 +67,7 @@ if git clone --recursive -b $tag "https://github.com/hyprwm/xdg-desktop-portal-h
     echo -e "${ERROR} Installation failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$MLOG"
   fi
   # Move the additional logs to Install-Logs directory
-  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/ || true
+  [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/" || true
   cd ..
 else
   echo -e "${ERROR} Download failed for ${YELLOW}xdph $tag${RESET}" 2>&1 | tee -a "$LOG"

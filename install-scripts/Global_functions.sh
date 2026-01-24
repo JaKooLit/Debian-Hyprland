@@ -28,6 +28,8 @@ fi
 # Shared build output root (override with BUILD_ROOT env)
 BUILD_ROOT="${BUILD_ROOT:-$PWD/build}"
 mkdir -p "$BUILD_ROOT"
+SRC_ROOT="${SRC_ROOT:-$BUILD_ROOT/src}"
+mkdir -p "$SRC_ROOT"
 
 # Show progress function
 show_progress() {

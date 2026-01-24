@@ -20,11 +20,12 @@ LOG="Install-Logs/install-$(date +%d-%H%M%S)_zsh_pokemon.log"
 
 printf "${INFO} Installing ${SKY_BLUE}Pokemon color scripts${RESET} ..."
 
-if [ -d "pokemon-colorscripts" ]; then
-    cd pokemon-colorscripts && git pull && sudo ./install.sh && cd ..
+SRC_DIR="$SRC_ROOT/pokemon-colorscripts"
+if [ -d "$SRC_DIR" ]; then
+    cd "$SRC_DIR" && git pull && sudo ./install.sh && cd ..
     else
-    git clone --depth=1 https://gitlab.com/phoneybadger/pokemon-colorscripts.git &&
-    cd pokemon-colorscripts && sudo ./install.sh && cd ..
+    git clone --depth=1 https://gitlab.com/phoneybadger/pokemon-colorscripts.git "$SRC_DIR" &&
+    cd "$SRC_DIR" && sudo ./install.sh && cd ..
 fi
 
 # Check if ~/.zshrc exists

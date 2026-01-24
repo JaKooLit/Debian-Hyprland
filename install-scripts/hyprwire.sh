@@ -61,15 +61,16 @@ MLOG="install-$(date +%d-%H%M%S)_hyprwire2.log"
 
 printf "${NOTE} Installing hyprwire $tag...\n"
 
-# Remove existing tree if present
-if [ -d "hyprwire" ]; then
+# Remove existing tree if present (under build/src)
+SRC_DIR="$SRC_ROOT/hyprwire"
+if [ -d "$SRC_DIR" ]; then
   printf "${NOTE} Removing existing hyprwire folder...\n"
-  rm -rf "hyprwire" 2>&1 | tee -a "$LOG"
+  rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
 
 # Clone and build
-if git clone --recursive -b "$tag" https://github.com/hyprwm/hyprwire.git; then
-  cd hyprwire || exit 1
+if git clone --recursive -b "$tag" https://github.com/hyprwm/hyprwire.git "$SRC_DIR"; then
+  cd "$SRC_DIR" || exit 1
   BUILD_DIR="$BUILD_ROOT/hyprwire"
   mkdir -p "$BUILD_DIR"
 
@@ -148,7 +149,7 @@ EOF
   else
     echo "${NOTE} DRY RUN: Skipping installation of hyprwire $tag."
   fi
-  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+  [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
   cd ..
 else
   echo -e "${ERROR} Download failed for hyprwire $tag" 2>&1 | tee -a "$LOG"

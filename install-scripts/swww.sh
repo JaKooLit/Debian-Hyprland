@@ -49,13 +49,14 @@ done
 
 printf "\n%.0s" {1..2}
 
-# Check if swww directory exists
-if [ -d "swww" ]; then
-    cd swww || exit 1
+# Check if swww directory exists (under build/src)
+SRC_DIR="$SRC_ROOT/swww"
+if [ -d "$SRC_DIR" ]; then
+    cd "$SRC_DIR" || exit 1
     git pull origin main 2>&1 | tee -a "$MLOG"
 else
-    if git clone --recursive -b $swww_tag https://github.com/LGFae/swww.git; then
-        cd swww || exit 1
+    if git clone --recursive -b $swww_tag https://github.com/LGFae/swww.git "$SRC_DIR"; then
+        cd "$SRC_DIR" || exit 1
     else
         echo -e "${ERROR} Download failed for ${YELLOW}swww $swww_tag${RESET}" 2>&1 | tee -a "$LOG"
         exit 1
@@ -94,7 +95,7 @@ sudo mkdir -p /usr/share/zsh/site-functions 2>&1 | tee -a "$MLOG"
 sudo cp -r completions/_swww /usr/share/zsh/site-functions/_swww 2>&1 | tee -a "$MLOG"
 
 # Moving logs into main Install-Logs
-mv "$MLOG" ../Install-Logs/ || true
+mv "$MLOG" "$PARENT_DIR/Install-Logs/" || true
 cd - || exit 1
 
 printf "\n%.0s" {1..2}
