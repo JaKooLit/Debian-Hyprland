@@ -48,7 +48,6 @@ if [ -d "$SRC_DIR" ]; then
 fi
 if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git" "$SRC_DIR"; then
   cd "$SRC_DIR" || exit 1
-  cd "hyprtoolkit" || exit 1
   BUILD_DIR="$BUILD_ROOT/hyprtoolkit"
   mkdir -p "$BUILD_DIR"
   cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
