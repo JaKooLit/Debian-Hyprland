@@ -40,18 +40,20 @@ MLOG="install-$(date +%d-%H%M%S)_hyprtoolkit2.log"
 # Clone, build, and install using Cmake
 printf "${NOTE} Cloning hyprtoolkit...\n"
 
-# Check if hyprtoolkit folder exists and remove it
-if [ -d "hyprtoolkit" ]; then
+# Check if hyprtoolkit folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprtoolkit"
+if [ -d "$SRC_DIR" ]; then
   printf "${NOTE} Removing existing hyprtoolkit folder...\n"
-  rm -rf "hyprtoolkit" 2>&1 | tee -a "$LOG"
+  rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
-
-if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git"; then
-  cd "hyprtoolkit" || exit 1
-  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
-  cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git" "$SRC_DIR"; then
+  cd "$SRC_DIR" || exit 1
+  BUILD_DIR="$BUILD_ROOT/hyprtoolkit"
+  mkdir -p "$BUILD_DIR"
+  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
+  cmake --build "$BUILD_DIR" --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
   if [ $DO_INSTALL -eq 1 ]; then
-    if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
+    if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
       printf "${OK} hyprtoolkit installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
       echo -e "${ERROR} Installation failed for hyprtoolkit." 2>&1 | tee -a "$MLOG"
@@ -59,7 +61,7 @@ if git clone -b $tag "https://github.com/hyprwm/hyprtoolkit.git"; then
   else
     echo "${NOTE} DRY RUN: Skipping installation of hyprtoolkit $tag."
   fi
-  [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+  [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
   cd ..
 else
   echo -e "${ERROR} Download failed for hyprtoolkit" 2>&1 | tee -a "$LOG"

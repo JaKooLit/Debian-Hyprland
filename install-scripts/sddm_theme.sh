@@ -31,15 +31,16 @@ if [ -d "/usr/share/sddm/themes/$theme_name" ]; then
   echo -e "\e[1A\e[K${OK} - Removed existing $theme_name directory." 2>&1 | tee -a "$LOG"
 fi
 
-# Check if $theme_name directory exists in the current directory and remove if it does
-if [ -d "$theme_name" ]; then
-  rm -rf "$theme_name"
+# Check if $theme_name directory exists in build/src and remove if it does
+SRC_DIR="$SRC_ROOT/$theme_name"
+if [ -d "$SRC_DIR" ]; then
+  rm -rf "$SRC_DIR"
   echo -e "\e[1A\e[K${OK} - Removed existing $theme_name directory from the current location." 2>&1 | tee -a "$LOG"
 fi
 
 # Clone the repository
-if git clone --depth=1 "$source_theme" "$theme_name"; then
-  if [ ! -d "$theme_name" ]; then
+if git clone --depth=1 "$source_theme" "$SRC_DIR"; then
+  if [ ! -d "$SRC_DIR" ]; then
     echo "${ERROR} Failed to clone the repository." | tee -a "$LOG"
   fi
 
@@ -50,7 +51,7 @@ if git clone --depth=1 "$source_theme" "$theme_name"; then
   fi
 
   # Move cloned theme to the themes directory
-  sudo mv "$theme_name" "/usr/share/sddm/themes/$theme_name" 2>&1 | tee -a "$LOG"
+  sudo mv "$SRC_DIR" "/usr/share/sddm/themes/$theme_name" 2>&1 | tee -a "$LOG"
 
   # setting up SDDM theme
   sddm_conf="/etc/sddm.conf"

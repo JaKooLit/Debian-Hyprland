@@ -41,19 +41,22 @@ MLOG="install-$(date +%d-%H%M%S)_hyprlang2.log"
 # Installation of dependencies
 printf "\n%s - Installing ${YELLOW}hyprlang dependencies${RESET} .... \n" "${INFO}"
 
-# Check if hyprlang directory exists and remove it
-if [ -d "hyprlang" ]; then
-    rm -rf "hyprlang"
+# Check if hyprlang directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprlang"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}hyprlang $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git; then
-    cd hyprlang || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B ./build
-	cmake --build ./build --config Release --target hyprlang -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
+    BUILD_DIR="$BUILD_ROOT/hyprlang"
+    mkdir -p "$BUILD_DIR"
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -S . -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" --config Release --target hyprlang -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
             printf "${OK} ${MAGENTA}hyprlang tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$MLOG"
@@ -62,7 +65,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprlang.git; then
         echo "${NOTE} DRY RUN: Skipping installation of hyprlang $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprlang $tag${RESET}" 2>&1 | tee -a "$LOG"

@@ -40,25 +40,28 @@ for PKG1 in "${xkbcommon[@]}"; do
   fi
 done
 
-# Check if xkbcommon folder exists and remove it
-if [ -d "libxkbcommon" ]; then
+# Check if xkbcommon folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/libxkbcommon"
+if [ -d "$SRC_DIR" ]; then
     printf "${NOTE} Removing existing libxkbcommon folder...\n"
-    rm -rf "libxkbcommon"
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${NOTE} Installing xkbcommon...\n"
-if git clone --recursive -b $tag https://github.com/xkbcommon/libxkbcommon.git; then
-    cd libxkbcommon || exit 1
-    meson setup build --libdir=/usr/local/lib
-    meson compile -C build
-    if sudo meson install -C build 2>&1 | tee -a "$MLOG" ; then
+if git clone --recursive -b $tag https://github.com/xkbcommon/libxkbcommon.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
+    BUILD_DIR="$BUILD_ROOT/libxkbcommon"
+    mkdir -p "$BUILD_DIR"
+    meson setup "$BUILD_DIR" --libdir=/usr/local/lib
+    meson compile -C "$BUILD_DIR"
+    if sudo meson install -C "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} xkbcommon installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for xkbcommon." 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv $MLOG "$PARENT_DIR/Install-Logs/" || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for xkbcommon." 2>&1 | tee -a "$LOG"

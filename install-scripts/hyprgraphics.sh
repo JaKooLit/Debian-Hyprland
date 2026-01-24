@@ -53,19 +53,22 @@ for PKG1 in "${hyprgraphics[@]}"; do
 done
 printf "\n%.0s" {1..1}
 
-# Check if hyprgraphics directory exists and remove it
-if [ -d "hyprgraphics" ]; then
-    rm -rf "hyprgraphics"
+# Check if hyprgraphics directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprgraphics"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${INFO} Installing ${YELLOW}hyprgraphics $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprgraphics.git; then
-    cd hyprgraphics || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-	cmake --build ./build --config Release --target hyprgraphics -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprgraphics.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
+    BUILD_DIR="$BUILD_ROOT/hyprgraphics"
+    mkdir -p "$BUILD_DIR"
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" --config Release --target hyprgraphics -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
             printf "${OK} ${MAGENTA}hyprgraphics $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}hyprgraphics $graphics${RESET}" 2>&1 | tee -a "$MLOG"
@@ -74,7 +77,7 @@ if git clone --recursive -b $tag https://github.com/hyprwm/hyprgraphics.git; the
         echo "${NOTE} DRY RUN: Skipping installation of hyprgraphics $tag."
     fi
     #moving the addional logs to Install-Logs directory
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprgraphics $graphics${RESET}" 2>&1 | tee -a "$LOG"

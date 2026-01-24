@@ -43,25 +43,28 @@ for PKG1 in "${polkitagent[@]}"; do
   fi
 done
 
-# Check if hyprpolkitagent folder exists and remove it
-if [ -d "hyprpolkitagent" ]; then
+# Check if hyprpolkitagent folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprpolkitagent"
+if [ -d "$SRC_DIR" ]; then
     printf "${NOTE} Removing existing hyprpolkitagent folder...\n"
-    rm -rf "hyprpolkitagent"
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build 
 printf "${NOTE} Installing hyprpolkitagent...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprpolkitagent.git; then
-    cd hyprpolkitagent || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
-	cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
-    if sudo cmake --install ./build 2>&1 | tee -a "$MLOG" ; then
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprpolkitagent.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
+    BUILD_DIR="$BUILD_ROOT/hyprpolkitagent"
+    mkdir -p "$BUILD_DIR"
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" --config Release --target all -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
+    if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} hyprpolkitagent installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for hyprpolkitagent." 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv $MLOG "$PARENT_DIR/Install-Logs/" || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for hyprpolkitagent." 2>&1 | tee -a "$LOG"

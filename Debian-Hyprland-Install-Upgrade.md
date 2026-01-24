@@ -128,7 +128,7 @@ This file contains version tags for all Hyprland components:
 
 ```bash
 # Current versions (example)
-HYPRLAND_TAG=v0.53.1
+HYPRLAND_TAG=v0.53.2
 AQUAMARINE_TAG=v0.10.0
 HYPRUTILS_TAG=v0.11.0
 HYPRLANG_TAG=v0.6.8
@@ -327,6 +327,20 @@ Notes:
 - **No system changes**: No files installed to /usr/local or /usr
 
 ## Log Management
+## Build Artifacts & Cleanup
+
+All source clones and build outputs now live under `~/Debian-Hyprland/build/`:
+
+- **Sources:** `build/src/<project>`
+- **Build output:** `build/<project>`
+
+This keeps the repo root clean. To remove all build artifacts:
+
+```bash
+rm -rf ~/Debian-Hyprland/build
+```
+
+Note: This only removes build artifacts and downloaded sources; it does not uninstall anything from your system.
 
 ### Log Location
 

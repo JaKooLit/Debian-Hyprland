@@ -68,25 +68,29 @@ printf "\n%.0s" {1..2}
 # Clone and build rofi - wayland
 printf "${NOTE} Building and Installing ${SKY_BLUE}rofi-wayland${RESET} $rofi_tag ...\n"
 
-# Check if rofi directory exists
-if [ -d "rofi-$rofi_tag" ]; then
-  rm -rf "rofi-$rofi_tag"
+# Check if rofi directory exists (under build/src)
+SRC_DIR="$SRC_ROOT/rofi-$rofi_tag"
+TAR_PATH="$SRC_ROOT/rofi-$rofi_tag.tar.gz"
+if [ -d "$SRC_DIR" ]; then
+  rm -rf "$SRC_DIR"
 fi
 
 # cloning rofi-wayland
 printf "${NOTE} Downloading ${YELLOW}rofi-wayland $rofi_tag${RESET} from releases...\n"
-wget $release_url
+wget -O "$TAR_PATH" $release_url
 
-if [ -f "rofi-$rofi_tag.tar.gz" ]; then
+if [ -f "$TAR_PATH" ]; then
   printf "${OK} ${YELLOW}rofi-wayland $rofi_tag${RESET} downloaded successfully.\n" 2>&1 | tee -a "$LOG"
-  tar xf rofi-$rofi_tag.tar.gz
+  tar -C "$SRC_ROOT" -xf "$TAR_PATH"
 fi
 
-cd rofi-$rofi_tag || exit 1
+cd "$SRC_DIR" || exit 1
 
 # Proceed with the installation steps
-if meson setup build && ninja -C build ; then
-  if sudo ninja -C build install 2>&1 | tee -a "$MLOG"; then
+BUILD_DIR="$BUILD_ROOT/rofi-$rofi_tag"
+mkdir -p "$BUILD_DIR"
+if meson setup "$BUILD_DIR" && ninja -C "$BUILD_DIR" ; then
+  if sudo ninja -C "$BUILD_DIR" install 2>&1 | tee -a "$MLOG"; then
     printf "${OK} rofi-wayland installed successfully.\n" 2>&1 | tee -a "$MLOG"
   else
     echo -e "${ERROR} Installation failed for ${YELLOW}rofi-wayland $rofi_tag${RESET}" 2>&1 | tee -a "$MLOG"
@@ -96,10 +100,10 @@ else
 fi
 
 # Move logs to Install-Logs directory
-mv "$MLOG" ../Install-Logs/ || true
+mv "$MLOG" "$PARENT_DIR/Install-Logs/" || true
 cd .. || exit 1
 
 # clean up
-rm -rf rofi-$rofi_tag.tar.gz
+rm -rf "$TAR_PATH"
 
 printf "\n%.0s" {1..2}

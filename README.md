@@ -102,14 +102,14 @@ sudo nano /etc/apt/sources.list
 [Debian-Hyprland Changelogs](https://github.com/JaKooLit/Debian-Hyprland/blob/main/CHANGELOGS.md)
 
 - 10 January 2026 Update!
-- Debian now builds Hyprland v0.53.1!
+- Debian now builds Hyprland v0.53.2!
     - This requires the just released `Debian-Hyprland v2.9.4` installer
     - Debian 13 (`Trixie`, aka `Stable`)
-        - While it does now support v0.53.1
+    - While it does now support v0.53.2
             - At this time it should not be used for production
             - Testing is on going but NVIDIA GPUs have not been tested
             - Intel, AMD, and in VMs only so far
-    - Debian Testing (`Forky`) and Unstable (`SID`) - Build and run Hyprland v0.53.1 without issue
+    - Debian Testing (`Forky`) and Unstable (`SID`) - Build and run Hyprland v0.53.2 without issue
 
 - 10 October 2025 Update!
 - Hyprland-Debian nows builds 0.51.1 from source!

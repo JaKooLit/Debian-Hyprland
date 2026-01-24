@@ -3,7 +3,7 @@
 # Main Hyprland Package#
 
 #specific branch or release
-tag="v0.53.0"
+tag="v0.53.2"
 # Auto-source centralized tags if env is unset
 if [ -z "${HYPRLAND_TAG:-}" ]; then
   TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
@@ -73,14 +73,17 @@ printf "\n%.0s" {1..1}
 # Clone, build, and install Hyprland using Cmake
 printf "${NOTE} Cloning and Installing ${YELLOW}Hyprland $tag${RESET} ...\n"
 
-# Check if Hyprland folder exists and remove it
-if [ -d "Hyprland" ]; then
+# Check if Hyprland folder exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/Hyprland"
+if [ -d "$SRC_DIR" ]; then
     printf "${NOTE} Removing existing Hyprland folder...\n"
-    rm -rf "Hyprland" 2>&1 | tee -a "$LOG"
+    rm -rf "$SRC_DIR" 2>&1 | tee -a "$LOG"
 fi
 
-if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland"; then
-    cd "Hyprland" || exit 1
+if git clone --recursive -b $tag "https://github.com/hyprwm/Hyprland" "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
+    BUILD_DIR="$BUILD_ROOT/hyprland"
+    mkdir -p "$BUILD_DIR"
 
     # Compatibility shim for toolchains without std::vector::{insert_range,append_range}
     RANGE_HDR="$(pwd)/hypr_range_compat.hpp"
@@ -129,9 +132,9 @@ EOF
     fi
 
     # Apply patch only if it applies cleanly; otherwise skip
-    if [ -f ../assets/0001-fix-hyprland-compile-issue.patch ]; then
-        if patch -p1 --dry-run <../assets/0001-fix-hyprland-compile-issue.patch >/dev/null 2>&1; then
-            patch -p1 <../assets/0001-fix-hyprland-compile-issue.patch
+    if [ -f "$PARENT_DIR/assets/0001-fix-hyprland-compile-issue.patch" ]; then
+        if patch -p1 --dry-run <"$PARENT_DIR/assets/0001-fix-hyprland-compile-issue.patch" >/dev/null 2>&1; then
+            patch -p1 <"$PARENT_DIR/assets/0001-fix-hyprland-compile-issue.patch"
         else
             echo "${NOTE} Hyprland compile patch does not apply on $tag; skipping."
         fi
@@ -179,19 +182,121 @@ EOF
         -DCMAKE_CXX_FLAGS="-Wno-unknown-warning-option -include ${RANGE_HDR}"
         "${SYSTEM_FLAGS[@]}"
     )
-    cmake -S . -B build "${CONFIG_FLAGS[@]}"
-    cmake --build build -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+    cmake -S . -B "$BUILD_DIR" "${CONFIG_FLAGS[@]}"
+    cmake --build "$BUILD_DIR" -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
     if [ $DO_INSTALL -eq 1 ]; then
-        if sudo cmake --install build 2>&1 | tee -a "$MLOG"; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
             printf "${OK} ${MAGENTA}Hyprland tag${RESET}  installed successfully.\n" 2>&1 | tee -a "$MLOG"
+            
+            # Update version header file for tools like fastfetch that read it at runtime
+            printf "${NOTE} Updating system version header for Hyprland...\n"
+            VER_OUTPUT=""
+            if [ -x "$BUILD_DIR/Hyprland" ]; then
+                VER_OUTPUT=$("$BUILD_DIR/Hyprland" --version)
+            elif [ -x "$BUILD_DIR/hyprland" ]; then
+                VER_OUTPUT=$("$BUILD_DIR/hyprland" --version)
+            elif command -v Hyprland >/dev/null 2>&1; then
+                VER_OUTPUT=$(Hyprland --version)
+            elif command -v hyprctl >/dev/null 2>&1; then
+                VER_OUTPUT=$(hyprctl version)
+            fi
+
+            if [ -n "$VER_OUTPUT" ]; then
+                VERSION=$(printf '%s' "$VER_OUTPUT" | head -n1 | awk '{print $2}')
+                COMMIT=$(printf '%s' "$VER_OUTPUT" | grep -oP 'commit \K[a-f0-9]+' | head -1)
+                TAG=$(printf '%s' "$VER_OUTPUT" | grep -oP 'Tag: \K[^,]+' | head -1)
+                COMMIT_DATE=$(printf '%s' "$VER_OUTPUT" | grep -oP '^Date:\s+\K.*' | head -1)
+                COMMITS=$(printf '%s' "$VER_OUTPUT" | grep -oP 'commits:\s*\K[0-9]+' | head -1)
+                DIRTY=$(printf '%s' "$VER_OUTPUT" | grep -qi 'dirty' && echo "dirty" || echo "clean")
+                COMMIT_MSG=$(printf '%s' "$VER_OUTPUT" | head -n1 | sed -n 's/.*(version: \(.*\))\..*/\1/p')
+
+                [ -z "$COMMIT" ] && COMMIT="unknown"
+                [ -z "$TAG" ] && TAG="v$VERSION"
+                [ -z "$COMMIT_DATE" ] && COMMIT_DATE="$(date)"
+                [ -z "$COMMITS" ] && COMMITS="0"
+                [ -z "$COMMIT_MSG" ] && COMMIT_MSG="version: bump"
+
+                # Prefer versions from hyprland --version; fall back to hypr-tags.env values
+                parse_ver() { printf '%s' "$VER_OUTPUT" | grep -m1 "$1:" | grep -oP '\d+\.\d+\.\d+' | head -1; }
+                AQUA_VER=$(parse_ver "Aquamarine")
+                HYPRLANG_VER=$(parse_ver "Hyprlang")
+                HYPRUTILS_VER=$(parse_ver "Hyprutils")
+                HYPRCURSOR_VER=$(parse_ver "Hyprcursor")
+                HYPRGRAPHICS_VER=$(parse_ver "Hyprgraphics")
+
+                [ -z "$AQUA_VER" ] && AQUA_VER="${AQUAMARINE_TAG#v}"
+                [ -z "$HYPRLANG_VER" ] && HYPRLANG_VER="${HYPRLANG_TAG#v}"
+                [ -z "$HYPRUTILS_VER" ] && HYPRUTILS_VER="${HYPRUTILS_TAG#v}"
+                [ -z "$HYPRGRAPHICS_VER" ] && HYPRGRAPHICS_VER="${HYPRGRAPHICS_TAG#v}"
+                [ -z "$HYPRCURSOR_VER" ] && HYPRCURSOR_VER="0.1.13"
+                [ -z "$AQUA_VER" ] && AQUA_VER="0.0.0"
+                [ -z "$HYPRLANG_VER" ] && HYPRLANG_VER="0.0.0"
+                [ -z "$HYPRUTILS_VER" ] && HYPRUTILS_VER="0.0.0"
+                [ -z "$HYPRGRAPHICS_VER" ] && HYPRGRAPHICS_VER="0.0.0"
+
+                # AQUAMARINE_VERSION components
+                AQUA_MAJOR=$(echo "$AQUA_VER" | cut -d. -f1)
+                AQUA_MINOR=$(echo "$AQUA_VER" | cut -d. -f2)
+                AQUA_PATCH=$(echo "$AQUA_VER" | cut -d. -f3)
+
+                # Use printf to safely write the file
+                printf '%s\n' "#pragma once" > /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMIT_HASH    \"$COMMIT\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_BRANCH         \"\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMIT_MESSAGE \"$COMMIT_MSG\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMIT_DATE    \"$COMMIT_DATE\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_DIRTY          \"$DIRTY\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_TAG            \"$TAG\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define GIT_COMMITS        \"$COMMITS\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION \"$AQUA_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "// clang-format off" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION_MAJOR $AQUA_MAJOR" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION_MINOR $AQUA_MINOR" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define AQUAMARINE_VERSION_PATCH $AQUA_PATCH" >> /tmp/version_header.h.tmp
+                printf '%s\n' "// clang-format on" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRLANG_VERSION     \"$HYPRLANG_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRUTILS_VERSION    \"$HYPRUTILS_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRCURSOR_VERSION   \"$HYPRCURSOR_VER\"" >> /tmp/version_header.h.tmp
+                printf '%s\n' "#define HYPRGRAPHICS_VERSION \"$HYPRGRAPHICS_VER\"" >> /tmp/version_header.h.tmp
+
+                TARGETS=()
+                if [ -f /usr/local/include/hyprland/src/version.h ]; then
+                    TARGETS+=(/usr/local/include/hyprland/src/version.h)
+                fi
+                if [ -f /usr/include/hyprland/src/version.h ]; then
+                    # If both exist, keep /usr/include in sync to avoid fastfetch mismatch.
+                    TARGETS+=(/usr/include/hyprland/src/version.h)
+                fi
+                if [ ${#TARGETS[@]} -eq 0 ]; then
+                    # Default to /usr/local if neither header exists yet.
+                    TARGETS+=(/usr/local/include/hyprland/src/version.h)
+                fi
+
+                UPDATED=0
+                for tgt in "${TARGETS[@]}"; do
+                    if sudo install -d "$(dirname "$tgt")" && sudo cp /tmp/version_header.h.tmp "$tgt" 2>&1 | tee -a "$MLOG"; then
+                        UPDATED=1
+                    fi
+                done
+
+                if [ $UPDATED -eq 1 ]; then
+                    printf "${OK} System version header updated to $VERSION\n" 2>&1 | tee -a "$MLOG"
+                else
+                    printf "${NOTE} Could not update system version header (non-critical)\n" 2>&1 | tee -a "$MLOG"
+                fi
+                rm -f /tmp/version_header.h.tmp
+            else
+                printf "${NOTE} Could not determine Hyprland version output for header update (non-critical)\n" 2>&1 | tee -a "$MLOG"
+            fi
         else
             echo -e "${ERROR} Installation failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$MLOG"
         fi
     else
         echo "${NOTE} DRY RUN: Skipping installation of Hyprland $tag."
     fi
-    [ -f "$MLOG" ] && mv "$MLOG" ../Install-Logs/
+    [ -f "$MLOG" ] && mv "$MLOG" "$PARENT_DIR/Install-Logs/"
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}Hyprland $tag${RESET}" 2>&1 | tee -a "$LOG"

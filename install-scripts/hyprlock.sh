@@ -46,24 +46,27 @@ for PKG1 in "${build_dep[@]}"; do
   build_dep "$PKG1" "$LOG"
 done
 
-# Check if hyprlock directory exists and remove it
-if [ -d "hyprlock" ]; then
-    rm -rf "hyprlock"
+# Check if hyprlock directory exists and remove it (under build/src)
+SRC_DIR="$SRC_ROOT/hyprlock"
+if [ -d "$SRC_DIR" ]; then
+    rm -rf "$SRC_DIR"
 fi
 
 # Clone and build hyprlock
 printf "${INFO} Installing ${YELLOW}hyprlock $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprlock.git; then
-    cd hyprlock || exit 1
-	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B ./build
-	cmake --build ./build --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-    if sudo cmake --install build 2>&1 | tee -a "$MLOG" ; then
+if git clone --recursive -b $tag https://github.com/hyprwm/hyprlock.git "$SRC_DIR"; then
+    cd "$SRC_DIR" || exit 1
+    BUILD_DIR="$BUILD_ROOT/hyprlock"
+    mkdir -p "$BUILD_DIR"
+	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B "$BUILD_DIR"
+	cmake --build "$BUILD_DIR" --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+    if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} ${YELLOW}hyprlock $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
     else
         echo -e "${ERROR} Installation failed for ${YELLOW}hyprlock $tag${RESET}" 2>&1 | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
-    mv $MLOG ../Install-Logs/ || true 
+    mv $MLOG "$PARENT_DIR/Install-Logs/" || true 
     cd ..
 else
     echo -e "${ERROR} Download failed for ${YELLOW}hyprlock $tag${RESET}" 2>&1 | tee -a "$LOG"
