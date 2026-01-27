@@ -1,5 +1,15 @@
 ## CHANGELOG
 
+## 27 January 2026
+
+### Fixed build issue with Debian stable (trixie)
+
+- All references to `Nix::`, `Nix.hpp`, `Nix.cpp`, `--no-nixgl`, and `nixGL` in the built Hyprland sources are removed via assets/0002-start-hyprland-no-nixgl.patch.
+- The patch:
+    - Drops the Nix include and logic from `start/src/core/Instance.cpp`, `start/src/core/State.hpp`, and `start/src/main.cpp`.
+    - Removes the `--no-nixgl` flag and the Nix environment checks.
+    - Now `start-hyprland` starts `Hyprland` directly, with no `nixGL` wrapper or Nix environment inspection.
+
 ## 24 January 2026
 
 - Updated Hyprland version to v0.53.3

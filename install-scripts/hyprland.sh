@@ -139,6 +139,19 @@ EOF
             echo "${NOTE} Hyprland compile patch does not apply on $tag; skipping."
         fi
     fi
+
+    # Optionally strip nixGL/Nix helper logic from start-hyprland (Debian does not need it)
+    if [ -f "$PARENT_DIR/assets/0002-start-hyprland-no-nixgl.patch" ]; then
+        if patch -p1 --dry-run <"$PARENT_DIR/assets/0002-start-hyprland-no-nixgl.patch" >/dev/null 2>&1; then
+            patch -p1 <"$PARENT_DIR/assets/0002-start-hyprland-no-nixgl.patch"
+        else
+            echo "${NOTE} Hyprland start-hyprland nixGL patch does not apply on $tag; skipping."
+        fi
+    fi
+
+    # Remove Nix helper sources that are no longer used (defensive)
+    rm -f start/src/helpers/Nix.cpp start/src/helpers/Nix.hpp || true
+
     # By default, build Hyprland with bundled hyprutils/hyprlang to avoid version mismatches
     # You can force system libs by exporting USE_SYSTEM_HYPRLIBS=1 before running this script.
     USE_SYSTEM=${USE_SYSTEM_HYPRLIBS:-1}
