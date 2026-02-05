@@ -1,5 +1,26 @@
 ## CHANGELOG
 
+## 04 February 2026
+
+- Updated Hyprland to current revision 
+  - AQUAMARINE_TAG=v0.10.0
+  - HYPRGRAPHICS_TAG=v0.5.0
+  - HYPRLAND_GUIUTILS_TAG=v0.2.1
+  - HYPRLAND_PROTOCOLS_TAG=v0.7.0
+  - HYPRLAND_QT_SUPPORT_TAG=v0.1.0
+  - HYPRLAND_QTUTILS_TAG=v0.1.5
+  - HYPRLAND_TAG=v0.53.3
+  - HYPRLANG_TAG=v0.6.8
+  - HYPRTOOLKIT_TAG=v0.5.3
+  - HYPRUTILS_TAG=v0.11.0
+  - HYPRWAYLAND_SCANNER_TAG=v0.4.5
+  - HYPRWIRE_TAG=v0.3.0
+  - WAYLAND_PROTOCOLS_TAG=1.46
+- Updated `uninstall.sh` to remove source built binaries 
+- Fixed build issues with Debian Trixie 
+- Fixed installation path handling 
+- Removed old code related to debian packages for Hyprland
+
 ## 27 January 2026
 
 ### Fixed build issue with Debian stable (trixie)
