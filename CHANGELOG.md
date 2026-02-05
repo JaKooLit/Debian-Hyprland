@@ -1,5 +1,16 @@
 ## CHANGELOG
 
+## 05 February 2026
+
+- Updated `nvidia.sh`
+  - Options to install:
+    - Debian drivers (older NVIDIA GPUs)
+    - For more recent NVIDIA GPUs 
+      - NVIDIA propriertary drivers 
+      - NVIDIA open drivers 
+        - You can switch between them later 
+   - Read `HOWTO-Install-NVIDIA-Drivers-in-Debian.md` 
+
 ## 04 February 2026
 
 - Updated Hyprland to current revision 
