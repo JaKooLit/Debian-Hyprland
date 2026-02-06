@@ -2,15 +2,28 @@
 # 💫 https://github.com/JaKooLit 💫 #
 # SWWW - Wallpaper Utility #
 
-# specific branch or release
+# specific branch or release (minimum required 0.11.2)
 swww_tag="v0.11.2"
+swww_min="0.11.2"
 
-# Check if 'swww' is installed
+# Version compare helper (uses dpkg if available)
+version_ge() {
+    local a="$1" b="$2"
+    if command -v dpkg >/dev/null 2>&1; then
+        dpkg --compare-versions "$a" ge "$b"
+        return $?
+    fi
+    [ "$(printf '%s\n%s\n' "$b" "$a" | sort -V | tail -n1)" = "$a" ]
+}
+
+# Check if 'swww' is installed and skip if version is sufficient
 if command -v swww &>/dev/null; then
-    SWWW_VERSION=$(swww -V | awk '{print $NF}')
-    if [[ "$SWWW_VERSION" == "$swww_tag" ]]; then
-        echo -e "${OK} ${MAGENTA}swww ${swww_tag}${RESET} is already installed. Skipping installation."
+    SWWW_VERSION=$(swww --version 2>/dev/null | grep -oE '[0-9]+(\.[0-9]+){1,3}' | head -1)
+    if [ -n "$SWWW_VERSION" ] && version_ge "$SWWW_VERSION" "$swww_min"; then
+        echo -e "${OK} ${MAGENTA}swww ${SWWW_VERSION}${RESET} detected (>= ${swww_min}). Skipping installation."
         exit 0
+    else
+        echo -e "${INFO} swww ${SWWW_VERSION:-unknown} found; upgrading to ${swww_tag}."
     fi
 else
     echo -e "${NOTE} ${MAGENTA}swww${RESET} is not installed. Proceeding with installation."

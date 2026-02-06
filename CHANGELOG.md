@@ -13,6 +13,10 @@
         - Not sure why that was there but added --force-reinstall flag in case
 - Updated `rofi` to v2.00
     - Supports X11 and Wayland
+- Added path and version checks:
+    - wallust
+    - swww
+        - Both were compiled on every run of `install.sh`
 
 ## 05 February 2026
 
