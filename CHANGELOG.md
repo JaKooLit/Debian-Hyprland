@@ -11,6 +11,8 @@
     - Removed `wayland-protocol` pkg install since we build from source
     - Removed forced re-install of imagick
         - Not sure why that was there but added --force-reinstall flag in case
+- Updated `rofi` to v2.00
+    - Supports X11 and Wayland
 
 ## 05 February 2026
 
