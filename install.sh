@@ -498,14 +498,13 @@ if ! check_services_running; then
     )
 fi
 
-# Add the remaining static options
+# Add the remaining static options (XDPH now installed by default; removed from menu)
 options_command+=(
     "gtk_themes" "Install GTK themes (required for Dark/Light function)" "OFF"
     "bluetooth" "Do you want script to configure Bluetooth?" "OFF"
     "thunar" "Do you want Thunar file manager to be installed?" "OFF"
     "ags" "Install AGS v1 for Desktop-Like Overview" "OFF"
     "quickshell" "Install Quickshell (QtQuick-based shell toolkit)?" "OFF"
-    "xdph" "Install XDG-DESKTOP-PORTAL-HYPRLAND (for screen share)?" "OFF"
     "zsh" "Install zsh shell with Oh-My-Zsh?" "OFF"
     "pokemon" "Add Pokemon color scripts to your terminal?" "OFF"
     "rog" "Are you installing on Asus ROG laptops?" "OFF"
@@ -651,6 +650,9 @@ sleep 1
 execute_script "hyprlock.sh"
 sleep 1
 execute_script "hypridle.sh"
+
+# Install XDG-Desktop-Portal-Hyprland by default (removed from menu)
+execute_script "xdph.sh"
 
 # Ensure /usr/local/lib is in the dynamic linker search path.
 # Many Hypr* components install shared libraries into /usr/local/lib; without this,
