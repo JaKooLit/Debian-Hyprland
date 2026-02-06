@@ -6,6 +6,11 @@
     - Checks for current kernel headers
     - Improved menu with help
     - `install.sh` checks for deb source and non-free repos
+- Improved `install.sh`
+    - Removed installing pkgs then build from source later
+    - Removed `wayland-protocol` pkg install since we build from source
+    - Removed forced re-install of imagick
+        - Not sure why that was there but added --force-reinstall flag in case
 
 ## 05 February 2026
 
