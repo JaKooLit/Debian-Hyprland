@@ -401,16 +401,17 @@ script_directory=install-scripts
 
 # Function to execute a script if it exists and make it executable
 execute_script() {
-    local script="$1"
+    local script="$1"; shift || true
     local script_path="$script_directory/$script"
+    local args=("$@")
     if [ -f "$script_path" ]; then
         chmod +x "$script_path"
         if [ -x "$script_path" ]; then
             # Pass flags via env so sub-scripts can react without CLI churn
             if [ "${HYPR_BUILD_TRIXIE:-0}" = "1" ]; then
-                env HYPR_BUILD_TRIXIE=1 HYPR_FORCE_REINSTALL=${FORCE_REINSTALL:-0} "$script_path" --build-trixie
+                env HYPR_BUILD_TRIXIE=1 HYPR_FORCE_REINSTALL=${FORCE_REINSTALL:-0} "$script_path" --build-trixie "${args[@]}"
             else
-                env HYPR_BUILD_TRIXIE=0 HYPR_FORCE_REINSTALL=${FORCE_REINSTALL:-0} "$script_path"
+                env HYPR_BUILD_TRIXIE=0 HYPR_FORCE_REINSTALL=${FORCE_REINSTALL:-0} "$script_path" "${args[@]}"
             fi
         else
             echo "Failed to make script '$script' executable." | tee -a "$LOG"
@@ -725,6 +726,35 @@ selected_options=$(echo "$selected_options" | tr -d '"' | tr -s ' ')
 # Convert selected options into an array (splitting by spaces)
 IFS=' ' read -r -a options <<<"$selected_options"
 
+# Helper to prompt for NVIDIA mode (tty or whiptail)
+prompt_nvidia_mode() {
+    local mode="debian"
+    if [ "$TTY_MODE" -eq 1 ]; then
+        echo "Choose NVIDIA driver source:"
+        echo "  d) Debian repo (nvidia-driver)"
+        echo "  n) NVIDIA CUDA repo (cuda-drivers, proprietary)"
+        echo "  o) NVIDIA CUDA repo (nvidia-open, open kernel modules)"
+        read -r -p "Select [d/N/o] (default d): " ans
+        case "${ans,,}" in
+          o|open) mode="open" ;;
+          n|nv|nvidia) mode="nvidia" ;;
+          d|""|*) mode="debian" ;;
+        esac
+    else
+        local choice
+        choice=$(whiptail --title "NVIDIA driver source" --menu "Select installation source" 15 68 5 \
+                 d "Debian repo (nvidia-driver)" \
+                 n "NVIDIA CUDA repo (cuda-drivers, proprietary)" \
+                 o "NVIDIA CUDA repo (nvidia-open, open kernel modules)" 3>&1 1>&2 2>&3) || true
+        case "$choice" in
+          o) mode="open" ;;
+          n) mode="nvidia" ;;
+          d|*) mode="debian" ;;
+        esac
+    fi
+    printf '%s' "$mode"
+}
+
 # Loop through selected options
 for option in "${options[@]}"; do
     case "$option" in
@@ -740,7 +770,9 @@ for option in "${options[@]}"; do
         ;;
     nvidia)
         echo "${INFO} Configuring ${SKY_BLUE}nvidia stuff${RESET}" | tee -a "$LOG"
-        execute_script "nvidia.sh"
+        nv_mode=$(prompt_nvidia_mode)
+        echo "${INFO} Using NVIDIA mode: ${YELLOW}${nv_mode}${RESET}" | tee -a "$LOG"
+        execute_script "nvidia.sh" --mode="${nv_mode}"
         ;;
     gtk_themes)
         echo "${INFO} Installing ${SKY_BLUE}GTK themes...${RESET}" | tee -a "$LOG"
