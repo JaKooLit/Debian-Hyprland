@@ -170,15 +170,21 @@ _prompt_for_mode() {
   echo -e "${WARN} If you have a current‑generation NVIDIA GPU, ${YELLOW}do NOT use Debian-based drivers${RESET}."
   echo -e "      Choose an NVIDIA CUDA repo option below, or install drivers manually and re-run the Debian Hyprland install."
   echo -e "${CAT} Choose installation source:"
-  echo -e "  [D] Debian repo (default) — installs ${YELLOW}nvidia-driver${RESET} and related pkgs"
+  echo -e "  [D] Debian repo (default) — installs ${YELLOW}nvidia-driver${RESET} and related packages"
   echo -e "  [N] NVIDIA CUDA repo — installs ${YELLOW}cuda-drivers${RESET} (proprietary)"
   echo -e "  [O] NVIDIA CUDA repo — installs ${YELLOW}nvidia-open${RESET} (open kernel modules)"
-  read -r -p "Select [D/n/o]: " mode_input || true
-  case "${mode_input,,}" in
-    o|open) echo "open" ;;
-    n|nv|nvidia) echo "nvidia" ;;
-    d|""|*) echo "debian" ;;
-  esac
+  while true; do
+    read -r -p "Select an option: D=Debian (default), N=NVIDIA proprietary, O=Open: " mode_input || true
+    case "${mode_input,,}" in
+      ""|d|debian) echo "debian"; return ;;
+      n|nv|nvidia|proprietary) echo "nvidia"; return ;;
+      o|open) echo "open"; return ;;
+      h|help|\?)
+        echo -e "Enter D for Debian-packaged drivers, N for NVIDIA's proprietary drivers, or O for NVIDIA's open kernel modules." ;;
+      *)
+        echo -e "${WARN} Invalid choice. Please enter D, N, or O." ;;
+    esac
+  done
 }
 
 print_header() {
