@@ -225,6 +225,7 @@ PRESET_FILE=""
 # Parse a small set of supported CLI args (order-independent)
 # NOTE: install.sh historically used "$1"/"$2" for --preset; this keeps that working.
 args=("$@")
+FORCE_REINSTALL=0
 for ((i=0; i<${#args[@]}; i++)); do
     case "${args[$i]}" in
         --build-trixie)
@@ -232,6 +233,9 @@ for ((i=0; i<${#args[@]}; i++)); do
             ;;
         --no-trixie)
             TRIXIE_MODE="off"
+            ;;
+        --force-reinstall)
+            FORCE_REINSTALL=1
             ;;
         --preset)
             if [ $((i+1)) -lt ${#args[@]} ]; then
@@ -362,12 +366,11 @@ execute_script() {
     if [ -f "$script_path" ]; then
         chmod +x "$script_path"
         if [ -x "$script_path" ]; then
-            # Pass --build-trixie to all module scripts when in trixie compatibility mode.
-            # Scripts that don't care should simply ignore unknown args.
+            # Pass flags via env so sub-scripts can react without CLI churn
             if [ "${HYPR_BUILD_TRIXIE:-0}" = "1" ]; then
-                env HYPR_BUILD_TRIXIE=1 "$script_path" --build-trixie
+                env HYPR_BUILD_TRIXIE=1 HYPR_FORCE_REINSTALL=${FORCE_REINSTALL:-0} "$script_path" --build-trixie
             else
-                env HYPR_BUILD_TRIXIE=0 "$script_path"
+                env HYPR_BUILD_TRIXIE=0 HYPR_FORCE_REINSTALL=${FORCE_REINSTALL:-0} "$script_path"
             fi
         else
             echo "Failed to make script '$script' executable." | tee -a "$LOG"
