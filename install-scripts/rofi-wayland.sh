@@ -17,6 +17,7 @@ rofi_deps=(
   libxkbcommon-dev
   libxkbcommon-x11-dev
   libxcb1-dev
+  libxcb-keysyms1-dev
   libxcb-xkb-dev
   libxcb-randr0-dev
   libxcb-xinerama0-dev
