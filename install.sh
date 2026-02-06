@@ -67,13 +67,21 @@ _has_component_enabled() {
     sudo grep -RhsE "^[[:space:]]*deb(-src)?[[:space:]].*\\b${comp}(\\s|$)" /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null | grep -q .
 }
 
+# Unconditionally uncomment deb-src lines across all APT list files
+_uncomment_deb_src_everywhere() {
+    for f in /etc/apt/sources.list /etc/apt/sources.list.d/*.list; do
+        [ -f "$f" ] || continue
+        sudo sed -i -E 's/^[[:space:]]*#([[:space:]]*deb-src[[:space:]])/\1/' "$f" 2>/dev/null || true
+    done
+}
+
 _enable_deb_src_conservatively() {
-    local f=/etc/apt/sources.list
-    # First try to uncomment any commented deb-src lines in the main list
-    sudo sed -i -E 's/^[[:space:]]*#([[:space:]]*deb-src[[:space:]])/\1/' "$f" 2>/dev/null || true
+    # Always attempt to uncomment existing deb-src entries first (no prompts)
+    _uncomment_deb_src_everywhere
 
     if ! _has_deb_src_enabled; then
-        # If still none present, duplicate active deb lines into deb-src lines
+        # If still none present, duplicate active deb lines into deb-src lines in the main list
+        local f=/etc/apt/sources.list
         local tmp
         tmp=$(mktemp)
         sudo awk '
@@ -88,71 +96,70 @@ _enable_deb_src_conservatively() {
 }
 
 _write_nonfree_overlay_sources() {
-    # Create a small overlay sources file that only enables the missing components
-    local c suite upd sec file
+    # Create/refresh a small overlay sources file enabling ONLY missing components.
+    # This prevents duplicate APT targets when some components are already present elsewhere.
+    local c suite upd sec file comps=""
     c=$(_detect_codename)
     suite="$c"
     upd="${c}-updates"
     sec="${c}-security"
     file="/etc/apt/sources.list.d/99-debian-nonfree.list"
 
-    sudo bash -c "cat > '$file' <<EOF
-# Added by Debian-Hyprland installer to ensure non-free components are available
-# Safe overlay: does not modify existing sources.list; can be removed later if undesired.
-deb http://deb.debian.org/debian ${suite} non-free non-free-firmware
-deb-src http://deb.debian.org/debian ${suite} non-free non-free-firmware
-EOF" 
+    # Determine which components are actually missing globally
+    if ! _has_component_enabled non-free; then comps+=" non-free"; fi
+    if ! _has_component_enabled non-free-firmware; then comps+=" non-free-firmware"; fi
+    comps=$(echo "$comps" | sed 's/^ *//')
 
-    # For non-sid suites, add updates and security pockets
+    # If no components are missing, remove existing overlay (if any) and return
+    if [ -z "$comps" ]; then
+        sudo rm -f "$file" 2>/dev/null || true
+        return 0
+    fi
+
+    # Build overlay content with ONLY the missing components
+    sudo bash -c "cat > '$file' <<EOF
+# Added by Debian-Hyprland installer to enable missing components only.
+# Safe overlay: does not modify existing sources.list; remove if undesired.
+deb http://deb.debian.org/debian ${suite} ${comps}
+# Add deb-src for missing components as well (sources)
+deb-src http://deb.debian.org/debian ${suite} ${comps}
+EOF"
+
+    # For non-sid suites, add updates and security pockets using only missing comps
     if [ "$c" != "sid" ]; then
         sudo bash -c "cat >> '$file' <<EOF
-deb http://deb.debian.org/debian ${upd} non-free non-free-firmware
-deb-src http://deb.debian.org/debian ${upd} non-free non-free-firmware
-deb http://security.debian.org/debian-security ${sec} non-free non-free-firmware
-deb-src http://security.debian.org/debian-security ${sec} non-free non-free-firmware
+deb http://deb.debian.org/debian ${upd} ${comps}
+deb-src http://deb.debian.org/debian ${upd} ${comps}
+deb http://security.debian.org/debian-security ${sec} ${comps}
+deb-src http://security.debian.org/debian-security ${sec} ${comps}
 EOF"
     fi
 }
 
 verify_and_offer_fix_apt_sources() {
-    local need_fix=0
-    local msg=""
+    # Unconditionally ensure deb-src is uncommented/enabled
+    _enable_deb_src_conservatively
+    # Write minimal overlay for missing non-free components (or remove overlay if not needed)
+    _write_nonfree_overlay_sources
 
+    # Report status after applying fixes
+    local msg=""
     if _has_deb_src_enabled; then
         msg+="\n - deb-src: ${GREEN}ENABLED${RESET}"
     else
         msg+="\n - deb-src: ${YELLOW}MISSING${RESET}"
-        need_fix=1
     fi
-
     if _has_component_enabled non-free; then
         msg+="\n - non-free: ${GREEN}ENABLED${RESET}"
     else
         msg+="\n - non-free: ${YELLOW}MISSING${RESET}"
-        need_fix=1
     fi
-
     if _has_component_enabled non-free-firmware; then
         msg+="\n - non-free-firmware: ${GREEN}ENABLED${RESET}"
     else
         msg+="\n - non-free-firmware: ${YELLOW}MISSING${RESET}"
-        need_fix=1
     fi
-
-    echo -e "${INFO} APT sources status:${msg}"
-
-    if [ "$need_fix" -eq 1 ]; then
-        if command -v whiptail >/dev/null 2>&1; then
-            if whiptail --title "APT sources not fully enabled" --yesno "deb-src and/or non-free components are missing.\n\nEnable now by:\n - Uncommenting or adding deb-src lines\n - Adding a small overlay sources file to enable non-free and non-free-firmware\n\nProceed?" 17 70; then
-                _enable_deb_src_conservatively
-                _write_nonfree_overlay_sources
-            else
-                echo -e "${WARN} Required APT sources not enabled. Some build steps may fail."
-            fi
-        else
-            echo -e "${WARN} Required APT sources not enabled. Install whiptail to allow auto-fix or edit /etc/apt/sources.list manually."
-        fi
-    fi
+    echo -e "${INFO} APT sources status (post-fix):${msg}"
 }
 
 # Warning: End of Life Support
