@@ -104,6 +104,57 @@ apt_remove() {
   fi
 }
 
+# Ensure a list of packages are installed (skip any already present)
+ensure_packages() {
+  local missing=()
+  for pkg in "$@"; do
+    if ! dpkg -s "$pkg" >/dev/null 2>&1; then
+      missing+=("$pkg")
+    fi
+  done
+  if [ ${#missing[@]} -gt 0 ]; then
+    echo -e "${INFO} Installing required packages: ${YELLOW}${missing[*]}${RESET}"
+    apt_install "${missing[@]}"
+  fi
+}
+
+# Try to ensure kernel headers for the running kernel are available
+ensure_kernel_headers() {
+  local kv pkg_exact
+  kv=$(uname -r)
+  pkg_exact="linux-headers-${kv}"
+
+  # Many Debian systems track the meta package; try exact first, then meta
+  if dpkg -s "$pkg_exact" >/dev/null 2>&1; then
+    echo -e "${OK} Kernel headers already installed for ${YELLOW}${kv}${RESET}"
+    return 0
+  fi
+
+  echo -e "${INFO} Ensuring kernel headers for ${YELLOW}${kv}${RESET} ..."
+  if ! apt_install "$pkg_exact"; then
+    # Fallback to common meta packages
+    if dpkg --print-architecture | grep -qE 'amd64|arm64|i386'; then
+      apt_install linux-headers-$(dpkg --print-architecture 2>/dev/null | sed 's/.*/amd64/') >/dev/null 2>&1 || true
+    fi
+    # Generic fallback
+    apt_install linux-headers-amd64 || true
+  fi
+}
+
+# Preflight: headers, toolchain, utilities used by this script
+preflight_check() {
+  echo -e "${INFO} Running preflight checks ..."
+  _apt_update_once
+  # Basic toolchain and helpers; mesa-utils for glxinfo used in verification; pciutils for lspci
+  ensure_packages build-essential dkms wget ca-certificates mesa-utils pciutils
+  ensure_kernel_headers || true
+
+  # Secure Boot warning (drivers may fail to load without signing)
+  if _which mokutil && mokutil --sb-state 2>/dev/null | grep -qi enabled; then
+    echo -e "${WARN} Secure Boot appears ${YELLOW}ENABLED${RESET}. You may need to enroll a Machine Owner Key (MOK) and sign NVIDIA modules."
+  fi
+}
+
 remove_conflicting_for_target() {
   local target="$1"
   case "$target" in
@@ -290,6 +341,9 @@ if [ -n "$SWITCH" ] && [ "$variant_now" != none ] && [ "$variant_now" != "$MODE"
   echo -e "${INFO} Switching from ${YELLOW}$variant_now${RESET} to ${YELLOW}$MODE${RESET} ..."
   remove_conflicting_for_target "$MODE"
 fi
+
+# Ensure headers/tooling before installing drivers (skipped on early-exit above)
+preflight_check || true
 
 case "$MODE" in
   debian)

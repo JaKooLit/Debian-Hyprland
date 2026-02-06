@@ -1,35 +1,42 @@
 ## CHANGELOG
 
+## 07 February 2026
+
+- Improved `nvidia.sh` script
+    - Checks for current kernel headers
+    - Improved menu with help
+    - `install.sh` checks for deb source and non-free repos
+
 ## 05 February 2026
 
 - Updated `nvidia.sh`
-  - Options to install:
-    - Debian drivers (older NVIDIA GPUs)
-    - For more recent NVIDIA GPUs 
-      - NVIDIA propriertary drivers 
-      - NVIDIA open drivers 
-        - You can switch between them later 
-   - Read `HOWTO-Install-NVIDIA-Drivers-in-Debian.md` 
+    - Options to install:
+        - Debian drivers (older NVIDIA GPUs)
+        - For more recent NVIDIA GPUs
+            - NVIDIA propriertary drivers
+            - NVIDIA open drivers
+                - You can switch between them later
+    - Read `HOWTO-Install-NVIDIA-Drivers-in-Debian.md`
 
 ## 04 February 2026
 
-- Updated Hyprland to current revision 
-  - AQUAMARINE_TAG=v0.10.0
-  - HYPRGRAPHICS_TAG=v0.5.0
-  - HYPRLAND_GUIUTILS_TAG=v0.2.1
-  - HYPRLAND_PROTOCOLS_TAG=v0.7.0
-  - HYPRLAND_QT_SUPPORT_TAG=v0.1.0
-  - HYPRLAND_QTUTILS_TAG=v0.1.5
-  - HYPRLAND_TAG=v0.53.3
-  - HYPRLANG_TAG=v0.6.8
-  - HYPRTOOLKIT_TAG=v0.5.3
-  - HYPRUTILS_TAG=v0.11.0
-  - HYPRWAYLAND_SCANNER_TAG=v0.4.5
-  - HYPRWIRE_TAG=v0.3.0
-  - WAYLAND_PROTOCOLS_TAG=1.46
-- Updated `uninstall.sh` to remove source built binaries 
-- Fixed build issues with Debian Trixie 
-- Fixed installation path handling 
+- Updated Hyprland to current revision
+    - AQUAMARINE_TAG=v0.10.0
+    - HYPRGRAPHICS_TAG=v0.5.0
+    - HYPRLAND_GUIUTILS_TAG=v0.2.1
+    - HYPRLAND_PROTOCOLS_TAG=v0.7.0
+    - HYPRLAND_QT_SUPPORT_TAG=v0.1.0
+    - HYPRLAND_QTUTILS_TAG=v0.1.5
+    - HYPRLAND_TAG=v0.53.3
+    - HYPRLANG_TAG=v0.6.8
+    - HYPRTOOLKIT_TAG=v0.5.3
+    - HYPRUTILS_TAG=v0.11.0
+    - HYPRWAYLAND_SCANNER_TAG=v0.4.5
+    - HYPRWIRE_TAG=v0.3.0
+    - WAYLAND_PROTOCOLS_TAG=1.46
+- Updated `uninstall.sh` to remove source built binaries
+- Fixed build issues with Debian Trixie
+- Fixed installation path handling
 - Removed old code related to debian packages for Hyprland
 
 ## 27 January 2026

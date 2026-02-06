@@ -25,6 +25,117 @@ print_color() {
     printf "%b%s%b\n" "$1" "$2" "$RESET"
 }
 
+# ---------------- APT source checks (deb-src, non-free, non-free-firmware) ----------------
+_detect_codename() {
+    local c
+    if [ -r /etc/os-release ]; then
+        # shellcheck disable=SC1091
+        . /etc/os-release 2>/dev/null || true
+        c="${DEBIAN_CODENAME:-${VERSION_CODENAME:-}}"
+    fi
+    if [ -z "$c" ]; then c=$(lsb_release -c -s 2>/dev/null || true); fi
+    if [ -z "$c" ]; then c="trixie"; fi
+    echo "$c"
+}
+
+_has_deb_src_enabled() {
+    sudo grep -RhsE '^[[:space:]]*deb-src[[:space:]]' /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null | grep -q .
+}
+
+_has_component_enabled() {
+    # $1: component (e.g., non-free, non-free-firmware)
+    local comp="$1"
+    sudo grep -RhsE "^[[:space:]]*deb(-src)?[[:space:]].*\\b${comp}(\\s|$)" /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null | grep -q .
+}
+
+_enable_deb_src_conservatively() {
+    local f=/etc/apt/sources.list
+    # First try to uncomment any commented deb-src lines in the main list
+    sudo sed -i -E 's/^[[:space:]]*#([[:space:]]*deb-src[[:space:]])/\1/' "$f" 2>/dev/null || true
+
+    if ! _has_deb_src_enabled; then
+        # If still none present, duplicate active deb lines into deb-src lines
+        local tmp
+        tmp=$(mktemp)
+        sudo awk '
+            BEGIN { added=0 }
+            /^[[:space:]]*deb[[:space:]]/ && $0 !~ /^[[:space:]]*#/ {
+                line=$0; sub(/^([[:space:]]*)deb/, "\\1deb-src", line); print $0; print line; added=1; next
+            }
+            { print $0 }
+            END { if (added==0) {} }
+        ' "$f" > "$tmp" && sudo cp "$tmp" "$f" && rm -f "$tmp"
+    fi
+}
+
+_write_nonfree_overlay_sources() {
+    # Create a small overlay sources file that only enables the missing components
+    local c suite upd sec file
+    c=$(_detect_codename)
+    suite="$c"
+    upd="${c}-updates"
+    sec="${c}-security"
+    file="/etc/apt/sources.list.d/99-debian-nonfree.list"
+
+    sudo bash -c "cat > '$file' <<EOF
+# Added by Debian-Hyprland installer to ensure non-free components are available
+# Safe overlay: does not modify existing sources.list; can be removed later if undesired.
+deb http://deb.debian.org/debian ${suite} non-free non-free-firmware
+deb-src http://deb.debian.org/debian ${suite} non-free non-free-firmware
+EOF" 
+
+    # For non-sid suites, add updates and security pockets
+    if [ "$c" != "sid" ]; then
+        sudo bash -c "cat >> '$file' <<EOF
+deb http://deb.debian.org/debian ${upd} non-free non-free-firmware
+deb-src http://deb.debian.org/debian ${upd} non-free non-free-firmware
+deb http://security.debian.org/debian-security ${sec} non-free non-free-firmware
+deb-src http://security.debian.org/debian-security ${sec} non-free non-free-firmware
+EOF"
+    fi
+}
+
+verify_and_offer_fix_apt_sources() {
+    local need_fix=0
+    local msg=""
+
+    if _has_deb_src_enabled; then
+        msg+="\n - deb-src: ${GREEN}ENABLED${RESET}"
+    else
+        msg+="\n - deb-src: ${YELLOW}MISSING${RESET}"
+        need_fix=1
+    fi
+
+    if _has_component_enabled non-free; then
+        msg+="\n - non-free: ${GREEN}ENABLED${RESET}"
+    else
+        msg+="\n - non-free: ${YELLOW}MISSING${RESET}"
+        need_fix=1
+    fi
+
+    if _has_component_enabled non-free-firmware; then
+        msg+="\n - non-free-firmware: ${GREEN}ENABLED${RESET}"
+    else
+        msg+="\n - non-free-firmware: ${YELLOW}MISSING${RESET}"
+        need_fix=1
+    fi
+
+    echo -e "${INFO} APT sources status:${msg}"
+
+    if [ "$need_fix" -eq 1 ]; then
+        if command -v whiptail >/dev/null 2>&1; then
+            if whiptail --title "APT sources not fully enabled" --yesno "deb-src and/or non-free components are missing.\n\nEnable now by:\n - Uncommenting or adding deb-src lines\n - Adding a small overlay sources file to enable non-free and non-free-firmware\n\nProceed?" 17 70; then
+                _enable_deb_src_conservatively
+                _write_nonfree_overlay_sources
+            else
+                echo -e "${WARN} Required APT sources not enabled. Some build steps may fail."
+            fi
+        else
+            echo -e "${WARN} Required APT sources not enabled. Install whiptail to allow auto-fix or edit /etc/apt/sources.list manually."
+        fi
+    fi
+}
+
 # Warning: End of Life Support
 printf "\n%.0s" {1..2}
 print_color $YELLOW "
@@ -464,6 +575,10 @@ while true; do
 done
 
 printf "\n%.0s" {1..1}
+
+# Verify APT sources before updating (deb-src + non-free components)
+echo "${INFO} Verifying APT sources (deb-src, non-free, non-free-firmware)..." | tee -a "$LOG"
+verify_and_offer_fix_apt_sources
 
 echo "${INFO} Running a ${SKY_BLUE}full system update...${RESET}" | tee -a "$LOG"
 sudo apt update
