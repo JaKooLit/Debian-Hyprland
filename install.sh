@@ -25,6 +25,25 @@ print_color() {
     printf "%b%s%b\n" "$1" "$2" "$RESET"
 }
 
+print_help() {
+    cat <<EOF
+KooL Debian-Hyprland installer
+Usage: ${0##*/} [OPTIONS]
+
+Options:
+  --build-trixie         Force trixie compatibility mode
+  --no-trixie           Disable trixie compatibility mode
+  --preset <file>       Load preset file with options
+  --force-reinstall     Force APT re-installs where applicable
+  --tty                 Use simple TTY prompts instead of whiptail dialogs
+  -h, --help            Show this help and exit
+
+Notes:
+  --tty is a fallback for remote/CI or when terminals cannot render whiptail.
+  XDG-Desktop-Portal-Hyprland (screen sharing) is installed by default.
+EOF
+}
+
 # ---------------- APT source checks (deb-src, non-free, non-free-firmware) ----------------
 _detect_codename() {
     local c
@@ -226,6 +245,7 @@ PRESET_FILE=""
 # NOTE: install.sh historically used "$1"/"$2" for --preset; this keeps that working.
 args=("$@")
 FORCE_REINSTALL=0
+TTY_MODE=0
 for ((i=0; i<${#args[@]}; i++)); do
     case "${args[$i]}" in
         --build-trixie)
@@ -237,13 +257,20 @@ for ((i=0; i<${#args[@]}; i++)); do
         --force-reinstall)
             FORCE_REINSTALL=1
             ;;
+        --tty)
+            TTY_MODE=1
+            ;;
+        -h|--help)
+            print_help
+            exit 0
+            ;;
         --preset)
             if [ $((i+1)) -lt ${#args[@]} ]; then
                 PRESET_FILE="${args[$((i+1))]}"
             fi
             ;;
     esac
-done
+ done
 
 # If env explicitly sets HYPR_BUILD_TRIXIE, honor it.
 if [ -n "${HYPR_BUILD_TRIXIE+x}" ]; then
@@ -271,8 +298,8 @@ else
 fi
 export HYPR_BUILD_TRIXIE
 
-# install whiptails if detected not installed. Necessary for this version
-if ! command -v whiptail >/dev/null; then
+# Install whiptail unless running in --tty mode
+if [ "$TTY_MODE" -ne 1 ] && ! command -v whiptail >/dev/null; then
     echo "${NOTE} - whiptail is not installed. Installing..." | tee -a "$LOG"
     sudo apt install -y whiptail
     printf "\n%.0s" {1..1}
@@ -326,22 +353,35 @@ clean_existing_hyprland() {
 }
 
 
-# Welcome message using whiptail (for displaying information)
-whiptail --title "KooL Debian-Hyprland Trixie+ (2025) Install Script" \
-    --msgbox "Welcome to KooL Debian-Hyprland Trixie+  (2025) Install Script!!!\n\n\
+# Welcome / proceed (TTY or whiptail)
+if [ "$TTY_MODE" -eq 1 ]; then
+    echo "========================================"
+    echo "KooL Debian-Hyprland Trixie+ Install Script"
+    echo "========================================"
+    echo "ATTENTION: Run a full system update and reboot first (recommended)."
+    echo "NOTE: On VMs, enable 3D acceleration or Hyprland may not start."
+    echo
+    echo "Build method: FROM SOURCE"
+    echo "IMPORTANT: Ensure deb-src is enabled in /etc/apt/sources.list."
+    read -r -p "Proceed with installation? [y/N]: " _ans
+    case "${_ans,,}" in
+      y|yes) : ;;
+      *) echo "${NOTE} You chose not to continue. Exiting..." | tee -a "$LOG"; exit 1 ;;
+    esac
+else
+    # Welcome message using whiptail (for displaying information)
+    whiptail --title "KooL Debian-Hyprland Trixie+ (2025) Install Script" \
+        --msgbox "Welcome to KooL Debian-Hyprland Trixie+  (2025) Install Script!!!\n\n\
 ATTENTION: Run a full system update and Reboot first !!! (Highly Recommended)\n\n\
 NOTE: If you are installing on a VM, ensure to enable 3D acceleration otherwise Hyprland may NOT start!" \
-    15 80
-
-# Ask if the user wants to proceed (source-only build)
-proceed_msg="Build method: FROM SOURCE\n\nVERY IMPORTANT!!!\nYou must be able to install from source by uncommenting deb-src on /etc/apt/sources.list else script may fail.\n\nShall we proceed?"
-
-if ! whiptail --title "Proceed with Installation?" \
-    --yesno "$proceed_msg" 15 60; then
-    echo -e "\n"
-    echo "❌ ${INFO} You 🫵 chose ${YELLOW}NOT${RESET} to proceed. ${YELLOW}Exiting...${RESET}" | tee -a "$LOG"
-    echo -e "\n"
-    exit 1
+        15 80
+    proceed_msg="Build method: FROM SOURCE\n\nVERY IMPORTANT!!!\nYou must be able to install from source by uncommenting deb-src on /etc/apt/sources.list else script may fail.\n\nShall we proceed?"
+    if ! whiptail --title "Proceed with Installation?" --yesno "$proceed_msg" 15 60; then
+        echo -e "\n"
+        echo "❌ ${INFO} You 🫵 chose ${YELLOW}NOT${RESET} to proceed. ${YELLOW}Exiting...${RESET}" | tee -a "$LOG"
+        echo -e "\n"
+        exit 1
+    fi
 fi
 
 echo "👌 ${OK} 🇵🇭 ${MAGENTA}KooL..${RESET} ${SKY_BLUE}lets continue with the installation...${RESET}" | tee -a "$LOG"
@@ -452,9 +492,15 @@ check_services_running() {
 if check_services_running; then
     active_list=$(printf "%s\n" "${active_services[@]}")
 
-    # Display the active login manager(s) in the whiptail message box
-    whiptail --title "Active non-SDDM login manager(s) detected" \
-        --msgbox "The following login manager(s) are active:\n\n$active_list\n\nIf you want to install SDDM and SDDM theme, stop and disable first the active services above, and reboot before running this script\nRefer to README on switching to SDDM if you really want SDDM\n\nNOTE: Your option to install SDDM and SDDM theme has now been removed\n\n- Ja " 28 80
+    if [ "$TTY_MODE" -eq 1 ]; then
+        echo "${WARN} Active non-SDDM login manager(s) detected:" 
+        echo "$active_list"
+        echo "NOTE: SDDM and SDDM theme options will be hidden."
+    else
+        # Display the active login manager(s) in the whiptail message box
+        whiptail --title "Active non-SDDM login manager(s) detected" \
+            --msgbox "The following login manager(s) are active:\n\n$active_list\n\nIf you want to install SDDM and SDDM theme, stop and disable first the active services above, and reboot before running this script\nRefer to README on switching to SDDM if you really want SDDM\n\nNOTE: Your option to install SDDM and SDDM theme has now been removed\n\n- Ja " 28 80
+    fi
 fi
 
 # Check if NVIDIA GPU is detected
@@ -512,69 +558,76 @@ options_command+=(
 )
 
 # Capture the selected options before the while loop starts
-while true; do
-    selected_options=$("${options_command[@]}" 3>&1 1>&2 2>&3)
+if [ "$TTY_MODE" -eq 1 ]; then
+    # Build a simple list of available keys
+    available_opts=()
+    if [ "$nvidia_detected" == "true" ]; then available_opts+=(nvidia); fi
+    if [ "$input_group_detected" == "true" ]; then available_opts+=(input_group); fi
+    if ! check_services_running; then available_opts+=(sddm sddm_theme); fi
+    available_opts+=(gtk_themes bluetooth thunar ags quickshell zsh pokemon rog dots)
 
-    # Check if the user pressed Cancel (exit status 1)
-    if [ $? -ne 0 ]; then
-        echo -e "\n"
-        echo "❌ ${INFO} You 🫵 cancelled the selection. ${YELLOW}Goodbye!${RESET}" | tee -a "$LOG"
-        exit 0 # Exit the script if Cancel is pressed
-    fi
-
-    # If no option was selected, notify and restart the selection
-    if [ -z "$selected_options" ]; then
-        whiptail --title "Warning" --msgbox "No options were selected. Please select at least one option." 10 60
-        continue # Return to selection if no options selected
-    fi
-
-    # Strip the quotes and trim spaces if necessary (sanitize the input)
-    selected_options=$(echo "$selected_options" | tr -d '"' | tr -s ' ')
-
-    # Convert selected options into an array (preserving spaces in values)
-    IFS=' ' read -r -a options <<<"$selected_options"
-
-    # Check if the "dots" option was selected
-    dots_selected="OFF"
-    for option in "${options[@]}"; do
-        if [[ "$option" == "dots" ]]; then
-            dots_selected="ON"
-            break
-        fi
-    done
-
-    # If "dots" is not selected, show a note and ask the user to proceed or return to choices
-    if [[ "$dots_selected" == "OFF" ]]; then
-        # Show a note about not selecting the "dots" option
-        if ! whiptail --title "KooL Hyprland Dot Files" --yesno \
-            "You have not selected to install the pre-configured KooL Hyprland dotfiles.\n\nKindly NOTE that if you proceed without Dots, Hyprland will start with default vanilla Hyprland configuration and I won't be able to give you support.\n\nWould you like to continue install without KooL Hyprland Dots or return to choices/options?" \
-            --yes-button "Continue" --no-button "Return" 15 90; then
-            echo "🔙 Returning to options..." | tee -a "$LOG"
+    while true; do
+        echo "Available options (space-separated):"
+        printf '  %s\n' "${available_opts[@]}"
+        read -r -p "Enter options to install/configure: " selected_options
+        selected_options=$(echo "$selected_options" | tr -d '"' | tr -s ' ')
+        if [ -z "$selected_options" ]; then
+            echo "${WARN} No options selected. Please enter at least one."
             continue
-        else
-            # User chose to continue
-            echo "${INFO} ⚠️ Continuing WITHOUT the dotfiles installation..." | tee -a "$LOG"
-            printf "\n%.0s" {1..1}
         fi
-    fi
-
-    # Prepare the confirmation message
-    confirm_message="You have selected the following options:\n\n"
-    for option in "${options[@]}"; do
-        confirm_message+=" - $option\n"
+        IFS=' ' read -r -a options <<<"$selected_options"
+        echo "You selected: ${options[*]}"
+        read -r -p "Proceed with these choices? [y/N]: " yn
+        case "${yn,,}" in
+          y|yes) break ;;
+          *) echo "Returning to selection..." ;;
+        esac
     done
-    confirm_message+="\nAre you happy with these choices?"
-
-    # Confirmation prompt
-    if ! whiptail --title "Confirm Your Choices" --yesno "$(printf "%s" "$confirm_message")" 25 80; then
-        echo -e "\n"
-        echo "❌ ${SKY_BLUE}You're not 🫵 happy${RESET}. ${YELLOW}Returning to options...${RESET}" | tee -a "$LOG"
-        continue
-    fi
-
-    echo "👌 ${OK} You confirmed your choices. Proceeding with ${SKY_BLUE}KooL 🇵🇭 Hyprland Installation...${RESET}" | tee -a "$LOG"
-    break
-done
+else
+    while true; do
+        selected_options=$("${options_command[@]}" 3>&1 1>&2 2>&3)
+        if [ $? -ne 0 ]; then
+            echo -e "\n"
+            echo "❌ ${INFO} You 🫵 cancelled the selection. ${YELLOW}Goodbye!${RESET}" | tee -a "$LOG"
+            exit 0
+        fi
+        if [ -z "$selected_options" ]; then
+            whiptail --title "Warning" --msgbox "No options were selected. Please select at least one option." 10 60
+            continue
+        fi
+        selected_options=$(echo "$selected_options" | tr -d '"' | tr -s ' ')
+        IFS=' ' read -r -a options <<<"$selected_options"
+        dots_selected="OFF"
+        for option in "${options[@]}"; do
+            if [[ "$option" == "dots" ]]; then
+                dots_selected="ON"; break
+            fi
+        done
+        if [[ "$dots_selected" == "OFF" ]]; then
+            if ! whiptail --title "KooL Hyprland Dot Files" --yesno \
+                "You have not selected to install the pre-configured KooL Hyprland dotfiles.\n\nKindly NOTE that if you proceed without Dots, Hyprland will start with default vanilla Hyprland configuration and I won't be able to give you support.\n\nWould you like to continue install without KooL Hyprland Dots or return to choices/options?" \
+                --yes-button "Continue" --no-button "Return" 15 90; then
+                echo "🔙 Returning to options..." | tee -a "$LOG"
+                continue
+            else
+                echo "${INFO} ⚠️ Continuing WITHOUT the dotfiles installation..." | tee -a "$LOG"
+                printf "\n%.0s" {1..1}
+            fi
+        fi
+        confirm_message="You have selected the following options:\n\n"
+        for option in "${options[@]}"; do
+            confirm_message+=" - $option\n"
+        done
+        confirm_message+="\nAre you happy with these choices?"
+        if ! whiptail --title "Confirm Your Choices" --yesno "$(printf "%s" "$confirm_message")" 25 80; then
+            echo -e "\n"
+            echo "❌ ${SKY_BLUE}You're not 🫵 happy${RESET}. ${YELLOW}Returning to options...${RESET}" | tee -a "$LOG"
+            continue
+        fi
+        echo "👌 ${OK} You confirmed your choices. Proceeding with ${SKY_BLUE}KooL 🇵🇭 Hyprland Installation...${RESET}" | tee -a "$LOG"
+        break
+    done
+fi
 
 printf "\n%.0s" {1..1}
 

@@ -17,6 +17,9 @@
     - wallust
     - swww
         - Both were compiled on every run of `install.sh`
+- Removed XDG Hyprland portal from insall menu, it's installed by default
+- Added `-tty` fallback menu to `install.sh` to bypass whiptail
+- Added `-h/--help` to `install.sh`
 
 ## 05 February 2026
 
