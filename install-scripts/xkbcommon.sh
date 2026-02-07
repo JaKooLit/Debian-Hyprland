@@ -53,7 +53,11 @@ if git clone --recursive -b $tag https://github.com/xkbcommon/libxkbcommon.git "
     cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/libxkbcommon"
     mkdir -p "$BUILD_DIR"
-    meson setup "$BUILD_DIR" --libdir=/usr/local/lib
+    meson setup "$BUILD_DIR" \
+      --prefix=/usr/local \
+      --libdir=/usr/local/lib \
+      -Dxkb-config-root=/usr/share/X11/xkb \
+      -Dx-locale-root=/usr/share/X11/locale
     meson compile -C "$BUILD_DIR"
     if sudo meson install -C "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
         printf "${OK} xkbcommon installed successfully.\n" 2>&1 | tee -a "$MLOG"
