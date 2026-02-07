@@ -10,16 +10,16 @@ Supported scope
 Quick start
 
 ```bash
-# Interactive (recommended first run)
+# Interactive (recommended first run). Default = Open kernel modules (nvidia-open)
 install-scripts/nvidia.sh
+
+# Install from NVIDIA CUDA repo (open kernel modules) — DEFAULT
+install-scripts/nvidia.sh --mode=open
 
 # Install from NVIDIA CUDA repo (proprietary)
 install-scripts/nvidia.sh --mode=nvidia
 
-# Install from NVIDIA CUDA repo (open kernel modules)
-install-scripts/nvidia.sh --mode=open
-
-# Install Debian-packaged drivers (older; not recommended for new GPUs)
+# Install Debian-packaged drivers (older; OK for very old GPUs < 2000-series)
 install-scripts/nvidia.sh --mode=debian
 ```
 
@@ -36,27 +36,52 @@ install-scripts/nvidia.sh --mode=debian
 
 ## Options and when to use them
 
+- NVIDIA CUDA repo — open kernel modules (`--mode=open`) [Default]
+    - Installs `nvidia-open` from NVIDIA’s APT repo. Recommended for Wayland/Hyprland, smoother kernel updates, and RTX 5000-series+ GPUs (required).
 - NVIDIA CUDA repo — proprietary (`--mode=nvidia`)
-    - Installs `cuda-drivers` from NVIDIA’s APT repo. Best compatibility and newest drivers; recommended for RTX 30/40/50 series.
-- NVIDIA CUDA repo — open kernel modules (`--mode=open`)
-    - Installs `nvidia-open` from NVIDIA’s APT repo. Uses the open-source kernel modules. Consider this if you prefer open modules and your GPU is supported.
+    - Installs `cuda-drivers` from NVIDIA’s APT repo. "Battle‑tested" closed modules; fine for many 2000/3000/4000 series setups; may involve DKMS rebuilds on kernel updates.
 - Debian repo — packaged by Debian (`--mode=debian`)
-    - Installs `nvidia-driver` and related packages from Debian. Typically older; acceptable for older GPUs, not recommended for current-generation cards.
+    - Installs `nvidia-driver` and related packages from Debian. Older but suitable for very old GPUs (< 2000‑series).
+
+### Open vs. Proprietary: Feature comparison
+
+| Feature | Proprietary (Closed) | Open Kernel Modules |
+| --- | --- | --- |
+| Kernel updates | Higher risk of DKMS failure | Smoother, more "native" feel |
+| Wayland/Hyprland | High performance, "battle‑tested" | Better future‑proofing, GSP usage |
+| CUDA / Docker | Gold standard | Identical (user‑space is the same) |
+
+Notes:
+- "Identical" refers to the CUDA user‑space stack; the kernel modules differ.
+- Both paths support CUDA, container stacks, and modern compositors; the open modules reduce DKMS friction.
+
+### Why default to Open on testing/SID
+
+- Debian testing/unstable kernels change frequently; open modules track kernel interfaces better and avoid DKMS breakage.
+- Better long‑term support for Wayland/Hyprland workflows.
+- Keeps user‑space identical to proprietary path for CUDA/Docker workflows.
+
+### Quick decision guide
+
+- RTX 5000‑series and newer: choose Open (`--mode=open`).
+- Very old GPUs (< 2000‑series): choose Debian (`--mode=debian`).
+- Everything else (2000–4000): Open recommended; Proprietary is also viable.
 
 ## Important warnings shown by the script
 
 When run interactively, the script displays this notice:
 
 ```
-[WARN] Default installs Debian repo NVIDIA drivers (often older).
-[WARN] NVIDIA driver options are currently in development.
-[WARN] If you have a current‑generation NVIDIA GPU, do NOT use Debian-based drivers.
-      Choose an NVIDIA CUDA repo option below, or install drivers manually and re-run the Debian Hyprland install.
+[INFO] Default installs NVIDIA CUDA repo — nvidia-open (open kernel modules).
+[INFO] Guidance:
+  - RTX 5000-series and newer: use Open (required).
+  - < 2000-series (very old cards): prefer Debian repo driver.
+  - Others (2000–4000): Open recommended; Proprietary also available.
 [ACTION] Choose installation source:
-  [D] Debian repo (default) — installs nvidia-driver and related pkgs
-  [N] NVIDIA CUDA repo — installs cuda-drivers (proprietary)
-  [O] NVIDIA CUDA repo — installs nvidia-open (open kernel modules)
-Select [D/n/o]: _
+  [O] NVIDIA CUDA repo — nvidia-open (open kernel modules) [default]
+  [N] NVIDIA CUDA repo — cuda-drivers (proprietary)
+  [D] Debian repo — nvidia-driver (packaged)
+Select [O/n/d]: _
 ```
 
 ## Non-interactive flags

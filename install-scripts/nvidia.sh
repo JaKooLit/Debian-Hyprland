@@ -216,24 +216,25 @@ _install_via_nvidia_open() {
 _prompt_for_mode() {
   local mode_input=""
   echo
-  echo -e "${WARN} Default installs ${YELLOW}Debian repo NVIDIA drivers${RESET} (often older)."
-  echo -e "${WARN} ${YELLOW}NVIDIA driver options are currently in development${RESET}."
-  echo -e "${WARN} If you have a current‑generation NVIDIA GPU, ${YELLOW}do NOT use Debian-based drivers${RESET}."
-  echo -e "      Choose an NVIDIA CUDA repo option below, or install drivers manually and re-run the Debian Hyprland install."
+  echo -e "${INFO} Default installs ${YELLOW}NVIDIA CUDA repo — nvidia-open${RESET} (open kernel modules)."
+  echo -e "${INFO} Guidance:"
+  echo -e "  - ${YELLOW}RTX 5000-series and newer${RESET}: use ${YELLOW}Open${RESET} (required)."
+  echo -e "  - ${YELLOW}< 2000-series (very old cards)${RESET}: prefer ${YELLOW}Debian repo${RESET} driver."
+  echo -e "  - Others (2000–4000 series): Open is recommended; Proprietary is also available."
   echo -e "${CAT} Choose installation source:"
-  echo -e "  [D] Debian repo (default) — installs ${YELLOW}nvidia-driver${RESET} and related packages"
+  echo -e "  [O] NVIDIA CUDA repo — installs ${YELLOW}nvidia-open${RESET} (open kernel modules) ${GREEN}[default]${RESET}"
   echo -e "  [N] NVIDIA CUDA repo — installs ${YELLOW}cuda-drivers${RESET} (proprietary)"
-  echo -e "  [O] NVIDIA CUDA repo — installs ${YELLOW}nvidia-open${RESET} (open kernel modules)"
+  echo -e "  [D] Debian repo — installs ${YELLOW}nvidia-driver${RESET} and related packages"
   while true; do
-    read -r -p "Select an option: D=Debian (default), N=NVIDIA proprietary, O=Open: " mode_input || true
+    read -r -p "Select an option: O=Open (default), N=Proprietary, D=Debian: " mode_input || true
     case "${mode_input,,}" in
-      ""|d|debian) echo "debian"; return ;;
+      ""|o|open) echo "open"; return ;;
       n|nv|nvidia|proprietary) echo "nvidia"; return ;;
-      o|open) echo "open"; return ;;
+      d|debian) echo "debian"; return ;;
       h|help|\?)
-        echo -e "Enter D for Debian-packaged drivers, N for NVIDIA's proprietary drivers, or O for NVIDIA's open kernel modules." ;;
+        echo -e "Enter O for NVIDIA's open kernel modules, N for proprietary drivers, or D for Debian-packaged drivers." ;;
       *)
-        echo -e "${WARN} Invalid choice. Please enter D, N, or O." ;;
+        echo -e "${WARN} Invalid choice. Please enter O, N, or D." ;;
     esac
   done
 }
@@ -270,19 +271,18 @@ Usage: ${0##*/} [--mode=debian|nvidia|open] [--switch] [--force] [-n|--dry-run] 
 
 Description:
   Installs NVIDIA drivers on Debian 13+/testing/unstable.
-  - Default path installs Debian-packaged drivers (may be older).
+  - Default path installs ${YELLOW}NVIDIA CUDA repo — nvidia-open${RESET} (open kernel modules).
   - NVIDIA repo paths install the latest drivers from NVIDIA's CUDA repo.
 
-Warning:
-  The NVIDIA driver options are currently in development.
-  If you have a current-generation NVIDIA GPU, do NOT use Debian-based drivers.
-  Use one of the NVIDIA CUDA repo options (proprietary or open), or install drivers manually
-  and re-run the Debian Hyprland install.
+Recommendations:
+  - RTX 5000-series and newer: use --mode=open (required).
+  - Very old GPUs (< 2000-series): prefer --mode=debian.
+  - Others (2000–4000 series): --mode=open recommended; --mode=nvidia is also available.
 
 Interactive options (shown if no --mode is provided):
-  D  Debian repo — installs nvidia-driver and related packages
+  O  NVIDIA CUDA repo — installs nvidia-open (open kernel modules) [default]
   N  NVIDIA CUDA repo — installs cuda-drivers (proprietary)
-  O  NVIDIA CUDA repo — installs nvidia-open (open kernel modules)
+  D  Debian repo — installs nvidia-driver and related packages
 
 Flags:
   --mode=debian   Use Debian repository packages
@@ -295,8 +295,8 @@ Flags:
 
 Examples:
   ${0##*/}
-  ${0##*/} --mode=nvidia
   ${0##*/} --mode=open
+  ${0##*/} --mode=nvidia
   ${0##*/} --mode=nvidia --switch     # switch from Debian or open to proprietary
   ${0##*/} --mode=debian --force      # re-run Debian path even if already configured
 EOF

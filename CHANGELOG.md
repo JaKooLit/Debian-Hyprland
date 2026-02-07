@@ -20,6 +20,15 @@
 - Removed XDG Hyprland portal from insall menu, it's installed by default
 - Added `-tty` fallback menu to `install.sh` to bypass whiptail
 - Added `-h/--help` to `install.sh`
+- Fixed `wezterm` crashing in Hyprland.
+    - The meson build script was missing two library paths
+    - Causing wezterm to panic on startup
+- Made open source driver for NVIDIA the default option
+    - Open source is required for current gen cards
+    - It works better than propriertary
+        - Lowers CPU overhead with GSP enhancements
+- Improved messaging in the script and in `HOWTO-Install-NVIDIA-Drivers-in-Debian.md` doc
+- Created Spanish translation of `HOWTO-Install-NVIDIA-Drivers-in-Debian.es.md`
 
 ## 05 February 2026
 
