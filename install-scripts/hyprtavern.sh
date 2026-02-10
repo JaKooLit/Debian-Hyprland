@@ -110,6 +110,28 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
         fi
     fi
 
+    # If pkg-config still cannot provide hyprwire-protocols, synthesize a local .pc pointing to the resolved dir
+    if ! pkg-config --exists hyprwire-protocols 2>/dev/null && [ -n "$HYPRWIRE_PROTO_DIR" ]; then
+        LOCAL_PC_DIR="$BUILD_ROOT/pkgconfig"
+        mkdir -p "$LOCAL_PC_DIR"
+        # Try to read hyprwire version via pkg-config; fall back to 0.0.0
+        HW_VER=$(pkg-config --modversion hyprwire 2>/dev/null || echo "0.0.0")
+        cat >"$LOCAL_PC_DIR/hyprwire-protocols.pc" <<EOF
+prefix=/usr/local
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+datadir=\${prefix}/share
+# Override pkgdatadir to our resolved location
+pkgdatadir=${HYPRWIRE_PROTO_DIR}
+
+Name: hyprwire-protocols
+Description: Protocol XMLs for hyprwire
+Version: ${HW_VER}
+EOF
+        export PKG_CONFIG_PATH="$LOCAL_PC_DIR:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    fi
+
     # Export for hyprwayland-scanner/wayland-scanner invoked by the build
     [ -n "$WL_PROTO_DIR" ]       && export WAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR"
     [ -n "$HYP_PROTO_DIR" ]      && export HYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR"
