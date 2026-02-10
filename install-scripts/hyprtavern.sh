@@ -32,7 +32,13 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
 
     # Make sure CMake/pkg-config find /usr/local installs (hyprland-protocols, hyprwayland-scanner, etc.)
     export PATH="/usr/local/bin:${PATH}"
-    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    # Prepend /usr/local pkg-config paths so locally installed pc files are preferred
+    if [[ ":${PKG_CONFIG_PATH:-}:" != *":/usr/local/share/pkgconfig:"* ]]; then
+        export PKG_CONFIG_PATH="/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    fi
+    if [[ ":${PKG_CONFIG_PATH}:" != *":/usr/local/lib/pkgconfig:"* ]]; then
+        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:${PKG_CONFIG_PATH}"
+    fi
     export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
 
     # Ensure required protocol packages and scanner are installed when running this module standalone
@@ -136,6 +142,22 @@ Description: Protocol XMLs for hyprwire
 Version: ${HW_VER}
 EOF
         export PKG_CONFIG_PATH="$LOCAL_PC_DIR:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+    fi
+
+    # If hyprtavern XMLs are missing under the resolved hyprwire protocols dir, auto-install them (branch contains XMLs)
+    if [ -n "$HYPRWIRE_PROTO_DIR" ] && [ ! -f "$HYPRWIRE_PROTO_DIR/hyprtavern/hp_hyprtavern_core_v1.xml" ]; then
+        echo "${NOTE} hyprwire-protocols found but hyprtavern XMLs missing; installing from 'hyprtavern' branch..."
+        if [ -x "$PARENT_DIR/install-scripts/hyprwire-protocols.sh" ]; then
+            ( HYPRWIRE_PROTOCOLS_TAG="${HYPRWIRE_PROTOCOLS_TAG:-hyprtavern}" "$PARENT_DIR/install-scripts/hyprwire-protocols.sh" ) || true
+            # Re-resolve via pkg-config after install
+            PC_WIRE_PROTO_DIR=$(pkg-config --variable=pkgdatadir hyprwire-protocols 2>/dev/null || true)
+            if [ -n "$PC_WIRE_PROTO_DIR" ] && [ -d "$PC_WIRE_PROTO_DIR" ]; then
+                HYPRWIRE_PROTO_DIR="$PC_WIRE_PROTO_DIR"
+            fi
+            if [ -d "/usr/local/share/hyprwire-protocols/protocols" ]; then
+                HYPRWIRE_PROTO_DIR="/usr/local/share/hyprwire-protocols/protocols"
+            fi
+        fi
     fi
 
     # Export for hyprwayland-scanner/wayland-scanner invoked by the build
