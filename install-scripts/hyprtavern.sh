@@ -76,8 +76,17 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
     fi
 
     # Ensure hyprwire library & protocols (required by hyprtavern)
-    if ! pkg-config --exists hyprwire 2>/dev/null && [ -x "$PARENT_DIR/install-scripts/hyprwire.sh" ]; then
-        echo "${NOTE} Installing missing hyprwire from source..."
+    need_hw=0
+    if ! pkg-config --exists hyprwire 2>/dev/null; then
+        need_hw=1
+    else
+        # Even if hyprwire is present, make sure hyprwire-protocols are discoverable
+        if ! pkg-config --exists hyprwire-protocols 2>/dev/null; then
+            need_hw=1
+        fi
+    fi
+    if [ $need_hw -eq 1 ] && [ -x "$PARENT_DIR/install-scripts/hyprwire.sh" ]; then
+        echo "${NOTE} Installing/updating hyprwire (to provide hyprwire-protocols)..."
         "$PARENT_DIR/install-scripts/hyprwire.sh"
     fi
 
@@ -89,7 +98,17 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
     WLR_PROTO_DIR=""
     for d in /usr/share/wlr-protocols /usr/local/share/wlr-protocols; do [ -d "$d" ] && WLR_PROTO_DIR="$d" && break; done
     HYPRWIRE_PROTO_DIR=""
-    for d in /usr/local/share/hyprwire-protocols /usr/share/hyprwire-protocols; do [ -d "$d" ] && HYPRWIRE_PROTO_DIR="$d" && break; done
+    # Prefer pkg-config for hyprwire-protocols if available
+    PC_WIRE_PROTO_DIR=$(pkg-config --variable=pkgdatadir hyprwire-protocols 2>/dev/null || true)
+    if [ -n "$PC_WIRE_PROTO_DIR" ] && [ -d "$PC_WIRE_PROTO_DIR" ]; then
+        HYPRWIRE_PROTO_DIR="$PC_WIRE_PROTO_DIR"
+    else
+        for d in /usr/local/share/hyprwire-protocols /usr/share/hyprwire-protocols; do [ -d "$d" ] && HYPRWIRE_PROTO_DIR="$d" && break; done
+        # Fallback to the checked-out source if installed dir not found
+        if [ -z "$HYPRWIRE_PROTO_DIR" ] && [ -d "$BUILD_ROOT/src/hyprwire/protocols" ]; then
+            HYPRWIRE_PROTO_DIR="$BUILD_ROOT/src/hyprwire/protocols"
+        fi
+    fi
 
     # Export for hyprwayland-scanner/wayland-scanner invoked by the build
     [ -n "$WL_PROTO_DIR" ]       && export WAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR"
