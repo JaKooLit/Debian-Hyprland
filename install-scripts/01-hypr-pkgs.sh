@@ -7,7 +7,7 @@
 
 # add packages wanted here
 Extra=(
-
+    libpci-dev
 )
 
 # packages needed
@@ -67,10 +67,10 @@ force=(
 
 # List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
 uninstall=(
-    dunst
     mako
-    rofi
     cargo
+    rofi
+    rofi-wayland
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -147,4 +147,3 @@ source "$HOME/.cargo/env"
 sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
 
 printf "\n%.0s" {1..2}
-
