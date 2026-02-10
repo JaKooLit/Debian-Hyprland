@@ -9,6 +9,10 @@ if [ -z "${HYPRWIRE_PROTOCOLS_TAG:-}" ]; then
   [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
 fi
 TAG_SRC="${HYPRWIRE_PROTOCOLS_TAG:-$tag_default}"
+# If a caller explicitly needs hyprtavern XMLs, force that branch even when tag is auto/latest.
+if [[ "${HYPRWIRE_PROTOCOLS_NEED_HYPRTAVERN:-0}" = "1" ]] && [[ "$TAG_SRC" =~ ^(auto|latest)$ ]]; then
+  TAG_SRC="hyprtavern"
+fi
 [[ "$TAG_SRC" =~ ^(auto|latest)$ ]] && git_ref="" || git_ref="$TAG_SRC"
 
 DO_INSTALL=1

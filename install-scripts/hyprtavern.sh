@@ -148,7 +148,8 @@ EOF
     if [ -n "$HYPRWIRE_PROTO_DIR" ] && [ ! -f "$HYPRWIRE_PROTO_DIR/hyprtavern/hp_hyprtavern_core_v1.xml" ]; then
         echo "${NOTE} hyprwire-protocols found but hyprtavern XMLs missing; installing from 'hyprtavern' branch..."
         if [ -x "$PARENT_DIR/install-scripts/hyprwire-protocols.sh" ]; then
-            ( HYPRWIRE_PROTOCOLS_TAG="${HYPRWIRE_PROTOCOLS_TAG:-hyprtavern}" "$PARENT_DIR/install-scripts/hyprwire-protocols.sh" ) || true
+            # Force hyprtavern branch to ensure required XMLs are installed
+            ( HYPRWIRE_PROTOCOLS_TAG="hyprtavern" HYPRWIRE_PROTOCOLS_NEED_HYPRTAVERN=1 "$PARENT_DIR/install-scripts/hyprwire-protocols.sh" ) || true
             # Re-resolve via pkg-config after install
             PC_WIRE_PROTO_DIR=$(pkg-config --variable=pkgdatadir hyprwire-protocols 2>/dev/null || true)
             if [ -n "$PC_WIRE_PROTO_DIR" ] && [ -d "$PC_WIRE_PROTO_DIR" ]; then
