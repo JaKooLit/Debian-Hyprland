@@ -44,7 +44,7 @@ exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
 datadir=\${prefix}/share
-pkgdatadir=${DEST_DIR}
+pkgdatadir=${DEST_DIR}/protocols
 
 Name: hyprwire-protocols
 Description: Protocol XMLs for hyprwire-based generators

@@ -104,6 +104,10 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
         HYPRWIRE_PROTO_DIR="$PC_WIRE_PROTO_DIR"
     else
         for d in /usr/local/share/hyprwire-protocols /usr/share/hyprwire-protocols; do [ -d "$d" ] && HYPRWIRE_PROTO_DIR="$d" && break; done
+        # If we found the top-level dir, prefer its protocols/ subtree
+        if [ -n "$HYPRWIRE_PROTO_DIR" ] && [ -d "$HYPRWIRE_PROTO_DIR/protocols" ]; then
+            HYPRWIRE_PROTO_DIR="$HYPRWIRE_PROTO_DIR/protocols"
+        fi
         # Fallback to the checked-out source if installed dir not found
         if [ -z "$HYPRWIRE_PROTO_DIR" ] && [ -d "$BUILD_ROOT/src/hyprwire/protocols" ]; then
             HYPRWIRE_PROTO_DIR="$BUILD_ROOT/src/hyprwire/protocols"
@@ -116,6 +120,8 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
         mkdir -p "$LOCAL_PC_DIR"
         # Try to read hyprwire version via pkg-config; fall back to 0.0.0
         HW_VER=$(pkg-config --modversion hyprwire 2>/dev/null || echo "0.0.0")
+        # If we accidentally captured the parent, normalize to its protocols subtree
+        if [ -d "$HYPRWIRE_PROTO_DIR/protocols" ]; then HYPRWIRE_PROTO_DIR="$HYPRWIRE_PROTO_DIR/protocols"; fi
         cat >"$LOCAL_PC_DIR/hyprwire-protocols.pc" <<EOF
 prefix=/usr/local
 exec_prefix=\${prefix}
