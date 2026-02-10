@@ -48,6 +48,16 @@ DEFAULT_MODULES=(
     hyprland-guiutils
     hyprwire
     hyprland
+    # Apps/utilities built after core Hyprland stack
+    hypridle
+    hyprlock
+    hyprpicker
+    hyprshutdown
+    hyprpwcenter
+    hyprtavern
+    hyprsunset
+    hyprlauncher
+    hyprsysteminfo
 )
 
 WITH_DEPS=0
@@ -155,6 +165,16 @@ set_tags_from_args() {
         HYPRLAND_PROTOCOLS | hyprland-protocols | hyprland_protocols) key=HYPRLAND_PROTOCOLS_TAG ;;
         HYPRLAND_QT_SUPPORT | hyprland-qt-support | hyprland_qt_support) key=HYPRLAND_QT_SUPPORT_TAG ;;
         HYPRLAND_QTUTILS | hyprland-qtutils | hyprland_qtutils) key=HYPRLAND_QTUTILS_TAG ;;
+        HYPRWIRE | hyprwire) key=HYPRWIRE_TAG ;;
+        HYPRIDLE | hypridle) key=HYPRIDLE_TAG ;;
+        HYPRLOCK | hyprlock) key=HYPRLOCK_TAG ;;
+        HYPRPICKER | hyprpicker) key=HYPRPICKER_TAG ;;
+        HYPRSHUTDOWN | hyprshutdown) key=HYPRSHUTDOWN_TAG ;;
+        HYPRPWCENTER | hyprpwcenter) key=HYPRPWCENTER_TAG ;;
+        HYPRTAVERN | hyprtavern) key=HYPRTAVERN_TAG ;;
+        HYPRSUNSET | hyprsunset) key=HYPRSUNSET_TAG ;;
+        HYPRLAUNCHER | hyprlauncher) key=HYPRLAUNCHER_TAG ;;
+        HYPRSYSTEMINFO | hyprsysteminfo) key=HYPRSYSTEMINFO_TAG ;;
         esac
         map[$key]="$val"
     done
@@ -186,7 +206,7 @@ fetch_latest_tags() {
         existing[$k]="$v"
     done <"$TAGS_FILE"
 
-    declare -A repos=(
+declare -A repos=(
         [HYPRLAND_TAG]="hyprwm/Hyprland"
         [AQUAMARINE_TAG]="hyprwm/aquamarine"
         [HYPRUTILS_TAG]="hyprwm/hyprutils"
@@ -197,6 +217,16 @@ fetch_latest_tags() {
         [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
         [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
         [HYPRWIRE_TAG]="hyprwm/hyprwire"
+        # Additional apps/utilities
+        [HYPRIDLE_TAG]="hyprwm/hypridle"
+        [HYPRLOCK_TAG]="hyprwm/hyprlock"
+        [HYPRPICKER_TAG]="hyprwm/hyprpicker"
+        [HYPRSHUTDOWN_TAG]="hyprwm/hyprshutdown"
+        [HYPRPWCENTER_TAG]="hyprwm/hyprpwcenter"
+        [HYPRTAVERN_TAG]="hyprwm/hyprtavern"
+        [HYPRSUNSET_TAG]="hyprwm/hyprsunset"
+        [HYPRLAUNCHER_TAG]="hyprwm/hyprlauncher"
+        [HYPRSYSTEMINFO_TAG]="hyprwm/hyprsysteminfo"
     )
 
     declare -A tags

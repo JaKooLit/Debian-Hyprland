@@ -6,8 +6,26 @@ idle=(
     libsdbus-c++-dev
 )
 
-#specific branch or release
-tag="v0.1.6"
+#specific branch or release (fallback)
+tag_default="v0.1.6"
+# Override from centralized tags if available
+if [ -z "${HYPRIDLE_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
+TAG_SRC="${HYPRIDLE_TAG:-$tag_default}"
+# Respect auto/latest by not forcing a branch/tag
+if [[ "$TAG_SRC" =~ ^(auto|latest)$ ]]; then
+  git_ref=""
+else
+  git_ref="$TAG_SRC"
+fi
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -44,17 +62,21 @@ if [ -d "$SRC_DIR" ]; then
 fi
 
 # Clone and build 
-printf "${INFO} Installing ${YELLOW}hypridle $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hypridle.git "$SRC_DIR"; then
+printf "${INFO} Installing ${YELLOW}hypridle ${git_ref:-default-branch}${RESET} ...\n"
+if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hypridle.git "$SRC_DIR"; then
     cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hypridle"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B "$BUILD_DIR"
 	cmake --build "$BUILD_DIR" --config Release --target hypridle -j`nproc 2>/dev/null || getconf NPROCESSORS_CONF`
-    if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${MAGENTA}hypridle $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    if [ $DO_INSTALL -eq 1 ]; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
+            printf "${OK} ${MAGENTA}hypridle ${git_ref:-default}${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        else
+            echo -e "${ERROR} Installation failed for ${YELLOW}hypridle ${git_ref:-default}${RESET}" 2>&1 | tee -a "$MLOG"
+        fi
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hypridle $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo "${NOTE} DRY RUN: Skipping installation of hypridle." | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG "$PARENT_DIR/Install-Logs/" || true 

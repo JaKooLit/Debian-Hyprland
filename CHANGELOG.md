@@ -1,5 +1,16 @@
 ## CHANGELOG
 
+## 10 February 2026
+
+- Added:
+    - `hyprsunset`
+    - `hyprsysteminfo`
+    - `hyprlock`
+    - `hypridle`
+    - `hyprshutdown`
+    - `hyprpicker`
+    - `hyprpwcemter`
+
 ## 07 February 2026
 
 - Improved `nvidia.sh` script

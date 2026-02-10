@@ -443,7 +443,14 @@ if [ -f "./hypr-tags.env" ]; then
             source "./hypr-tags.env"
         fi
     fi
-    export HYPRLAND_TAG AQUAMARINE_TAG HYPRUTILS_TAG HYPRLANG_TAG HYPRGRAPHICS_TAG HYPRWAYLAND_SCANNER_TAG HYPRLAND_PROTOCOLS_TAG HYPRLAND_QT_SUPPORT_TAG HYPRLAND_QTUTILS_TAG HYPRWIRE_TAG WAYLAND_PROTOCOLS_TAG
+    # Export all *_TAG variables and WAYLAND_PROTOCOLS_TAG for child scripts
+    while IFS='=' read -r _k _v; do
+        [ -z "${_k:-}" ] && continue
+        case "$_k" in
+          *"_TAG"|WAYLAND_PROTOCOLS_TAG)
+            export "$_k" ;;
+        esac
+    done < "./hypr-tags.env"
 fi
 
 #################
@@ -711,6 +718,20 @@ sleep 1
 execute_script "hyprlock.sh"
 sleep 1
 execute_script "hypridle.sh"
+sleep 1
+execute_script "hyprpicker.sh"
+sleep 1
+execute_script "hyprshutdown.sh"
+sleep 1
+execute_script "hyprpwcenter.sh"
+sleep 1
+execute_script "hyprtavern.sh"
+sleep 1
+execute_script "hyprsunset.sh"
+sleep 1
+execute_script "hyprlauncher.sh"
+sleep 1
+execute_script "hyprsysteminfo.sh"
 
 # Install XDG-Desktop-Portal-Hyprland by default (removed from menu)
 execute_script "xdph.sh"
