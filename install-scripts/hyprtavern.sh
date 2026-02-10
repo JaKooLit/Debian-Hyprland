@@ -75,6 +75,12 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
         "$PARENT_DIR/install-scripts/hyprwayland-scanner.sh"
     fi
 
+    # Ensure hyprwire library & protocols (required by hyprtavern)
+    if ! pkg-config --exists hyprwire 2>/dev/null && [ -x "$PARENT_DIR/install-scripts/hyprwire.sh" ]; then
+        echo "${NOTE} Installing missing hyprwire from source..."
+        "$PARENT_DIR/install-scripts/hyprwire.sh"
+    fi
+
     # Discover protocol directories and export env vars consumed by generator tools
     WL_PROTO_DIR=""
     for d in /usr/local/share/wayland-protocols /usr/share/wayland-protocols; do [ -d "$d" ] && WL_PROTO_DIR="$d" && break; done
@@ -82,11 +88,14 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
     for d in /usr/local/share/hyprland-protocols /usr/share/hyprland-protocols; do [ -d "$d" ] && HYP_PROTO_DIR="$d" && break; done
     WLR_PROTO_DIR=""
     for d in /usr/share/wlr-protocols /usr/local/share/wlr-protocols; do [ -d "$d" ] && WLR_PROTO_DIR="$d" && break; done
+    HYPRWIRE_PROTO_DIR=""
+    for d in /usr/local/share/hyprwire-protocols /usr/share/hyprwire-protocols; do [ -d "$d" ] && HYPRWIRE_PROTO_DIR="$d" && break; done
 
     # Export for hyprwayland-scanner/wayland-scanner invoked by the build
-    [ -n "$WL_PROTO_DIR" ]  && export WAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR"
-    [ -n "$HYP_PROTO_DIR" ] && export HYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR"
-    [ -n "$WLR_PROTO_DIR" ] && export WLR_PROTOCOLS_DIR="$WLR_PROTO_DIR"
+    [ -n "$WL_PROTO_DIR" ]       && export WAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR"
+    [ -n "$HYP_PROTO_DIR" ]      && export HYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR"
+    [ -n "$WLR_PROTO_DIR" ]      && export WLR_PROTOCOLS_DIR="$WLR_PROTO_DIR"
+    [ -n "$HYPRWIRE_PROTO_DIR" ] && export HYPRWIRE_PROTOCOLS_DIR="$HYPRWIRE_PROTO_DIR"
 
     BUILD_DIR="$BUILD_ROOT/hyprtavern"
     mkdir -p "$BUILD_DIR"
@@ -94,9 +103,10 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
         CMAKE_FLAGS=(
             -DCMAKE_BUILD_TYPE=Release
         )
-        [ -n "$WL_PROTO_DIR" ]  && CMAKE_FLAGS+=( -DWAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR" )
-        [ -n "$HYP_PROTO_DIR" ] && CMAKE_FLAGS+=( -DHYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR" )
-        [ -n "$WLR_PROTO_DIR" ] && CMAKE_FLAGS+=( -DWLR_PROTOCOLS_DIR="$WLR_PROTO_DIR" )
+        [ -n "$WL_PROTO_DIR" ]        && CMAKE_FLAGS+=( -DWAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR" )
+        [ -n "$HYP_PROTO_DIR" ]       && CMAKE_FLAGS+=( -DHYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR" )
+        [ -n "$WLR_PROTO_DIR" ]       && CMAKE_FLAGS+=( -DWLR_PROTOCOLS_DIR="$WLR_PROTO_DIR" )
+        [ -n "$HYPRWIRE_PROTO_DIR" ]  && CMAKE_FLAGS+=( -DHYPRWIRE_PROTOCOLS_DIR="$HYPRWIRE_PROTO_DIR" )
         cmake -S . -B "$BUILD_DIR" "${CMAKE_FLAGS[@]}"
         cmake --build "$BUILD_DIR" -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
         if [ $DO_INSTALL -eq 1 ]; then sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; else echo "${NOTE} DRY RUN: skip install" | tee -a "$MLOG"; fi
@@ -104,7 +114,8 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
         meson setup "$BUILD_DIR" --buildtype=release \
             ${WL_PROTO_DIR:+-Dwayland_protocols_dir="$WL_PROTO_DIR"} \
             ${HYP_PROTO_DIR:+-Dhyprland_protocols_dir="$HYP_PROTO_DIR"} \
-            ${WLR_PROTO_DIR:+-Dwlr_protocols_dir="$WLR_PROTO_DIR"}
+            ${WLR_PROTO_DIR:+-Dwlr_protocols_dir="$WLR_PROTO_DIR"} \
+            ${HYPRWIRE_PROTO_DIR:+-Dhyprwire_protocols_dir="$HYPRWIRE_PROTO_DIR"}
         meson compile -C "$BUILD_DIR"
         if [ $DO_INSTALL -eq 1 ]; then sudo meson install -C "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; else echo "${NOTE} DRY RUN: skip install" | tee -a "$MLOG"; fi
     elif [ -f Cargo.toml ]; then
