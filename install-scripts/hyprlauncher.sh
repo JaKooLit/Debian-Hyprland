@@ -22,6 +22,19 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprlauncher.log"
 MLOG="install-$(date +%d-%H%M%S)_hyprlauncher2.log"
 
+# Build-time dependencies specific to hyprlauncher
+DEPS=(
+  libqalculate-dev
+)
+printf "\n%s - Installing ${YELLOW}hyprlauncher dependencies${RESET} .... \n" "${INFO}"
+for PKG in "${DEPS[@]}"; do
+  re_install_package "$PKG" 2>&1 | tee -a "$LOG"
+  if [ $? -ne 0 ]; then
+    echo -e "\e[1A\e[K${ERROR} - ${YELLOW}$PKG${RESET} installation failed; see logs"
+    exit 1
+  fi
+done
+
 SRC_DIR="$SRC_ROOT/hyprlauncher"
 rm -rf "$SRC_DIR" 2>/dev/null || true
 printf "${INFO} Installing ${YELLOW}hyprlauncher ${git_ref:-default-branch}${RESET} ...\n"
