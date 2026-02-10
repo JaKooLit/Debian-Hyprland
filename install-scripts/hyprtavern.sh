@@ -35,13 +35,58 @@ if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyp
     export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:${PKG_CONFIG_PATH:-}"
     export CMAKE_PREFIX_PATH="/usr/local:${CMAKE_PREFIX_PATH:-}"
 
-    # Discover protocol directories and pass them explicitly to CMake if it supports them
+    # Ensure required protocol packages and scanner are installed when running this module standalone
+    need_wl=0; need_hl=0; need_wlr=0; need_scanner=0
+    # wayland-protocols check (look for a well-known file)
+    if ! [ -f /usr/local/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml ] && ! [ -f /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml ]; then
+        need_wl=1
+    fi
+    # hyprland-protocols check (repo installs to share/hyprland-protocols)
+    if ! [ -d /usr/local/share/hyprland-protocols ] && ! [ -d /usr/share/hyprland-protocols ]; then
+        need_hl=1
+    fi
+    # wlr-protocols check
+    if ! [ -d /usr/share/wlr-protocols ] && ! [ -d /usr/local/share/wlr-protocols ]; then
+        # optional on some distros but used by projects; install if missing
+        need_wlr=1
+    fi
+    # hyprwayland-scanner binary
+    if ! command -v hyprwayland-scanner >/dev/null 2>&1; then
+        need_scanner=1
+    fi
+
+    if [ $need_wl -eq 1 ] && [ -x "$PARENT_DIR/install-scripts/wayland-protocols-src.sh" ]; then
+        echo "${NOTE} Installing missing wayland-protocols from source..."
+        "$PARENT_DIR/install-scripts/wayland-protocols-src.sh"
+    fi
+    if [ $need_hl -eq 1 ] && [ -x "$PARENT_DIR/install-scripts/hyprland-protocols.sh" ]; then
+        echo "${NOTE} Installing missing hyprland-protocols from source..."
+        "$PARENT_DIR/install-scripts/hyprland-protocols.sh"
+    fi
+    if [ $need_wlr -eq 1 ]; then
+        # Prefer distro package if available
+        if sudo apt-get update -y >/dev/null 2>&1 && apt-cache show wlr-protocols >/dev/null 2>&1; then
+            echo "${NOTE} Installing missing wlr-protocols from apt..."
+            sudo apt-get install -y wlr-protocols || true
+        fi
+    fi
+    if [ $need_scanner -eq 1 ] && [ -x "$PARENT_DIR/install-scripts/hyprwayland-scanner.sh" ]; then
+        echo "${NOTE} Installing missing hyprwayland-scanner from source..."
+        "$PARENT_DIR/install-scripts/hyprwayland-scanner.sh"
+    fi
+
+    # Discover protocol directories and export env vars consumed by generator tools
     WL_PROTO_DIR=""
     for d in /usr/local/share/wayland-protocols /usr/share/wayland-protocols; do [ -d "$d" ] && WL_PROTO_DIR="$d" && break; done
     HYP_PROTO_DIR=""
     for d in /usr/local/share/hyprland-protocols /usr/share/hyprland-protocols; do [ -d "$d" ] && HYP_PROTO_DIR="$d" && break; done
     WLR_PROTO_DIR=""
     for d in /usr/share/wlr-protocols /usr/local/share/wlr-protocols; do [ -d "$d" ] && WLR_PROTO_DIR="$d" && break; done
+
+    # Export for hyprwayland-scanner/wayland-scanner invoked by the build
+    [ -n "$WL_PROTO_DIR" ]  && export WAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR"
+    [ -n "$HYP_PROTO_DIR" ] && export HYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR"
+    [ -n "$WLR_PROTO_DIR" ] && export WLR_PROTOCOLS_DIR="$WLR_PROTO_DIR"
 
     BUILD_DIR="$BUILD_ROOT/hyprtavern"
     mkdir -p "$BUILD_DIR"
