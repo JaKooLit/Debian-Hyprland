@@ -146,15 +146,47 @@ EOF
 
     BUILD_DIR="$BUILD_ROOT/hyprtavern"
     mkdir -p "$BUILD_DIR"
+
+    # Debian trixie: shim std::vector::append_range if missing
+    NEED_SHIM=0
+    CXX_TEST="${CXX:-c++}"
+    TMPD="$(mktemp -d)"
+    cat >"$TMPD/append_range_test.cpp" <<'EOF'
+#include <vector>
+int main(){ std::vector<int> v; v.append_range(std::vector<int>{1,2,3}); return 0; }
+EOF
+    if ! "$CXX_TEST" -std=c++23 -c "$TMPD/append_range_test.cpp" -o /dev/null >/dev/null 2>&1; then NEED_SHIM=1; fi
+    rm -rf "$TMPD"
+
+    EXTRA_FLAGS=()
+    if [ "$NEED_SHIM" -eq 1 ]; then
+        echo "${NOTE} Applying append_range compatibility shim for hyprtavern."
+        APPEND_HDR="$(pwd)/append_range_compat.hpp"
+        cat > "$APPEND_HDR" <<'EOF'
+#pragma once
+#include <iterator>
+#define APPEND_RANGE(vec, ...) do { \
+  auto&& _r = (__VA_ARGS__); \
+  (vec).insert((vec).end(), std::begin(_r), std::end(_r)); \
+} while(0)
+EOF
+        PATCH_FILES=$(grep -RIl --exclude-dir=.git -E '\.\s*append_range\s*\(' src tools barmaids || true)
+        if [ -n "$PATCH_FILES" ]; then
+            echo "$PATCH_FILES" | xargs -r sed -ri 's/([A-Za-z_][A-Za-z0-9_:>.\-]*)\s*\.\s*append_range\s*\(/APPEND_RANGE(\1, /g'
+        fi
+        EXTRA_FLAGS+=( -DCMAKE_CXX_FLAGS="-include ${APPEND_HDR}" )
+    fi
+
     if [ -f CMakeLists.txt ]; then
         CMAKE_FLAGS=(
             -DCMAKE_BUILD_TYPE=Release
+            -DCMAKE_CXX_STANDARD=23
         )
         [ -n "$WL_PROTO_DIR" ]        && CMAKE_FLAGS+=( -DWAYLAND_PROTOCOLS_DIR="$WL_PROTO_DIR" )
         [ -n "$HYP_PROTO_DIR" ]       && CMAKE_FLAGS+=( -DHYPRLAND_PROTOCOLS_DIR="$HYP_PROTO_DIR" )
         [ -n "$WLR_PROTO_DIR" ]       && CMAKE_FLAGS+=( -DWLR_PROTOCOLS_DIR="$WLR_PROTO_DIR" )
         [ -n "$HYPRWIRE_PROTO_DIR" ]  && CMAKE_FLAGS+=( -DHYPRWIRE_PROTOCOLS_DIR="$HYPRWIRE_PROTO_DIR" )
-        cmake -S . -B "$BUILD_DIR" "${CMAKE_FLAGS[@]}"
+        cmake -S . -B "$BUILD_DIR" "${CMAKE_FLAGS[@]}" "${EXTRA_FLAGS[@]}"
         cmake --build "$BUILD_DIR" -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
         if [ $DO_INSTALL -eq 1 ]; then sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; else echo "${NOTE} DRY RUN: skip install" | tee -a "$MLOG"; fi
     elif [ -f meson.build ]; then
