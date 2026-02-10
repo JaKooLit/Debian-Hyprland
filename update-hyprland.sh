@@ -47,6 +47,7 @@ DEFAULT_MODULES=(
     hyprland-qt-support
     hyprland-guiutils
     hyprwire
+    hyprwire-protocols
     hyprland
     # Apps/utilities built after core Hyprland stack
     hypridle
@@ -166,6 +167,7 @@ set_tags_from_args() {
         HYPRLAND_QT_SUPPORT | hyprland-qt-support | hyprland_qt_support) key=HYPRLAND_QT_SUPPORT_TAG ;;
         HYPRLAND_QTUTILS | hyprland-qtutils | hyprland_qtutils) key=HYPRLAND_QTUTILS_TAG ;;
         HYPRWIRE | hyprwire) key=HYPRWIRE_TAG ;;
+        HYPRWIRE_PROTOCOLS | hyprwire-protocols | hyprwire_protocols) key=HYPRWIRE_PROTOCOLS_TAG ;;
         HYPRIDLE | hypridle) key=HYPRIDLE_TAG ;;
         HYPRLOCK | hyprlock) key=HYPRLOCK_TAG ;;
         HYPRPICKER | hyprpicker) key=HYPRPICKER_TAG ;;
@@ -217,6 +219,7 @@ declare -A repos=(
         [HYPRLAND_QT_SUPPORT_TAG]="hyprwm/hyprland-qt-support"
         [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
         [HYPRWIRE_TAG]="hyprwm/hyprwire"
+        [HYPRWIRE_PROTOCOLS_TAG]="hyprwm/hyprwire-protocols"
         # Additional apps/utilities
         [HYPRIDLE_TAG]="hyprwm/hypridle"
         [HYPRLOCK_TAG]="hyprwm/hyprlock"
