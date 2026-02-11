@@ -15,6 +15,8 @@
     - `hyprtavern`
     - `hyprwire`
     - `hyprwire-protocols`
+    - `hyprlauncher`
+    - `hyprpaper`
 
 - Fixed build issues for `trixie`. `testing` and `unstable`
 - Added additional required pacakges to install script
