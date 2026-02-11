@@ -2,7 +2,9 @@
 
 ## 10 February 2026
 
-- Added:
+### To get ready for next major Hyprland Update
+
+- Added/Updated:
     - `hyprsunset`
     - `hyprsysteminfo`
     - `hyprlock`
@@ -10,6 +12,15 @@
     - `hyprshutdown`
     - `hyprpicker`
     - `hyprpwcemter`
+    - `hyprtavern`
+    - `hyprwire`
+    - `hyprwire-protocols`
+
+- Fixed build issues for `trixie`. `testing` and `unstable`
+- Added additional required pacakges to install script
+- Fixed duplicates in `apt` sources
+- Enable `deb-src` if not already enabled
+- Added fallback for `gtk2-engines-murrine`
 
 ## 07 February 2026
 
