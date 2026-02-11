@@ -83,6 +83,117 @@ remove_directories() {
     done < "$selected_dirs_file"
 }
 
+# Functions to handle source-installed (from /usr/local) components
+remove_source_builds() {
+    local found=0
+
+    # Detect Hyprland under /usr/local
+    local hypr_path
+    hypr_path="$(command -v hyprland 2>/dev/null || true)"
+    local hypr_real=""
+    if [ -n "$hypr_path" ]; then
+        hypr_real="$(readlink -f "$hypr_path" 2>/dev/null || echo "")"
+        if [[ "$hypr_real" == /usr/local/* ]]; then
+            found=1
+        fi
+    fi
+
+    # Look for well-known source-installed files
+    local PROBE_LIST=(
+        /usr/local/bin/hyprland
+        /usr/local/bin/hyprctl
+        /usr/local/bin/hyprpm
+        /usr/local/bin/hyprpaper
+        /usr/local/bin/hyprlock
+        /usr/local/bin/hypridle
+        /usr/local/share/wayland-sessions/hyprland.desktop
+        /usr/local/libexec/xdg-desktop-portal-hyprland
+    )
+    for p in "${PROBE_LIST[@]}"; do
+        if [ -e "$p" ]; then
+            found=1
+            break
+        fi
+    done
+
+    if [ $found -eq 0 ]; then
+        echo "$INFO No source-built Hyprland components detected under /usr/local."
+        return 0
+    fi
+
+    if ! whiptail --title "Remove source-built Hyprland" --yesno \
+"A Hyprland build installed under /usr/local appears to be present.\n\nRemove source-installed files (binaries, desktop entries, completions, portal, etc.)?" 13 80; then
+        echo "$INFO Skipped removal of source-built components."
+        return 0
+    fi
+
+    printf "\n%.0s" {1..1}
+    printf "\n%s${SKY_BLUE}Removing source-installed Hyprland components${RESET}\n" "${NOTE}"
+
+    local REMOVE_LIST=(
+        /usr/local/bin/hyprland
+        /usr/local/bin/hyprctl
+        /usr/local/bin/hyprpm
+        /usr/local/bin/hyprpaper
+        /usr/local/bin/hyprlock
+        /usr/local/bin/hypridle
+        /usr/local/bin/ags
+        /usr/local/bin/rofi
+        /usr/local/bin/wallust
+        /usr/local/share/wayland-sessions/hyprland.desktop
+        /usr/local/share/hyprland
+        /usr/local/share/zsh/site-functions/_hyprctl
+        /usr/local/share/bash-completion/completions/hyprctl
+        /usr/local/share/fish/vendor_completions.d/hyprctl.fish
+        /usr/local/libexec/xdg-desktop-portal-hyprland
+        /usr/local/share/systemd/user/xdg-desktop-portal-hyprland.service
+        /usr/local/share/dbus-1/services/org.freedesktop.impl.portal.desktop.hyprland.service
+        /usr/local/share/xdg-desktop-portal/portals/hyprland.portal
+        /usr/local/share/xdg-desktop-portal/hyprland.desktop
+    )
+
+    for item in "${REMOVE_LIST[@]}"; do
+        if ls $item >/dev/null 2>&1; then
+            echo "Removing $item"
+            if ! sudo rm -rf $item; then
+                echo "$ERROR Failed to remove: $item"
+            else
+                echo "$OK Removed: $item"
+            fi
+        fi
+    done
+
+    # Remove hypr* manpages if they exist
+    for man in /usr/local/share/man/man1/hypr* /usr/local/share/man/man7/hypr*; do
+        if [ -e "$man" ]; then
+            echo "Removing $man"
+            sudo rm -f "$man"
+        fi
+    done
+
+    # Optionally remove locally built wlroots if detected under /usr/local
+    local wlroots_prefix
+    wlroots_prefix="$(pkg-config --variable=prefix wlroots 2>/dev/null || true)"
+    if [[ "$wlroots_prefix" == "/usr/local" ]]; then
+        if whiptail --title "Remove local wlroots" --yesno \
+"wlroots appears to be installed under /usr/local (likely from source).\nRemove it as well?" 10 80; then
+            local WLR_LIST=(
+                /usr/local/lib/libwlroots*.so*
+                /usr/local/include/wlr
+                /usr/local/lib/pkgconfig/wlroots*.pc
+                /usr/local/share/pkgconfig/wlroots*.pc
+                /usr/local/share/man/man7/wlroots*.7
+            )
+            for item in "${WLR_LIST[@]}"; do
+                if ls $item >/dev/null 2>&1; then
+                    echo "Removing $item"
+                    sudo rm -rf $item
+                fi
+            done
+        fi
+    fi
+}
+
 # Define the list of packages to choose from (with options_command tags)
 packages=(
     "btop" "resource monitor" "off"
@@ -237,13 +348,8 @@ done
 
 
 printf "\n%.0s" {1..1}
-printf "\n%s${SKY_BLUE}Attempting to remove locally installed packages${RESET}\n" "${NOTE}"
-for file in ags hypridle hyprlock rofi wallust; do
-    if [ -f "/usr/local/bin/$file" ]; then
-        sudo rm "/usr/local/bin/$file"
-        echo "$file removed."
-    fi
-done
+printf "\n%s${SKY_BLUE}Checking for source-built components under /usr/local${RESET}\n" "${NOTE}"
+remove_source_builds
 
 printf "\n%.0s" {1..1}
 printf "\n%s${SKY_BLUE}Attempting to remove selected directories${RESET}\n" "${NOTE}"

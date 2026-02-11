@@ -7,7 +7,7 @@
 
 # add packages wanted here
 Extra=(
-
+    libpci-dev
 )
 
 # packages needed
@@ -60,18 +60,17 @@ hypr_package_2=(
     qalculate-gtk
 )
 
-# packages to force reinstall
+# packages to force reinstall (only when HYPR_FORCE_REINSTALL=1)
 force=(
     imagemagick
-    wayland-protocols
 )
 
 # List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
 uninstall=(
-    dunst
     mako
-    rofi
     cargo
+    rofi
+    rofi-wayland
 )
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -118,9 +117,13 @@ done
 
 printf "\n%.0s" {1..1}
 
-for PKG2 in "${force[@]}"; do
-    re_install_package "$PKG2" "$LOG"
-done
+if [ "${HYPR_FORCE_REINSTALL:-0}" = "1" ]; then
+    for PKG2 in "${force[@]}"; do
+        re_install_package "$PKG2" "$LOG"
+    done
+else
+    echo "${INFO} Skipping forced reinstalls (enable with --force-reinstall)." | tee -a "$LOG"
+fi
 
 printf "\n%.0s" {1..1}
 # install YAD from assets. NOTE This is downloaded from SID repo and sometimes
@@ -144,4 +147,3 @@ source "$HOME/.cargo/env"
 sudo chmod +s $(which brightnessctl) 2>&1 | tee -a "$LOG" || true
 
 printf "\n%.0s" {1..2}
-

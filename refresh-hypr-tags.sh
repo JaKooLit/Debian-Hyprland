@@ -93,6 +93,17 @@ declare -A repos=(
   [HYPRLAND_QTUTILS_TAG]="hyprwm/hyprland-qtutils"
   [HYPRLAND_GUIUTILS_TAG]="hyprwm/hyprland-guiutils"
   [HYPRWIRE_TAG]="hyprwm/hyprwire"
+  [HYPRWIRE_PROTOCOLS_TAG]="hyprwm/hyprwire-protocols"
+  # Additional apps/utilities
+  [HYPRIDLE_TAG]="hyprwm/hypridle"
+  [HYPRLOCK_TAG]="hyprwm/hyprlock"
+  [HYPRPICKER_TAG]="hyprwm/hyprpicker"
+  [HYPRSHUTDOWN_TAG]="hyprwm/hyprshutdown"
+  [HYPRPWCENTER_TAG]="hyprwm/hyprpwcenter"
+  [HYPRTAVERN_TAG]="hyprwm/hyprtavern"
+  [HYPRSUNSET_TAG]="hyprwm/hyprsunset"
+  [HYPRLAUNCHER_TAG]="hyprwm/hyprlauncher"
+  [HYPRSYSTEMINFO_TAG]="hyprwm/hyprsysteminfo"
 )
 
 # Read existing

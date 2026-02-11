@@ -15,8 +15,26 @@ build_dep=(
     pam
 )
 
-#specific branch or release
-tag="v0.9.1"
+#specific branch or release (fallback)
+tag_default="v0.9.1"
+# Override from centralized tags if available
+if [ -z "${HYPRLOCK_TAG:-}" ]; then
+  TAGS_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hypr-tags.env"
+  [ -f "$TAGS_FILE" ] && source "$TAGS_FILE"
+fi
+TAG_SRC="${HYPRLOCK_TAG:-$tag_default}"
+# Respect auto/latest by not forcing a branch/tag
+if [[ "$TAG_SRC" =~ ^(auto|latest)$ ]]; then
+  git_ref=""
+else
+  git_ref="$TAG_SRC"
+fi
+# Dry-run support
+DO_INSTALL=1
+if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]; then
+    DO_INSTALL=0
+    echo "${NOTE} DRY RUN: install step will be skipped."
+fi
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -53,17 +71,21 @@ if [ -d "$SRC_DIR" ]; then
 fi
 
 # Clone and build hyprlock
-printf "${INFO} Installing ${YELLOW}hyprlock $tag${RESET} ...\n"
-if git clone --recursive -b $tag https://github.com/hyprwm/hyprlock.git "$SRC_DIR"; then
+printf "${INFO} Installing ${YELLOW}hyprlock ${git_ref:-default-branch}${RESET} ...\n"
+if git clone --recursive ${git_ref:+-b "$git_ref"} https://github.com/hyprwm/hyprlock.git "$SRC_DIR"; then
     cd "$SRC_DIR" || exit 1
     BUILD_DIR="$BUILD_ROOT/hyprlock"
     mkdir -p "$BUILD_DIR"
 	cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -S . -B "$BUILD_DIR"
 	cmake --build "$BUILD_DIR" --config Release --target hyprlock -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
-    if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
-        printf "${OK} ${YELLOW}hyprlock $tag${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+    if [ $DO_INSTALL -eq 1 ]; then
+        if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG" ; then
+            printf "${OK} ${YELLOW}hyprlock ${git_ref:-default}${RESET} installed successfully.\n" 2>&1 | tee -a "$MLOG"
+        else
+            echo -e "${ERROR} Installation failed for ${YELLOW}hyprlock ${git_ref:-default}${RESET}" 2>&1 | tee -a "$MLOG"
+        fi
     else
-        echo -e "${ERROR} Installation failed for ${YELLOW}hyprlock $tag${RESET}" 2>&1 | tee -a "$MLOG"
+        echo "${NOTE} DRY RUN: Skipping installation of hyprlock." | tee -a "$MLOG"
     fi
     #moving the addional logs to Install-Logs directory
     mv $MLOG "$PARENT_DIR/Install-Logs/" || true 

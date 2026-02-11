@@ -99,7 +99,6 @@ dependencies=(
     unzip
     vulkan-utility-libraries-dev
     vulkan-validationlayers
-    wayland-protocols
     xdg-desktop-portal
     xwayland
 )
