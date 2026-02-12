@@ -4,6 +4,9 @@
 
 #### For Debian 13 (Trixie) and above (testing, SID)
 
+# NOTICE:  This repository is now ARCHVIED!   
+## It has been moved to [LinuxBeginnings Debian-Hyprland](https://github.com/LinuxBeginnings/Debian-Hyprland.git) 
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/JaKooLit/Hyprland-Dots/main/assets/latte.png" width="400" />
 </p>
