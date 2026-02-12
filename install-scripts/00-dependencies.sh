@@ -8,6 +8,9 @@ dependencies=(
     build-essential
     cmake
     cmake-extras
+    clang
+    llvm
+    pkgconf
     curl
     findutils
     gawk
@@ -125,6 +128,9 @@ hyprland_dep=(
     libzip-dev
     libpam0g-dev
     libxcursor-dev
+    libxcb-errors-dev
+    libudis86-dev
+    libinotify-ocaml-dev
     qt6-declarative-dev
     qt6-base-private-dev
     qt6-wayland-dev
@@ -166,5 +172,18 @@ printf "\n%.0s" {1..1}
 for PKG1 in "${build_dep[@]}"; do
     build_dep "$PKG1" "$LOG"
 done
+
+# Install Glaze (header-only) from bundled asset if not already present
+# Hyprland's config serialization currently expects glaze >= 4.4; Debian may lag.
+# If /usr/include/glaze is missing, install our vendor .deb and fix up deps.
+if [ ! -d /usr/include/glaze ]; then
+    echo "${INFO} ${YELLOW}Glaze${RESET} not detected. Installing from assets..." | tee -a "$LOG"
+    if sudo dpkg -i assets/libglaze-dev_4.4.3-1_all.deb 2>&1 | tee -a "$LOG"; then
+        sudo apt-get install -f -y 2>&1 | tee -a "$LOG"
+        echo "${OK} ${YELLOW}libglaze-dev${RESET} installed from assets." | tee -a "$LOG"
+    else
+        echo "${WARN} Failed to install libglaze-dev from assets. You may install 'glaze' manually." | tee -a "$LOG"
+    fi
+fi
 
 printf "\n%.0s" {1..2}

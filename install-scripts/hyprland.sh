@@ -19,16 +19,8 @@ if [ "$1" = "--dry-run" ] || [ "${DRY_RUN}" = "1" ] || [ "${DRY_RUN}" = "true" ]
     echo "${NOTE} DRY RUN: install step will be skipped."
 fi
 
-hyprland=(
-    clang
-    llvm
-    libxcb-errors-dev
-    libre2-dev
-    libglaze-dev
-    libudis86-dev
-    libinotify-ocaml-dev
-    libmuparser-dev
-)
+#Saving Hyprland pacakge array for future needs
+hyprland=()
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
 # Determine the directory where the script is located
@@ -44,29 +36,9 @@ source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 LOG="Install-Logs/install-$(date +%d-%H%M%S)_hyprland.log"
 MLOG="install-$(date +%d-%H%M%S)_hyprland2.log"
 
-# Installation of dependencies
-printf "\n%s - Installing hyprland additional dependencies.... \n" "${NOTE}"
-
-for PKG1 in "${hyprland[@]}"; do
-    install_package "$PKG1" 2>&1 | tee -a "$LOG"
-    if [ $? -ne 0 ]; then
-        echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-        exit 1
-    fi
-done
 
 printf "\n%.0s" {1..1}
 
-# Installation of dependencies (glaze)
-printf "\n%s - Installing Hyprland additional dependencies (glaze).... \n" "${NOTE}"
-
-# Check if /usr/include/glaze exists
-if [ ! -d /usr/include/glaze ]; then
-    echo "${INFO} ${YELLOW}Glaze${RESET} is not installed. Installing ${YELLOW}glaze from assets${RESET} ..."
-    sudo dpkg -i assets/libglaze-dev_4.4.3-1_all.deb 2>&1 | tee -a "$LOG"
-    sudo apt-get install -f -y 2>&1 | tee -a "$LOG"
-    echo "${INFO} ${YELLOW}libglaze-dev from assets${RESET} installed."
-fi
 
 printf "\n%.0s" {1..1}
 
@@ -182,21 +154,57 @@ EOF
     # Make sure submodules are present when building bundled deps
     git submodule update --init --recursive || true
 
-    # Force Clang toolchain to support required language features and flags
+# Preflight: ensure required build tools are present; try to install missing ones
+REQUIRED_TOOLS=(clang clang++ cmake ninja pkg-config)
+declare -A TOOL_PKGS=([clang]=clang [clang++]=clang [cmake]=cmake [ninja]=ninja-build [pkg-config]=pkgconf)
+MISSING=()
+for t in "${REQUIRED_TOOLS[@]}"; do
+    if ! command -v "$t" >/dev/null 2>&1; then
+        MISSING+=("$t")
+    fi
+done
+if [ ${#MISSING[@]} -ne 0 ]; then
+    echo "${NOTE} Missing build tools: ${MISSING[*]}. Attempting to install..." | tee -a "$LOG"
+    for t in "${MISSING[@]}"; do
+        pkg="${TOOL_PKGS[$t]}"
+        if [ -n "$pkg" ]; then
+            install_package "$pkg" 2>&1 | tee -a "$LOG"
+        fi
+    done
+fi
+STILL_MISSING=()
+for t in "${REQUIRED_TOOLS[@]}"; do
+    command -v "$t" >/dev/null 2>&1 || STILL_MISSING+=("$t")
+done
+if [ ${#STILL_MISSING[@]} -ne 0 ]; then
+    echo -e "${ERROR} Missing required build tools after attempted installation: ${STILL_MISSING[*]}" | tee -a "$LOG"
+    exit 1
+fi
+
+# Prefer clang if available; otherwise fall back to GCC
+if command -v clang >/dev/null 2>&1 && command -v clang++ >/dev/null 2>&1; then
     export CC="${CC:-clang}"
     export CXX="${CXX:-clang++}"
-    CONFIG_FLAGS=(
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_C_COMPILER="${CC}"
-        -DCMAKE_CXX_COMPILER="${CXX}"
-        -DCMAKE_CXX_STANDARD=23
-        -DCMAKE_CXX_STANDARD_REQUIRED=ON
-        -DCMAKE_CXX_EXTENSIONS=ON
-        -DCMAKE_CXX_FLAGS="-Wno-unknown-warning-option -include ${RANGE_HDR}"
-        "${SYSTEM_FLAGS[@]}"
-    )
-    cmake -S . -B "$BUILD_DIR" "${CONFIG_FLAGS[@]}"
-    cmake --build "$BUILD_DIR" -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+elif command -v gcc >/dev/null 2>&1 && command -v g++ >/dev/null 2>&1; then
+    export CC="${CC:-gcc}"
+    export CXX="${CXX:-g++}"
+else
+    echo "${ERROR} No suitable C/C++ compiler found (clang/clang++ or gcc/g++)." | tee -a "$LOG"
+    exit 1
+fi
+
+CONFIG_FLAGS=(
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_C_COMPILER="${CC}"
+    -DCMAKE_CXX_COMPILER="${CXX}"
+    -DCMAKE_CXX_STANDARD=23
+    -DCMAKE_CXX_STANDARD_REQUIRED=ON
+    -DCMAKE_CXX_EXTENSIONS=ON
+    -DCMAKE_CXX_FLAGS="-Wno-unknown-warning-option -include ${RANGE_HDR}"
+    "${SYSTEM_FLAGS[@]}"
+)
+cmake -S . -B "$BUILD_DIR" "${CONFIG_FLAGS[@]}"
+cmake --build "$BUILD_DIR" -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
     if [ $DO_INSTALL -eq 1 ]; then
         if sudo cmake --install "$BUILD_DIR" 2>&1 | tee -a "$MLOG"; then
