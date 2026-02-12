@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+## 11 February 2026
+
+- Moved hyprland dependencies to 00-dependencies script
+- Added additional check for build tools before starting compile
+
 ## 10 February 2026
 
 ### To get ready for next major Hyprland Update
